@@ -8,10 +8,5 @@
 <!-- If applicable, add screenshots to help explain your changes -->
 ## Screenshots
 
-## Type of change
-Please delete options that are not relevant.
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to change)
 
 ## Extra Comments
