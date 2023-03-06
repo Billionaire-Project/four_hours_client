@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "938925885472",
+    "project_id": "four-hours-5d3dd",
+    "storage_bucket": "four-hours-5d3dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938925885472:android:0cb2e4b9e8fa5179b91445",
+        "android_client_info": {
+          "package_name": "com.example.four_hours_client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938925885472-mp9lgluqrkmvtg8913nd2pntndtg0e5m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBl3A4gw5Tbcu6pG-EKzu6G2J0vRqauFeU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938925885472-mp9lgluqrkmvtg8913nd2pntndtg0e5m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
