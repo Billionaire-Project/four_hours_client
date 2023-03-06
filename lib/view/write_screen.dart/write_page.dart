@@ -7,11 +7,22 @@ class WritePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(themeNotifierProvider);
     return Scaffold(
       body: SafeArea(
-          child: ElevatedButton(
-        onPressed: () => ref.read(themeNotifierProvider.notifier).changeTheme(),
-        child: const Text('change theme mode'),
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () =>
+                ref.read(themeNotifierProvider.notifier).changeTheme(),
+            child: const Text('change theme mode'),
+          ),
+          Center(
+            child: Text(isDarkMode ? 'Dark Mode' : 'Light Mode',
+                style: Theme.of(context).textTheme.headlineLarge),
+          )
+        ],
       )),
     );
   }

@@ -5,14 +5,16 @@ import 'package:four_hours_client/firebase_options.dart';
 import 'package:four_hours_client/provider/shared_preference_provider.dart';
 import 'package:four_hours_client/provider/theme_provider.dart';
 import 'package:four_hours_client/view/write_screen.dart/write_page.dart';
+import 'package:four_hours_client/widgets/constants/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
 
   runApp(ProviderScope(overrides: [
@@ -29,7 +31,9 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp(
       title: 'Four Hours',
-      theme: isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       home: const WritePage(),
     );
   }
