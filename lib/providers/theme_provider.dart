@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/provider/shared_preference_provider.dart';
+import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeNotifier extends Notifier<bool> {

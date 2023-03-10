@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/constants/app_theme.dart';
 import 'package:four_hours_client/firebase_options.dart';
-import 'package:four_hours_client/provider/shared_preference_provider.dart';
-import 'package:four_hours_client/provider/theme_provider.dart';
-import 'package:four_hours_client/view/write_screen.dart/write_page.dart';
-import 'package:four_hours_client/widgets/constants/app_theme.dart';
+import 'package:four_hours_client/providers/shared_preference_provider.dart';
+import 'package:four_hours_client/providers/theme_provider.dart';
+import 'package:four_hours_client/views/write_screen.dart/write_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
