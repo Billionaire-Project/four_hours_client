@@ -5,6 +5,9 @@ import 'package:four_hours_client/views/top_navigator.dart/top_navigator_page.da
 import 'package:four_hours_client/views/write_screen.dart/write_page.dart';
 import 'package:go_router/go_router.dart';
 
+final _shellNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shellNavigatorKey');
+
 class AppRouterNotifier extends AutoDisposeAsyncNotifier<void>
     implements Listenable {
   VoidCallback? routerListener;
@@ -19,6 +22,7 @@ class AppRouterNotifier extends AutoDisposeAsyncNotifier<void>
 
   List<RouteBase> get routes => [
         ShellRoute(
+            navigatorKey: _shellNavigatorKey,
             builder: (context, state, child) {
               return TopNavigatorPage(child: child);
             },
