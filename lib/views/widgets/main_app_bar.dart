@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
@@ -20,7 +19,6 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: const Text('4hours'),
       actions: const [
         CommonIconButton(icon: Icon(Icons.heart_broken)),
-        Gap(8),
         CommonIconButton(icon: Icon(Icons.settings))
       ],
       bottom: bottom,
