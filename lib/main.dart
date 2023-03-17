@@ -31,9 +31,7 @@ class MyApp extends ConsumerWidget {
     final appRouter = ref.watch(appRouterProvider);
     return MaterialApp.router(
       title: '4hours',
-      routerDelegate: appRouter.routerDelegate,
-      routeInformationParser: appRouter.routeInformationParser,
-      routeInformationProvider: appRouter.routeInformationProvider,
+      routerConfig: appRouter,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
