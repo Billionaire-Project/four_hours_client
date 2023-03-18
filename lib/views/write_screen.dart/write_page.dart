@@ -4,6 +4,7 @@ import 'package:four_hours_client/providers/theme_provider.dart';
 
 class WritePage extends ConsumerWidget {
   const WritePage({Key? key}) : super(key: key);
+  static const String path = '/write';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
