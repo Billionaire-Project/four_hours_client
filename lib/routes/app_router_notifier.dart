@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/views/shared_screen.dart/shared_page.dart';
-import 'package:four_hours_client/views/top_navigator.dart/top_navigator_page.dart';
-import 'package:four_hours_client/views/write_screen.dart/write_page.dart';
+import 'package:four_hours_client/views/shared_screen/shared_page.dart';
+import 'package:four_hours_client/views/top_navigator/top_navigator_page.dart';
+import 'package:four_hours_client/views/write_screen/write_page.dart';
 import 'package:go_router/go_router.dart';
 
 final _shellNavigatorKey =

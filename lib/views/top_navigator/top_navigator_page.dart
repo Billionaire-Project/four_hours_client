@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/views/shared_screen.dart/shared_page.dart';
+import 'package:four_hours_client/views/shared_screen/shared_page.dart';
 import 'package:four_hours_client/views/widgets/main_app_bar.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
-import 'package:four_hours_client/views/write_screen.dart/write_page.dart';
+import 'package:four_hours_client/views/write_screen/write_page.dart';
 import 'package:go_router/go_router.dart';
 
 class TopNavigatorPage extends StatefulWidget {
