@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/routes/app_router_notifier.dart';
-import 'package:four_hours_client/views/write_screen/write_page.dart';
+import 'package:four_hours_client/views/write_tab/write_page.dart';
 import 'package:go_router/go_router.dart';
 
 final _appNavigatorKey =

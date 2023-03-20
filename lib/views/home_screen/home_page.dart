@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/views/shared_screen/shared_page.dart';
+import 'package:four_hours_client/views/shared_tab/shared_page.dart';
 import 'package:four_hours_client/views/widgets/main_app_bar.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
-import 'package:four_hours_client/views/write_screen/write_page.dart';
+import 'package:four_hours_client/views/write_tab/write_page.dart';
 import 'package:go_router/go_router.dart';
 
-class TopNavigatorPage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   final Widget child;
 
-  const TopNavigatorPage({Key? key, required this.child}) : super(key: key);
+  const HomePage({Key? key, required this.child}) : super(key: key);
 
   @override
-  State<TopNavigatorPage> createState() => _TopNavigatorPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _TopNavigatorPageState extends State<TopNavigatorPage>
+class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
 
