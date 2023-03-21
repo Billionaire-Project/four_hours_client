@@ -42,5 +42,12 @@
       }
     }
   ],
-  "configuration_version": "1"
+  "configuration_version": "1",
+  "installed": {
+    "client_id": "938925885472-oon0t88dn6n29f1o78c11mvoir6g8n15.apps.googleusercontent.com",
+    "project_id": "four-hours-5d3dd",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs"
+  }
 }
