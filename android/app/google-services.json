@@ -29,6 +29,13 @@
             {
               "client_id": "938925885472-mp9lgluqrkmvtg8913nd2pntndtg0e5m.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "938925885472-986lg85l4e7afn2sgo36q99ecshepa6o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fourHoursClient"
+              }
             }
           ]
         }
