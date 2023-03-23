@@ -38,10 +38,10 @@ class AuthRepository extends FirebaseAuthService {
     try {
       await _auth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        throw const AuthException('User not found');
-      } else if (e.code == 'wrong-password') {
-        throw const AuthException('Wrong password provided for that user.');
+      if (e.code == 'account-exists-with-different-credential') {
+        throw const AuthException('different credential');
+      } else if (e.code == 'invalid-credential') {
+        throw const AuthException('invalid credential');
       } else {
         throw const AuthException('Unknown error');
       }

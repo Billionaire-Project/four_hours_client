@@ -8,6 +8,7 @@ import 'package:four_hours_client/views/write_tab/write_page.dart';
 
 class AuthChecker extends ConsumerWidget {
   const AuthChecker({Key? key}) : super(key: key);
+  static const String path = '/';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
