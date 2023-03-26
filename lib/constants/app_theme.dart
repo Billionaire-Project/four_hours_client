@@ -3,7 +3,7 @@ import 'package:four_hours_client/constants/app_colors.dart';
 
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
-      fontFamily: 'Pretendard, Mont',
+      fontFamily: 'Pretendard',
       colorScheme: _lightColorScheme,
       buttonTheme: const ButtonThemeData(),
       iconTheme: const IconThemeData(
@@ -49,73 +49,63 @@ const ColorScheme _darkColorsScheme = ColorScheme(
 
 const TextTheme _textTheme = TextTheme(
   displaySmall: TextStyle(
-    fontFamily: 'Pretendard, Mont',
+    fontFamily: 'Pretendard',
     fontSize: 32.0,
     fontWeight: FontWeight.bold,
     color: Colors.black,
-    height: 42.0,
   ),
   headlineMedium: TextStyle(
-    fontFamily: 'Pretendard, Mont',
+    fontFamily: 'Pretendard',
     fontSize: 24.0,
     fontWeight: FontWeight.bold,
     color: Colors.black,
-    height: 34.0,
   ),
   headlineSmall: TextStyle(
-    fontFamily: 'Pretendard, Mont',
+    fontFamily: 'Pretendard',
     fontSize: 20.0,
     fontWeight: FontWeight.bold,
     color: Colors.black,
-    height: 30.0,
   ),
   titleLarge: TextStyle(
-    fontFamily: 'Pretendard, Mont',
+    fontFamily: 'Pretendard',
     fontSize: 18.0,
     fontWeight: FontWeight.bold,
     color: Colors.black,
-    height: 24.0,
   ),
   titleMedium: TextStyle(
-    fontFamily: 'Pretendard, Mont',
+    fontFamily: 'Pretendard',
     fontSize: 16.0,
     fontWeight: FontWeight.bold,
     color: Colors.black,
-    height: 22.0,
   ),
   titleSmall: TextStyle(
-    fontFamily: 'Pretendard, Mont',
+    fontFamily: 'Pretendard',
     fontSize: 14.0,
     fontWeight: FontWeight.bold,
     color: Colors.black,
-    height: 20.0,
   ),
   bodyMedium: TextStyle(
     fontFamily: 'Pretendard',
     fontSize: 16.0,
     fontWeight: FontWeight.w400,
     color: Colors.black,
-    height: 24.0,
   ),
   bodySmall: TextStyle(
     fontFamily: 'Pretendard',
     fontSize: 14.0,
     fontWeight: FontWeight.w400,
     color: Colors.black,
-    height: 22.0,
   ),
   labelMedium: TextStyle(
-    fontFamily: 'Pretendard, Mont',
+    fontFamily: 'Pretendard',
     fontSize: 16.0,
     fontWeight: FontWeight.w500,
     color: Colors.black,
-    height: 22.0,
   ),
   labelSmall: TextStyle(
-    fontFamily: 'Pretendard, Mont',
+    fontFamily: 'Pretendard',
     fontSize: 14.0,
     fontWeight: FontWeight.w500,
     color: Colors.black,
-    height: 20.0,
   ),
 );
