@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
+import 'package:four_hours_client/utils/custom_icons.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 
 class WritePage extends ConsumerWidget {
@@ -19,39 +20,31 @@ class WritePage extends ConsumerWidget {
                 ref.read(themeNotifierProvider.notifier).changeTheme(),
             child: const Text('change theme mode'),
           ),
-          Center(
-            child: Text(isDarkMode ? 'Dark Mode' : 'Light Mode',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(fontFamily: 'Mont')),
+          const Icon(
+            CustomIcons.arrow_left_line,
+            size: 20,
+            color: Colors.black,
           ),
-          Center(
-            child: Text(isDarkMode ? 'Dark Mode' : 'Light Mode',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(fontFamily: 'Mont')),
+          const Icon(
+            CustomIcons.check_line,
+            size: 20,
+            color: Colors.black,
           ),
-          Center(
-            child: Text(isDarkMode ? 'Dark Mode' : 'Light Mode',
-                style: Theme.of(context)
-                    .textTheme
-                    .labelSmall
-                    ?.copyWith(fontFamily: 'Mont')),
+          const Icon(
+            CustomIcons.heart_line,
+            size: 20,
+            color: Colors.black,
           ),
-          Center(
-            child: Text(isDarkMode ? '다크 모드' : '라이트 모드',
-                style: Theme.of(context).textTheme.headlineSmall),
+          const Icon(
+            CustomIcons.settings_line,
+            size: 20,
+            color: Colors.black,
           ),
-          Center(
-            child: Text(isDarkMode ? '다크 모드' : '라이트 모드',
-                style: Theme.of(context).textTheme.titleMedium),
+          const Icon(
+            CustomIcons.time_line,
+            size: 20,
+            color: Colors.black,
           ),
-          Center(
-            child: Text(isDarkMode ? '다크 모드' : '라이트 모드',
-                style: Theme.of(context).textTheme.bodyMedium),
-          )
         ],
       ),
     );
