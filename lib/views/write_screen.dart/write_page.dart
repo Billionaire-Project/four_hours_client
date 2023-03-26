@@ -45,6 +45,39 @@ class WritePage extends ConsumerWidget {
             size: 20,
             color: Colors.black,
           ),
+          Center(
+            child: Text(isDarkMode ? 'Dark Mode' : 'Light Mode',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(fontFamily: 'Mont')),
+          ),
+          Center(
+            child: Text(isDarkMode ? 'Dark Mode' : 'Light Mode',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontFamily: 'Mont')),
+          ),
+          Center(
+            child: Text(isDarkMode ? 'Dark Mode' : 'Light Mode',
+                style: Theme.of(context)
+                    .textTheme
+                    .labelSmall
+                    ?.copyWith(fontFamily: 'Mont')),
+          ),
+          Center(
+            child: Text(isDarkMode ? '다크 모드' : '라이트 모드',
+                style: Theme.of(context).textTheme.headlineSmall),
+          ),
+          Center(
+            child: Text(isDarkMode ? '다크 모드' : '라이트 모드',
+                style: Theme.of(context).textTheme.titleMedium),
+          ),
+          Center(
+            child: Text(isDarkMode ? '다크 모드' : '라이트 모드',
+                style: Theme.of(context).textTheme.bodyMedium),
+          )
         ],
       ),
     );
