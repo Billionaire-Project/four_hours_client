@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class MainWrapper extends StatelessWidget {
   final Widget child;
-  final PreferredSizeWidget appBar;
+  final PreferredSizeWidget? appBar;
   const MainWrapper({
     Key? key,
     required this.child,
-    required this.appBar,
+    this.appBar,
   }) : super(key: key);
 
   @override
