@@ -5,16 +5,33 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
       fontFamily: 'Pretendard',
       colorScheme: _lightColorScheme,
-      buttonTheme: const ButtonThemeData(),
+      buttonTheme: ButtonThemeData(
+        height: 48,
+        buttonColor: AppLightColors.gray900,
+        hoverColor: AppLightColors.gray900.withOpacity(0.7),
+        splashColor: AppLightColors.gray900.withOpacity(0.5),
+        disabledColor: AppLightColors.gray200,
+      ),
       iconTheme: const IconThemeData(
-        color: Colors.white54,
+        size: 20,
+        opticalSize: 20,
+        color: AppLightColors.black,
       ),
       textTheme: _textTheme);
 
   static final ThemeData darkTheme = ThemeData(
       colorScheme: _darkColorsScheme,
+      buttonTheme: ButtonThemeData(
+        height: 48,
+        buttonColor: AppLightColors.gray900,
+        hoverColor: AppLightColors.gray900.withOpacity(0.7),
+        splashColor: AppLightColors.gray900.withOpacity(0.5),
+        disabledColor: AppLightColors.gray200,
+      ),
       iconTheme: const IconThemeData(
-        color: Colors.white54,
+        size: 20,
+        opticalSize: 20,
+        color: AppLightColors.white,
       ),
       textTheme: _textTheme);
 }
