@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/views/login_with_google/auth_checker.dart';
+import 'package:four_hours_client/views/login_screen/auth_checker.dart';
 import 'package:four_hours_client/views/shared_tab/shared_page.dart';
 import 'package:four_hours_client/views/home_screen/home_page.dart';
 import 'package:four_hours_client/views/write_tab/write_page.dart';
