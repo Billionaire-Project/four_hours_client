@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:four_hours_client/constants/app_sizes.dart';
+import 'package:four_hours_client/providers/auth_provider.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 
-class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
   const MainAppBar({
     Key? key,
@@ -14,12 +16,14 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(appBarHeight);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AppBar(
       title: const Text('4hours'),
-      actions: const [
-        CommonIconButton(icon: Icon(Icons.heart_broken)),
-        CommonIconButton(icon: Icon(Icons.settings))
+      actions: [
+        CommonIconButton(
+            icon: const Icon(Icons.heart_broken),
+            onTap: () => ref.read(authProvider.notifier).signOut()),
+        const CommonIconButton(icon: Icon(Icons.settings))
       ],
       bottom: bottom,
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
