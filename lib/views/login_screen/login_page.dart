@@ -5,6 +5,7 @@ import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({Key? key}) : super(key: key);
+  static const String path = '/login';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
