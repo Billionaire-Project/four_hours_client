@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
   final Widget child;
 
   const HomePage({Key? key, required this.child}) : super(key: key);
-
+  static const String path = '/';
   @override
   State<HomePage> createState() => _HomePageState();
 }
