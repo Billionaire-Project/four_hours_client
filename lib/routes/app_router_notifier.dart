@@ -1,26 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:four_hours_client/repositories/auth_repository.dart';
+import 'package:four_hours_client/views/home_screen/home_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
 import 'package:four_hours_client/views/shared_tab/shared_page.dart';
-import 'package:four_hours_client/views/home_screen/home_page.dart';
+import 'package:four_hours_client/views/splash_screen/splash_page.dart';
 import 'package:four_hours_client/views/write_tab/write_page.dart';
-import 'package:go_router/go_router.dart';
 
 final _shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellNavigatorKey');
 
-class AppRouterNotifier extends AutoDisposeAsyncNotifier<void> {
+class AppRouterNotifier extends AutoDisposeAsyncNotifier<void>
+    implements Listenable {
+  VoidCallback? routerListener;
+
   @override
-  Future<void> build() async {}
+  Future<void> build() async {
+    ref.listenSelf((_, __) {
+      // One could write more conditional logic for when to call redirection
+      if (state.isLoading) return;
+      routerListener?.call();
+    });
+  }
 
   List<RouteBase> get routes => [
-        // GoRoute(
-        //     path: HomePage.path,
-        //     builder: (context, state) => const AuthChecker()),
+        GoRoute(
+            path: SplashPage.path,
+            builder: (context, state) => const SplashPage()),
         GoRoute(
             path: LoginPage.path,
-            builder: (context, state) => const LoginPage()),
+            pageBuilder: (context, state) =>
+                NoTransitionPage(key: state.pageKey, child: const LoginPage())),
         ShellRoute(
             navigatorKey: _shellNavigatorKey,
             builder: (context, state, child) {
@@ -30,34 +42,48 @@ class AppRouterNotifier extends AutoDisposeAsyncNotifier<void> {
               GoRoute(
                   path: WritePage.path,
                   pageBuilder: (BuildContext context, GoRouterState state) =>
-                      const NoTransitionPage(child: WritePage())),
+                      NoTransitionPage(
+                          key: state.pageKey, child: const WritePage())),
               GoRoute(
                   path: SharedPage.path,
                   pageBuilder: (BuildContext context, GoRouterState state) =>
-                      const NoTransitionPage(child: SharedPage()))
+                      NoTransitionPage(
+                          key: state.pageKey, child: const SharedPage()))
             ]),
       ];
 
   String? redirect(BuildContext context, GoRouterState state) {
-    if (this.state.isLoading || this.state.hasError) return null;
-
     final authState = ref.watch(authStateProvider);
 
+    if (authState.isLoading || authState.hasError) return null;
+
+    final bool isAuth = authState.valueOrNull != null;
+
+    const String splashLocation = SplashPage.path;
     const String logInLocation = LoginPage.path;
-    const String homeLocation = HomePage.path;
+    const String writeLocation = WritePage.path;
 
-    final bool isLogIn = authState.when(
-        data: (user) {
-          if (user != null) return true;
-          return false;
-        },
-        error: (_, __) => false,
-        loading: () => false);
-
-    if (isLogIn) {
-      return homeLocation;
+    final isSplashLocation = state.location == splashLocation;
+    if (isSplashLocation) {
+      return isAuth ? writeLocation : logInLocation;
     }
-    return logInLocation;
+
+    final bool isLogInLocation = state.location == logInLocation;
+
+    if (isLogInLocation) {
+      return isAuth ? writeLocation : null;
+    }
+    return isAuth ? null : splashLocation;
+  }
+
+  @override
+  void addListener(VoidCallback listener) {
+    routerListener = listener;
+  }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    routerListener = null;
   }
 }
 
