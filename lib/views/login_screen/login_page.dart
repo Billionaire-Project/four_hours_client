@@ -9,13 +9,15 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider);
+
     return MainWrapper(
-      child: Column(children: [
-        const Text('Login Page'),
-        ElevatedButton(
-            onPressed: () => ref.read(authProvider.notifier).signInWithGoogle(),
-            child: const Text('Sign in with Google'))
-      ]),
-    );
+        child: Column(children: [
+      const Text('Login Page'),
+      ElevatedButton(
+          onPressed: () => ref.read(authProvider.notifier).signInWithGoogle(),
+          child: const Text('Sign in with Google')),
+      if (authState is AsyncLoading) const CircularProgressIndicator(),
+    ]));
   }
 }
