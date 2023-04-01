@@ -12,13 +12,15 @@ class AuthRepository {
   Stream<User?> get authStateChange => _auth.authStateChanges();
 
   Future<void> signInWithGoogle() async {
-    print('jay --- sign in with google auth repository');
-
     return _authService.signInWithGoogle();
   }
 
+  Future<void> signInWithApple() async {
+    return _authService.signInWithApple();
+  }
+
   Future<void> signOut() async {
-    await _auth.signOut();
+    return _authService.signOut();
   }
 }
 

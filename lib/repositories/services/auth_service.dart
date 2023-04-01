@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -28,6 +29,25 @@ class AuthService {
         throw const AuthException('Unknown error');
       }
     }
+  }
+
+  Future<void> signInWithApple() async {
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+
+    final oAuthProvider = OAuthProvider('apple.com').credential(
+      idToken: appleCredential.identityToken,
+    );
+
+    await _auth.signInWithCredential(oAuthProvider);
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }
 

@@ -17,6 +17,9 @@ class LoginPage extends ConsumerWidget {
       ElevatedButton(
           onPressed: () => ref.read(authProvider.notifier).signInWithGoogle(),
           child: const Text('Sign in with Google')),
+      ElevatedButton(
+          onPressed: () => ref.read(authProvider.notifier).signInWithApple(),
+          child: const Text('Sign in with Apple')),
       if (authState is AsyncLoading) const CircularProgressIndicator(),
     ]));
   }
