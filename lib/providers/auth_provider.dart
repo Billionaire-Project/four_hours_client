@@ -15,6 +15,14 @@ class AuthProvider extends AsyncNotifier<void> {
     state = await AsyncValue.guard(authRepository.signInWithGoogle);
   }
 
+  Future<void> signInWithApple() async {
+    final authRepository = ref.read(authRepositoryProvider);
+
+    state = const AsyncLoading();
+
+    state = await AsyncValue.guard(authRepository.signInWithApple);
+  }
+
   Future<void> signOut() async {
     final authRepository = ref.read(authRepositoryProvider);
 
