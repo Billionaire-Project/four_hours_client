@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/app_colors.dart';
 
@@ -66,63 +68,83 @@ const ColorScheme _darkColorsScheme = ColorScheme(
 
 const TextTheme _textTheme = TextTheme(
   displaySmall: TextStyle(
-    fontFamily: 'Pretendard',
-    fontSize: 32.0,
-    fontWeight: FontWeight.bold,
-    color: Colors.black,
-  ),
+      fontFamily: 'Pretendard',
+      fontSize: 32.0,
+      color: Colors.black,
+      height: 1.25,
+      fontVariations: <FontVariation>[
+        FontVariation('wght', 700),
+      ]),
   headlineMedium: TextStyle(
-    fontFamily: 'Pretendard',
-    fontSize: 24.0,
-    fontWeight: FontWeight.bold,
-    color: Colors.black,
-  ),
+      fontFamily: 'Pretendard',
+      fontSize: 24.0,
+      color: Colors.black,
+      height: 1.35,
+      fontVariations: <FontVariation>[
+        FontVariation('wght', 700),
+      ]),
   headlineSmall: TextStyle(
-    fontFamily: 'Pretendard',
-    fontSize: 20.0,
-    fontWeight: FontWeight.bold,
-    color: Colors.black,
-  ),
+      fontFamily: 'Pretendard',
+      fontSize: 20.0,
+      color: Colors.black,
+      height: 1.5,
+      fontVariations: <FontVariation>[
+        FontVariation('wght', 700),
+      ]),
   titleLarge: TextStyle(
-    fontFamily: 'Pretendard',
-    fontSize: 18.0,
-    fontWeight: FontWeight.bold,
-    color: Colors.black,
-  ),
+      fontFamily: 'Pretendard',
+      fontSize: 18.0,
+      color: Colors.black,
+      height: 1.35,
+      fontVariations: <FontVariation>[
+        FontVariation('wght', 700),
+      ]),
   titleMedium: TextStyle(
-    fontFamily: 'Pretendard',
-    fontSize: 16.0,
-    fontWeight: FontWeight.bold,
-    color: Colors.black,
-  ),
+      fontFamily: 'Pretendard',
+      fontSize: 16.0,
+      color: Colors.black,
+      height: 1.35,
+      fontVariations: <FontVariation>[
+        FontVariation('wght', 700),
+      ]),
   titleSmall: TextStyle(
-    fontFamily: 'Pretendard',
-    fontSize: 14.0,
-    fontWeight: FontWeight.bold,
-    color: Colors.black,
-  ),
+      fontFamily: 'Pretendard',
+      fontSize: 14.0,
+      color: Colors.black,
+      height: 1.4,
+      fontVariations: <FontVariation>[
+        FontVariation('wght', 700),
+      ]),
   bodyMedium: TextStyle(
-    fontFamily: 'Pretendard',
-    fontSize: 16.0,
-    fontWeight: FontWeight.w400,
-    color: Colors.black,
-  ),
+      fontFamily: 'Pretendard',
+      fontSize: 16.0,
+      color: Colors.black,
+      height: 1.5,
+      fontVariations: <FontVariation>[
+        FontVariation('wght', 400),
+      ]),
   bodySmall: TextStyle(
-    fontFamily: 'Pretendard',
-    fontSize: 14.0,
-    fontWeight: FontWeight.w400,
-    color: Colors.black,
-  ),
+      fontFamily: 'Pretendard',
+      fontSize: 14.0,
+      color: Colors.black,
+      height: 1.5,
+      fontVariations: <FontVariation>[
+        FontVariation('wght', 400),
+      ]),
   labelMedium: TextStyle(
-    fontFamily: 'Pretendard',
-    fontSize: 16.0,
-    fontWeight: FontWeight.w500,
-    color: Colors.black,
-  ),
+      fontFamily: 'Pretendard',
+      fontSize: 16.0,
+      color: Colors.black,
+      height: 1.35,
+      fontVariations: <FontVariation>[
+        FontVariation('wght', 500),
+      ]),
   labelSmall: TextStyle(
-    fontFamily: 'Pretendard',
-    fontSize: 14.0,
-    fontWeight: FontWeight.w500,
-    color: Colors.black,
-  ),
+      fontFamily: 'Pretendard',
+      fontSize: 14.0,
+      color: Colors.black,
+      height: 1.4,
+      fontVariations: <FontVariation>[
+        FontVariation('wght', 500),
+      ]),
 );
