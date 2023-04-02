@@ -5,7 +5,9 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseAuth get auth => _auth;
+
+  // It will give us a stream of the state change of the user (maybe the token changes)
+  Stream<User?> get authStateChange => _auth.authStateChanges();
 
   Future<void> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -59,4 +61,9 @@ class AuthException implements Exception {
 
 final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService();
+});
+
+final authStateProvider = StreamProvider<User?>((ref) {
+  final authService = ref.read(authServiceProvider);
+  return authService.authStateChange;
 });
