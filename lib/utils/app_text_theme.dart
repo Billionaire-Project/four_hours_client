@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:four_hours_client/constants/app_colors.dart';
+import 'package:four_hours_client/utils/app_colors.dart';
 
 const TextTheme lightTextTheme = TextTheme(
   displaySmall: TextStyle(
