@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -8,15 +9,10 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: const Center(
-        child: Text(
-          'Splash Page',
-          style: TextStyle(
-            fontSize: 32,
-            color: Colors.black,
-            fontFamily: 'Mont',
-            fontWeight: FontWeight.w900,
-          ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/images/logo.svg',
+          semanticsLabel: 'Logo',
         ),
       ),
     );
