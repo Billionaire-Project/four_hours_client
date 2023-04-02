@@ -6,16 +6,6 @@ import 'package:four_hours_client/utils/app_text_theme.dart';
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
       colorScheme: lightColorScheme,
-      buttonTheme: ButtonThemeData(
-        height: 48,
-        buttonColor: AppLightColors.gray900,
-        hoverColor: AppLightColors.gray900.withOpacity(0.7),
-        splashColor: AppLightColors.gray900.withOpacity(0.5),
-        disabledColor: AppLightColors.gray200,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-        ),
-      ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           textStyle: const TextStyle(
@@ -41,16 +31,6 @@ class AppTheme {
 
   static final ThemeData darkTheme = ThemeData(
       colorScheme: darkColorsScheme,
-      buttonTheme: ButtonThemeData(
-        height: 48,
-        buttonColor: AppDarkColors.gray900,
-        hoverColor: AppDarkColors.gray900.withOpacity(0.7),
-        splashColor: AppDarkColors.gray900.withOpacity(0.5),
-        disabledColor: AppDarkColors.gray200,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-        ),
-      ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           textStyle: const TextStyle(
