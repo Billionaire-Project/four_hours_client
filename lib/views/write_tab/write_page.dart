@@ -72,11 +72,11 @@ class WritePage extends ConsumerWidget {
           ),
           Center(
             child: Text(isDarkMode ? '다크 모드' : '라이트 모드',
-                style: Theme.of(context).textTheme.titleMedium),
+                style: Theme.of(context).textTheme.bodyMedium),
           ),
           Center(
             child: Text(isDarkMode ? '다크 모드' : '라이트 모드',
-                style: Theme.of(context).textTheme.bodyMedium),
+                style: Theme.of(context).textTheme.labelMedium),
           )
         ],
       ),
