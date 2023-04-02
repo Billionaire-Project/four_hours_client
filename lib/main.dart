@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/constants/app_theme.dart';
 import 'package:four_hours_client/firebase_options.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
 import 'package:four_hours_client/routes/app_router.dart';
+import 'package:four_hours_client/utils/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {

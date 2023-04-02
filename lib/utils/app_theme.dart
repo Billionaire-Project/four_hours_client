@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:four_hours_client/constants/app_color_scheme.dart';
-import 'package:four_hours_client/constants/app_colors.dart';
-import 'package:four_hours_client/constants/app_text_theme.dart';
+import 'package:four_hours_client/utils/app_color_scheme.dart';
+import 'package:four_hours_client/utils/app_colors.dart';
+import 'package:four_hours_client/utils/app_text_theme.dart';
 
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
