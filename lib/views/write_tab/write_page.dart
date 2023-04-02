@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
-import 'package:four_hours_client/utils/custom_icons.dart';
+import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
+import 'package:four_hours_client/views/widgets/common_text_button.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
+import 'package:four_hours_client/views/widgets/time_label.dart';
 
 class WritePage extends ConsumerWidget {
   const WritePage({Key? key}) : super(key: key);
@@ -10,75 +12,25 @@ class WritePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(themeNotifierProvider);
     return MainWrapper(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            onPressed: () =>
-                ref.read(themeNotifierProvider.notifier).changeTheme(),
-            child: const Text('change theme mode'),
-          ),
-          const Icon(
-            CustomIcons.arrow_left_line,
-            size: 20,
-            color: Colors.black,
-          ),
-          const Icon(
-            CustomIcons.check_line,
-            size: 20,
-            color: Colors.black,
-          ),
-          const Icon(
-            CustomIcons.heart_line,
-            size: 20,
-            color: Colors.black,
-          ),
-          const Icon(
-            CustomIcons.settings_line,
-            size: 20,
-            color: Colors.black,
-          ),
-          const Icon(
-            CustomIcons.time_line,
-            size: 20,
-            color: Colors.black,
-          ),
-          Center(
-            child: Text(isDarkMode ? 'Dark Mode' : 'Light Mode',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(fontFamily: 'Mont')),
-          ),
-          Center(
-            child: Text(isDarkMode ? 'Dark Mode' : 'Light Mode',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(fontFamily: 'Mont')),
-          ),
-          Center(
-            child: Text(isDarkMode ? 'Dark Mode' : 'Light Mode',
-                style: Theme.of(context)
-                    .textTheme
-                    .labelSmall
-                    ?.copyWith(fontFamily: 'Mont')),
-          ),
-          Center(
-            child: Text(isDarkMode ? '다크 모드' : '라이트 모드',
-                style: Theme.of(context).textTheme.headlineSmall),
-          ),
-          Center(
-            child: Text(isDarkMode ? '다크 모드' : '라이트 모드',
-                style: Theme.of(context).textTheme.titleMedium),
-          ),
-          Center(
-            child: Text(isDarkMode ? '다크 모드' : '라이트 모드',
-                style: Theme.of(context).textTheme.bodyMedium),
-          )
-        ],
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CommonTextButton(
+              onPressed: () =>
+                  ref.read(themeNotifierProvider.notifier).changeTheme(),
+              child: const Text('change theme mode'),
+            ),
+            CommonFullWidthTextButton(
+                onPressed: () {
+                  print('jay --- full width button');
+                },
+                text: 'Full width button'),
+            const TimeLabel(text: '8 hours')
+          ],
+        ),
       ),
     );
   }
