@@ -5,6 +5,7 @@ import 'package:four_hours_client/utils/app_text_theme.dart';
 
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
+      dividerColor: AppLightColors.gray200,
       colorScheme: lightColorScheme,
       appBarTheme: const AppBarTheme(
         backgroundColor: AppLightColors.white,
@@ -37,6 +38,7 @@ class AppTheme {
       textTheme: lightTextTheme);
 
   static final ThemeData darkTheme = ThemeData(
+      dividerColor: AppDarkColors.gray200,
       colorScheme: darkColorsScheme,
       appBarTheme: const AppBarTheme(
         backgroundColor: AppDarkColors.black,

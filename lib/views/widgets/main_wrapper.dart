@@ -13,7 +13,12 @@ class MainWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar,
-      body: SafeArea(child: child),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: SafeArea(
+          child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: child,
+      )),
     );
   }
 }

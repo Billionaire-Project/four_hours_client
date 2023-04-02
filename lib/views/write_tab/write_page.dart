@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/providers/theme_provider.dart';
+import 'package:four_hours_client/utils/app_colors.dart';
+import 'package:four_hours_client/utils/custom_icons.dart';
+import 'package:four_hours_client/utils/custom_shadow_colors.dart';
+import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
-import 'package:four_hours_client/views/widgets/common_text_button.dart';
+import 'package:four_hours_client/views/widgets/common_title.dart';
+import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
-import 'package:four_hours_client/views/widgets/time_label.dart';
 
 class WritePage extends ConsumerWidget {
   const WritePage({Key? key}) : super(key: key);
@@ -15,20 +18,101 @@ class WritePage extends ConsumerWidget {
     return MainWrapper(
       child: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CommonTitle('Today'),
+            const Gap(8),
+            const Card(),
+            const Gap(16),
+            const TryYourFirstWritingCard()
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Card extends StatelessWidget {
+  const Card({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 170,
+      decoration: BoxDecoration(
+          color: AppLightColors.white,
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: CustomShadowColors.shadow1),
+      child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Center(
+                    child: Text(
+                      '오늘의 주제: 변화',
+                      style: CustomTextStyle(context).titleSmall,
+                    ),
+                  ),
+                  const Gap(16),
+                  Expanded(
+                    child: Divider(
+                      thickness: 1,
+                      color: Theme.of(context).dividerColor,
+                    ),
+                  ),
+                ],
+              ),
+              const Gap(10),
+              Text(
+                '날씨가 점점 봄으로 바뀌고 있다.\n 그 변화를 느끼며, 기분도 따뜻해지고 있다.',
+                style: CustomTextStyle(context)
+                    .bodySmall
+                    .copyWith(color: AppLightColors.gray400),
+              ),
+              const Gap(16),
+              CommonFullWidthTextButton(onPressed: () {}, text: '글 쓰기')
+            ],
+          )),
+    );
+  }
+}
+
+class TryYourFirstWritingCard extends StatelessWidget {
+  const TryYourFirstWritingCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 232,
+      decoration: BoxDecoration(
+        color: AppLightColors.gray100,
+        border: Border.all(width: 2, color: AppLightColors.gray900),
+        borderRadius: BorderRadius.circular(12.0),
+        boxShadow: CustomShadowColors.shadow3,
+      ),
+      child: Center(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CommonTextButton(
-              onPressed: () =>
-                  ref.read(themeNotifierProvider.notifier).changeTheme(),
-              child: const Text('change theme mode'),
+            const Icon(CustomIcons.pencil_fill,
+                size: 32, color: AppLightColors.gray900),
+            const Gap(8),
+            Text(
+              '첫 게시글을 작성해보세요!',
+              style: CustomTextStyle(context).titleLarge,
+              textAlign: TextAlign.center,
             ),
-            CommonFullWidthTextButton(
-                onPressed: () {
-                  print('jay --- full width button');
-                },
-                text: 'Full width button'),
-            const TimeLabel(text: '8 hours')
+            const Gap(4),
+            Text(
+              '순간의 일과 감정들을 글로 적어보면,\n 그것들을 더 잘 이해하고 조절할 수 있어요.',
+              style: CustomTextStyle(context)
+                  .bodySmall
+                  .copyWith(color: AppLightColors.gray600),
+              textAlign: TextAlign.center,
+            )
           ],
         ),
       ),
