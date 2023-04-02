@@ -12,15 +12,17 @@ class LoginPage extends ConsumerWidget {
     final authState = ref.watch(authProvider);
 
     return MainWrapper(
-        child: Column(children: [
-      const Text('Login Page'),
-      ElevatedButton(
-          onPressed: () => ref.read(authProvider.notifier).signInWithGoogle(),
-          child: const Text('Sign in with Google')),
-      ElevatedButton(
-          onPressed: () => ref.read(authProvider.notifier).signInWithApple(),
-          child: const Text('Sign in with Apple')),
-      if (authState is AsyncLoading) const CircularProgressIndicator(),
-    ]));
+        child: Center(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        const Text('Login Page'),
+        ElevatedButton(
+            onPressed: () => ref.read(authProvider.notifier).signInWithGoogle(),
+            child: const Text('Sign in with Google')),
+        ElevatedButton(
+            onPressed: () => ref.read(authProvider.notifier).signInWithApple(),
+            child: const Text('Sign in with Apple')),
+        if (authState is AsyncLoading) const CircularProgressIndicator(),
+      ]),
+    ));
   }
 }
