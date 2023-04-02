@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
+import 'package:four_hours_client/utils/mont_text_style.dart';
 import 'package:four_hours_client/views/shared_tab/shared_page.dart';
 import 'package:four_hours_client/views/widgets/main_app_bar.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
@@ -37,26 +38,39 @@ class _HomePageState extends State<HomePage>
     return MainWrapper(
       appBar: MainAppBar(
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(appBarHeight),
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: SizedBox(
-              width: 200,
+          preferredSize: const Size.fromHeight(appBarBottomHeight),
+          child: DefaultTabController(
+            length: 2,
+            child: Align(
+              alignment: Alignment.center,
               child: TabBar(
+                isScrollable: true,
                 controller: _tabController,
-                tabs: const [Text('WRITE'), Text('SHARED')],
-                indicator: const BoxDecoration(
+                tabs: [
+                  Text(
+                    'WRITE',
+                    style: MontTextStyle.titleLarge
+                        .copyWith(color: Theme.of(context).colorScheme.primary),
+                  ),
+                  Text(
+                    'SHARED',
+                    style: MontTextStyle.titleLarge
+                        .copyWith(color: Theme.of(context).colorScheme.primary),
+                  )
+                ],
+                indicator: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.primary,
                       width: 2.0,
                     ),
                   ),
                 ),
                 indicatorSize: TabBarIndicatorSize.label,
-                overlayColor: MaterialStateColor.resolveWith(
-                    (states) => Colors.transparent),
                 splashFactory: NoSplash.splashFactory,
+                padding: EdgeInsets.zero,
+                labelPadding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 onTap: (int index) {
                   if (index == 0) {
                     context.go(WritePage.path);

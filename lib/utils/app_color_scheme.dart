@@ -26,5 +26,5 @@ const ColorScheme darkColorsScheme = ColorScheme(
   onBackground: AppDarkColors.gray900,
   onSurface: AppDarkColors.gray900,
   onError: AppDarkColors.gray900,
-  brightness: Brightness.light,
+  brightness: Brightness.dark,
 );
