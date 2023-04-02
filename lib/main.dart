@@ -5,7 +5,7 @@ import 'package:four_hours_client/constants/app_theme.dart';
 import 'package:four_hours_client/firebase_options.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
-import 'package:four_hours_client/routes/app_router.dart';
+import 'package:four_hours_client/routes/app_router_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
