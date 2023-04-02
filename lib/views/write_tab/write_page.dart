@@ -57,10 +57,9 @@ class Card extends StatelessWidget {
                     ),
                   ),
                   const Gap(16),
-                  Expanded(
+                  const Expanded(
                     child: Divider(
                       thickness: 1,
-                      color: Theme.of(context).dividerColor,
                     ),
                   ),
                 ],
