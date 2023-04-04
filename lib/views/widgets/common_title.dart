@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:four_hours_client/utils/custom_text_style.dart';
 
 class CommonTitle extends StatelessWidget {
   String data;
@@ -8,10 +9,7 @@ class CommonTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       data,
-      style: Theme.of(context)
-          .textTheme
-          .headlineMedium!
-          .copyWith(fontFamily: 'Mont'),
+      style: CustomTextStyle(context).montHeadlineMedium,
     );
   }
 }
