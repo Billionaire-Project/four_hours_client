@@ -3,7 +3,7 @@ import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/views/shared_tab/shared_page.dart';
-import 'package:four_hours_client/views/write_screen.dart/write_page.dart';
+import 'package:four_hours_client/views/write_tab/write_page.dart';
 import 'package:go_router/go_router.dart';
 
 class BottomTabBar extends StatelessWidget implements PreferredSizeWidget {
@@ -27,21 +27,21 @@ class BottomTabBar extends StatelessWidget implements PreferredSizeWidget {
               'WRITE',
               style: CustomTextStyle(context).montTitleLarge.copyWith(
                   color: tabController?.index == 0
-                      ? AppLightColors.gray900
-                      : AppLightColors.gray300),
+                      ? CustomColors.light.gray900
+                      : CustomColors.light.gray300),
             ),
             Text(
               'SHARED',
               style: CustomTextStyle(context).montTitleLarge.copyWith(
                   color: tabController?.index == 1
-                      ? AppLightColors.gray900
-                      : AppLightColors.gray300),
+                      ? CustomColors.light.gray900
+                      : CustomColors.light.gray300),
             )
           ],
-          indicator: const BoxDecoration(
+          indicator: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: AppLightColors.gray900,
+                color: CustomColors.light.gray900,
                 width: 2.0,
               ),
             ),
@@ -50,10 +50,10 @@ class BottomTabBar extends StatelessWidget implements PreferredSizeWidget {
           splashFactory: NoSplash.splashFactory,
           padding: EdgeInsets.zero,
           labelPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          unselectedLabelColor: AppLightColors.gray300,
+          unselectedLabelColor: CustomColors.light.gray300,
           unselectedLabelStyle: CustomTextStyle(context)
               .montTitleLarge
-              .copyWith(color: AppLightColors.gray300),
+              .copyWith(color: CustomColors.light.gray300),
           onTap: (int index) {
             if (index == 0) {
               context.go(WritePage.path);
