@@ -14,7 +14,7 @@ class TimeLabel extends StatelessWidget {
         textStyle: CustomTextStyle(context).montLabelSmall,
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
         boxDecoration: BoxDecoration(
-            color: AppLightColors.gray100,
+            color: CustomColors.light.gray100,
             borderRadius: BorderRadius.circular(4.0)));
   }
 }

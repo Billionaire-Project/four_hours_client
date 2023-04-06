@@ -40,7 +40,7 @@ class Card extends StatelessWidget {
     return Container(
       height: 170,
       decoration: BoxDecoration(
-          color: AppLightColors.white,
+          color: CustomColors.white,
           borderRadius: BorderRadius.circular(12.0),
           boxShadow: CustomShadowColors.shadow1),
       child: Padding(
@@ -69,7 +69,7 @@ class Card extends StatelessWidget {
                 '날씨가 점점 봄으로 바뀌고 있다.\n 그 변화를 느끼며, 기분도 따뜻해지고 있다.',
                 style: CustomTextStyle(context)
                     .bodySmall
-                    .copyWith(color: AppLightColors.gray400),
+                    .copyWith(color: CustomColors.light.gray400),
               ),
               const Gap(16),
               CommonFullWidthTextButton(onPressed: () {}, text: '글 쓰기')
@@ -87,8 +87,8 @@ class TryYourFirstWritingCard extends StatelessWidget {
     return Container(
       height: 232,
       decoration: BoxDecoration(
-        color: AppLightColors.gray100,
-        border: Border.all(width: 2, color: AppLightColors.gray900),
+        color: CustomColors.light.gray100,
+        border: Border.all(width: 2, color: CustomColors.light.gray900),
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: CustomShadowColors.shadow3,
       ),
@@ -96,8 +96,8 @@ class TryYourFirstWritingCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(CustomIcons.pencil_fill,
-                size: 32, color: AppLightColors.gray900),
+            Icon(CustomIcons.pencil_fill,
+                size: 32, color: CustomColors.light.gray900),
             const Gap(8),
             Text(
               '첫 게시글을 작성해보세요!',
@@ -109,7 +109,7 @@ class TryYourFirstWritingCard extends StatelessWidget {
               '순간의 일과 감정들을 글로 적어보면,\n 그것들을 더 잘 이해하고 조절할 수 있어요.',
               style: CustomTextStyle(context)
                   .bodySmall
-                  .copyWith(color: AppLightColors.gray600),
+                  .copyWith(color: CustomColors.light.gray600),
               textAlign: TextAlign.center,
             )
           ],

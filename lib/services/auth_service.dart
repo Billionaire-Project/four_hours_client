@@ -5,6 +5,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? get currentUser => _auth.currentUser;
 
   // It will give us a stream of the state change of the user (maybe the token changes)
   Stream<User?> get authStateChange => _auth.authStateChanges();

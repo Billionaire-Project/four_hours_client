@@ -12,6 +12,8 @@ class SplashPage extends StatelessWidget {
       child: Center(
         child: SvgPicture.asset(
           'assets/images/logo.svg',
+          width: 176,
+          height: 32,
           semanticsLabel: 'Logo',
         ),
       ),
