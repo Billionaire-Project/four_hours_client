@@ -12,17 +12,16 @@ class LoginWithAppleButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void handlePressedSignWithApple() async {
-      showCommonLoadDialog(context);
-      bool result = await ref.read(authProvider.notifier).signInWithApple();
-      if (context.mounted) {
-        if (!result) {
-          closeCommonLoadDialog(context);
-          //TODO: 에러 처리
-        } else {
-          closeCommonLoadDialog(context);
-        }
+    ref.listen(authProvider, (previous, next) {
+      if (next.isLoading) {
+        showCommonLoadDialog(context);
+      } else {
+        closeCommonLoadDialog(context);
       }
+    });
+
+    void handlePressedSignWithApple() async {
+      await ref.read(authProvider.notifier).signInWithApple();
     }
 
     return InkWell(

@@ -12,17 +12,16 @@ class LoginWithGoogleButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void handlePressedSignWithGoogle() async {
-      showCommonLoadDialog(context);
-      bool result = await ref.read(authProvider.notifier).signInWithGoogle();
-      if (context.mounted) {
-        if (!result) {
-          closeCommonLoadDialog(context);
-          //TODO: 에러 처리
-        } else {
-          closeCommonLoadDialog(context);
-        }
+    ref.listen(authProvider, (previous, next) {
+      if (next.isLoading) {
+        showCommonLoadDialog(context);
+      } else {
+        closeCommonLoadDialog(context);
       }
+    });
+
+    void handlePressedSignWithGoogle() async {
+      await ref.read(authProvider.notifier).signInWithGoogle();
     }
 
     return InkWell(

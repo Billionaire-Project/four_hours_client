@@ -7,30 +7,20 @@ class AuthProvider extends AsyncNotifier<void> {
   @override
   FutureOr<void> build() {}
 
-  Future<bool> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     final authService = ref.read(authServiceProvider);
 
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(authService.signInWithGoogle);
-
-    if (state.hasError || !state.hasValue || state.isLoading) {
-      return false;
-    }
-    return true;
   }
 
-  Future<bool> signInWithApple() async {
+  Future<void> signInWithApple() async {
     final authService = ref.read(authServiceProvider);
 
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(authService.signInWithApple);
-
-    if (state.hasError || !state.hasValue || state.isLoading) {
-      return false;
-    }
-    return true;
   }
 
   Future<void> signOut() async {
