@@ -49,6 +49,12 @@ class WritePage extends ConsumerWidget {
                       iconData: CustomIcons.check_line, text: '삭제 되었어요!');
                 },
                 child: const Text('Dialog')),
+            ElevatedButton(
+                onPressed: () {
+                  showCommonToast(context,
+                      iconData: CustomIcons.copy_line, text: '클립보드에 복사되었어요!');
+                },
+                child: const Text('Toast')),
             CommonTitle('Today'),
             const Gap(8),
             const Card(),
