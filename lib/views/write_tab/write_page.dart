@@ -48,13 +48,25 @@ class WritePage extends ConsumerWidget {
                   showCommonAlert(context,
                       iconData: CustomIcons.check_line, text: '삭제 되었어요!');
                 },
-                child: const Text('Dialog')),
+                child: const Text('Alert')),
             ElevatedButton(
                 onPressed: () {
                   showCommonToast(context,
                       iconData: CustomIcons.copy_line, text: '클립보드에 복사되었어요!');
                 },
                 child: const Text('Toast')),
+            ElevatedButton(
+                onPressed: () {
+                  showCommonDialogWithTwoButtons(
+                    context,
+                    iconData: CustomIcons.report_fill,
+                    title: '해당 게시글을 신고하시겠어요?',
+                    subtitle: '신고가 접수되면 즉시 사라집니다',
+                    onPressedRightButton: () {},
+                    rightButtonText: '신고',
+                  );
+                },
+                child: const Text('Dialog')),
             CommonTitle('Today'),
             const Gap(8),
             const Card(),

@@ -46,4 +46,10 @@ class CustomThemeColor {
       isDarkMode ? CustomColors.dark.gray600 : CustomColors.light.gray700;
   Color get buttonDisabled =>
       isDarkMode ? CustomColors.dark.gray200 : CustomColors.light.gray200;
+
+  Color get red => isDarkMode ? CustomColors.dark.red : CustomColors.light.red;
+  Color get blue =>
+      isDarkMode ? CustomColors.dark.blue : CustomColors.light.blue;
+  Color get orange =>
+      isDarkMode ? CustomColors.dark.orange : CustomColors.light.orange;
 }

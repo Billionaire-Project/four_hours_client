@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_alert.dart';
+import 'package:four_hours_client/views/widgets/common_dialog_with_two_buttons.dart';
 import 'package:four_hours_client/views/widgets/common_loader.dart';
 import 'package:four_hours_client/views/widgets/common_toast.dart';
 
@@ -14,6 +16,7 @@ void showCommonAlert(BuildContext context,
     required String text,
     bool autoDismiss = true}) {
   showDialog(
+    barrierDismissible: false,
     barrierColor: Colors.transparent,
     context: context,
     builder: (context) => CommonAlert(
@@ -30,6 +33,7 @@ void showCommonAlert(BuildContext context,
 
 void showCommonLoader(BuildContext context) {
   showDialog(
+    barrierDismissible: false,
     barrierColor: Colors.transparent,
     context: context,
     builder: (context) => const CommonLoader(),
@@ -58,7 +62,6 @@ void showCommonToast(BuildContext context,
   fToast.showToast(
       child: CommonToast(iconData: iconData, text: text),
       toastDuration: const Duration(seconds: 1),
-      // gravity: ToastGravity.NONE,
       positionedToastBuilder: (context, child) {
         return Stack(
           alignment: Alignment.bottomCenter,
@@ -70,4 +73,23 @@ void showCommonToast(BuildContext context,
           ],
         );
       });
+}
+
+void showCommonDialogWithTwoButtons(BuildContext context,
+    {required IconData iconData,
+    required String title,
+    required String subtitle,
+    required VoidCallback onPressedRightButton,
+    required String rightButtonText}) {
+  showDialog(
+    barrierColor: CustomColors.black.withOpacity(0.8),
+    context: context,
+    builder: (context) => CommonDialogWithTwoButtons(
+      iconData: iconData,
+      title: title,
+      subtitle: subtitle,
+      onPressedRightButton: onPressedRightButton,
+      rightButtonText: rightButtonText,
+    ),
+  );
 }
