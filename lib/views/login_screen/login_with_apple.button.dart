@@ -47,7 +47,7 @@ class LoginWithAppleButton extends ConsumerWidget {
                 'Apple로 시작하기',
                 style: CustomTextStyle(context)
                     .titleMedium
-                    .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                    .copyWith(color: CustomThemeColor(context).onPrimary),
               ),
             ],
           ),

@@ -11,6 +11,20 @@ class CustomThemeColor {
     isDarkMode = brightness == Brightness.dark;
   }
 
+  Color get primary => Theme.of(context).colorScheme.primary;
+  Color get onPrimary => Theme.of(context).colorScheme.onPrimary;
+
+  Color get secondary => Theme.of(context).colorScheme.secondary;
+  Color get onSecondary => Theme.of(context).colorScheme.onSecondary;
+
+  Color get background => Theme.of(context).colorScheme.background;
+  Color get onBackground => Theme.of(context).colorScheme.onBackground;
+  Color get backgroundElevated =>
+      isDarkMode ? CustomColors.dark.gray100 : CustomColors.white;
+
+  Color get surface => Theme.of(context).colorScheme.surface;
+  Color get onSurface => Theme.of(context).colorScheme.onSurface;
+
   Color get textPrimary =>
       isDarkMode ? CustomColors.dark.gray900 : CustomColors.light.gray900;
   Color get textSecondary =>

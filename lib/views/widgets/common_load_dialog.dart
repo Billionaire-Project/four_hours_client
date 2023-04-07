@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
+import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
 class CommonLoadDialog extends StatelessWidget {
@@ -27,18 +28,16 @@ class CommonLoadDialog extends StatelessWidget {
                 child: CircularProgressIndicator(
                   strokeWidth: 6,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).colorScheme.onPrimary),
-                  backgroundColor: Theme.of(context)
-                      .colorScheme
-                      .onBackground
-                      .withOpacity(0.8),
+                      CustomThemeColor(context).onPrimary),
+                  backgroundColor:
+                      CustomThemeColor(context).onBackground.withOpacity(0.8),
                 ),
               ),
               const Gap(8),
               Text(
                 'Loading..',
                 style: CustomTextStyle(context).labelMedium.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
+                      color: CustomThemeColor(context).onPrimary,
                     ),
                 textAlign: TextAlign.center,
               )
