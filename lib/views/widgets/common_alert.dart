@@ -4,8 +4,11 @@ import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
-class CommonLoadDialog extends StatelessWidget {
-  const CommonLoadDialog({Key? key}) : super(key: key);
+class CommonAlert extends StatelessWidget {
+  final IconData iconData;
+  final String text;
+  const CommonAlert({Key? key, required this.iconData, required this.text})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,20 +25,11 @@ class CommonLoadDialog extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 44,
-                height: 44,
-                child: CircularProgressIndicator(
-                  strokeWidth: 6,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      CustomThemeColor(context).onPrimary),
-                  backgroundColor:
-                      CustomThemeColor(context).onBackground.withOpacity(0.8),
-                ),
-              ),
+              Icon(iconData,
+                  size: 48, color: CustomThemeColor(context).onPrimary),
               const Gap(8),
               Text(
-                'Loading..',
+                text,
                 style: CustomTextStyle(context).labelMedium.copyWith(
                       color: CustomThemeColor(context).onPrimary,
                     ),

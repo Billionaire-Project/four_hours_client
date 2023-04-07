@@ -14,7 +14,7 @@ class LoginWithAppleButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(authProvider, (previous, next) {
       if (next.isLoading) {
-        showCommonLoadDialog(context);
+        showCommonLoader(context);
       } else {
         closeRootNavigator(context);
       }

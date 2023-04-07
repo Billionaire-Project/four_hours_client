@@ -5,18 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
-import 'package:four_hours_client/views/widgets/common_dialog.dart';
-import 'package:four_hours_client/views/widgets/common_load_dialog.dart';
+import 'package:four_hours_client/views/widgets/common_alert.dart';
+import 'package:four_hours_client/views/widgets/common_loader.dart';
 import 'package:four_hours_client/views/widgets/common_toast.dart';
 
-void showCommonDialog(BuildContext context,
+void showCommonAlert(BuildContext context,
     {required IconData iconData,
     required String text,
     bool autoDismiss = true}) {
   showDialog(
     barrierColor: Colors.transparent,
     context: context,
-    builder: (context) => CommonDialog(
+    builder: (context) => CommonAlert(
       iconData: iconData,
       text: text,
     ),
@@ -28,11 +28,11 @@ void showCommonDialog(BuildContext context,
   }
 }
 
-void showCommonLoadDialog(BuildContext context) {
+void showCommonLoader(BuildContext context) {
   showDialog(
     barrierColor: Colors.transparent,
     context: context,
-    builder: (context) => const CommonLoadDialog(),
+    builder: (context) => const CommonLoader(),
   );
 }
 

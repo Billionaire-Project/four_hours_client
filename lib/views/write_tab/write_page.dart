@@ -45,7 +45,7 @@ class WritePage extends ConsumerWidget {
             ),
             ElevatedButton(
                 onPressed: () {
-                  showCommonDialog(context,
+                  showCommonAlert(context,
                       iconData: CustomIcons.check_line, text: '삭제 되었어요!');
                 },
                 child: const Text('Dialog')),
