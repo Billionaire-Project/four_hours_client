@@ -16,7 +16,7 @@ class LoginWithAppleButton extends ConsumerWidget {
       if (next.isLoading) {
         showCommonLoadDialog(context);
       } else {
-        closeCommonLoadDialog(context);
+        closeRootNavigator(context);
       }
     });
 

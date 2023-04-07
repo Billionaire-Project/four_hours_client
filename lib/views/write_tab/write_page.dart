@@ -43,6 +43,12 @@ class WritePage extends ConsumerWidget {
               },
               child: const Text('ActionSheet'),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  showCommonDialog(context,
+                      iconData: CustomIcons.check_line, text: '삭제 되었어요!');
+                },
+                child: const Text('Dialog')),
             CommonTitle('Today'),
             const Gap(8),
             const Card(),
