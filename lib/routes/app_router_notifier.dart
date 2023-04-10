@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/routes/app_router_provider.dart';
 import 'package:four_hours_client/services/auth_service.dart';
+import 'package:four_hours_client/views/create_writing_screen/create_writing_page.dart';
+import 'package:four_hours_client/views/shared_tab/shared_page.dart';
+import 'package:four_hours_client/views/write_tab/write_page.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:four_hours_client/views/home_screen/home_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
-import 'package:four_hours_client/views/shared_tab/shared_page.dart';
 import 'package:four_hours_client/views/splash_screen/splash_page.dart';
-import 'package:four_hours_client/views/write_tab/write_page.dart';
 
 final _shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellNavigatorKey');
@@ -46,13 +48,20 @@ class AppRouterNotifier extends AutoDisposeAsyncNotifier<void>
           },
           routes: [
             GoRoute(
-              path: WritePage.path,
-              pageBuilder: (BuildContext context, GoRouterState state) =>
-                  NoTransitionPage(
-                key: state.pageKey,
-                child: const WritePage(),
-              ),
-            ),
+                path: WritePage.path,
+                pageBuilder: (BuildContext context, GoRouterState state) =>
+                    NoTransitionPage(
+                      key: state.pageKey,
+                      child: const WritePage(),
+                    ),
+                routes: [
+                  GoRoute(
+                    path: CreateWritingPage.path,
+                    builder: (BuildContext context, GoRouterState state) =>
+                        const CreateWritingPage(),
+                    parentNavigatorKey: ref.read(appNavigatorKeyProvider),
+                  ),
+                ]),
             GoRoute(
               path: SharedPage.path,
               pageBuilder: (BuildContext context, GoRouterState state) =>

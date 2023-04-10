@@ -6,11 +6,13 @@ import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/create_writing_screen/create_writing_page.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
+import 'package:go_router/go_router.dart';
 
 class WritePage extends ConsumerWidget {
   const WritePage({Key? key}) : super(key: key);
@@ -131,7 +133,11 @@ class Card extends ConsumerWidget {
                   .copyWith(color: CustomColors.light.gray400),
             ),
             const Gap(16),
-            CommonFullWidthTextButton(onPressed: () {}, text: '글 쓰기')
+            CommonFullWidthTextButton(
+                onPressed: () {
+                  context.push('${WritePage.path}/${CreateWritingPage.path}');
+                },
+                text: '글 쓰기')
           ],
         ),
       ),
