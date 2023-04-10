@@ -33,9 +33,10 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return MainWrapper(
       appBar: MainAppBar(
-          bottom: BottomTabBar(
-        tabController: _tabController,
-      )),
+        bottom: BottomTabBar(
+          tabController: _tabController,
+        ),
+      ),
       child: widget.child,
     );
   }

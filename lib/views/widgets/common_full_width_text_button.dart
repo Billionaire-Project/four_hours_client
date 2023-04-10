@@ -15,19 +15,22 @@ class CommonFullWidthTextButton extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-          width: double.infinity,
-          height: 48,
-          padding: const EdgeInsets.symmetric(vertical: 13),
-          decoration: BoxDecoration(
-              color: CustomThemeColor(context).primary,
-              borderRadius: BorderRadius.circular(4)),
-          child: Center(
-            child: Text(text,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: CustomThemeColor(context).onPrimary)),
-          )),
+        width: double.infinity,
+        height: 48,
+        padding: const EdgeInsets.symmetric(vertical: 13),
+        decoration: BoxDecoration(
+          color: CustomThemeColor(context).primary,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: CustomThemeColor(context).onPrimary,
+                ),
+          ),
+        ),
+      ),
     );
   }
 }

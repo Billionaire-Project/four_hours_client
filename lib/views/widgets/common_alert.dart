@@ -7,8 +7,11 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 class CommonAlert extends StatelessWidget {
   final IconData iconData;
   final String text;
-  const CommonAlert({Key? key, required this.iconData, required this.text})
-      : super(key: key);
+  const CommonAlert({
+    Key? key,
+    required this.iconData,
+    required this.text,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +23,17 @@ class CommonAlert extends StatelessWidget {
           width: 144,
           height: 144,
           decoration: BoxDecoration(
-              color: CustomColors.black.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(8)),
+            color: CustomColors.black.withOpacity(0.8),
+            borderRadius: BorderRadius.circular(8),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(iconData,
-                  size: 48, color: CustomThemeColor(context).onPrimary),
+              Icon(
+                iconData,
+                size: 48,
+                color: CustomThemeColor(context).onPrimary,
+              ),
               const Gap(8),
               Text(
                 text,

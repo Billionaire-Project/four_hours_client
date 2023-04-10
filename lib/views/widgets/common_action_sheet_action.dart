@@ -26,22 +26,23 @@ class CommonActionSheetAction extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: CupertinoActionSheetAction(
-          onPressed: onPressed,
-          child: Row(
-            children: [
-              Icon(
-                iconData,
-                size: 24,
-                color: color ?? CustomThemeColor(context).textPrimary,
-              ),
-              const Gap(8),
-              Text(
-                text,
-                style: CustomTextStyle(context).titleMedium.copyWith(
-                    color: color ?? CustomThemeColor(context).textPrimary),
-              )
-            ],
-          )),
+        onPressed: onPressed,
+        child: Row(
+          children: [
+            Icon(
+              iconData,
+              size: 24,
+              color: color ?? CustomThemeColor(context).textPrimary,
+            ),
+            const Gap(8),
+            Text(
+              text,
+              style: CustomTextStyle(context).titleMedium.copyWith(
+                  color: color ?? CustomThemeColor(context).textPrimary),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

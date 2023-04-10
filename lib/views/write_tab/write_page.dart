@@ -25,48 +25,60 @@ class WritePage extends ConsumerWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                showCommonActionSheet(context, actions: [
-                  CommonActionSheetAction(
-                    color: Colors.red,
-                    backgroundColor: CustomThemeColor(context).background,
-                    onPressed: () {},
-                    iconData: CustomIcons.delete_bin_line,
-                    text: '게시글 삭제',
-                  ),
-                  CommonActionSheetAction(
-                    backgroundColor: CustomThemeColor(context).background,
-                    onPressed: () {},
-                    iconData: CustomIcons.copy_line,
-                    text: '게시글 삭제',
-                  ),
-                ]);
+                showCommonActionSheet(
+                  context,
+                  actions: [
+                    CommonActionSheetAction(
+                      color: Colors.red,
+                      backgroundColor: CustomThemeColor(context).background,
+                      onPressed: () {},
+                      iconData: CustomIcons.delete_bin_line,
+                      text: '게시글 삭제',
+                    ),
+                    CommonActionSheetAction(
+                      backgroundColor: CustomThemeColor(context).background,
+                      onPressed: () {},
+                      iconData: CustomIcons.copy_line,
+                      text: '게시글 삭제',
+                    ),
+                  ],
+                );
               },
               child: const Text('ActionSheet'),
             ),
             ElevatedButton(
-                onPressed: () {
-                  showCommonAlert(context,
-                      iconData: CustomIcons.check_line, text: '삭제 되었어요!');
-                },
-                child: const Text('Alert')),
+              onPressed: () {
+                showCommonAlert(
+                  context,
+                  iconData: CustomIcons.check_line,
+                  text: '삭제 되었어요!',
+                );
+              },
+              child: const Text('Alert'),
+            ),
             ElevatedButton(
-                onPressed: () {
-                  showCommonToast(context,
-                      iconData: CustomIcons.copy_line, text: '클립보드에 복사되었어요!');
-                },
-                child: const Text('Toast')),
+              onPressed: () {
+                showCommonToast(
+                  context,
+                  iconData: CustomIcons.copy_line,
+                  text: '클립보드에 복사되었어요!',
+                );
+              },
+              child: const Text('Toast'),
+            ),
             ElevatedButton(
-                onPressed: () {
-                  showCommonDialogWithTwoButtons(
-                    context,
-                    iconData: CustomIcons.report_fill,
-                    title: '해당 게시글을 신고하시겠어요?',
-                    subtitle: '신고가 접수되면 즉시 사라집니다',
-                    onPressedRightButton: () {},
-                    rightButtonText: '신고',
-                  );
-                },
-                child: const Text('Dialog')),
+              onPressed: () {
+                showCommonDialogWithTwoButtons(
+                  context,
+                  iconData: CustomIcons.report_fill,
+                  title: '해당 게시글을 신고하시겠어요?',
+                  subtitle: '신고가 접수되면 즉시 사라집니다',
+                  onPressedRightButton: () {},
+                  rightButtonText: '신고',
+                );
+              },
+              child: const Text('Dialog'),
+            ),
             CommonTitle('Today'),
             const Gap(8),
             const Card(),
@@ -91,37 +103,38 @@ class Card extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
           boxShadow: CustomShadowColors.shadow1),
       child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Center(
-                    child: Text(
-                      '오늘의 주제: 변화',
-                      style: CustomTextStyle(context).titleSmall,
-                    ),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Center(
+                  child: Text(
+                    '오늘의 주제: 변화',
+                    style: CustomTextStyle(context).titleSmall,
                   ),
-                  const Gap(16),
-                  const Expanded(
-                    child: Divider(
-                      thickness: 1,
-                    ),
+                ),
+                const Gap(16),
+                const Expanded(
+                  child: Divider(
+                    thickness: 1,
                   ),
-                ],
-              ),
-              const Gap(10),
-              Text(
-                '날씨가 점점 봄으로 바뀌고 있다.\n 그 변화를 느끼며, 기분도 따뜻해지고 있다.',
-                style: CustomTextStyle(context)
-                    .bodySmall
-                    .copyWith(color: CustomColors.light.gray400),
-              ),
-              const Gap(16),
-              CommonFullWidthTextButton(onPressed: () {}, text: '글 쓰기')
-            ],
-          )),
+                ),
+              ],
+            ),
+            const Gap(10),
+            Text(
+              '날씨가 점점 봄으로 바뀌고 있다.\n 그 변화를 느끼며, 기분도 따뜻해지고 있다.',
+              style: CustomTextStyle(context)
+                  .bodySmall
+                  .copyWith(color: CustomColors.light.gray400),
+            ),
+            const Gap(16),
+            CommonFullWidthTextButton(onPressed: () {}, text: '글 쓰기')
+          ],
+        ),
+      ),
     );
   }
 }

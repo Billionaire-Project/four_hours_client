@@ -10,11 +10,13 @@ class TimeLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextContainer(
-        text: text,
-        textStyle: CustomTextStyle(context).montLabelSmall,
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
-        boxDecoration: BoxDecoration(
-            color: CustomColors.light.gray100,
-            borderRadius: BorderRadius.circular(4.0)));
+      text: text,
+      textStyle: CustomTextStyle(context).montLabelSmall,
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+      boxDecoration: BoxDecoration(
+        color: CustomColors.light.gray100,
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+    );
   }
 }

@@ -17,9 +17,14 @@ void main() async {
 
   final sharedPreferences = await SharedPreferences.getInstance();
 
-  runApp(ProviderScope(overrides: [
-    sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-  ], child: const MyApp()));
+  runApp(
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {

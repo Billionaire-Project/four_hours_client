@@ -28,10 +28,12 @@ class SettingTileWithSwitch extends StatelessWidget {
           color: color ?? CustomThemeColor(context).textPrimary,
         ),
         const Gap(8),
-        Text(text,
-            style: CustomTextStyle(context).labelMedium.copyWith(
-                  color: color ?? CustomThemeColor(context).textPrimary,
-                )),
+        Text(
+          text,
+          style: CustomTextStyle(context).labelMedium.copyWith(
+                color: color ?? CustomThemeColor(context).textPrimary,
+              ),
+        ),
         const Spacer(),
         CupertinoSwitch(
           value: value,

@@ -4,9 +4,11 @@ import 'package:four_hours_client/utils/custom_text_style.dart';
 class CommonActionSheet extends StatelessWidget {
   final List<Widget>? actions;
   final ScrollController? actionScrollController;
-  const CommonActionSheet(
-      {Key? key, required this.actions, this.actionScrollController})
-      : super(key: key);
+  const CommonActionSheet({
+    Key? key,
+    required this.actions,
+    this.actionScrollController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -18,10 +18,11 @@ class MainWrapper extends StatelessWidget {
       appBar: appBar,
       backgroundColor: CustomThemeColor(context).background,
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(pagePadding),
-        child: child,
-      )),
+        child: Padding(
+          padding: const EdgeInsets.all(pagePadding),
+          child: child,
+        ),
+      ),
       endDrawer: const SettingDrawer(),
     );
   }

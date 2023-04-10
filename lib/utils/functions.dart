@@ -11,10 +11,12 @@ import 'package:four_hours_client/views/widgets/common_dialog_with_two_buttons.d
 import 'package:four_hours_client/views/widgets/common_loader.dart';
 import 'package:four_hours_client/views/widgets/common_toast.dart';
 
-void showCommonAlert(BuildContext context,
-    {required IconData iconData,
-    required String text,
-    bool autoDismiss = true}) {
+void showCommonAlert(
+  BuildContext context, {
+  required IconData iconData,
+  required String text,
+  bool autoDismiss = true,
+}) {
   showDialog(
     barrierDismissible: false,
     barrierColor: Colors.transparent,
@@ -60,27 +62,30 @@ void showCommonToast(BuildContext context,
 
   fToast.init(context);
   fToast.showToast(
-      child: CommonToast(iconData: iconData, text: text),
-      toastDuration: const Duration(seconds: 1),
-      positionedToastBuilder: (context, child) {
-        return Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Positioned(
-              bottom: 0,
-              child: child,
-            ),
-          ],
-        );
-      });
+    child: CommonToast(iconData: iconData, text: text),
+    toastDuration: const Duration(seconds: 1),
+    positionedToastBuilder: (context, child) {
+      return Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Positioned(
+            bottom: 0,
+            child: child,
+          ),
+        ],
+      );
+    },
+  );
 }
 
-void showCommonDialogWithTwoButtons(BuildContext context,
-    {required IconData iconData,
-    required String title,
-    required String subtitle,
-    required VoidCallback onPressedRightButton,
-    required String rightButtonText}) {
+void showCommonDialogWithTwoButtons(
+  BuildContext context, {
+  required IconData iconData,
+  required String title,
+  required String subtitle,
+  required VoidCallback onPressedRightButton,
+  required String rightButtonText,
+}) {
   showDialog(
     barrierColor: CustomColors.black.withOpacity(0.8),
     context: context,

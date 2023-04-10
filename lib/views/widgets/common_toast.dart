@@ -23,13 +23,17 @@ class CommonToast extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(iconData, color: CustomColors.light.gray50, size: 16),
+            Icon(
+              iconData,
+              color: CustomColors.light.gray50,
+              size: 16,
+            ),
             const Gap(8),
             Text(
               text,
-              style: CustomTextStyle(context)
-                  .labelSmall
-                  .copyWith(color: CustomColors.light.gray50),
+              style: CustomTextStyle(context).labelSmall.copyWith(
+                    color: CustomColors.light.gray50,
+                  ),
             ),
           ],
         ),
