@@ -33,11 +33,12 @@ class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
       ),
       actions: [
         CommonIconButton(
-            icon: const Icon(
-              CustomIcons.settings_line,
-              size: 24,
-            ),
-            onTap: () => Scaffold.of(context).openEndDrawer()),
+          icon: const Icon(
+            CustomIcons.settings_line,
+            size: 24,
+          ),
+          onTap: () => Scaffold.of(context).openEndDrawer(),
+        ),
         const Gap(8),
       ],
       bottom: bottom,

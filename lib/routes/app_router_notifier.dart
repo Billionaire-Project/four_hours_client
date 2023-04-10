@@ -27,29 +27,42 @@ class AppRouterNotifier extends AutoDisposeAsyncNotifier<void>
 
   List<RouteBase> get routes => [
         GoRoute(
-            path: SplashPage.path,
-            builder: (context, state) => const SplashPage()),
+          path: SplashPage.path,
+          builder: (BuildContext context, GoRouterState state) =>
+              const SplashPage(),
+        ),
         GoRoute(
-            path: LoginPage.path,
-            pageBuilder: (context, state) =>
-                NoTransitionPage(key: state.pageKey, child: const LoginPage())),
+          path: LoginPage.path,
+          pageBuilder: (BuildContext context, GoRouterState state) =>
+              NoTransitionPage(
+            key: state.pageKey,
+            child: const LoginPage(),
+          ),
+        ),
         ShellRoute(
-            navigatorKey: _shellNavigatorKey,
-            builder: (context, state, child) {
-              return HomePage(child: child);
-            },
-            routes: [
-              GoRoute(
-                  path: WritePage.path,
-                  pageBuilder: (BuildContext context, GoRouterState state) =>
-                      NoTransitionPage(
-                          key: state.pageKey, child: const WritePage())),
-              GoRoute(
-                  path: SharedPage.path,
-                  pageBuilder: (BuildContext context, GoRouterState state) =>
-                      NoTransitionPage(
-                          key: state.pageKey, child: const SharedPage()))
-            ]),
+          navigatorKey: _shellNavigatorKey,
+          builder: (context, state, child) {
+            return HomePage(child: child);
+          },
+          routes: [
+            GoRoute(
+              path: WritePage.path,
+              pageBuilder: (BuildContext context, GoRouterState state) =>
+                  NoTransitionPage(
+                key: state.pageKey,
+                child: const WritePage(),
+              ),
+            ),
+            GoRoute(
+              path: SharedPage.path,
+              pageBuilder: (BuildContext context, GoRouterState state) =>
+                  NoTransitionPage(
+                key: state.pageKey,
+                child: const SharedPage(),
+              ),
+            )
+          ],
+        ),
       ];
 
   String? redirect(BuildContext context, GoRouterState state) {

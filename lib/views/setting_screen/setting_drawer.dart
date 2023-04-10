@@ -53,7 +53,7 @@ class SettingDrawer extends ConsumerWidget {
             style: CustomTextStyle(context).caption.copyWith(
                   color: CustomThemeColor(context).textDisabled,
                 ),
-          )
+          ),
         ],
       ),
     );

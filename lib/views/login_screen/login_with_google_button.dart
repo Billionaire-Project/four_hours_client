@@ -29,23 +29,27 @@ class LoginWithGoogleButton extends ConsumerWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-            color: Colors.transparent,
-            border: Border.all(
-                width: 1, color: CustomThemeColor(context).buttonSecondary),
-            borderRadius: BorderRadius.circular(4)),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          SvgPicture.asset(
-            'assets/images/logo-google-fill.svg',
-            width: 18,
-            height: 18,
-            semanticsLabel: 'Google logo',
-          ),
-          const Gap(6),
-          Text(
-            'Google로 시작하기',
-            style: CustomTextStyle(context).titleMedium,
-          ),
-        ]),
+          color: Colors.transparent,
+          border: Border.all(
+              width: 1, color: CustomThemeColor(context).buttonSecondary),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/images/logo-google-fill.svg',
+              width: 18,
+              height: 18,
+              semanticsLabel: 'Google logo',
+            ),
+            const Gap(6),
+            Text(
+              'Google로 시작하기',
+              style: CustomTextStyle(context).titleMedium,
+            ),
+          ],
+        ),
       ),
     );
   }

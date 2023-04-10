@@ -10,10 +10,11 @@ final _appNavigatorKey =
 final appRouterProvider = Provider.autoDispose<GoRouter>((ref) {
   final appRouterNotifier = ref.watch(appRouterNotifierProvider.notifier);
   return GoRouter(
-      navigatorKey: _appNavigatorKey,
-      routes: appRouterNotifier.routes,
-      debugLogDiagnostics: true,
-      redirect: appRouterNotifier.redirect,
-      refreshListenable: appRouterNotifier,
-      initialLocation: SplashPage.path);
+    navigatorKey: _appNavigatorKey,
+    routes: appRouterNotifier.routes,
+    debugLogDiagnostics: true,
+    redirect: appRouterNotifier.redirect,
+    refreshListenable: appRouterNotifier,
+    initialLocation: SplashPage.path,
+  );
 });

@@ -26,16 +26,18 @@ class BottomTabBar extends StatelessWidget implements PreferredSizeWidget {
             Text(
               'WRITE',
               style: CustomTextStyle(context).montTitleLarge.copyWith(
-                  color: tabController?.index == 0
-                      ? CustomColors.light.gray900
-                      : CustomColors.light.gray300),
+                    color: tabController?.index == 0
+                        ? CustomColors.light.gray900
+                        : CustomColors.light.gray300,
+                  ),
             ),
             Text(
               'SHARED',
               style: CustomTextStyle(context).montTitleLarge.copyWith(
-                  color: tabController?.index == 1
-                      ? CustomColors.light.gray900
-                      : CustomColors.light.gray300),
+                    color: tabController?.index == 1
+                        ? CustomColors.light.gray900
+                        : CustomColors.light.gray300,
+                  ),
             )
           ],
           indicator: BoxDecoration(

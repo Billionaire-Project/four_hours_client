@@ -27,7 +27,9 @@ class SettingAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       //! endDrawer를 사용하니 메뉴 아이콘이 앱바 우측에 자동 생성 됨
-      actions: const [SizedBox.shrink()],
+      actions: const [
+        SizedBox.shrink(),
+      ],
       centerTitle: true,
     );
   }

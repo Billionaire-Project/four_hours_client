@@ -44,37 +44,38 @@ class Card extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
           boxShadow: CustomShadowColors.shadow1),
       child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Center(
-                    child: Text(
-                      '오늘의 주제: 변화',
-                      style: CustomTextStyle(context).titleSmall,
-                    ),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Center(
+                  child: Text(
+                    '오늘의 주제: 변화',
+                    style: CustomTextStyle(context).titleSmall,
                   ),
-                  const Gap(16),
-                  const Expanded(
-                    child: Divider(
-                      thickness: 1,
-                    ),
+                ),
+                const Gap(16),
+                const Expanded(
+                  child: Divider(
+                    thickness: 1,
                   ),
-                ],
-              ),
-              const Gap(10),
-              Text(
-                '날씨가 점점 봄으로 바뀌고 있다.\n 그 변화를 느끼며, 기분도 따뜻해지고 있다.',
-                style: CustomTextStyle(context)
-                    .bodySmall
-                    .copyWith(color: CustomColors.light.gray400),
-              ),
-              const Gap(16),
-              CommonFullWidthTextButton(onPressed: () {}, text: '글 쓰기')
-            ],
-          )),
+                ),
+              ],
+            ),
+            const Gap(10),
+            Text(
+              '날씨가 점점 봄으로 바뀌고 있다.\n 그 변화를 느끼며, 기분도 따뜻해지고 있다.',
+              style: CustomTextStyle(context)
+                  .bodySmall
+                  .copyWith(color: CustomColors.light.gray400),
+            ),
+            const Gap(16),
+            CommonFullWidthTextButton(onPressed: () {}, text: '글 쓰기')
+          ],
+        ),
+      ),
     );
   }
 }

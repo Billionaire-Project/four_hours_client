@@ -25,32 +25,33 @@ class LoginWithAppleButton extends ConsumerWidget {
     }
 
     return InkWell(
-        onTap: handlePressedSignWithApple,
-        child: Container(
-          height: 48,
-          decoration: BoxDecoration(
-              color: CustomThemeColor(context).buttonPrimary,
-              border: Border.all(
-                  width: 1, color: CustomThemeColor(context).buttonSecondary),
-              borderRadius: BorderRadius.circular(4)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/images/logo-apple-fill.svg',
-                width: 18,
-                height: 18,
-                semanticsLabel: 'Apple logo',
-              ),
-              const Gap(6),
-              Text(
-                'Apple로 시작하기',
-                style: CustomTextStyle(context)
-                    .titleMedium
-                    .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-              ),
-            ],
-          ),
-        ));
+      onTap: handlePressedSignWithApple,
+      child: Container(
+        height: 48,
+        decoration: BoxDecoration(
+            color: CustomThemeColor(context).buttonPrimary,
+            border: Border.all(
+                width: 1, color: CustomThemeColor(context).buttonSecondary),
+            borderRadius: BorderRadius.circular(4)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/images/logo-apple-fill.svg',
+              width: 18,
+              height: 18,
+              semanticsLabel: 'Apple logo',
+            ),
+            const Gap(6),
+            Text(
+              'Apple로 시작하기',
+              style: CustomTextStyle(context)
+                  .titleMedium
+                  .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
