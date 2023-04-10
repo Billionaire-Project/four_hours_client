@@ -14,9 +14,9 @@ class LoginWithAppleButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(authProvider, (previous, next) {
       if (next.isLoading) {
-        showCommonLoadDialog(context);
+        showCommonLoader(context);
       } else {
-        closeCommonLoadDialog(context);
+        closeRootNavigator(context);
       }
     });
 
@@ -47,7 +47,7 @@ class LoginWithAppleButton extends ConsumerWidget {
                 'Apple로 시작하기',
                 style: CustomTextStyle(context)
                     .titleMedium
-                    .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                    .copyWith(color: CustomThemeColor(context).onPrimary),
               ),
             ],
           ),
