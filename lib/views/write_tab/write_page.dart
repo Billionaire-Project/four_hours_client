@@ -14,12 +14,12 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
 
-class WritePage extends ConsumerWidget {
+class WritePage extends StatelessWidget {
   const WritePage({Key? key}) : super(key: key);
   static const String path = '/write';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return MainWrapper(
       child: Center(
         child: Column(
