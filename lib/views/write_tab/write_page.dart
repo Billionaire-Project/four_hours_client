@@ -91,11 +91,11 @@ class WritePage extends ConsumerWidget {
   }
 }
 
-class Card extends StatelessWidget {
+class Card extends ConsumerWidget {
   const Card({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       height: 170,
       decoration: BoxDecoration(

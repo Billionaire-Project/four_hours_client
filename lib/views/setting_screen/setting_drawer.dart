@@ -6,9 +6,9 @@ import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/setting_screen/setting_app_bar.dart';
 import 'package:four_hours_client/views/setting_screen/setting_tile_with_chevron.dart';
 import 'package:four_hours_client/views/setting_screen/setting_tile_with_switch.dart';
+import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 
@@ -20,9 +20,12 @@ class SettingDrawer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     String? version = ref.watch(packageInfoProvider).value?.version;
     return MainWrapper(
-      appBar: const SettingAppBar(),
+      appBar: const CommonAppBar(
+        title: '설정',
+      ),
       child: Column(
         children: [
+          const Gap(16),
           const SettingTileWithSwitch(
             iconData: CustomIcons.moon_fill,
             text: '푸시 알림 ON',
