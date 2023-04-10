@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:four_hours_client/utils/custom_theme_colors.dart';
 
 class CommonFullWidthTextButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -18,16 +19,15 @@ class CommonFullWidthTextButton extends StatelessWidget {
         height: 48,
         padding: const EdgeInsets.symmetric(vertical: 13),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
+          color: CustomThemeColor(context).primary,
           borderRadius: BorderRadius.circular(4),
         ),
         child: Center(
           child: Text(
             text,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium!
-                .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: CustomThemeColor(context).onPrimary,
+                ),
           ),
         ),
       ),

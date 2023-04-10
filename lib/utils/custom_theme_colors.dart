@@ -11,6 +11,28 @@ class CustomThemeColor {
     isDarkMode = brightness == Brightness.dark;
   }
 
+  Color get primary =>
+      isDarkMode ? CustomColors.dark.gray900 : CustomColors.light.gray900;
+  Color get onPrimary =>
+      isDarkMode ? CustomColors.dark.gray50 : CustomColors.light.gray50;
+
+  Color get secondary =>
+      isDarkMode ? CustomColors.dark.gray800 : CustomColors.light.gray700;
+  Color get onSecondary =>
+      isDarkMode ? CustomColors.dark.gray50 : CustomColors.light.gray50;
+
+  Color get background =>
+      isDarkMode ? CustomColors.dark.gray50 : CustomColors.white;
+  Color get onBackground =>
+      isDarkMode ? CustomColors.dark.gray900 : CustomColors.light.gray900;
+  Color get backgroundElevated =>
+      isDarkMode ? CustomColors.dark.gray100 : CustomColors.white;
+
+  Color get surface =>
+      isDarkMode ? CustomColors.dark.gray100 : CustomColors.white;
+  Color get onSurface =>
+      isDarkMode ? CustomColors.dark.gray900 : CustomColors.light.gray900;
+
   Color get textPrimary =>
       isDarkMode ? CustomColors.dark.gray900 : CustomColors.light.gray900;
   Color get textSecondary =>
@@ -24,4 +46,10 @@ class CustomThemeColor {
       isDarkMode ? CustomColors.dark.gray600 : CustomColors.light.gray700;
   Color get buttonDisabled =>
       isDarkMode ? CustomColors.dark.gray200 : CustomColors.light.gray200;
+
+  Color get red => isDarkMode ? CustomColors.dark.red : CustomColors.light.red;
+  Color get blue =>
+      isDarkMode ? CustomColors.dark.blue : CustomColors.light.blue;
+  Color get orange =>
+      isDarkMode ? CustomColors.dark.orange : CustomColors.light.orange;
 }

@@ -4,6 +4,9 @@ import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
+import 'package:four_hours_client/utils/custom_theme_colors.dart';
+import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
@@ -20,6 +23,62 @@ class WritePage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            ElevatedButton(
+              onPressed: () {
+                showCommonActionSheet(
+                  context,
+                  actions: [
+                    CommonActionSheetAction(
+                      color: Colors.red,
+                      backgroundColor: CustomThemeColor(context).background,
+                      onPressed: () {},
+                      iconData: CustomIcons.delete_bin_line,
+                      text: '게시글 삭제',
+                    ),
+                    CommonActionSheetAction(
+                      backgroundColor: CustomThemeColor(context).background,
+                      onPressed: () {},
+                      iconData: CustomIcons.copy_line,
+                      text: '게시글 삭제',
+                    ),
+                  ],
+                );
+              },
+              child: const Text('ActionSheet'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showCommonAlert(
+                  context,
+                  iconData: CustomIcons.check_line,
+                  text: '삭제 되었어요!',
+                );
+              },
+              child: const Text('Alert'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showCommonToast(
+                  context,
+                  iconData: CustomIcons.copy_line,
+                  text: '클립보드에 복사되었어요!',
+                );
+              },
+              child: const Text('Toast'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showCommonDialogWithTwoButtons(
+                  context,
+                  iconData: CustomIcons.report_fill,
+                  title: '해당 게시글을 신고하시겠어요?',
+                  subtitle: '신고가 접수되면 즉시 사라집니다',
+                  onPressedRightButton: () {},
+                  rightButtonText: '신고',
+                );
+              },
+              child: const Text('Dialog'),
+            ),
             CommonTitle('Today'),
             const Gap(8),
             const Card(),

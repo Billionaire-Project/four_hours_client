@@ -14,9 +14,9 @@ class LoginWithGoogleButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(authProvider, (previous, next) {
       if (next.isLoading) {
-        showCommonLoadDialog(context);
+        showCommonLoader(context);
       } else {
-        closeCommonLoadDialog(context);
+        closeRootNavigator(context);
       }
     });
 

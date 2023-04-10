@@ -14,9 +14,9 @@ class LoginWithAppleButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(authProvider, (previous, next) {
       if (next.isLoading) {
-        showCommonLoadDialog(context);
+        showCommonLoader(context);
       } else {
-        closeCommonLoadDialog(context);
+        closeRootNavigator(context);
       }
     });
 
@@ -29,10 +29,13 @@ class LoginWithAppleButton extends ConsumerWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-            color: CustomThemeColor(context).buttonPrimary,
-            border: Border.all(
-                width: 1, color: CustomThemeColor(context).buttonSecondary),
-            borderRadius: BorderRadius.circular(4)),
+          color: CustomThemeColor(context).buttonPrimary,
+          border: Border.all(
+            width: 1,
+            color: CustomThemeColor(context).buttonSecondary,
+          ),
+          borderRadius: BorderRadius.circular(4),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -47,7 +50,7 @@ class LoginWithAppleButton extends ConsumerWidget {
               'Apple로 시작하기',
               style: CustomTextStyle(context)
                   .titleMedium
-                  .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                  .copyWith(color: CustomThemeColor(context).onPrimary),
             ),
           ],
         ),
