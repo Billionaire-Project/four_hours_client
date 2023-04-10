@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/providers/auth_provider.dart';
 import 'package:four_hours_client/providers/package_info_provider.dart';
+import 'package:four_hours_client/providers/theme_provider.dart';
 import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
@@ -29,13 +30,16 @@ class SettingDrawer extends ConsumerWidget {
           const SettingTileWithSwitch(
             iconData: CustomIcons.moon_fill,
             text: '푸시 알림 ON',
-            value: true,
+            value: false,
           ),
           const Gap(48),
-          const SettingTileWithSwitch(
+          SettingTileWithSwitch(
             iconData: CustomIcons.moon_fill,
             text: '다크 모드 ON',
-            value: false,
+            value: ref.watch(themeNotifierProvider),
+            onChanged: (value) {
+              ref.read(themeNotifierProvider.notifier).changeTheme();
+            },
           ),
           const Gap(48),
           SettingTileWithChevron(

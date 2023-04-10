@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/providers/theme_provider.dart';
 import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
@@ -11,6 +10,7 @@ class SettingTileWithSwitch extends ConsumerStatefulWidget {
   final Color? color;
   final String text;
   final bool value;
+  final void Function(bool)? onChanged;
 
   const SettingTileWithSwitch({
     Key? key,
@@ -18,6 +18,7 @@ class SettingTileWithSwitch extends ConsumerStatefulWidget {
     required this.text,
     required this.value,
     this.color,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -45,9 +46,7 @@ class _SettingTileWithSwitchState extends ConsumerState<SettingTileWithSwitch> {
         const Spacer(),
         CupertinoSwitch(
           value: widget.value,
-          onChanged: (value) {
-            ref.read(themeNotifierProvider.notifier).changeTheme();
-          },
+          onChanged: widget.onChanged,
           activeColor: CustomColors.light.orange,
           trackColor: CustomColors.light.gray200,
         ),
