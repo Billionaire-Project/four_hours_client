@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
-class SettingTileWithSwitch extends StatelessWidget {
+class SettingTileWithSwitch extends ConsumerStatefulWidget {
   final IconData iconData;
   final Color? color;
   final String text;
   final bool value;
+  final void Function(bool)? onChanged;
 
   const SettingTileWithSwitch({
     Key? key,
@@ -16,28 +18,35 @@ class SettingTileWithSwitch extends StatelessWidget {
     required this.text,
     required this.value,
     this.color,
+    this.onChanged,
   }) : super(key: key);
 
+  @override
+  ConsumerState<SettingTileWithSwitch> createState() =>
+      _SettingTileWithSwitchState();
+}
+
+class _SettingTileWithSwitchState extends ConsumerState<SettingTileWithSwitch> {
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Icon(
-          iconData,
+          widget.iconData,
           size: 24,
-          color: color ?? CustomThemeColor(context).textPrimary,
+          color: widget.color ?? CustomThemeColor(context).textPrimary,
         ),
         const Gap(8),
         Text(
-          text,
+          widget.text,
           style: CustomTextStyle(context).labelMedium.copyWith(
-                color: color ?? CustomThemeColor(context).textPrimary,
+                color: widget.color ?? CustomThemeColor(context).textPrimary,
               ),
         ),
         const Spacer(),
         CupertinoSwitch(
-          value: value,
-          onChanged: (value) {},
+          value: widget.value,
+          onChanged: widget.onChanged,
           activeColor: CustomColors.light.orange,
           trackColor: CustomColors.light.gray200,
         ),
