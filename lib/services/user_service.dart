@@ -1,21 +1,19 @@
-import 'package:dio/dio.dart';
 import 'package:four_hours_client/models/user_model.dart';
-import 'package:four_hours_client/network/user_api.dart';
+import 'package:four_hours_client/repositories/user_repository.dart';
 import 'package:four_hours_client/services/base_service.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class UserService extends BaseService {
-  Future<List<UserModel>> getUsersRequested() async {
-    try {
-      final response = await UserApi().getSingleUser();
-      final users = (response.data['data'] as List)
-          .map((e) => UserModel.fromJson(e))
-          .toList();
+class UserService extends Notifier with BaseService {
+  @override
+  FutureOr build() {}
 
-      throwError(response);
+  Future<UserModel> getSingleUser() async {
+    final userRepository = ref.read(userRepositoryProvider);
+    final response = await userRepository.getSingleUser();
 
-      return users;
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
+    return UserModel.fromJson(response.data);
   }
 }
+
+final userServiceProvider =
+    NotifierProvider<UserService, void>(UserService.new);
