@@ -21,7 +21,7 @@ class DioExceptions implements Exception {
       case DioErrorType.badResponse:
         message = _handleError(
           dioError.response?.statusCode,
-          dioError.response?.data,
+          dioError.message,
         );
         break;
       case DioErrorType.cancel:
@@ -44,7 +44,10 @@ class DioExceptions implements Exception {
     }
   }
 
-  String _handleError(int? statusCode, dynamic error) {
+  String _handleError(int? statusCode, String? message) {
+    if (message != null) {
+      return message;
+    }
     switch (statusCode) {
       case 400:
         return 'Bad request';
@@ -53,7 +56,7 @@ class DioExceptions implements Exception {
       case 403:
         return 'Forbidden';
       case 404:
-        return error['message'];
+        return 'Not found';
       case 500:
         return 'Internal server error';
       case 502:

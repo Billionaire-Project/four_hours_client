@@ -1,22 +1,17 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/network/dio_client.dart';
+import 'package:four_hours_client/repositories/base_repository.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class UserRepository {
+class UserRepository extends BaseRepository {
   Future<Response> getSingleUser() async {
-    try {
-      Response response =
-          await DioClient().get('https://jsonplaceholder.typicode.com/todos/1');
-      return response;
-    } catch (e) {
-      rethrow;
-    }
+    Response response = await dioClient.get('/todos/1');
+
+    return response;
   }
 }
 
-final userRepositoryProvider = Provider<UserRepository>((ref) {
-  return UserRepository();
-});
+final userRepositoryProvider =
+    Provider<UserRepository>((ref) => UserRepository());
 
 
 //https://github.dev/bizz84/starter_architecture_flutter_firebase/blob/master/lib/src/features/jobs/data/jobs_repository.dart

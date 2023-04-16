@@ -1,7 +1,7 @@
 class Endpoints {
   Endpoints._();
 
-  static const String baseUrl = "https://reqres.in/api";
+  static const String baseUrl = 'https://jsonplaceholder.typicode.com';
 
   static const Duration connectTimeout = Duration(milliseconds: 5000);
 
