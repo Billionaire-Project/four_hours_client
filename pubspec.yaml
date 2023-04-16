@@ -46,6 +46,8 @@ dependencies:
   flutter_svg: ^2.0.4
   package_info_plus: ^3.0.3
   fluttertoast: ^8.2.1
+  dio: ^5.1.1
+  json_serializable: ^6.6.1
 
 dev_dependencies:
   flutter_test:
