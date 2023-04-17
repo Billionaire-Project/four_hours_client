@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 
-class CommonFullWidthTextButton extends StatelessWidget {
+class CommonFullWidthTextButton extends ConsumerWidget {
   final VoidCallback onPressed;
   final String text;
   const CommonFullWidthTextButton({
@@ -11,7 +12,9 @@ class CommonFullWidthTextButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
     return InkWell(
       onTap: onPressed,
       child: Container(
@@ -19,14 +22,14 @@ class CommonFullWidthTextButton extends StatelessWidget {
         height: 48,
         padding: const EdgeInsets.symmetric(vertical: 13),
         decoration: BoxDecoration(
-          color: CustomThemeColor(context).primary,
+          color: customThemeColors.primary,
           borderRadius: BorderRadius.circular(4),
         ),
         child: Center(
           child: Text(
             text,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: CustomThemeColor(context).onPrimary,
+                  color: customThemeColors.onPrimary,
                 ),
           ),
         ),

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
-class CommonLoader extends StatelessWidget {
+class CommonLoader extends ConsumerWidget {
   const CommonLoader({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
     return Dialog(
       elevation: 0,
       backgroundColor: Colors.transparent,
@@ -28,16 +31,16 @@ class CommonLoader extends StatelessWidget {
                 child: CircularProgressIndicator(
                   strokeWidth: 6,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                      CustomThemeColor(context).onPrimary),
+                      customThemeColors.onPrimary),
                   backgroundColor:
-                      CustomThemeColor(context).onBackground.withOpacity(0.8),
+                      customThemeColors.onBackground.withOpacity(0.8),
                 ),
               ),
               const Gap(8),
               Text(
                 'Loading..',
                 style: CustomTextStyle(context).labelMedium.copyWith(
-                      color: CustomThemeColor(context).onPrimary,
+                      color: customThemeColors.onPrimary,
                     ),
                 textAlign: TextAlign.center,
               )

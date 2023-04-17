@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/providers/theme_provider.dart';
 import 'package:four_hours_client/utils/app_colors.dart';
 
-class CustomThemeColor {
-  BuildContext context;
+class CustomThemeColors {
+  final bool isDarkMode;
 
-  late final Brightness brightness;
-  late final bool isDarkMode;
-  CustomThemeColor(this.context) {
-    brightness = Theme.of(context).brightness;
-    isDarkMode = brightness == Brightness.dark;
-  }
+  CustomThemeColors(this.isDarkMode);
 
   Color get primary =>
       isDarkMode ? CustomColors.dark.gray900 : CustomColors.light.gray900;
@@ -53,3 +50,8 @@ class CustomThemeColor {
   Color get orange =>
       isDarkMode ? CustomColors.dark.orange : CustomColors.light.orange;
 }
+
+final customThemeColorsProvider = Provider((ref) {
+  bool isDarkMode = ref.watch(themeNotifierProvider);
+  return CustomThemeColors(isDarkMode);
+});

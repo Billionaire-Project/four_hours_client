@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
-class CommonDialogWithTwoButtons extends StatelessWidget {
+class CommonDialogWithTwoButtons extends ConsumerWidget {
   final IconData iconData;
   final String title;
   final String subtitle;
@@ -25,14 +26,16 @@ class CommonDialogWithTwoButtons extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
     return Dialog(
       elevation: 0,
       backgroundColor: Colors.transparent,
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: CustomThemeColor(context).backgroundElevated,
+          color: customThemeColors.backgroundElevated,
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: Column(
@@ -40,7 +43,7 @@ class CommonDialogWithTwoButtons extends StatelessWidget {
           children: [
             Icon(
               iconData,
-              color: CustomThemeColor(context).textPrimary,
+              color: customThemeColors.textPrimary,
               size: 32.0,
             ),
             const Gap(8),
@@ -49,7 +52,7 @@ class CommonDialogWithTwoButtons extends StatelessWidget {
             Text(
               subtitle,
               style: CustomTextStyle(context).bodyMedium.copyWith(
-                    color: CustomThemeColor(context).textSecondary,
+                    color: customThemeColors.textSecondary,
                   ),
             ),
             const Gap(24),
@@ -62,10 +65,10 @@ class CommonDialogWithTwoButtons extends StatelessWidget {
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.transparent,
-                      foregroundColor: CustomThemeColor(context).textPrimary,
+                      foregroundColor: customThemeColors.textPrimary,
                       side: BorderSide(
                         width: 1,
-                        color: CustomThemeColor(context).buttonPrimary,
+                        color: customThemeColors.buttonPrimary,
                       ),
                     ),
                     child: Text(
@@ -79,8 +82,8 @@ class CommonDialogWithTwoButtons extends StatelessWidget {
                   child: TextButton(
                     onPressed: onPressedRightButton,
                     style: TextButton.styleFrom(
-                      backgroundColor: CustomThemeColor(context).red,
-                      foregroundColor: CustomThemeColor(context).textPrimary,
+                      backgroundColor: customThemeColors.red,
+                      foregroundColor: customThemeColors.textPrimary,
                     ),
                     child: Text(
                       rightButtonText,

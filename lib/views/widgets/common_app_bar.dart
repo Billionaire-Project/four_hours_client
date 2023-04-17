@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
+import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:go_router/go_router.dart';
 
-class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CommonAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
   const CommonAppBar({Key? key, required this.title, this.actions})
@@ -15,7 +17,9 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(commonAppBarHeight);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
     return AppBar(
       automaticallyImplyLeading: false,
       title: Text(
@@ -35,6 +39,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
             const SizedBox.shrink(),
           ],
       centerTitle: true,
+      backgroundColor: customThemeColors.background,
     );
   }
 }

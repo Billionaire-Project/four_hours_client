@@ -5,8 +5,8 @@ import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
-import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/create_writing_screen/create_writing_page.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
@@ -15,12 +15,13 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
 
-class WritePage extends StatelessWidget {
+class WritePage extends ConsumerWidget {
   const WritePage({Key? key}) : super(key: key);
   static const String path = '/write';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final customThemeColors = ref.watch(customThemeColorsProvider);
     return MainWrapper(
       child: Center(
         child: Column(
@@ -32,14 +33,14 @@ class WritePage extends StatelessWidget {
                   context,
                   actions: [
                     CommonActionSheetAction(
-                      color: Colors.red,
-                      backgroundColor: CustomThemeColor(context).background,
+                      color: customThemeColors.red,
+                      backgroundColor: customThemeColors.background,
                       onPressed: () {},
                       iconData: CustomIcons.delete_bin_line,
                       text: '게시글 삭제',
                     ),
                     CommonActionSheetAction(
-                      backgroundColor: CustomThemeColor(context).background,
+                      backgroundColor: customThemeColors.background,
                       onPressed: () {},
                       iconData: CustomIcons.copy_line,
                       text: '게시글 삭제',
