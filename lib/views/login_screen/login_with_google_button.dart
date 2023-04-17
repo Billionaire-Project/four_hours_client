@@ -12,6 +12,8 @@ class LoginWithGoogleButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
     ref.listen(authProvider, (previous, next) {
       if (next.isLoading) {
         showCommonLoader(context);
@@ -30,8 +32,8 @@ class LoginWithGoogleButton extends ConsumerWidget {
         height: 48,
         decoration: BoxDecoration(
           color: Colors.transparent,
-          border: Border.all(
-              width: 1, color: CustomThemeColor(context).buttonSecondary),
+          border:
+              Border.all(width: 1, color: customThemeColors.buttonSecondary),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Row(

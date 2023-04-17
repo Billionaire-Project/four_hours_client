@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/setting_screen/setting_drawer.dart';
 
-class MainWrapper extends StatelessWidget {
+class MainWrapper extends ConsumerWidget {
   final Widget child;
   final PreferredSizeWidget? appBar;
   const MainWrapper({
@@ -13,10 +14,12 @@ class MainWrapper extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
     return Scaffold(
       appBar: appBar,
-      backgroundColor: CustomThemeColor(context).background,
+      backgroundColor: customThemeColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(pagePadding),
