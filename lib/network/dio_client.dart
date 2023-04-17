@@ -141,10 +141,10 @@ class _AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final uuid = await storage.read(key: LocalStorageKey.uuid);
+    final uid = await storage.read(key: LocalStorageKey.uid);
     final token = await storage.read(key: LocalStorageKey.token);
 
-    options.headers['agent-uuid'] = '$uuid';
+    options.headers['agent-uid'] = '$uid';
     options.headers['authorization'] = 'Bearer $token';
 
     return handler.next(options);

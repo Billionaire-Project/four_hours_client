@@ -60,9 +60,9 @@ class AuthService {
   void getFirebaseAuth({required OAuthCredential credential}) async {
     final firebaseAuthCred = await _auth.signInWithCredential(credential);
     final token = await firebaseAuthCred.user?.getIdToken();
-    final uuid = firebaseAuthCred.user?.uid;
+    final uid = firebaseAuthCred.user?.uid;
     await storage.write(key: LocalStorageKey.token, value: token);
-    await storage.write(key: LocalStorageKey.uuid, value: uuid);
+    await storage.write(key: LocalStorageKey.uid, value: uid);
   }
 }
 

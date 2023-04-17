@@ -130,7 +130,7 @@ class Card extends ConsumerWidget {
             const Gap(10),
             user.when(
               data: (user) => Text(
-                user.title,
+                user.username,
                 style: CustomTextStyle(context).bodySmall,
               ),
               loading: () => const Text('loading'),

@@ -6,10 +6,10 @@ part 'user_model.g.dart';
 @freezed
 class UserModel with _$UserModel {
   factory UserModel({
-    required int userId,
     required int id,
-    required String title,
-    required bool completed,
+    required String username,
+    required String? name,
+    required String email,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
