@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/providers/user_provider.dart';
 import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -98,8 +99,9 @@ class Card extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider);
+
     return Container(
-      height: 170,
       decoration: BoxDecoration(
           color: CustomColors.white,
           borderRadius: BorderRadius.circular(12.0),
@@ -126,6 +128,14 @@ class Card extends ConsumerWidget {
               ],
             ),
             const Gap(10),
+            user.when(
+              data: (user) => Text(
+                user.title,
+                style: CustomTextStyle(context).bodySmall,
+              ),
+              loading: () => const Text('loading'),
+              error: (error, stack) => const Text('error'),
+            ),
             Text(
               '날씨가 점점 봄으로 바뀌고 있다.\n 그 변화를 느끼며, 기분도 따뜻해지고 있다.',
               style: CustomTextStyle(context)
