@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 class UserRepository extends BaseRepository {
   Future<Response> getSingleUser() async {
-    Response response = await dioClient.get('/todos/1');
+    Response response = await dioClient.get('/api/v1/users/me/');
 
     return response;
   }

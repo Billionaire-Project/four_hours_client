@@ -1,11 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:four_hours_client/constants/constants.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? get currentUser => _auth.currentUser;
+
+  final storage = const FlutterSecureStorage();
 
   // It will give us a stream of the state change of the user (maybe the token changes)
   Stream<User?> get authStateChange => _auth.authStateChanges();
@@ -22,7 +26,7 @@ class AuthService {
       idToken: googleAuth.idToken,
     );
     try {
-      await _auth.signInWithCredential(credential);
+      getFirebaseAuth(credential: credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         throw const AuthException('different credential');
@@ -46,11 +50,19 @@ class AuthService {
       idToken: appleCredential.identityToken,
     );
 
-    await _auth.signInWithCredential(oAuthProvider);
+    getFirebaseAuth(credential: oAuthProvider);
   }
 
   Future<void> signOut() async {
     await _auth.signOut();
+  }
+
+  void getFirebaseAuth({required OAuthCredential credential}) async {
+    final firebaseAuthCred = await _auth.signInWithCredential(credential);
+    final token = await firebaseAuthCred.user?.getIdToken();
+    final uid = firebaseAuthCred.user?.uid;
+    await storage.write(key: LocalStorageKey.token, value: token);
+    await storage.write(key: LocalStorageKey.uid, value: uid);
   }
 }
 
