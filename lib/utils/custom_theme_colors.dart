@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
-import 'package:four_hours_client/utils/app_colors.dart';
+import 'package:four_hours_client/utils/custom_colors.dart';
 
 class CustomThemeColors {
   final bool isDarkMode;

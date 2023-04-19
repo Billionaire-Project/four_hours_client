@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/providers/auth_provider.dart';
 import 'package:four_hours_client/providers/package_info_provider.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
-import 'package:four_hours_client/utils/app_colors.dart';
+import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
