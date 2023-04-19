@@ -122,6 +122,7 @@ class Card extends ConsumerWidget {
                 ),
                 const Gap(16),
                 const Expanded(
+                  //TODO: custom divider
                   child: Divider(
                     thickness: 1,
                   ),
