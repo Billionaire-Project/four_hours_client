@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/firebase_options.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
+import 'package:four_hours_client/providers/theme_provider.dart';
 import 'package:four_hours_client/routes/app_router_provider.dart';
+import 'package:four_hours_client/utils/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -31,9 +33,16 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = ref.watch(appRouterProvider);
+    final appTheme = ref.watch(appThemeProvider);
+    final isDarkMode = ref.watch(themeNotifierProvider);
     return MaterialApp.router(
       title: '4hours',
       routerConfig: appRouter,
+      theme: appTheme,
+      darkTheme: appTheme.copyWith(
+        brightness: Brightness.dark,
+      ),
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
     );
   }
 }
