@@ -21,6 +21,7 @@ class SettingDrawer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     String? version = ref.watch(packageInfoProvider).value?.version;
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final customTextStyle = ref.watch(customTextStyleProvider);
 
     return MainWrapper(
       appBar: const CommonAppBar(
@@ -59,9 +60,9 @@ class SettingDrawer extends ConsumerWidget {
           const Spacer(),
           Text(
             '앱 버젼: ${version ?? 'Beta'}',
-            style: CustomTextStyle(context).caption.copyWith(
-                  color: customThemeColors.textDisabled,
-                ),
+            style: customTextStyle.caption.copyWith(
+              color: customThemeColors.textDisabled,
+            ),
           ),
         ],
       ),

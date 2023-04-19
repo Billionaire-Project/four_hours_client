@@ -23,6 +23,7 @@ class SettingTileWithChevron extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final customTextStyle = ref.watch(customTextStyleProvider);
 
     return InkWell(
       onTap: onTap,
@@ -36,9 +37,9 @@ class SettingTileWithChevron extends ConsumerWidget {
           const Gap(8),
           Text(
             text,
-            style: CustomTextStyle(context).labelMedium.copyWith(
-                  color: color ?? customThemeColors.textPrimary,
-                ),
+            style: customTextStyle.labelMedium.copyWith(
+              color: color ?? customThemeColors.textPrimary,
+            ),
           ),
           const Spacer(),
           Icon(

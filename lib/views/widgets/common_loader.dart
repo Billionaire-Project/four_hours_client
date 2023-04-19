@@ -11,6 +11,7 @@ class CommonLoader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final customTextStyle = ref.watch(customTextStyleProvider);
 
     return Dialog(
       elevation: 0,
@@ -39,9 +40,9 @@ class CommonLoader extends ConsumerWidget {
               const Gap(8),
               Text(
                 'Loading..',
-                style: CustomTextStyle(context).labelMedium.copyWith(
-                      color: customThemeColors.onPrimary,
-                    ),
+                style: customTextStyle.labelMedium.copyWith(
+                  color: customThemeColors.onPrimary,
+                ),
                 textAlign: TextAlign.center,
               )
             ],

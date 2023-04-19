@@ -17,6 +17,7 @@ class CommonAlert extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final customTextStyle = ref.watch(customTextStyleProvider);
 
     return Dialog(
       elevation: 0,
@@ -40,9 +41,9 @@ class CommonAlert extends ConsumerWidget {
               const Gap(8),
               Text(
                 text,
-                style: CustomTextStyle(context).labelMedium.copyWith(
-                      color: customThemeColors.onPrimary,
-                    ),
+                style: customTextStyle.labelMedium.copyWith(
+                  color: customThemeColors.onPrimary,
+                ),
                 textAlign: TextAlign.center,
               )
             ],

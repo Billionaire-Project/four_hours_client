@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
-class CommonToast extends StatelessWidget {
+class CommonToast extends ConsumerWidget {
   final IconData iconData;
   final String text;
   const CommonToast({Key? key, required this.iconData, required this.text})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final customTextStyle = ref.watch(customTextStyleProvider);
+
     return Container(
       width: MediaQuery.of(context).size.width - pagePadding * 2,
       height: 48,
@@ -31,9 +34,9 @@ class CommonToast extends StatelessWidget {
             const Gap(8),
             Text(
               text,
-              style: CustomTextStyle(context).labelSmall.copyWith(
-                    color: CustomColors.light.gray50,
-                  ),
+              style: customTextStyle.labelSmall.copyWith(
+                color: CustomColors.light.gray50,
+              ),
             ),
           ],
         ),

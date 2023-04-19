@@ -19,12 +19,13 @@ class CommonAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final customTextStyle = ref.watch(customTextStyleProvider);
 
     return AppBar(
       automaticallyImplyLeading: false,
       title: Text(
         title,
-        style: CustomTextStyle(context).titleLarge,
+        style: customTextStyle.titleLarge,
       ),
       leading: CommonIconButton(
         onTap: () => context.pop(),
