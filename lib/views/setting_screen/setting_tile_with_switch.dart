@@ -29,18 +29,20 @@ class SettingTileWithSwitch extends ConsumerStatefulWidget {
 class _SettingTileWithSwitchState extends ConsumerState<SettingTileWithSwitch> {
   @override
   Widget build(BuildContext context) {
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
     return Row(
       children: [
         Icon(
           widget.iconData,
           size: 24,
-          color: widget.color ?? CustomThemeColor(context).textPrimary,
+          color: widget.color ?? customThemeColors.textPrimary,
         ),
         const Gap(8),
         Text(
           widget.text,
           style: CustomTextStyle(context).labelMedium.copyWith(
-                color: widget.color ?? CustomThemeColor(context).textPrimary,
+                color: widget.color ?? customThemeColors.textPrimary,
               ),
         ),
         const Spacer(),

@@ -14,6 +14,8 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
     return MainWrapper(
       child: Center(
         child: Column(
@@ -35,7 +37,7 @@ class LoginPage extends ConsumerWidget {
               '위의 “Apple/Google로 계속하기”를 클릭하면\n4hours의 이용약관 및 개인정보 보호정책을 읽고 이해했으며\n그에 동의하는 것으로 간주됩니다.',
               style: CustomTextStyle(context)
                   .caption
-                  .copyWith(color: CustomThemeColor(context).textDisabled),
+                  .copyWith(color: customThemeColors.textDisabled),
               textAlign: TextAlign.center,
             ),
           ],

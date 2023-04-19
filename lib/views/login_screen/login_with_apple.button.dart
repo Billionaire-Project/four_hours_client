@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:four_hours_client/providers/auth_provider.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
-import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
 class LoginWithAppleButton extends ConsumerWidget {
@@ -12,6 +12,8 @@ class LoginWithAppleButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
     ref.listen(authProvider, (previous, next) {
       if (next.isLoading) {
         showCommonLoader(context);
@@ -29,10 +31,10 @@ class LoginWithAppleButton extends ConsumerWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-          color: CustomThemeColor(context).buttonPrimary,
+          color: customThemeColors.buttonPrimary,
           border: Border.all(
             width: 1,
-            color: CustomThemeColor(context).buttonSecondary,
+            color: customThemeColors.buttonSecondary,
           ),
           borderRadius: BorderRadius.circular(4),
         ),
@@ -50,7 +52,7 @@ class LoginWithAppleButton extends ConsumerWidget {
               'Apple로 시작하기',
               style: CustomTextStyle(context)
                   .titleMedium
-                  .copyWith(color: CustomThemeColor(context).onPrimary),
+                  .copyWith(color: customThemeColors.onPrimary),
             ),
           ],
         ),

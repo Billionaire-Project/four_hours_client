@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
-class CommonActionSheetAction extends StatelessWidget {
+class CommonActionSheetAction extends ConsumerWidget {
   final IconData iconData;
   final String text;
   final Color? color;
@@ -19,10 +20,12 @@ class CommonActionSheetAction extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: backgroundColor ?? CustomThemeColor(context).background,
+        color: backgroundColor ?? customThemeColors.background,
         borderRadius: BorderRadius.circular(8),
       ),
       child: CupertinoActionSheetAction(
@@ -32,13 +35,14 @@ class CommonActionSheetAction extends StatelessWidget {
             Icon(
               iconData,
               size: 24,
-              color: color ?? CustomThemeColor(context).textPrimary,
+              color: color ?? customThemeColors.textPrimary,
             ),
             const Gap(8),
             Text(
               text,
-              style: CustomTextStyle(context).titleMedium.copyWith(
-                  color: color ?? CustomThemeColor(context).textPrimary),
+              style: CustomTextStyle(context)
+                  .titleMedium
+                  .copyWith(color: color ?? customThemeColors.textPrimary),
             )
           ],
         ),
