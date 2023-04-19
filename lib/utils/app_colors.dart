@@ -26,9 +26,9 @@ class AppLightColors {
 }
 
 class AppDarkColors {
-  Color get red => const Color(0xFFE32626);
+  Color get red => const Color(0xFFEB3B3B);
   Color get blue => const Color(0xFF1977E6);
-  Color get orange => const Color(0xFFFF8F50);
+  Color get orange => const Color(0xFFF87831);
 
   Color get gray50 => const Color(0xFF121314);
   Color get gray100 => const Color(0xFF2B2C2C);
