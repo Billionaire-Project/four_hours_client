@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
+import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
 class CommonLoader extends ConsumerWidget {
@@ -26,17 +27,7 @@ class CommonLoader extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 44,
-                height: 44,
-                child: CircularProgressIndicator(
-                  strokeWidth: 6,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      customThemeColors.onPrimary),
-                  backgroundColor:
-                      customThemeColors.onBackground.withOpacity(0.8),
-                ),
-              ),
+              const CommonCircularProgressIndicator(size: 44, strokeWidth: 6),
               const Gap(8),
               Text(
                 'Loading..',
