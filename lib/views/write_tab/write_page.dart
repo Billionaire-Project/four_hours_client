@@ -5,8 +5,8 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/views/create_writing_screen/create_writing_page.dart';
-import 'package:four_hours_client/views/widgets/common_divider.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
+import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
@@ -22,12 +22,12 @@ class WritePage extends ConsumerWidget {
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: const [
             CommonTitle('Today'),
-            const Gap(8),
-            const Card(),
-            const Gap(16),
-            const TryYourFirstWritingCard()
+            Gap(8),
+            Card(),
+            Gap(16),
+            TryYourFirstWritingCard()
           ],
         ),
       ),
@@ -52,19 +52,13 @@ class Card extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Center(
-                  child: Text(
-                    '오늘의 주제: 변화',
-                    style: customTextStyle.titleSmall,
-                  ),
+            CommonRowWithDivider(
+              header: Center(
+                child: Text(
+                  '오늘의 주제: 변화',
+                  style: customTextStyle.titleSmall,
                 ),
-                const Gap(16),
-                const Expanded(
-                  child: CommonDivider(),
-                ),
-              ],
+              ),
             ),
             const Gap(10),
             Text(
