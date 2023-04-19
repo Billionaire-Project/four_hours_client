@@ -183,7 +183,7 @@ class CustomTextStyle {
         fontSize: 16.0,
         height: 1.35,
         color: customThemeColors.textPrimary,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w800,
       );
 
   TextStyle get montLabelSmall => TextStyle(
@@ -191,7 +191,7 @@ class CustomTextStyle {
         fontSize: 14.0,
         height: 1.4,
         color: customThemeColors.textPrimary,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w800,
       );
 }
 
