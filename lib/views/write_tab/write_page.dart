@@ -5,6 +5,7 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/views/create_writing_screen/create_writing_page.dart';
+import 'package:four_hours_client/views/widgets/common_divider.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
@@ -61,10 +62,7 @@ class Card extends ConsumerWidget {
                 ),
                 const Gap(16),
                 const Expanded(
-                  //TODO: custom divider
-                  child: Divider(
-                    thickness: 1,
-                  ),
+                  child: CommonDivider(),
                 ),
               ],
             ),
