@@ -36,13 +36,6 @@ class DioExceptions implements Exception {
         break;
 
       case DioErrorType.unknown:
-        if (dioError.error != null &&
-            dioError.error!.toString().contains("SocketException")) {
-          message = 'No Internet';
-          break;
-        } else {
-          message = 'Something went wrong';
-        }
         message = "Unexpected error occurred";
         break;
       default:
