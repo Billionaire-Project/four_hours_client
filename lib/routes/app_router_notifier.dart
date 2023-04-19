@@ -4,6 +4,7 @@ import 'package:four_hours_client/routes/app_router_provider.dart';
 import 'package:four_hours_client/services/auth_service.dart';
 import 'package:four_hours_client/views/create_writing_screen/create_writing_page.dart';
 import 'package:four_hours_client/views/shared_tab/shared_page.dart';
+import 'package:four_hours_client/views/widgets/common_widgets_page.dart';
 import 'package:four_hours_client/views/write_tab/write_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -71,6 +72,12 @@ class AppRouterNotifier extends AutoDisposeAsyncNotifier<void>
               ),
             )
           ],
+        ),
+        GoRoute(
+          path: CommonWidgetsPage.path,
+          parentNavigatorKey: ref.read(appNavigatorKeyProvider),
+          builder: (BuildContext context, GoRouterState state) =>
+              const CommonWidgetsPage(),
         ),
       ];
 

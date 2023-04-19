@@ -10,8 +10,10 @@ import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/setting_screen/setting_tile_with_chevron.dart';
 import 'package:four_hours_client/views/setting_screen/setting_tile_with_switch.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
+import 'package:four_hours_client/views/widgets/common_widgets_page.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingDrawer extends ConsumerWidget {
   const SettingDrawer({Key? key}) : super(key: key);
@@ -57,6 +59,16 @@ class SettingDrawer extends ConsumerWidget {
             text: '로그아웃',
             onTap: () => ref.read(authProvider.notifier).signOut(),
           ),
+          const Gap(48),
+
+          //TODO: if develop
+          SettingTileWithChevron(
+            iconData: CustomIcons.warning_line,
+            color: CustomColors.light.blue,
+            text: 'Widgets',
+            onTap: () => context.push(CommonWidgetsPage.path),
+          ),
+
           const Spacer(),
           Text(
             '앱 버젼: ${version ?? 'Beta'}',
