@@ -39,8 +39,11 @@ class CommonAppBar extends ConsumerWidget implements PreferredSizeWidget {
           [
             const SizedBox.shrink(),
           ],
-      centerTitle: true,
       backgroundColor: customThemeColors.background,
+      foregroundColor: customThemeColors.onBackground,
+      centerTitle: true,
+      shadowColor: null,
+      elevation: 0,
     );
   }
 }

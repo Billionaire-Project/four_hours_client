@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 
 class CommonFullWidthTextButton extends ConsumerWidget {
@@ -14,6 +15,7 @@ class CommonFullWidthTextButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final customTextStyle = ref.watch(customTextStyleProvider);
 
     return InkWell(
       onTap: onPressed,
@@ -28,9 +30,9 @@ class CommonFullWidthTextButton extends ConsumerWidget {
         child: Center(
           child: Text(
             text,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: customThemeColors.onPrimary,
-                ),
+            style: customTextStyle.titleMedium.copyWith(
+              color: customThemeColors.onPrimary,
+            ),
           ),
         ),
       ),
