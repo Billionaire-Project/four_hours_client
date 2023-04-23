@@ -15,6 +15,7 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final customTextStyle = ref.watch(customTextStyleProvider);
 
     return MainWrapper(
       child: Center(
@@ -35,8 +36,7 @@ class LoginPage extends ConsumerWidget {
             const Gap(32),
             Text(
               '위의 “Apple/Google로 계속하기”를 클릭하면\n4hours의 이용약관 및 개인정보 보호정책을 읽고 이해했으며\n그에 동의하는 것으로 간주됩니다.',
-              style: CustomTextStyle(context)
-                  .caption
+              style: customTextStyle.caption
                   .copyWith(color: customThemeColors.textDisabled),
               textAlign: TextAlign.center,
             ),

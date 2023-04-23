@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 
-class CommonActionSheet extends StatelessWidget {
+class CommonActionSheet extends ConsumerWidget {
   final List<Widget>? actions;
   final ScrollController? actionScrollController;
   const CommonActionSheet({
@@ -11,13 +12,15 @@ class CommonActionSheet extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final customTextStyle = ref.watch(customTextStyleProvider);
+
     return CupertinoActionSheet(
       actions: actions,
       cancelButton: CupertinoActionSheetAction(
         child: Text(
           '취소',
-          style: CustomTextStyle(context).titleMedium,
+          style: customTextStyle.titleMedium,
         ),
         onPressed: () {
           Navigator.pop(context);

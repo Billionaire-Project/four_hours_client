@@ -4,6 +4,10 @@ class DioExceptions implements Exception {
   late String message;
 
   DioExceptions.fromDioError(DioError dioError) {
+    if (dioError.error != null) {
+      message = dioError.error.toString();
+      return;
+    }
     switch (dioError.type) {
       case DioErrorType.connectionTimeout:
         message = "Caused by a connection timeout";
@@ -32,10 +36,6 @@ class DioExceptions implements Exception {
         break;
 
       case DioErrorType.unknown:
-        if (dioError.message!.contains("SocketException")) {
-          message = 'No Internet';
-          break;
-        }
         message = "Unexpected error occurred";
         break;
       default:

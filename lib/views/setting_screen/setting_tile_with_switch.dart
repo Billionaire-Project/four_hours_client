@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/utils/app_colors.dart';
+import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
@@ -30,6 +30,7 @@ class _SettingTileWithSwitchState extends ConsumerState<SettingTileWithSwitch> {
   @override
   Widget build(BuildContext context) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final customTextStyle = ref.watch(customTextStyleProvider);
 
     return Row(
       children: [
@@ -41,9 +42,9 @@ class _SettingTileWithSwitchState extends ConsumerState<SettingTileWithSwitch> {
         const Gap(8),
         Text(
           widget.text,
-          style: CustomTextStyle(context).labelMedium.copyWith(
-                color: widget.color ?? customThemeColors.textPrimary,
-              ),
+          style: customTextStyle.labelMedium.copyWith(
+            color: widget.color ?? customThemeColors.textPrimary,
+          ),
         ),
         const Spacer(),
         CupertinoSwitch(

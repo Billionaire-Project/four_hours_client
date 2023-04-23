@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/utils/app_colors.dart';
+import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
@@ -28,6 +28,7 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final customTextStyle = ref.watch(customTextStyleProvider);
 
     return Dialog(
       elevation: 0,
@@ -47,13 +48,13 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
               size: 32.0,
             ),
             const Gap(8),
-            Text(title, style: CustomTextStyle(context).headlineSmall),
+            Text(title, style: customTextStyle.headlineSmall),
             const Gap(4),
             Text(
               subtitle,
-              style: CustomTextStyle(context).bodyMedium.copyWith(
-                    color: customThemeColors.textSecondary,
-                  ),
+              style: customTextStyle.bodyMedium.copyWith(
+                color: customThemeColors.textSecondary,
+              ),
             ),
             const Gap(24),
             Row(
@@ -73,7 +74,7 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
                     ),
                     child: Text(
                       leftButtonText ?? '취소',
-                      style: CustomTextStyle(context).titleMedium,
+                      style: customTextStyle.titleMedium,
                     ),
                   ),
                 ),
@@ -87,9 +88,9 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
                     ),
                     child: Text(
                       rightButtonText,
-                      style: CustomTextStyle(context).titleMedium.copyWith(
-                            color: CustomColors.light.gray50,
-                          ),
+                      style: customTextStyle.titleMedium.copyWith(
+                        color: CustomColors.light.gray50,
+                      ),
                     ),
                   ),
                 ),
