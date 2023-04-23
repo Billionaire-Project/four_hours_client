@@ -4,6 +4,7 @@ import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/widgets/common_text_button.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
 class CommonDialogWithTwoButtons extends ConsumerWidget {
@@ -60,11 +61,12 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
             Row(
               children: [
                 Expanded(
-                  child: TextButton(
+                  child: CommonTextButton(
                     onPressed: () {
                       onPressedLeftButton ?? closeRootNavigator(context);
                     },
                     style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 13),
                       backgroundColor: Colors.transparent,
                       foregroundColor: customThemeColors.textPrimary,
                       side: BorderSide(
@@ -80,9 +82,10 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
                 ),
                 const Gap(8),
                 Expanded(
-                  child: TextButton(
+                  child: CommonTextButton(
                     onPressed: onPressedRightButton,
                     style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 13),
                       backgroundColor: customThemeColors.red,
                       foregroundColor: customThemeColors.textPrimary,
                     ),

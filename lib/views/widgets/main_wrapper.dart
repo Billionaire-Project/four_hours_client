@@ -7,9 +7,11 @@ import 'package:four_hours_client/views/setting_screen/setting_drawer.dart';
 class MainWrapper extends ConsumerWidget {
   final Widget child;
   final PreferredSizeWidget? appBar;
+  final EdgeInsetsGeometry padding;
   const MainWrapper({
     Key? key,
     required this.child,
+    this.padding = const EdgeInsets.all(pagePadding),
     this.appBar,
   }) : super(key: key);
 
@@ -22,7 +24,7 @@ class MainWrapper extends ConsumerWidget {
       backgroundColor: customThemeColors.background,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(pagePadding),
+          padding: padding,
           child: child,
         ),
       ),

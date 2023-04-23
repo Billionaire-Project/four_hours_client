@@ -35,6 +35,8 @@ class CustomThemeColors {
       isDarkMode ? CustomColors.dark.gray600 : CustomColors.light.gray600;
   Color get textDisabled =>
       isDarkMode ? CustomColors.dark.gray100 : CustomColors.light.gray400;
+  Color get textInvert =>
+      isDarkMode ? CustomColors.dark.gray50 : CustomColors.light.gray50;
 
   Color get buttonPrimary =>
       isDarkMode ? CustomColors.dark.gray900 : CustomColors.light.gray900;
