@@ -87,8 +87,10 @@ void showCommonDialogWithTwoButtons(
   required String rightButtonText,
   VoidCallback? onPressedLeftButton,
   String? leftButtonText,
+  bool barrierDismissible = true,
 }) {
   showDialog(
+    barrierDismissible: barrierDismissible,
     barrierColor: CustomColors.black.withOpacity(0.8),
     context: context,
     builder: (context) => CommonDialogWithTwoButtons(
