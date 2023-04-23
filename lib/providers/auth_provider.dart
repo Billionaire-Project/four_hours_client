@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/services/auth_service.dart';
 
-class AuthProvider extends AsyncNotifier<void> {
+class AuthNotifier extends AsyncNotifier<void> {
   @override
   FutureOr<void> build() {}
 
@@ -33,4 +33,4 @@ class AuthProvider extends AsyncNotifier<void> {
 }
 
 final authProvider =
-    AsyncNotifierProvider<AuthProvider, void>(AuthProvider.new);
+    AsyncNotifierProvider<AuthNotifier, void>(AuthNotifier.new);
