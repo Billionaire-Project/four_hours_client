@@ -22,7 +22,6 @@ class CommonActionSheetAction extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
-    final customTextStyle = ref.watch(customTextStyleProvider);
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -41,7 +40,8 @@ class CommonActionSheetAction extends ConsumerWidget {
             const Gap(8),
             Text(
               text,
-              style: customTextStyle.titleMedium
+              style: CustomTextStyle(context)
+                  .titleMedium
                   .copyWith(color: color ?? customThemeColors.textPrimary),
             )
           ],

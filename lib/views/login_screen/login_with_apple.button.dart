@@ -13,7 +13,6 @@ class LoginWithAppleButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
-    final customTextStyle = ref.watch(customTextStyleProvider);
 
     ref.listen(authProvider, (previous, next) {
       if (next.isLoading) {
@@ -51,7 +50,8 @@ class LoginWithAppleButton extends ConsumerWidget {
             const Gap(6),
             Text(
               'Apple로 시작하기',
-              style: customTextStyle.titleMedium
+              style: CustomTextStyle(context)
+                  .titleMedium
                   .copyWith(color: customThemeColors.onPrimary),
             ),
           ],

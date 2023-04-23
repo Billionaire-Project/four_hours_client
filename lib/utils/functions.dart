@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:four_hours_client/utils/custom_colors.dart';
+import 'package:four_hours_client/utils/app_colors.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_alert.dart';
