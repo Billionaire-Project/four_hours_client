@@ -1,22 +1,36 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/providers/shared_preference_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TestSavingNotifier extends AsyncNotifier<bool> {
+  late SharedPreferences sharedPreferences;
+
   @override
   bool build() {
-    requestToSave();
+    sharedPreferences = ref.watch(sharedPreferencesProvider);
+
     return false;
   }
 
-  Future<void> requestToSave() async {
+  Future<bool> saveWriting(String text) async {
+    await sharedPreferences.setString(LocalStorageKey.temporaryText, text);
+    return true;
+  }
+
+  Future<void> requestToSave(String text) async {
     state = const AsyncValue.loading();
 
-    void request() async {
-      state = const AsyncValue.data(true);
-    }
-
-    Timer(const Duration(seconds: 2), request);
+    Timer(const Duration(seconds: 1), () async {
+      bool result = await saveWriting(text);
+      if (result) {
+        state = const AsyncValue.data(true);
+      } else {
+        state = AsyncValue.error('Error', StackTrace.current);
+      }
+    });
   }
 }
 

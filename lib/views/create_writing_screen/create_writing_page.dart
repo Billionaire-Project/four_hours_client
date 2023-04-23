@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/providers/test_saving_provider.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
@@ -16,6 +17,7 @@ import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 DateTime now = DateTime.now();
 
@@ -39,40 +41,77 @@ class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
       TextEditingController(text: '');
   final FocusNode focusNode = FocusNode();
   Timer? savingTimer;
+  SharedPreferences? sharedPreferences;
+  late final String temporaryText;
+
   @override
   void initState() {
     super.initState();
     textEditingController.addListener(() => setState(() {}));
-    textEditingController.text = fakeData['content'];
+
+    sharedPreferences = ref.read(sharedPreferencesProvider);
+    temporaryText =
+        sharedPreferences!.getString(LocalStorageKey.temporaryText) ?? '';
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (temporaryText.isNotEmpty && !checkHasOnlyWhiteSpace(temporaryText)) {
+        showCommonDialogWithTwoButtons(
+          context,
+          iconData: CustomIcons.report_fill,
+          title: '작성중인 내용이 있어요',
+          subtitle: '이어서 작성하시겠어요?',
+          onPressedRightButton: () {
+            textEditingController.text =
+                sharedPreferences!.getString(LocalStorageKey.temporaryText)!;
+            focusNode.requestFocus();
+          },
+          rightButtonText: '네 이어서 작성할게요',
+          onPressedLeftButton: () {
+            sharedPreferences!.remove(LocalStorageKey.temporaryText);
+            focusNode.requestFocus();
+          },
+          leftButtonText: '아니요',
+        );
+      }
+    });
+  }
+
+  void onChanged(String text) {
+    if (savingTimer != null) {
+      savingTimer?.cancel();
+    }
+
+    if (text.length < writingTextLimit && text.isNotEmpty) {
+      savingTimer = Timer(
+        const Duration(seconds: autoSaveTime),
+        () {
+          ref.read(testSavingNotifierProvider.notifier).requestToSave(text);
+        },
+      );
+    }
   }
 
   @override
   void dispose() {
     textEditingController.dispose();
     focusNode.dispose();
+    savingTimer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
-
+    bool isLoading = ref.watch(testSavingNotifierProvider).isLoading;
     return MainWrapper(
       appBar: CommonAppBar(
         title: '새 게시글',
-        leadingHandler: () {
-          showCommonDialogWithTwoButtons(
-            context,
-            iconData: CustomIcons.report_fill,
-            title: '작성을 취소하시겠어요?',
-            subtitle: '작성중인 내용이 사라지고 저장되지 않아요',
-            onPressedRightButton: () {
-              closeRootNavigator(context);
-              context.pop();
-            },
-            rightButtonText: '작성 취소',
-          );
-        },
+        leadingAutomaticallyPop: false,
+        leadingOnTapHandler: isLoading
+            ? null
+            : () {
+                context.pop();
+              },
       ),
       padding: EdgeInsets.zero,
       child: Column(
@@ -102,7 +141,7 @@ class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
                               child: TextField(
                                 scrollPhysics:
                                     const NeverScrollableScrollPhysics(),
-                                autofocus: true,
+                                autofocus: temporaryText.isEmpty ? true : false,
                                 keyboardType: TextInputType.multiline,
                                 expands: true,
                                 controller: textEditingController,
@@ -113,24 +152,7 @@ class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
                                 ),
                                 maxLines: null,
                                 focusNode: focusNode,
-                                onChanged: (value) {
-                                  if (savingTimer == null) {
-                                    if (value.length < writingTextLimit) {
-                                      savingTimer = Timer(
-                                        const Duration(seconds: 2),
-                                        () {
-                                          ref
-                                              .read(testSavingNotifierProvider
-                                                  .notifier)
-                                              .requestToSave();
-                                        },
-                                      );
-                                    }
-                                  } else {
-                                    savingTimer!.cancel();
-                                    savingTimer = null;
-                                  }
-                                },
+                                onChanged: onChanged,
                                 onTap: () {
                                   if (focusNode.hasFocus) {
                                     focusNode.unfocus();
