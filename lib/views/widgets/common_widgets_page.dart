@@ -26,8 +26,7 @@ class CommonWidgetsPage extends ConsumerWidget {
                 context,
                 actions: [
                   CommonActionSheetAction(
-                    color: customThemeColors.red,
-                    backgroundColor: customThemeColors.background,
+                    isDestructiveAction: true,
                     onPressed: () {},
                     iconData: CustomIcons.delete_bin_line,
                     text: '게시글 삭제',

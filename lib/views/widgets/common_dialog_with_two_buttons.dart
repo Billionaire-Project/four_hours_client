@@ -68,12 +68,8 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 13),
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: customThemeColors.buttonDisabled,
                       foregroundColor: customThemeColors.textPrimary,
-                      side: BorderSide(
-                        width: 1,
-                        color: customThemeColors.buttonPrimary,
-                      ),
                     ),
                     child: Text(
                       leftButtonText ?? '취소',
