@@ -23,10 +23,7 @@ class MainWrapper extends ConsumerWidget {
       appBar: appBar,
       backgroundColor: customThemeColors.background,
       body: SafeArea(
-        child: Padding(
-          padding: padding,
-          child: child,
-        ),
+        child: child,
       ),
       endDrawer: const SettingDrawer(),
     );
