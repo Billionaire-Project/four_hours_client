@@ -26,6 +26,10 @@ class AppThemeNotifier extends Notifier<ThemeData> {
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
       ),
+      iconTheme: IconThemeData(
+        color: customThemeColors.buttonPrimary,
+        size: 24,
+      ),
     );
   }
 }
