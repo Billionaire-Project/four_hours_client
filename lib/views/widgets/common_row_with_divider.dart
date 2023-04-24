@@ -6,22 +6,26 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 class CommonRowWithDivider extends ConsumerWidget {
   final Widget? header;
   final Widget? tail;
+  final double leftGap;
+  final double rightGap;
   const CommonRowWithDivider({
     Key? key,
     this.header,
     this.tail,
+    this.leftGap = 16,
+    this.rightGap = 16,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     List<Widget> renderHeader() {
       return header != null
-          ? [header!, const Gap(16)]
+          ? [header!, Gap(leftGap)]
           : [const SizedBox.shrink()];
     }
 
     List<Widget> renderTail() {
-      return tail != null ? [const Gap(16), tail!] : [const SizedBox.shrink()];
+      return tail != null ? [Gap(rightGap), tail!] : [const SizedBox.shrink()];
     }
 
     return Row(
