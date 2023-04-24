@@ -23,6 +23,8 @@ class CustomThemeColors {
       isDarkMode ? CustomColors.dark.gray900 : CustomColors.light.gray900;
   Color get backgroundElevated =>
       isDarkMode ? CustomColors.dark.gray50 : CustomColors.white;
+  Color get backgroundLabel =>
+      isDarkMode ? CustomColors.dark.gray100 : CustomColors.light.gray100;
 
   Color get surface =>
       isDarkMode ? CustomColors.dark.gray100 : CustomColors.white;
