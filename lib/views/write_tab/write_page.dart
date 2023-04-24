@@ -5,6 +5,7 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/views/create_writing_screen/create_writing_page.dart';
+import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
@@ -19,7 +20,7 @@ class WritePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Center(
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
@@ -27,7 +28,11 @@ class WritePage extends ConsumerWidget {
             Gap(8),
             Card(),
             Gap(16),
-            TryYourFirstWritingCard()
+            CommonCardCover(
+              iconData: CustomIcons.pencil_fill,
+              title: '첫 게시글을 작성해보세요!',
+              subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
+            )
           ],
         ),
       ),

@@ -10,6 +10,7 @@ class CommonActionSheetAction extends ConsumerWidget {
   final Color? color;
   final Color? backgroundColor;
   final VoidCallback onPressed;
+  final bool isDestructiveAction;
   const CommonActionSheetAction({
     Key? key,
     required this.onPressed,
@@ -17,6 +18,7 @@ class CommonActionSheetAction extends ConsumerWidget {
     required this.text,
     this.color,
     this.backgroundColor,
+    this.isDestructiveAction = false,
   }) : super(key: key);
 
   @override
@@ -36,13 +38,18 @@ class CommonActionSheetAction extends ConsumerWidget {
             Icon(
               iconData,
               size: 24,
-              color: color ?? customThemeColors.textPrimary,
+              color: isDestructiveAction
+                  ? customThemeColors.red
+                  : color ?? customThemeColors.textPrimary,
             ),
             const Gap(8),
             Text(
               text,
-              style: customTextStyle.titleMedium
-                  .copyWith(color: color ?? customThemeColors.textPrimary),
+              style: customTextStyle.titleMedium.copyWith(
+                color: isDestructiveAction
+                    ? customThemeColors.red
+                    : color ?? customThemeColors.textPrimary,
+              ),
             )
           ],
         ),

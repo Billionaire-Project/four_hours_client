@@ -4,6 +4,10 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
+import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/shared_tab/shared_page_provider.dart';
+import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
+import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
@@ -21,6 +25,15 @@ class SharedCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final isReported = ref.watch(sharedReportNotifierProvider);
+
+    if (isReported) {
+      return const CommonCardCover(
+        iconData: CustomIcons.report_fill,
+        title: '신고가 정상적으로 접수되었어요',
+        subtitle: '해당 글은 숨긴처리 됐습니다',
+      );
+    }
 
     return Container(
       padding:
@@ -48,10 +61,38 @@ class SharedCard extends ConsumerWidget {
               ),
             ),
             rightGap: 8,
-            tail: const CommonIconButton(
-              icon: Icon(
+            tail: CommonIconButton(
+              icon: const Icon(
                 CustomIcons.more_line,
               ),
+              onTap: () {
+                showCommonActionSheet(
+                  context,
+                  actions: [
+                    CommonActionSheetAction(
+                      isDestructiveAction: true,
+                      onPressed: () {
+                        closeRootNavigator(context);
+                        showCommonDialogWithTwoButtons(
+                          context,
+                          iconData: CustomIcons.report_fill,
+                          title: '해당 게시글을 신고하시겠어요?',
+                          subtitle: '신고가 접수되면 즉시 사라집니다',
+                          onPressedRightButton: () {
+                            ref
+                                .read(sharedReportNotifierProvider.notifier)
+                                .reportWriting();
+                            closeRootNavigator(context);
+                          },
+                          rightButtonText: '신고',
+                        );
+                      },
+                      iconData: CustomIcons.report_line,
+                      text: '게시글 신고',
+                    )
+                  ],
+                );
+              },
             ),
           ),
           const Gap(8),
