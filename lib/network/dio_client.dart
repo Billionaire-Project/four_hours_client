@@ -148,10 +148,6 @@ class _AuthInterceptor extends Interceptor {
     if (tokenTimeout != null) {
       final tokenTimeoutDateTime = DateTime.parse(tokenTimeout);
       if (tokenTimeoutDateTime.isBefore(DateTime.now())) {
-        await storage.write(
-          key: LocalStorageKey.tokenTimeout,
-          value: DateTime.now().add(const Duration(hours: 1)).toString(),
-        );
         final token = await authService.refreshToken();
         await storage.write(key: LocalStorageKey.token, value: token);
       }
