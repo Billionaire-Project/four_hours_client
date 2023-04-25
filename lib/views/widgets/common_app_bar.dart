@@ -10,10 +10,15 @@ import 'package:go_router/go_router.dart';
 class CommonAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
-  final VoidCallback? leadingHandler;
-  const CommonAppBar(
-      {Key? key, required this.title, this.actions, this.leadingHandler})
-      : super(key: key);
+  final VoidCallback? leadingOnTapHandler;
+  final bool leadingAutomaticallyPop;
+  const CommonAppBar({
+    Key? key,
+    required this.title,
+    this.actions,
+    this.leadingOnTapHandler,
+    this.leadingAutomaticallyPop = true,
+  }) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(commonAppBarHeight);
@@ -31,10 +36,10 @@ class CommonAppBar extends ConsumerWidget implements PreferredSizeWidget {
       ),
       leading: CommonIconButton(
         onTap: () {
-          if (leadingHandler != null) {
-            leadingHandler!.call();
+          if (leadingOnTapHandler != null) {
+            leadingOnTapHandler!.call();
           } else {
-            context.pop();
+            leadingAutomaticallyPop ? context.pop() : null;
           }
         },
         icon: const Icon(

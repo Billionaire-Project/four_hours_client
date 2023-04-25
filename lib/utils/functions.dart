@@ -85,8 +85,12 @@ void showCommonDialogWithTwoButtons(
   required String subtitle,
   required VoidCallback onPressedRightButton,
   required String rightButtonText,
+  VoidCallback? onPressedLeftButton,
+  String? leftButtonText,
+  bool barrierDismissible = true,
 }) {
   showDialog(
+    barrierDismissible: barrierDismissible,
     barrierColor: CustomColors.black.withOpacity(0.8),
     context: context,
     builder: (context) => CommonDialogWithTwoButtons(
@@ -95,6 +99,12 @@ void showCommonDialogWithTwoButtons(
       subtitle: subtitle,
       onPressedRightButton: onPressedRightButton,
       rightButtonText: rightButtonText,
+      onPressedLeftButton: onPressedLeftButton,
+      leftButtonText: leftButtonText,
     ),
   );
+}
+
+bool checkHasOnlyWhiteSpace(String text) {
+  return text.trim().isEmpty;
 }
