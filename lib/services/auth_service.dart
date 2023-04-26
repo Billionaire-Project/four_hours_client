@@ -46,11 +46,11 @@ class AuthService {
       ],
     );
 
-    final oAuthProvider = OAuthProvider('apple.com').credential(
+    final credential = OAuthProvider('apple.com').credential(
       idToken: appleCredential.identityToken,
     );
 
-    getFirebaseAuth(credential: oAuthProvider);
+    getFirebaseAuth(credential: credential);
   }
 
   Future<void> signOut() async {
@@ -62,7 +62,26 @@ class AuthService {
     final token = await firebaseAuthCred.user?.getIdToken();
     final uid = firebaseAuthCred.user?.uid;
     await storage.write(key: LocalStorageKey.token, value: token);
+    await storage.write(
+      key: LocalStorageKey.tokenTimeout,
+      value: DateTime.now().add(const Duration(hours: 1)).toString(),
+    );
     await storage.write(key: LocalStorageKey.uid, value: uid);
+  }
+
+  Future<String> refreshToken() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      final token = await user.getIdToken();
+      await storage.write(key: LocalStorageKey.token, value: token);
+      await storage.write(
+        key: LocalStorageKey.tokenTimeout,
+        value: DateTime.now().add(const Duration(hours: 1)).toString(),
+      );
+      return token;
+    } else {
+      throw const AuthException('User is null');
+    }
   }
 }
 
