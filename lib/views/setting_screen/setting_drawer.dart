@@ -26,6 +26,7 @@ class SettingDrawer extends ConsumerWidget {
     final customTextStyle = ref.watch(customTextStyleProvider);
 
     return MainWrapper(
+      padding: const EdgeInsets.all(16),
       appBar: const CommonAppBar(
         title: '설정',
       ),

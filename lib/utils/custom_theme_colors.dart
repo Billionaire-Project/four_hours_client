@@ -23,6 +23,12 @@ class CustomThemeColors {
       isDarkMode ? CustomColors.dark.gray900 : CustomColors.light.gray900;
   Color get backgroundElevated =>
       isDarkMode ? CustomColors.dark.gray50 : CustomColors.white;
+  Color get backgroundLabel =>
+      isDarkMode ? CustomColors.dark.gray100 : CustomColors.light.gray100;
+  Color get backgroundSurface =>
+      isDarkMode ? CustomColors.dark.gray50 : CustomColors.light.gray100;
+  Color get backgroundPath =>
+      isDarkMode ? CustomColors.dark.gray100 : CustomColors.light.gray200;
 
   Color get surface =>
       isDarkMode ? CustomColors.dark.gray100 : CustomColors.white;
@@ -37,6 +43,8 @@ class CustomThemeColors {
       isDarkMode ? CustomColors.dark.gray100 : CustomColors.light.gray400;
   Color get textInvert =>
       isDarkMode ? CustomColors.dark.gray50 : CustomColors.light.gray50;
+  Color get textTertiary =>
+      isDarkMode ? CustomColors.dark.gray300 : CustomColors.light.gray300;
 
   Color get buttonPrimary =>
       isDarkMode ? CustomColors.dark.gray900 : CustomColors.light.gray900;
@@ -47,6 +55,8 @@ class CustomThemeColors {
 
   Color get strokeDivider =>
       isDarkMode ? CustomColors.dark.gray100 : CustomColors.light.gray200;
+  Color get strokeBorder =>
+      isDarkMode ? CustomColors.dark.gray100 : CustomColors.light.gray900;
 
   Color get red => isDarkMode ? CustomColors.dark.red : CustomColors.light.red;
   Color get blue =>

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/setting_screen/setting_drawer.dart';
 
@@ -11,7 +10,7 @@ class MainWrapper extends ConsumerWidget {
   const MainWrapper({
     Key? key,
     required this.child,
-    this.padding = const EdgeInsets.all(pagePadding),
+    this.padding = EdgeInsets.zero,
     this.appBar,
   }) : super(key: key);
 
