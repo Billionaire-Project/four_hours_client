@@ -18,6 +18,7 @@ class LoginPage extends ConsumerWidget {
     final customTextStyle = ref.watch(customTextStyleProvider);
 
     return MainWrapper(
+      padding: const EdgeInsets.all(16),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

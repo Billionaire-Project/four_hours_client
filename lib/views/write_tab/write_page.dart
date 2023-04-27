@@ -10,6 +10,8 @@ import 'package:four_hours_client/views/widgets/common_full_width_text_button.da
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
+import 'package:four_hours_client/views/widgets/main_wrapper.dart';
+import 'package:four_hours_client/views/write_tab/test_provider.dart';
 import 'package:go_router/go_router.dart';
 
 class WritePage extends ConsumerWidget {
@@ -18,17 +20,23 @@ class WritePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final test = ref.watch(testProvider);
+
+    if (test.valueOrNull == null) {
+      return const MainWrapper(child: SizedBox.shrink());
+    }
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            CommonTitle('Today'),
-            Gap(8),
-            Card(),
-            Gap(16),
-            CommonCardCover(
+          children: [
+            Text(test.value!.username),
+            const CommonTitle('Today'),
+            const Gap(8),
+            const Card(),
+            const Gap(16),
+            const CommonCardCover(
               iconData: CustomIcons.pencil_fill,
               title: '첫 게시글을 작성해보세요!',
               subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',

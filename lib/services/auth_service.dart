@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/services/users_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -54,6 +55,7 @@ class AuthService {
   }
 
   Future<void> signOut() async {
+    await UsersService().logout();
     await _auth.signOut();
   }
 
@@ -67,6 +69,8 @@ class AuthService {
       value: DateTime.now().add(const Duration(hours: 1)).toString(),
     );
     await storage.write(key: LocalStorageKey.uid, value: uid);
+
+    await UsersService().login();
   }
 
   Future<String> refreshToken() async {
