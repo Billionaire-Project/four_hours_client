@@ -37,7 +37,7 @@ class SharedCard extends ConsumerWidget {
 
     return Container(
       padding:
-          const EdgeInsets.only(top: 8.0, left: 16.0, right: 8.0, bottom: 8.0),
+          const EdgeInsets.only(left: 16.0, top: 8.0, right: 8.0, bottom: 8.0),
       constraints: const BoxConstraints(maxHeight: 232),
       decoration: BoxDecoration(
         color: customThemeColors.background,
@@ -95,27 +95,31 @@ class SharedCard extends ConsumerWidget {
               },
             ),
           ),
-          const Gap(8),
           Expanded(
-            child: RichText(
-              overflow: TextOverflow.ellipsis,
-              maxLines: 6,
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: content,
-                    style: customTextStyle.bodySmall,
-                  ),
-                ],
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: RichText(
+                overflow: TextOverflow.ellipsis,
+                maxLines: 6,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: content,
+                      style: customTextStyle.bodySmall,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+          const Gap(8),
           const CommonRowWithDivider(
             tail: CommonIconButton(
-                icon: Icon(
-              CustomIcons.heart_line,
-            )),
-          )
+              icon: Icon(
+                CustomIcons.heart_line,
+              ),
+            ),
+          ),
         ],
       ),
     );
