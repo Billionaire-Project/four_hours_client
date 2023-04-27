@@ -1,25 +1,26 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/network/dio_exceptions.dart';
 import 'package:four_hours_client/network/endpoints.dart';
 import 'package:four_hours_client/services/auth_service.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'dio_client.g.dart';
 
 class DioClient {
   final Dio _dio = Dio();
-
-  static final DioClient _singleton = DioClient._internal();
-
-  factory DioClient() => _singleton;
+  final AuthService authService;
 
   final storage = const FlutterSecureStorage();
 
-  DioClient._internal() {
+  DioClient({
+    required this.authService,
+  }) {
     _dio.options.baseUrl = Endpoints.baseUrl;
     _dio.options.connectTimeout = Endpoints.connectTimeout;
     _dio.options.receiveTimeout = Endpoints.receiveTimeout;
-    _dio.interceptors.add(_AuthInterceptor());
+    _dio.interceptors.add(_AuthInterceptor(authService));
   }
 
   String throwExceptions(DioError e) {
@@ -130,13 +131,10 @@ class DioClient {
   }
 }
 
-final dioClientProvider = Provider<DioClient>((ref) {
-  return DioClient();
-});
-
 class _AuthInterceptor extends Interceptor {
-  final storage = const FlutterSecureStorage();
-  final authService = AuthService();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
+  final AuthService authService;
+  _AuthInterceptor(this.authService);
 
   @override
   void onRequest(
@@ -207,4 +205,10 @@ class _AuthInterceptor extends Interceptor {
     }
     return handler.next(err);
   }
+}
+
+@riverpod
+DioClient dioClient(DioClientRef ref) {
+  final authService = ref.watch(authServiceProvider);
+  return DioClient(authService: authService);
 }

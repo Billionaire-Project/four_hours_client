@@ -13,8 +13,9 @@ class Test extends _$Test {
   }
 
   Future<UserModel> getMyInformation() async {
-    UserModel result = await UsersService().getMyInformation();
+    final usersService = ref.read(usersServiceProvider);
 
+    UserModel result = await usersService.getMyInformation();
     return result;
   }
 }

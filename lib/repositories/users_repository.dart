@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:four_hours_client/repositories/base_repository.dart';
+import 'package:four_hours_client/network/dio_client.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class UsersRepository extends BaseRepository {
-  static final UsersRepository _singleton = UsersRepository._internal();
+part 'users_repository.g.dart';
 
-  factory UsersRepository() => _singleton;
-
-  UsersRepository._internal();
+class UsersRepository {
+  final DioClient dioClient;
+  UsersRepository({required this.dioClient});
 
   Future<Response> getMyInformation() async {
     Response response = await dioClient.get('/users/me/');
@@ -27,6 +27,9 @@ class UsersRepository extends BaseRepository {
   }
 }
 
-
-
-//https://github.dev/bizz84/starter_architecture_flutter_firebase/blob/master/lib/src/features/jobs/data/jobs_repository.dart
+@riverpod
+UsersRepository usersRepository(UsersRepositoryRef ref) {
+  return UsersRepository(
+    dioClient: ref.watch(dioClientProvider),
+  );
+}

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/repositories/post_repsoitrory.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -11,8 +10,6 @@ import 'package:four_hours_client/views/widgets/common_full_width_text_button.da
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
-import 'package:four_hours_client/views/widgets/main_wrapper.dart';
-import 'package:four_hours_client/views/write_tab/test_provider.dart';
 import 'package:go_router/go_router.dart';
 
 class WritePage extends ConsumerWidget {
@@ -21,23 +18,17 @@ class WritePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final test = ref.watch(testProvider);
-
-    if (test.valueOrNull == null) {
-      return const MainWrapper(child: SizedBox.shrink());
-    }
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(test.value!.username),
-            const CommonTitle('Today'),
-            const Gap(8),
-            const BeforeWritingCard(),
-            const Gap(16),
-            const CommonCardCover(
+          children: const [
+            CommonTitle('Today'),
+            Gap(8),
+            BeforeWritingCard(),
+            Gap(16),
+            CommonCardCover(
               iconData: CustomIcons.pencil_fill,
               title: '첫 게시글을 작성해보세요!',
               subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',

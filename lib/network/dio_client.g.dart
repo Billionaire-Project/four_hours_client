@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'test_provider.dart';
+part of 'dio_client.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$testHash() => r'81b71d3dbdf31fe1255513fc6ff839cde10ed5cd';
+String _$dioClientHash() => r'915944fd2ad22bc0c04634186fa1118d30e07e4a';
 
-/// See also [Test].
-@ProviderFor(Test)
-final testProvider = AsyncNotifierProvider<Test, UserModel>.internal(
-  Test.new,
-  name: r'testProvider',
+/// See also [dioClient].
+@ProviderFor(dioClient)
+final dioClientProvider = AutoDisposeProvider<DioClient>.internal(
+  dioClient,
+  name: r'dioClientProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$testHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$dioClientHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$Test = AsyncNotifier<UserModel>;
+typedef DioClientRef = AutoDisposeProviderRef<DioClient>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

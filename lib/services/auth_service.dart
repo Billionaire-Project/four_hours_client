@@ -1,19 +1,27 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/services/users_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
+
+part 'auth_service.g.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? get currentUser => _auth.currentUser;
+  final UsersService usersService;
+  final FirebaseAuth auth;
+
+  AuthService({
+    required this.auth,
+    required this.usersService,
+  });
 
   final storage = const FlutterSecureStorage();
 
   // It will give us a stream of the state change of the user (maybe the token changes)
-  Stream<User?> get authStateChange => _auth.authStateChanges();
+  Stream<User?> authStateChanges() => auth.authStateChanges();
+  User? get currentUser => auth.currentUser;
 
   Future<void> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -55,12 +63,12 @@ class AuthService {
   }
 
   Future<void> signOut() async {
-    await UsersService().logout();
-    await _auth.signOut();
+    // await usersService.logout();
+    await auth.signOut();
   }
 
   void getFirebaseAuth({required OAuthCredential credential}) async {
-    final firebaseAuthCred = await _auth.signInWithCredential(credential);
+    final firebaseAuthCred = await auth.signInWithCredential(credential);
     final token = await firebaseAuthCred.user?.getIdToken();
     final uid = firebaseAuthCred.user?.uid;
     await storage.write(key: LocalStorageKey.token, value: token);
@@ -70,11 +78,11 @@ class AuthService {
     );
     await storage.write(key: LocalStorageKey.uid, value: uid);
 
-    await UsersService().login();
+    // await usersService.login();
   }
 
   Future<String> refreshToken() async {
-    final user = _auth.currentUser;
+    final user = auth.currentUser;
     if (user != null) {
       final token = await user.getIdToken();
       await storage.write(key: LocalStorageKey.token, value: token);
@@ -95,11 +103,19 @@ class AuthException implements Exception {
   const AuthException(this.message);
 }
 
-final authServiceProvider = Provider<AuthService>((ref) {
-  return AuthService();
-});
+@Riverpod(keepAlive: true)
+FirebaseAuth firebaseAuth(FirebaseAuthRef ref) {
+  return FirebaseAuth.instance;
+}
 
-final authStateProvider = StreamProvider<User?>((ref) {
-  final authService = ref.read(authServiceProvider);
-  return authService.authStateChange;
-});
+@Riverpod(keepAlive: true)
+AuthService authService(AuthServiceRef ref) {
+  final firebaseAuth = ref.watch(firebaseAuthProvider);
+  final usersService = ref.read(usersServiceProvider);
+  return AuthService(auth: firebaseAuth, usersService: usersService);
+}
+
+@riverpod
+Stream<User?> authStateChanges(AuthStateChangesRef ref) {
+  return ref.watch(authServiceProvider).authStateChanges();
+}
