@@ -3,7 +3,9 @@ import 'package:four_hours_client/repositories/base_repository.dart';
 
 class UsersRepository extends BaseRepository {
   static final UsersRepository _singleton = UsersRepository._internal();
+
   factory UsersRepository() => _singleton;
+
   UsersRepository._internal();
 
   Future<Response> getMyInformation() async {

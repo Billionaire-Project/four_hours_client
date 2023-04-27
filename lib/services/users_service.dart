@@ -3,6 +3,7 @@ import 'package:four_hours_client/repositories/users_repository.dart';
 
 class UsersService {
   static final UsersService _singleton = UsersService._internal();
+
   factory UsersService() => _singleton;
 
   late final UsersRepository usersRepository;
