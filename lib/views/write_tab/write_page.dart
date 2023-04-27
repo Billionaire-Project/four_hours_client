@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/repositories/post_repsoitrory.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -34,7 +35,7 @@ class WritePage extends ConsumerWidget {
             Text(test.value!.username),
             const CommonTitle('Today'),
             const Gap(8),
-            const Card(),
+            const BeforeWritingCard(),
             const Gap(16),
             const CommonCardCover(
               iconData: CustomIcons.pencil_fill,
@@ -48,8 +49,8 @@ class WritePage extends ConsumerWidget {
   }
 }
 
-class Card extends ConsumerWidget {
-  const Card({Key? key}) : super(key: key);
+class BeforeWritingCard extends ConsumerWidget {
+  const BeforeWritingCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -81,10 +82,11 @@ class Card extends ConsumerWidget {
           ),
           const Gap(16),
           CommonFullWidthTextButton(
-              onPressed: () {
-                context.push('${WritePage.path}/${CreateWritingPage.path}');
-              },
-              text: '글 쓰기')
+            onPressed: () {
+              context.push('${WritePage.path}/${CreateWritingPage.path}');
+            },
+            text: '글 쓰기',
+          )
         ],
       ),
     );
