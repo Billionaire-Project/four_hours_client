@@ -1,26 +1,24 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/network/dio_exceptions.dart';
 import 'package:four_hours_client/network/endpoints.dart';
-import 'package:four_hours_client/services/auth_service.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'dio_client.g.dart';
 
 class DioClient {
   final Dio _dio = Dio();
-  final AuthService authService;
+
+  static final DioClient _singleton = DioClient._internal();
+
+  factory DioClient() => _singleton;
 
   final storage = const FlutterSecureStorage();
 
-  DioClient({
-    required this.authService,
-  }) {
+  DioClient._internal() {
     _dio.options.baseUrl = Endpoints.baseUrl;
     _dio.options.connectTimeout = Endpoints.connectTimeout;
     _dio.options.receiveTimeout = Endpoints.receiveTimeout;
-    _dio.interceptors.add(_AuthInterceptor(authService));
+    _dio.interceptors.add(_AuthInterceptor());
   }
 
   String throwExceptions(DioError e) {
@@ -132,9 +130,27 @@ class DioClient {
 }
 
 class _AuthInterceptor extends Interceptor {
-  final FlutterSecureStorage storage = const FlutterSecureStorage();
-  final AuthService authService;
-  _AuthInterceptor(this.authService);
+  final storage = const FlutterSecureStorage();
+  final auth = FirebaseAuth.instance;
+  //! DioClient에서 authService를 사용할 수 없다.
+  //! 모든 repository는 DioClient를 사용하고 있고
+  //! service는 repository에서 받아오는 response를 사용한 로직을 사용하기도 해서
+  //! DioClient에서 authService를 사용하면 circular dependency가 발생한다.
+
+  Future<String> refreshToken() async {
+    final user = auth.currentUser;
+    if (user != null) {
+      final token = await user.getIdToken();
+      await storage.write(key: LocalStorageKey.token, value: token);
+      await storage.write(
+        key: LocalStorageKey.tokenTimeout,
+        value: DateTime.now().add(const Duration(hours: 1)).toString(),
+      );
+      return token;
+    } else {
+      throw ('User is null');
+    }
+  }
 
   @override
   void onRequest(
@@ -146,7 +162,7 @@ class _AuthInterceptor extends Interceptor {
     if (tokenTimeout != null) {
       final tokenTimeoutDateTime = DateTime.parse(tokenTimeout);
       if (tokenTimeoutDateTime.isBefore(DateTime.now())) {
-        final token = await authService.refreshToken();
+        final token = await refreshToken();
         await storage.write(key: LocalStorageKey.token, value: token);
       }
     }
@@ -201,14 +217,8 @@ class _AuthInterceptor extends Interceptor {
 
     // error code가 401, 402, 403일 경우, token 갱신, 이후에 다시 요청을 어케하지?
     if (statusCode == 401 | 402 | 403) {
-      await authService.refreshToken();
+      await refreshToken();
     }
     return handler.next(err);
   }
-}
-
-@riverpod
-DioClient dioClient(DioClientRef ref) {
-  final authService = ref.watch(authServiceProvider);
-  return DioClient(authService: authService);
 }
