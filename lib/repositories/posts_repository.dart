@@ -1,13 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:four_hours_client/network/dio_client.dart';
+import 'package:four_hours_client/repositories/base_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'posts_repository.g.dart';
 
-class PostsRepository {
-  final DioClient dioClient;
-  PostsRepository({required this.dioClient});
-
+class PostsRepository extends BaseRepository {
   Future<Response> getMyPosts() async {
     Response response = await dioClient.get('/posts/my/');
 
@@ -15,9 +12,7 @@ class PostsRepository {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 PostsRepository postsRepository(PostsRepositoryRef ref) {
-  return PostsRepository(
-    dioClient: ref.watch(dioClientProvider),
-  );
+  return PostsRepository();
 }

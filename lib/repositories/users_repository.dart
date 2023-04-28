@@ -1,35 +1,30 @@
 import 'package:dio/dio.dart';
-import 'package:four_hours_client/network/dio_client.dart';
+import 'package:four_hours_client/repositories/base_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'users_repository.g.dart';
 
-class UsersRepository {
-  final DioClient dioClient;
-  UsersRepository({required this.dioClient});
-
+class UsersRepository extends BaseRepository {
   Future<Response> getMyInformation() async {
     Response response = await dioClient.get('/users/me/');
 
     return response;
   }
 
-  Future<Response> login() async {
+  Future<Response> userLogin() async {
     Response response = await dioClient.get('/users/login/');
 
     return response;
   }
 
-  Future<Response> logout() async {
+  Future<Response> userLogout() async {
     Response response = await dioClient.put('/users/logout/');
 
     return response;
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 UsersRepository usersRepository(UsersRepositoryRef ref) {
-  return UsersRepository(
-    dioClient: ref.watch(dioClientProvider),
-  );
+  return UsersRepository();
 }
