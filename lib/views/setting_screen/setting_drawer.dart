@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/providers/auth_provider.dart';
+import 'package:four_hours_client/controller/auth_controller.dart';
 import 'package:four_hours_client/providers/package_info_provider.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
@@ -58,7 +58,7 @@ class SettingDrawer extends ConsumerWidget {
             iconData: CustomIcons.logout_line,
             color: CustomColors.light.red,
             text: '로그아웃',
-            onTap: () => ref.read(authProvider.notifier).signOut(),
+            onTap: () => ref.read(authControllerProvider.notifier).signOut(),
           ),
           const Gap(48),
 
