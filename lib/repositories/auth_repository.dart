@@ -1,20 +1,19 @@
+import 'package:dio/dio.dart';
+import 'package:four_hours_client/repositories/base_repository.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/repositories/users_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 
-part 'auth_service.g.dart';
+part 'auth_repository.g.dart';
 
-class AuthService {
+class AuthRepository extends BaseRepository {
   final FirebaseAuth auth;
-  final UsersRepository usersRepository;
 
-  AuthService({
+  AuthRepository({
     required this.auth,
-    required this.usersRepository,
   });
 
   final storage = const FlutterSecureStorage();
@@ -35,7 +34,7 @@ class AuthService {
       idToken: googleAuth.idToken,
     );
     try {
-      getFirebaseAuth(credential: credential);
+      _getFirebaseAuth(credential: credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         throw const AuthException('different credential');
@@ -59,16 +58,34 @@ class AuthService {
       idToken: appleCredential.identityToken,
     );
 
-    getFirebaseAuth(credential: credential);
+    _getFirebaseAuth(credential: credential);
   }
 
   Future<void> signOut() async {
-    await logout();
+    await userLogout();
 
     await auth.signOut();
   }
 
-  void getFirebaseAuth({required OAuthCredential credential}) async {
+  Future<Response> getMyInformation() async {
+    Response response = await dioClient.get('/users/me/');
+
+    return response;
+  }
+
+  Future<Response> userLogin() async {
+    Response response = await dioClient.get('/users/login/');
+
+    return response;
+  }
+
+  Future<Response> userLogout() async {
+    Response response = await dioClient.put('/users/logout/');
+
+    return response;
+  }
+
+  void _getFirebaseAuth({required OAuthCredential credential}) async {
     final firebaseAuthCred = await auth.signInWithCredential(credential);
     final token = await firebaseAuthCred.user?.getIdToken();
     final uid = firebaseAuthCred.user?.uid;
@@ -79,15 +96,7 @@ class AuthService {
     );
     await storage.write(key: LocalStorageKey.uid, value: uid);
 
-    await login();
-  }
-
-  Future<void> login() async {
-    await usersRepository.userLogin();
-  }
-
-  Future<void> logout() async {
-    await usersRepository.userLogout();
+    await userLogin();
   }
 }
 
@@ -103,8 +112,8 @@ FirebaseAuth firebaseAuth(FirebaseAuthRef ref) {
 }
 
 @Riverpod(keepAlive: true)
-AuthService authService(AuthServiceRef ref) {
+AuthRepository authRepository(AuthRepositoryRef ref) {
   final firebaseAuth = ref.watch(firebaseAuthProvider);
-  final usersRepository = ref.watch(usersRepositoryProvider);
-  return AuthService(auth: firebaseAuth, usersRepository: usersRepository);
+
+  return AuthRepository(auth: firebaseAuth);
 }

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_service.dart';
+part of 'auth_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -20,18 +20,19 @@ final firebaseAuthProvider = Provider<FirebaseAuth>.internal(
 );
 
 typedef FirebaseAuthRef = ProviderRef<FirebaseAuth>;
-String _$authServiceHash() => r'03b8581e18a1f4048c1962297edec909e1be3579';
+String _$authRepositoryHash() => r'0651cd033bf5621143b258537448c9911960dc6b';
 
-/// See also [authService].
-@ProviderFor(authService)
-final authServiceProvider = Provider<AuthService>.internal(
-  authService,
-  name: r'authServiceProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$authServiceHash,
+/// See also [authRepository].
+@ProviderFor(authRepository)
+final authRepositoryProvider = Provider<AuthRepository>.internal(
+  authRepository,
+  name: r'authRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$authRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef AuthServiceRef = ProviderRef<AuthService>;
+typedef AuthRepositoryRef = ProviderRef<AuthRepository>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

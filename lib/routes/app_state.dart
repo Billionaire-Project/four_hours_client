@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:four_hours_client/services/auth_service.dart';
+import 'package:four_hours_client/repositories/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_state.g.dart';
@@ -36,6 +36,6 @@ class AppState extends ChangeNotifier {
 
 @riverpod
 AppState appState(AppStateRef ref) {
-  final authStateChanges = ref.watch(authServiceProvider).authStateChanges();
+  final authStateChanges = ref.watch(authRepositoryProvider).authStateChanges();
   return AppState(authStateChanges);
 }
