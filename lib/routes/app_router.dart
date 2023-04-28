@@ -29,11 +29,11 @@ GoRouter appRouter(AppRouterRef ref) {
       if (state.error != null) {
         return null;
       }
-      final bool isAuth = appState.isLoggedIn;
-
       const String splashLocation = SplashPage.path;
       const String logInLocation = LoginPage.path;
       const String writeLocation = WritePage.path;
+
+      final bool isAuth = appState.isLoggedIn;
 
       final isSplashLocation = state.location == splashLocation;
       if (isSplashLocation) {

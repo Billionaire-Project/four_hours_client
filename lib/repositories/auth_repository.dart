@@ -68,19 +68,19 @@ class AuthRepository extends BaseRepository {
   }
 
   Future<Response> getMyInformation() async {
-    Response response = await dioClient.get('/users/me/');
+    Response response = await dioClient.get('/auth/me/');
 
     return response;
   }
 
   Future<Response> userLogin() async {
-    Response response = await dioClient.get('/users/login/');
+    Response response = await dioClient.get('/auth/login/');
 
     return response;
   }
 
   Future<Response> userLogout() async {
-    Response response = await dioClient.put('/users/logout/');
+    Response response = await dioClient.put('/auth/logout/');
 
     return response;
   }
