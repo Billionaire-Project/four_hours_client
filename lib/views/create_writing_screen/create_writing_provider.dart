@@ -43,7 +43,7 @@ class CreateWritingNotifier extends AutoDisposeNotifier<String> {
 
   void getPreferences() {
     _temporaryText =
-        sharedPreferences.getString(LocalStorageKey.temporaryText) ?? '';
+        sharedPreferences.getString(SharedPreferenceKey.temporaryText) ?? '';
   }
 
   void showDialogIfHasTemporaryText(BuildContext context) {
@@ -56,13 +56,13 @@ class CreateWritingNotifier extends AutoDisposeNotifier<String> {
         subtitle: '이어서 작성하시겠어요?',
         onPressedRightButton: () {
           textEditingController.text =
-              sharedPreferences.getString(LocalStorageKey.temporaryText)!;
+              sharedPreferences.getString(SharedPreferenceKey.temporaryText)!;
           state = textEditingController.text;
           _focusNode.requestFocus();
         },
         rightButtonText: '네 이어서 작성할게요',
         onPressedLeftButton: () {
-          sharedPreferences.remove(LocalStorageKey.temporaryText);
+          sharedPreferences.remove(SharedPreferenceKey.temporaryText);
           _focusNode.requestFocus();
         },
         leftButtonText: '아니요',

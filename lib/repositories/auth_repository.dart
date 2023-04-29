@@ -1,19 +1,26 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dio/dio.dart';
+import 'package:four_hours_client/repositories/base_repository.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/services/users_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 
-class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? get currentUser => _auth.currentUser;
+part 'auth_repository.g.dart';
+
+class AuthRepository extends BaseRepository {
+  final FirebaseAuth auth;
+
+  AuthRepository({
+    required this.auth,
+  });
 
   final storage = const FlutterSecureStorage();
 
   // It will give us a stream of the state change of the user (maybe the token changes)
-  Stream<User?> get authStateChange => _auth.authStateChanges();
+  Stream<User?> authStateChanges() => auth.authStateChanges();
+  User? get currentUser => auth.currentUser;
 
   Future<void> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -27,7 +34,7 @@ class AuthService {
       idToken: googleAuth.idToken,
     );
     try {
-      getFirebaseAuth(credential: credential);
+      _getFirebaseAuth(credential: credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         throw const AuthException('different credential');
@@ -51,16 +58,35 @@ class AuthService {
       idToken: appleCredential.identityToken,
     );
 
-    getFirebaseAuth(credential: credential);
+    _getFirebaseAuth(credential: credential);
   }
 
   Future<void> signOut() async {
-    await UsersService().logout();
-    await _auth.signOut();
+    await userLogout();
+
+    await auth.signOut();
   }
 
-  void getFirebaseAuth({required OAuthCredential credential}) async {
-    final firebaseAuthCred = await _auth.signInWithCredential(credential);
+  Future<Response> getMyInformation() async {
+    Response response = await dioClient.get('/auth/me/');
+
+    return response;
+  }
+
+  Future<Response> userLogin() async {
+    Response response = await dioClient.get('/auth/login/');
+
+    return response;
+  }
+
+  Future<Response> userLogout() async {
+    Response response = await dioClient.put('/auth/logout/');
+
+    return response;
+  }
+
+  void _getFirebaseAuth({required OAuthCredential credential}) async {
+    final firebaseAuthCred = await auth.signInWithCredential(credential);
     final token = await firebaseAuthCred.user?.getIdToken();
     final uid = firebaseAuthCred.user?.uid;
     await storage.write(key: LocalStorageKey.token, value: token);
@@ -70,22 +96,7 @@ class AuthService {
     );
     await storage.write(key: LocalStorageKey.uid, value: uid);
 
-    await UsersService().login();
-  }
-
-  Future<String> refreshToken() async {
-    final user = _auth.currentUser;
-    if (user != null) {
-      final token = await user.getIdToken();
-      await storage.write(key: LocalStorageKey.token, value: token);
-      await storage.write(
-        key: LocalStorageKey.tokenTimeout,
-        value: DateTime.now().add(const Duration(hours: 1)).toString(),
-      );
-      return token;
-    } else {
-      throw const AuthException('User is null');
-    }
+    await userLogin();
   }
 }
 
@@ -95,11 +106,14 @@ class AuthException implements Exception {
   const AuthException(this.message);
 }
 
-final authServiceProvider = Provider<AuthService>((ref) {
-  return AuthService();
-});
+@Riverpod(keepAlive: true)
+FirebaseAuth firebaseAuth(FirebaseAuthRef ref) {
+  return FirebaseAuth.instance;
+}
 
-final authStateProvider = StreamProvider<User?>((ref) {
-  final authService = ref.read(authServiceProvider);
-  return authService.authStateChange;
-});
+@Riverpod(keepAlive: true)
+AuthRepository authRepository(AuthRepositoryRef ref) {
+  final firebaseAuth = ref.watch(firebaseAuthProvider);
+
+  return AuthRepository(auth: firebaseAuth);
+}

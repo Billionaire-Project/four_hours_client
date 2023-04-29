@@ -1,23 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'test_provider.dart';
+part of 'posts_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$testHash() => r'5af303676f22c191e91499cd000cf642f227103c';
+String _$postsRepositoryHash() => r'c2c04b8f9cb3136ad2dc8901a248276a096a8b9d';
 
-/// See also [Test].
-@ProviderFor(Test)
-final testProvider = AsyncNotifierProvider<Test, UserModel>.internal(
-  Test.new,
-  name: r'testProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$testHash,
+/// See also [postsRepository].
+@ProviderFor(postsRepository)
+final postsRepositoryProvider = Provider<PostsRepository>.internal(
+  postsRepository,
+  name: r'postsRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$postsRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$Test = AsyncNotifier<UserModel>;
+typedef PostsRepositoryRef = ProviderRef<PostsRepository>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

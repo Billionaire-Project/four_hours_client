@@ -16,7 +16,7 @@ class TestSavingNotifier extends AsyncNotifier<bool> {
   }
 
   Future<bool> saveWriting(String text) async {
-    await sharedPreferences.setString(LocalStorageKey.temporaryText, text);
+    await sharedPreferences.setString(SharedPreferenceKey.temporaryText, text);
     return true;
   }
 
