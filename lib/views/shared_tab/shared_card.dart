@@ -56,7 +56,7 @@ class SharedCard extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(4.0),
               ),
               child: Text(
-                labelText,
+                '${labelText}hours',
                 style: customTextStyle.montLabelSmall,
               ),
             ),

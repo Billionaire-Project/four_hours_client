@@ -31,15 +31,21 @@ class _SharedPageState extends ConsumerState<SharedPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(sharedPageControllerProvider);
+
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: ListView.separated(
         itemBuilder: (context, index) {
+          final DateTime updatedAt = DateTime.parse(state[index].updatedAt);
+          final DateTime now = DateTime.now();
+
+          final String hours = now.difference(updatedAt).inHours.toString();
+
           return Padding(
             padding:
                 const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
             child: SharedCard(
-              labelText: '${fakeCardData['time']}hours',
+              labelText: hours,
               content: state[index].content,
             ),
           );
