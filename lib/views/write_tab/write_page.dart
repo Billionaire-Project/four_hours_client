@@ -12,12 +12,17 @@ import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:go_router/go_router.dart';
 
-class WritePage extends ConsumerWidget {
+class WritePage extends ConsumerStatefulWidget {
   const WritePage({Key? key}) : super(key: key);
   static const String path = '/write';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<WritePage> createState() => _WritePageState();
+}
+
+class _WritePageState extends ConsumerState<WritePage> {
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(

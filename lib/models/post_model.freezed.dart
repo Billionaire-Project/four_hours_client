@@ -21,12 +21,16 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PostModel {
   int get id => throw _privateConstructorUsedError;
-  UserModel get user => throw _privateConstructorUsedError;
+  int get user => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   String get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
   String get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_owner')
+  bool get isOwner => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_liked')
+  bool get isLiked => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,12 +45,12 @@ abstract class $PostModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      UserModel user,
+      int user,
       String content,
       @JsonKey(name: 'created_at') String createdAt,
-      @JsonKey(name: 'updated_at') String updatedAt});
-
-  $UserModelCopyWith<$Res> get user;
+      @JsonKey(name: 'updated_at') String updatedAt,
+      @JsonKey(name: 'is_owner') bool isOwner,
+      @JsonKey(name: 'is_liked') bool isLiked});
 }
 
 /// @nodoc
@@ -67,6 +71,8 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
     Object? content = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? isOwner = null,
+    Object? isLiked = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -76,7 +82,7 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserModel,
+              as int,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -89,15 +95,15 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
+      isOwner: null == isOwner
+          ? _value.isOwner
+          : isOwner // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $UserModelCopyWith<$Res> get user {
-    return $UserModelCopyWith<$Res>(_value.user, (value) {
-      return _then(_value.copyWith(user: value) as $Val);
-    });
   }
 }
 
@@ -110,13 +116,12 @@ abstract class _$$_PostModelCopyWith<$Res> implements $PostModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      UserModel user,
+      int user,
       String content,
       @JsonKey(name: 'created_at') String createdAt,
-      @JsonKey(name: 'updated_at') String updatedAt});
-
-  @override
-  $UserModelCopyWith<$Res> get user;
+      @JsonKey(name: 'updated_at') String updatedAt,
+      @JsonKey(name: 'is_owner') bool isOwner,
+      @JsonKey(name: 'is_liked') bool isLiked});
 }
 
 /// @nodoc
@@ -135,6 +140,8 @@ class __$$_PostModelCopyWithImpl<$Res>
     Object? content = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? isOwner = null,
+    Object? isLiked = null,
   }) {
     return _then(_$_PostModel(
       id: null == id
@@ -144,7 +151,7 @@ class __$$_PostModelCopyWithImpl<$Res>
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as UserModel,
+              as int,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -157,6 +164,14 @@ class __$$_PostModelCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
+      isOwner: null == isOwner
+          ? _value.isOwner
+          : isOwner // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -169,7 +184,9 @@ class _$_PostModel implements _PostModel {
       required this.user,
       required this.content,
       @JsonKey(name: 'created_at') required this.createdAt,
-      @JsonKey(name: 'updated_at') required this.updatedAt});
+      @JsonKey(name: 'updated_at') required this.updatedAt,
+      @JsonKey(name: 'is_owner') required this.isOwner,
+      @JsonKey(name: 'is_liked') required this.isLiked});
 
   factory _$_PostModel.fromJson(Map<String, dynamic> json) =>
       _$$_PostModelFromJson(json);
@@ -177,7 +194,7 @@ class _$_PostModel implements _PostModel {
   @override
   final int id;
   @override
-  final UserModel user;
+  final int user;
   @override
   final String content;
   @override
@@ -186,10 +203,16 @@ class _$_PostModel implements _PostModel {
   @override
   @JsonKey(name: 'updated_at')
   final String updatedAt;
+  @override
+  @JsonKey(name: 'is_owner')
+  final bool isOwner;
+  @override
+  @JsonKey(name: 'is_liked')
+  final bool isLiked;
 
   @override
   String toString() {
-    return 'PostModel(id: $id, user: $user, content: $content, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'PostModel(id: $id, user: $user, content: $content, createdAt: $createdAt, updatedAt: $updatedAt, isOwner: $isOwner, isLiked: $isLiked)';
   }
 
   @override
@@ -203,13 +226,15 @@ class _$_PostModel implements _PostModel {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.isOwner, isOwner) || other.isOwner == isOwner) &&
+            (identical(other.isLiked, isLiked) || other.isLiked == isLiked));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, user, content, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType, id, user, content, createdAt, updatedAt, isOwner, isLiked);
 
   @JsonKey(ignore: true)
   @override
@@ -227,12 +252,13 @@ class _$_PostModel implements _PostModel {
 
 abstract class _PostModel implements PostModel {
   factory _PostModel(
-          {required final int id,
-          required final UserModel user,
-          required final String content,
-          @JsonKey(name: 'created_at') required final String createdAt,
-          @JsonKey(name: 'updated_at') required final String updatedAt}) =
-      _$_PostModel;
+      {required final int id,
+      required final int user,
+      required final String content,
+      @JsonKey(name: 'created_at') required final String createdAt,
+      @JsonKey(name: 'updated_at') required final String updatedAt,
+      @JsonKey(name: 'is_owner') required final bool isOwner,
+      @JsonKey(name: 'is_liked') required final bool isLiked}) = _$_PostModel;
 
   factory _PostModel.fromJson(Map<String, dynamic> json) =
       _$_PostModel.fromJson;
@@ -240,7 +266,7 @@ abstract class _PostModel implements PostModel {
   @override
   int get id;
   @override
-  UserModel get user;
+  int get user;
   @override
   String get content;
   @override
@@ -249,6 +275,12 @@ abstract class _PostModel implements PostModel {
   @override
   @JsonKey(name: 'updated_at')
   String get updatedAt;
+  @override
+  @JsonKey(name: 'is_owner')
+  bool get isOwner;
+  @override
+  @JsonKey(name: 'is_liked')
+  bool get isLiked;
   @override
   @JsonKey(ignore: true)
   _$$_PostModelCopyWith<_$_PostModel> get copyWith =>
