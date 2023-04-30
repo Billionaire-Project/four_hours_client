@@ -4,17 +4,25 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'shared_page_controller.g.dart';
 
-@Riverpod(keepAlive: true)
+// @Riverpod(keepAlive: true)
+@riverpod
 class SharedPageController extends _$SharedPageController {
+  late final PostsRepository postsRepository;
   @override
   List<PostModel> build() {
-    return [];
+    _init();
+    return state;
   }
 
-  Future<List<PostModel>> getPosts() async {
-    final postsRepository = ref.watch(postsRepositoryProvider);
+  Future<void> _getPosts() async {
     state = await postsRepository.getPosts();
-    return await postsRepository.getPosts();
+  }
+
+  void _init() async {
+    postsRepository = ref.watch(postsRepositoryProvider);
+    //! StateError (Bad state: Tried to read the state of an uninitialized provider)
+    state = [];
+    await _getPosts();
   }
 }
 

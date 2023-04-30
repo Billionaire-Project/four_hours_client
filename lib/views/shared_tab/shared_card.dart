@@ -39,105 +39,108 @@ class SharedCard extends ConsumerWidget {
       );
     }
 
-    return InkWell(
-      onTap: () {
-        context.goNamed(
-          PostDetailPage.name,
-          params: {
-            'postId': id.toString(),
-          },
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.only(
-          left: 16.0,
-          top: 8.0,
-          right: 8.0,
-          bottom: 8.0,
-        ),
-        constraints: const BoxConstraints(maxHeight: 232),
-        decoration: BoxDecoration(
-          color: customThemeColors.background,
-          borderRadius: BorderRadius.circular(12.0),
-          boxShadow: CustomShadowColors.shadow3,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CommonRowWithDivider(
-              header: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
-                decoration: BoxDecoration(
-                  color: customThemeColors.backgroundLabel,
-                  borderRadius: BorderRadius.circular(4.0),
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+      child: InkWell(
+        onTap: () {
+          context.goNamed(
+            PostDetailPage.name,
+            params: {
+              'postId': id.toString(),
+            },
+          );
+        },
+        child: Container(
+          padding: const EdgeInsets.only(
+            left: 16.0,
+            top: 8.0,
+            right: 8.0,
+            bottom: 8.0,
+          ),
+          constraints: const BoxConstraints(maxHeight: 232),
+          decoration: BoxDecoration(
+            color: customThemeColors.background,
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: CustomShadowColors.shadow3,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CommonRowWithDivider(
+                header: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 2.0),
+                  decoration: BoxDecoration(
+                    color: customThemeColors.backgroundLabel,
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Text(
+                    '${labelText}hours',
+                    style: customTextStyle.montLabelSmall,
+                  ),
                 ),
-                child: Text(
-                  '${labelText}hours',
-                  style: customTextStyle.montLabelSmall,
+                rightGap: 8,
+                tail: CommonIconButton(
+                  icon: const Icon(
+                    CustomIcons.more_line,
+                  ),
+                  onTap: () {
+                    showCommonActionSheet(
+                      context,
+                      actions: [
+                        CommonActionSheetAction(
+                          isDestructiveAction: true,
+                          onPressed: () {
+                            closeRootNavigator(context);
+                            showCommonDialogWithTwoButtons(
+                              context,
+                              iconData: CustomIcons.report_fill,
+                              title: '해당 게시글을 신고하시겠어요?',
+                              subtitle: '신고가 접수되면 즉시 사라집니다',
+                              onPressedRightButton: () {
+                                ref
+                                    .read(sharedPageReportControllerProvider
+                                        .notifier)
+                                    .reportPost();
+                              },
+                              rightButtonText: '신고',
+                            );
+                          },
+                          iconData: CustomIcons.report_line,
+                          text: '게시글 신고',
+                        )
+                      ],
+                    );
+                  },
                 ),
               ),
-              rightGap: 8,
-              tail: CommonIconButton(
-                icon: const Icon(
-                  CustomIcons.more_line,
-                ),
-                onTap: () {
-                  showCommonActionSheet(
-                    context,
-                    actions: [
-                      CommonActionSheetAction(
-                        isDestructiveAction: true,
-                        onPressed: () {
-                          closeRootNavigator(context);
-                          showCommonDialogWithTwoButtons(
-                            context,
-                            iconData: CustomIcons.report_fill,
-                            title: '해당 게시글을 신고하시겠어요?',
-                            subtitle: '신고가 접수되면 즉시 사라집니다',
-                            onPressedRightButton: () {
-                              ref
-                                  .read(sharedPageReportControllerProvider
-                                      .notifier)
-                                  .reportPost();
-                            },
-                            rightButtonText: '신고',
-                          );
-                        },
-                        iconData: CustomIcons.report_line,
-                        text: '게시글 신고',
-                      )
-                    ],
-                  );
-                },
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: RichText(
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 6,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: content,
-                        style: customTextStyle.bodySmall,
-                      ),
-                    ],
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: RichText(
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 6,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: content,
+                          style: customTextStyle.bodySmall,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            const Gap(8),
-            const CommonRowWithDivider(
-              tail: CommonIconButton(
-                icon: Icon(
-                  CustomIcons.heart_line,
+              const Gap(8),
+              const CommonRowWithDivider(
+                tail: CommonIconButton(
+                  icon: Icon(
+                    CustomIcons.heart_line,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
