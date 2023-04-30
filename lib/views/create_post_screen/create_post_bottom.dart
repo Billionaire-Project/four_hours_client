@@ -5,13 +5,13 @@ import 'package:four_hours_client/providers/test_saving_provider.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/create_writing_screen/create_writing_provider.dart';
+import 'package:four_hours_client/views/create_post_screen/create_post_provider.dart';
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:four_hours_client/views/widgets/common_text_button.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
-class CreateWritingBottom extends ConsumerWidget {
-  const CreateWritingBottom({
+class CreatePostBottom extends ConsumerWidget {
+  const CreatePostBottom({
     Key? key,
   }) : super(key: key);
 
@@ -21,10 +21,9 @@ class CreateWritingBottom extends ConsumerWidget {
     final customThemeColors = ref.watch(customThemeColorsProvider);
     final isSavedProvider = ref.watch(testSavingNotifierProvider);
 
-    final isFirstWriting =
-        ref.watch(createWritingProvider.notifier).isFirstWriting;
+    final isFirstPost = ref.watch(createPostProvider.notifier).isFirstPost;
 
-    int textLength = writingTextLimit - ref.watch(createWritingProvider).length;
+    int textLength = postTextLimit - ref.watch(createPostProvider).length;
 
     bool isOverLimit = textLength < 0;
 
@@ -35,7 +34,7 @@ class CreateWritingBottom extends ConsumerWidget {
             Icon(
               CustomIcons.save_fill,
               size: 16,
-              color: isFirstWriting
+              color: isFirstPost
                   ? customThemeColors.textDisabled
                   : customThemeColors.blue,
             ),
@@ -43,7 +42,7 @@ class CreateWritingBottom extends ConsumerWidget {
             Text(
               'Saved',
               style: customTextStyle.montLabelSmall.copyWith(
-                color: isFirstWriting
+                color: isFirstPost
                     ? customThemeColors.textDisabled
                     : customThemeColors.blue,
               ),

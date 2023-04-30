@@ -8,6 +8,6 @@ class SharedPreferenceKey {
   static const temporaryText = 'temporaryText';
 }
 
-const int writingTextLimit = 9999;
+const int postTextLimit = 9999;
 
 const int autoSaveTime = 3;

@@ -15,7 +15,7 @@ class TestSavingNotifier extends AsyncNotifier<bool> {
     return false;
   }
 
-  Future<bool> saveWriting(String text) async {
+  Future<bool> savePost(String text) async {
     await sharedPreferences.setString(SharedPreferenceKey.temporaryText, text);
     return true;
   }
@@ -24,7 +24,7 @@ class TestSavingNotifier extends AsyncNotifier<bool> {
     state = const AsyncValue.loading();
 
     Timer(const Duration(seconds: 1), () async {
-      bool result = await saveWriting(text);
+      bool result = await savePost(text);
       if (result) {
         state = const AsyncValue.data(true);
       } else {

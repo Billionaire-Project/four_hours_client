@@ -4,7 +4,7 @@ import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
-import 'package:four_hours_client/views/create_writing_screen/create_writing_page.dart';
+import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
@@ -31,7 +31,7 @@ class _WritePageState extends ConsumerState<WritePage> {
           children: const [
             CommonTitle('Today'),
             Gap(8),
-            BeforeWritingCard(),
+            BeforePostingCard(),
             Gap(16),
             CommonCardCover(
               iconData: CustomIcons.pencil_fill,
@@ -45,8 +45,8 @@ class _WritePageState extends ConsumerState<WritePage> {
   }
 }
 
-class BeforeWritingCard extends ConsumerWidget {
-  const BeforeWritingCard({Key? key}) : super(key: key);
+class BeforePostingCard extends ConsumerWidget {
+  const BeforePostingCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -79,7 +79,7 @@ class BeforeWritingCard extends ConsumerWidget {
           const Gap(16),
           CommonFullWidthTextButton(
             onPressed: () {
-              context.push('${WritePage.path}/${CreateWritingPage.path}');
+              context.push('${WritePage.path}/${CreatePostPage.path}');
             },
             text: '글 쓰기',
           )
@@ -89,8 +89,8 @@ class BeforeWritingCard extends ConsumerWidget {
   }
 }
 
-class TryYourFirstWritingCard extends ConsumerWidget {
-  const TryYourFirstWritingCard({Key? key}) : super(key: key);
+class TryYourFirstPostCard extends ConsumerWidget {
+  const TryYourFirstPostCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

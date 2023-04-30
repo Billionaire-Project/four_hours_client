@@ -9,7 +9,7 @@ import 'package:four_hours_client/utils/functions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CreateWritingNotifier extends AutoDisposeNotifier<String> {
+class CreatePostNotifier extends AutoDisposeNotifier<String> {
   late final SharedPreferences sharedPreferences;
   late final TestSavingNotifier testSavingNotifier;
 
@@ -33,8 +33,8 @@ class CreateWritingNotifier extends AutoDisposeNotifier<String> {
   String _temporaryText = '';
   String get temporaryText => _temporaryText;
 
-  bool _isFirstWriting = true;
-  bool get isFirstWriting => _isFirstWriting;
+  bool _isFirstPost = true;
+  bool get isFirstPost => _isFirstPost;
 
   void init() {
     sharedPreferences = ref.watch(sharedPreferencesProvider);
@@ -74,13 +74,13 @@ class CreateWritingNotifier extends AutoDisposeNotifier<String> {
     state = text;
     _savingTimer?.cancel();
 
-    if (text.length < writingTextLimit && text.isNotEmpty) {
+    if (text.length < postTextLimit && text.isNotEmpty) {
       _savingTimer = Timer(
         const Duration(seconds: autoSaveTime),
         () {
           testSavingNotifier.requestToSave(text);
-          if (_isFirstWriting) {
-            _isFirstWriting = false;
+          if (_isFirstPost) {
+            _isFirstPost = false;
           }
         },
       );
@@ -88,6 +88,6 @@ class CreateWritingNotifier extends AutoDisposeNotifier<String> {
   }
 }
 
-final createWritingProvider =
-    AutoDisposeNotifierProvider<CreateWritingNotifier, String>(
-        CreateWritingNotifier.new);
+final createPostProvider =
+    AutoDisposeNotifierProvider<CreatePostNotifier, String>(
+        CreatePostNotifier.new);

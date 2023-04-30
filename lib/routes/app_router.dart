@@ -5,7 +5,7 @@ import 'package:four_hours_client/views/splash_screen/splash_page.dart';
 import 'package:four_hours_client/views/write_tab/write_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:four_hours_client/views/create_writing_screen/create_writing_page.dart';
+import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
 import 'package:four_hours_client/views/shared_tab/shared_page.dart';
 import 'package:four_hours_client/views/widgets/common_widgets_page.dart';
 
@@ -76,9 +76,9 @@ GoRouter appRouter(AppRouterRef ref) {
                   ),
               routes: [
                 GoRoute(
-                  path: CreateWritingPage.path,
+                  path: CreatePostPage.path,
                   builder: (BuildContext context, GoRouterState state) =>
-                      const CreateWritingPage(),
+                      const CreatePostPage(),
                   parentNavigatorKey: _rootNavigatorKey,
                 ),
               ]),

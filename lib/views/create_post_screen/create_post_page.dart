@@ -4,23 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/providers/test_saving_provider.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
-import 'package:four_hours_client/views/create_writing_screen/create_writing_bottom.dart';
-import 'package:four_hours_client/views/create_writing_screen/create_writing_provider.dart';
+import 'package:four_hours_client/views/create_post_screen/create_post_bottom.dart';
+import 'package:four_hours_client/views/create_post_screen/create_post_provider.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
 
-class CreateWritingPage extends ConsumerStatefulWidget {
-  const CreateWritingPage({Key? key}) : super(key: key);
-  static const String path = 'create-writing';
+class CreatePostPage extends ConsumerStatefulWidget {
+  const CreatePostPage({Key? key}) : super(key: key);
+  static const String path = 'create-post';
 
   @override
-  ConsumerState<CreateWritingPage> createState() => _CreateWritingPageState();
+  ConsumerState<CreatePostPage> createState() => _CreatePostPageState();
 }
 
-class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
+class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   late final TextEditingController textEditingController;
   late final FocusNode focusNode;
   late Timer? savingTimer;
@@ -34,13 +34,13 @@ class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
     super.initState();
 
     textEditingController =
-        ref.read(createWritingProvider.notifier).textEditingController;
-    focusNode = ref.read(createWritingProvider.notifier).focusNode;
-    temporaryText = ref.read(createWritingProvider.notifier).temporaryText;
+        ref.read(createPostProvider.notifier).textEditingController;
+    focusNode = ref.read(createPostProvider.notifier).focusNode;
+    temporaryText = ref.read(createPostProvider.notifier).temporaryText;
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
-          .read(createWritingProvider.notifier)
+          .read(createPostProvider.notifier)
           .showDialogIfHasTemporaryText(context);
     });
   }
@@ -107,7 +107,7 @@ class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
                                 maxLines: null,
                                 focusNode: focusNode,
                                 onChanged: ref
-                                    .read(createWritingProvider.notifier)
+                                    .read(createPostProvider.notifier)
                                     .onChanged,
                                 onTap: () {
                                   if (focusNode.hasFocus) {
@@ -129,7 +129,7 @@ class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
               },
             ),
           ),
-          const CreateWritingBottom(),
+          const CreatePostBottom(),
         ],
       ),
     );
