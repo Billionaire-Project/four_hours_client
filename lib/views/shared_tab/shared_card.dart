@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/controller/shared_page_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/shared_tab/shared_page_provider.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
@@ -25,7 +25,7 @@ class SharedCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
-    final isReported = ref.watch(sharedReportNotifierProvider);
+    bool isReported = ref.watch(sharedPageReportControllerProvider);
 
     if (isReported) {
       return const CommonCardCover(
@@ -80,9 +80,9 @@ class SharedCard extends ConsumerWidget {
                           subtitle: '신고가 접수되면 즉시 사라집니다',
                           onPressedRightButton: () {
                             ref
-                                .read(sharedReportNotifierProvider.notifier)
-                                .reportWriting();
-                            closeRootNavigator(context);
+                                .read(
+                                    sharedPageReportControllerProvider.notifier)
+                                .reportPost();
                           },
                           rightButtonText: '신고',
                         );

@@ -17,3 +17,15 @@ class SharedPageController extends _$SharedPageController {
     return await postsRepository.getPosts();
   }
 }
+
+@riverpod
+class SharedPageReportController extends _$SharedPageReportController {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void reportPost() {
+    state = true;
+  }
+}
