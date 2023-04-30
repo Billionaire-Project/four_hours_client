@@ -22,8 +22,12 @@ class PostsRepository extends BaseRepository {
         .toList();
   }
 
-  Future<Response> submitPosts() async {
-    Response response = await dioClient.post('/posts/');
+  Future<Response> submitPosts(
+      {required int userId, required String content}) async {
+    Response response = await dioClient.post('/posts/', data: {
+      'user': userId,
+      'content': content,
+    });
     return response;
   }
 }

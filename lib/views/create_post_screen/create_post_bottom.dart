@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/controller/create_post_controller.dart';
 import 'package:four_hours_client/providers/test_saving_provider.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/create_post_screen/create_post_provider.dart';
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:four_hours_client/views/widgets/common_text_button.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
@@ -21,10 +21,10 @@ class CreatePostBottom extends ConsumerWidget {
     final customThemeColors = ref.watch(customThemeColorsProvider);
     final isSavedProvider = ref.watch(testSavingNotifierProvider);
 
-    final isFirstPost = ref.watch(createPostProvider.notifier).isFirstPost;
-
-    int textLength = postTextLimit - ref.watch(createPostProvider).length;
-
+    bool isFirstPost =
+        ref.watch(createPostControllerProvider.notifier).isFirstPost;
+    int textLength =
+        postTextLimit - ref.watch(createPostControllerProvider).length;
     bool isOverLimit = textLength < 0;
 
     Row saveRow = isSavedProvider.when(
@@ -112,7 +112,13 @@ class CreatePostBottom extends ConsumerWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
               ),
-              onPressed: isOverLimit ? null : () {},
+              onPressed: isOverLimit
+                  ? null
+                  : () {
+                      ref
+                          .read(createPostControllerProvider.notifier)
+                          .submitPost(userId: 4, content: 'test');
+                    },
               child: Text(
                 '게시',
                 style: customTextStyle.titleMedium

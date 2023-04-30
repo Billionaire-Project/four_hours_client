@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/controller/create_post_controller.dart';
 import 'package:four_hours_client/providers/test_saving_provider.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_bottom.dart';
-import 'package:four_hours_client/views/create_post_screen/create_post_provider.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
@@ -32,16 +32,14 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   @override
   void initState() {
     super.initState();
+    final controllerNotifier = ref.read(createPostControllerProvider.notifier);
 
-    textEditingController =
-        ref.read(createPostProvider.notifier).textEditingController;
-    focusNode = ref.read(createPostProvider.notifier).focusNode;
-    temporaryText = ref.read(createPostProvider.notifier).temporaryText;
+    textEditingController = controllerNotifier.textEditingController;
+    focusNode = controllerNotifier.focusNode;
+    temporaryText = controllerNotifier.temporaryText;
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref
-          .read(createPostProvider.notifier)
-          .showDialogIfHasTemporaryText(context);
+      controllerNotifier.showDialogIfHasTemporaryText(context);
     });
   }
 
@@ -55,6 +53,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
+    final controllerNotifier = ref.watch(createPostControllerProvider.notifier);
+
     bool isLoading = ref.watch(testSavingNotifierProvider).isLoading;
     return MainWrapper(
       appBar: CommonAppBar(
@@ -106,9 +106,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 ),
                                 maxLines: null,
                                 focusNode: focusNode,
-                                onChanged: ref
-                                    .read(createPostProvider.notifier)
-                                    .onChanged,
+                                onChanged: controllerNotifier.onChanged,
                                 onTap: () {
                                   if (focusNode.hasFocus) {
                                     focusNode.unfocus();
