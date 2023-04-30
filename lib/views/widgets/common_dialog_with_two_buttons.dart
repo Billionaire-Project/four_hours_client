@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
@@ -15,6 +14,7 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
   final String rightButtonText;
   final VoidCallback? onPressedLeftButton;
   final String? leftButtonText;
+  final bool isDestructiveAction;
   const CommonDialogWithTwoButtons({
     Key? key,
     required this.iconData,
@@ -24,6 +24,7 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
     required this.rightButtonText,
     this.onPressedLeftButton,
     this.leftButtonText,
+    this.isDestructiveAction = false,
   }) : super(key: key);
 
   @override
@@ -86,14 +87,15 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 13),
-                      backgroundColor: customThemeColors.red,
-                      foregroundColor: customThemeColors.textPrimary,
+                      backgroundColor: isDestructiveAction
+                          ? customThemeColors.red
+                          : customThemeColors.buttonPrimary,
+                      foregroundColor: customThemeColors.backgroundToggle,
                     ),
                     child: Text(
                       rightButtonText,
-                      style: customTextStyle.titleMedium.copyWith(
-                        color: CustomColors.light.gray50,
-                      ),
+                      style: customTextStyle.titleMedium
+                          .copyWith(color: customThemeColors.backgroundToggle),
                     ),
                   ),
                 ),

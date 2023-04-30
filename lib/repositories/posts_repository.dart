@@ -22,12 +22,16 @@ class PostsRepository extends BaseRepository {
         .toList();
   }
 
-  Future<Response> submitPosts(
-      {required int userId, required String content}) async {
-    Response response = await dioClient.post('/posts/', data: {
+  Future<Response> submitPosts({
+    required int userId,
+    required String content,
+  }) async {
+    Map data = {
       'user': userId,
       'content': content,
-    });
+    };
+
+    Response response = await dioClient.post('/posts/', data: data);
     return response;
   }
 }

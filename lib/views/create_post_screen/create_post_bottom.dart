@@ -21,10 +21,11 @@ class CreatePostBottom extends ConsumerWidget {
     final customThemeColors = ref.watch(customThemeColorsProvider);
     final isSavedProvider = ref.watch(testSavingNotifierProvider);
 
+    final String content = ref.watch(createPostControllerProvider);
+
     bool isFirstPost =
         ref.watch(createPostControllerProvider.notifier).isFirstPost;
-    int textLength =
-        postTextLimit - ref.watch(createPostControllerProvider).length;
+    int textLength = postTextLimit - content.length;
     bool isOverLimit = textLength < 0;
 
     Row saveRow = isSavedProvider.when(
@@ -59,9 +60,11 @@ class CreatePostBottom extends ConsumerWidget {
               color: customThemeColors.red,
             ),
             const Gap(4),
-            Text('{error.toString()}',
-                style: customTextStyle.montLabelSmall
-                    .copyWith(color: customThemeColors.blue)),
+            Text(
+              '{error.toString()}',
+              style: customTextStyle.montLabelSmall
+                  .copyWith(color: customThemeColors.blue),
+            ),
           ],
         );
       },
@@ -112,12 +115,12 @@ class CreatePostBottom extends ConsumerWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
               ),
-              onPressed: isOverLimit
+              onPressed: isOverLimit || content.isEmpty
                   ? null
                   : () {
                       ref
                           .read(createPostControllerProvider.notifier)
-                          .submitPost(userId: 4, content: 'test');
+                          .handlePressedSubmitButton(context);
                     },
               child: Text(
                 '게시',

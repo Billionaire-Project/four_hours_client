@@ -88,6 +88,7 @@ void showCommonDialogWithTwoButtons(
   VoidCallback? onPressedLeftButton,
   String? leftButtonText,
   bool barrierDismissible = true,
+  bool isDestructiveAction = false,
 }) {
   showDialog(
     barrierDismissible: barrierDismissible,
@@ -101,6 +102,7 @@ void showCommonDialogWithTwoButtons(
       rightButtonText: rightButtonText,
       onPressedLeftButton: onPressedLeftButton,
       leftButtonText: leftButtonText,
+      isDestructiveAction: isDestructiveAction,
     ),
   );
 }
