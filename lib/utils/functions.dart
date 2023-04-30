@@ -82,9 +82,9 @@ void showCommonDialogWithTwoButtons(
   BuildContext context, {
   required IconData iconData,
   required String title,
-  required String subtitle,
   required VoidCallback onPressedRightButton,
   required String rightButtonText,
+  String? subtitle,
   VoidCallback? onPressedLeftButton,
   String? leftButtonText,
   bool barrierDismissible = true,

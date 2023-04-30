@@ -9,9 +9,9 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 class CommonDialogWithTwoButtons extends ConsumerWidget {
   final IconData iconData;
   final String title;
-  final String subtitle;
   final VoidCallback onPressedRightButton;
   final String rightButtonText;
+  final String? subtitle;
   final VoidCallback? onPressedLeftButton;
   final String? leftButtonText;
   final bool isDestructiveAction;
@@ -19,9 +19,9 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
     Key? key,
     required this.iconData,
     required this.title,
-    required this.subtitle,
     required this.onPressedRightButton,
     required this.rightButtonText,
+    this.subtitle,
     this.onPressedLeftButton,
     this.leftButtonText,
     this.isDestructiveAction = false,
@@ -51,13 +51,15 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
             ),
             const Gap(8),
             Text(title, style: customTextStyle.headlineSmall),
-            const Gap(4),
-            Text(
-              subtitle,
-              style: customTextStyle.bodyMedium.copyWith(
-                color: customThemeColors.textSecondary,
+            if (subtitle != null) ...[
+              const Gap(4),
+              Text(
+                subtitle!,
+                style: customTextStyle.bodyMedium.copyWith(
+                  color: customThemeColors.textSecondary,
+                ),
               ),
-            ),
+            ],
             const Gap(24),
             Row(
               children: [
