@@ -45,6 +45,7 @@ class _SharedPageState extends ConsumerState<SharedPage> {
             padding:
                 const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
             child: SharedCard(
+              id: state[index].id,
               labelText: hours,
               content: state[index].content,
             ),

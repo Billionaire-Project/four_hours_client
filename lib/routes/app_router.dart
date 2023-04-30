@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
+import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:four_hours_client/views/splash_screen/splash_page.dart';
 import 'package:four_hours_client/views/write_tab/write_page.dart';
 import 'package:go_router/go_router.dart';
@@ -83,13 +84,28 @@ GoRouter appRouter(AppRouterRef ref) {
                 ),
               ]),
           GoRoute(
-            path: SharedPage.path,
-            pageBuilder: (BuildContext context, GoRouterState state) =>
-                NoTransitionPage(
-              key: state.pageKey,
-              child: const SharedPage(),
-            ),
-          )
+              path: SharedPage.path,
+              pageBuilder: (BuildContext context, GoRouterState state) =>
+                  NoTransitionPage(
+                    key: state.pageKey,
+                    child: const SharedPage(),
+                  ),
+              routes: [
+                GoRoute(
+                  path: PostDetailPage.path,
+                  name: PostDetailPage.name,
+                  builder: (BuildContext context, GoRouterState state) {
+                    if (state.params['postId'] != null) {
+                      return PostDetailPage(
+                        postId: state.params['postId']!,
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                  parentNavigatorKey: _rootNavigatorKey,
+                ),
+              ])
         ],
       ),
       GoRoute(
