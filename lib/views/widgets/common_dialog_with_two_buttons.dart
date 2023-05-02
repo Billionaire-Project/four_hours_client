@@ -92,12 +92,12 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
                       backgroundColor: isDestructiveAction
                           ? customThemeColors.red
                           : customThemeColors.buttonPrimary,
-                      foregroundColor: customThemeColors.backgroundToggle,
+                      foregroundColor: customThemeColors.textInvert,
                     ),
                     child: Text(
                       rightButtonText,
                       style: customTextStyle.titleMedium
-                          .copyWith(color: customThemeColors.backgroundToggle),
+                          .copyWith(color: customThemeColors.textInvert),
                     ),
                   ),
                 ),

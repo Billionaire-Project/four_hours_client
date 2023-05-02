@@ -106,7 +106,7 @@ class SettingDrawer extends ConsumerWidget {
             ),
           ),
 
-          const Gap(19),
+          const Gap(16),
           Text(
             '앱 버젼: ${version ?? 'Beta'}',
             style: customTextStyle.caption.copyWith(
