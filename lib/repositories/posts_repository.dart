@@ -9,7 +9,7 @@ class PostsRepository extends BaseRepository {
   Future<List<PostModel>> getPosts() async {
     Response response = await dioClient.get('/posts/');
 
-    return (response.data['posts'] as List<dynamic>)
+    return (response.data as List<dynamic>)
         .map((e) => PostModel.fromJson(e))
         .toList();
   }
