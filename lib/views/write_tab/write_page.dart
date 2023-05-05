@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/controller/write_page_controller.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -23,6 +24,8 @@ class WritePage extends ConsumerStatefulWidget {
 class _WritePageState extends ConsumerState<WritePage> {
   @override
   Widget build(BuildContext context) {
+    final posts = ref.watch(writePageControllerProvider);
+    print('jay --- posts $posts');
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
