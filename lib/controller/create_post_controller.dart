@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/controller/shared_page_controller.dart';
 import 'package:four_hours_client/models/user_model.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/repositories/auth_repository.dart';
@@ -83,10 +84,13 @@ class CreatePostController extends _$CreatePostController {
 
           await _removeTemporaryText();
 
-          await _submitPost(content: state);
+          bool result = await _submitPost(content: state);
 
-          if (context.mounted) {
+          if (context.mounted && result) {
+            ref.read(sharedPageControllerProvider.notifier).resetPosts();
             context.pop(true);
+          } else {
+            //TODO: 게시가 제대로 되지 않았을 경우 처리 필요
           }
         },
         rightButtonText: '네, 게시할게요',
@@ -135,10 +139,12 @@ class CreatePostController extends _$CreatePostController {
     sharedPreferences.remove(SharedPreferenceKey.temporaryText);
   }
 
-  Future<void> _submitPost({required String content}) async {
+  Future<bool> _submitPost({required String content}) async {
     if (_user != null) {
       final repository = ref.read(postsRepositoryProvider);
       await repository.submitPosts(userId: _user!.id, content: content);
+
+      return true;
     } else {
       throw ('User is null');
     }

@@ -117,8 +117,6 @@ class CreatePostBottom extends ConsumerWidget {
               onPressed: isOverLimit || content.isEmpty
                   ? null
                   : () {
-                      print('jay --- submit UI ');
-
                       ref
                           .read(createPostControllerProvider.notifier)
                           .handlePressedSubmitButton(context);

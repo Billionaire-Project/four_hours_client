@@ -7,12 +7,12 @@ part of 'shared_page_controller.dart';
 // **************************************************************************
 
 String _$sharedPageControllerHash() =>
-    r'5afd2f8bd915fe9d0fa0d6d97ab6d24552dcda63';
+    r'31e862ad96c0c468e2fc4a63bc307d48052acdfa';
 
 /// See also [SharedPageController].
 @ProviderFor(SharedPageController)
-final sharedPageControllerProvider =
-    NotifierProvider<SharedPageController, List<PostModel>>.internal(
+final sharedPageControllerProvider = NotifierProvider<SharedPageController,
+    AsyncValue<List<PostModel>>>.internal(
   SharedPageController.new,
   name: r'sharedPageControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,7 +22,7 @@ final sharedPageControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SharedPageController = Notifier<List<PostModel>>;
+typedef _$SharedPageController = Notifier<AsyncValue<List<PostModel>>>;
 String _$sharedPageReportControllerHash() =>
     r'2afffc2661aa9a6bf817b6784ea86fc6ac2002bd';
 
