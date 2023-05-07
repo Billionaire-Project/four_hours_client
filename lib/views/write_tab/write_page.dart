@@ -5,6 +5,7 @@ import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
+import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
@@ -81,8 +82,23 @@ class BeforePostingCard extends ConsumerWidget {
           ),
           const Gap(16),
           CommonFullWidthTextButton(
-            onPressed: () {
-              context.push('${WritePage.path}/${CreatePostPage.path}');
+            onPressed: () async {
+              bool? isCreatedPost = await context
+                  .push<bool?>('${WritePage.path}/${CreatePostPage.path}');
+              if (isCreatedPost ?? false) {
+                if (context.mounted) {
+                  Future.delayed(
+                    const Duration(milliseconds: 300),
+                    () {
+                      showCommonAlert(
+                        context,
+                        iconData: CustomIcons.check_line,
+                        text: '게시 되었어요!',
+                      );
+                    },
+                  );
+                }
+              }
             },
             text: '글 쓰기',
           )

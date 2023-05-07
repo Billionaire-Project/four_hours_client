@@ -76,25 +76,27 @@ class CreatePostController extends _$CreatePostController {
   }
 
   void handlePressedSubmitButton(BuildContext context) {
-    showCommonDialogWithTwoButtons(
-      context,
-      iconData: CustomIcons.pencil_fill,
-      title: '작성한 글을 게시하시겠어요?',
-      subtitle: '게시된 글은 편집할 수 없어요',
-      onPressedRightButton: () async {
-        _textEditingController.clear();
+    _savingTimer?.cancel();
 
-        _savingTimer?.cancel();
+    showCommonDialogWithTwoButtons(context,
+        iconData: CustomIcons.pencil_fill,
+        title: '작성한 글을 게시하시겠어요?',
+        subtitle: '게시된 글은 편집할 수 없어요',
+        onPressedRightButton: () async {
+          _textEditingController.clear();
 
-        await _removeTemporaryText();
+          await _removeTemporaryText();
 
-        await _submitPost(content: state);
+          await _submitPost(content: state);
 
-        if (context.mounted) context.pop();
-        //TODO: 게시 완료 후 home-write에서 어떻게 완료되었는지 알려줘야함
-      },
-      rightButtonText: '네, 게시할게요',
-    );
+          if (context.mounted) {
+            context.pop(true);
+          }
+        },
+        rightButtonText: '네, 게시할게요',
+        onPressedLeftButton: () async {
+          await _requestToSave();
+        });
   }
 
   void onChanged(String text) {
@@ -105,10 +107,7 @@ class CreatePostController extends _$CreatePostController {
       _savingTimer = Timer(
         const Duration(seconds: autoSaveTime),
         () async {
-          await savePostController.requestToSave(text);
-          if (_isFirstPost) {
-            _isFirstPost = false;
-          }
+          await _requestToSave();
         },
       );
     }
@@ -135,6 +134,13 @@ class CreatePostController extends _$CreatePostController {
       await repository.submitPosts(userId: _user!.id, content: content);
     } else {
       throw ('User is null');
+    }
+  }
+
+  Future<void> _requestToSave() async {
+    await savePostController.requestToSave(state);
+    if (_isFirstPost) {
+      _isFirstPost = false;
     }
   }
 }
