@@ -7,9 +7,7 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/shared_detail_post_screen/shared_post_detail_page.dart';
-import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
@@ -93,33 +91,9 @@ class SharedPostCard extends ConsumerWidget {
                     CustomIcons.more_line,
                   ),
                   onTap: () {
-                    //TODO: controller로 옮기기
-                    showCommonActionSheet(
-                      context,
-                      actions: [
-                        CommonActionSheetAction(
-                          isDestructiveAction: true,
-                          onPressed: () {
-                            closeRootNavigator(context);
-                            showCommonDialogWithTwoButtons(
-                              context,
-                              iconData: CustomIcons.report_fill,
-                              title: '해당 게시글을 신고하시겠어요?',
-                              subtitle: '신고가 접수되면 즉시 사라집니다',
-                              onPressedRightButton: () {
-                                ref
-                                    .read(sharedPageReportControllerProvider
-                                        .notifier)
-                                    .reportPost();
-                              },
-                              rightButtonText: '신고',
-                            );
-                          },
-                          iconData: CustomIcons.report_line,
-                          text: '게시글 신고',
-                        )
-                      ],
-                    );
+                    ref
+                        .read(homeSharedControllerProvider.notifier)
+                        .handlePressedMoreButton(context);
                   },
                 ),
               ),
