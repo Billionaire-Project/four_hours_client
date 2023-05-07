@@ -7,7 +7,7 @@ part of 'shared_page_controller.dart';
 // **************************************************************************
 
 String _$sharedPageControllerHash() =>
-    r'31e862ad96c0c468e2fc4a63bc307d48052acdfa';
+    r'e28a5e597229546c5fd9ed973b6aa1456a5c7804';
 
 /// See also [SharedPageController].
 @ProviderFor(SharedPageController)

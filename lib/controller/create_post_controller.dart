@@ -74,6 +74,7 @@ class CreatePostController extends _$CreatePostController {
 
   void handlePressedSubmitButton(BuildContext context) {
     _savingTimer?.cancel();
+    _focusNode.unfocus();
 
     showCommonDialogWithTwoButtons(context,
         iconData: CustomIcons.pencil_fill,
@@ -87,7 +88,7 @@ class CreatePostController extends _$CreatePostController {
           bool result = await _submitPost(content: state);
 
           if (context.mounted && result) {
-            ref.read(sharedPageControllerProvider.notifier).resetPosts();
+            ref.read(sharedPageControllerProvider.notifier).getPosts();
             context.pop(true);
           } else {
             //TODO: 게시가 제대로 되지 않았을 경우 처리 필요
