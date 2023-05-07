@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'shared_post_detail_page_controller.dart';
+part of 'shared_post_detail_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sharedPostDetailPageControllerHash() =>
-    r'3bd198862435168e88b0bcc05999f94abb65eb84';
+String _$sharedPostDetailControllerHash() =>
+    r'e021e2ccd76a0e0f37aeeb8da63ed8778c1cc53b';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,32 +30,31 @@ class _SystemHash {
   }
 }
 
-typedef SharedPostDetailPageControllerRef
-    = AutoDisposeProviderRef<SharedPostDetailPageController>;
+typedef SharedPostDetailControllerRef
+    = AutoDisposeProviderRef<SharedPostDetailController>;
 
-/// See also [sharedPostDetailPageController].
-@ProviderFor(sharedPostDetailPageController)
-const sharedPostDetailPageControllerProvider =
-    SharedPostDetailPageControllerFamily();
+/// See also [sharedPostDetailController].
+@ProviderFor(sharedPostDetailController)
+const sharedPostDetailControllerProvider = SharedPostDetailControllerFamily();
 
-/// See also [sharedPostDetailPageController].
-class SharedPostDetailPageControllerFamily
-    extends Family<SharedPostDetailPageController> {
-  /// See also [sharedPostDetailPageController].
-  const SharedPostDetailPageControllerFamily();
+/// See also [sharedPostDetailController].
+class SharedPostDetailControllerFamily
+    extends Family<SharedPostDetailController> {
+  /// See also [sharedPostDetailController].
+  const SharedPostDetailControllerFamily();
 
-  /// See also [sharedPostDetailPageController].
-  SharedPostDetailPageControllerProvider call({
+  /// See also [sharedPostDetailController].
+  SharedPostDetailControllerProvider call({
     required int postId,
   }) {
-    return SharedPostDetailPageControllerProvider(
+    return SharedPostDetailControllerProvider(
       postId: postId,
     );
   }
 
   @override
-  SharedPostDetailPageControllerProvider getProviderOverride(
-    covariant SharedPostDetailPageControllerProvider provider,
+  SharedPostDetailControllerProvider getProviderOverride(
+    covariant SharedPostDetailControllerProvider provider,
   ) {
     return call(
       postId: provider.postId,
@@ -74,36 +73,36 @@ class SharedPostDetailPageControllerFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'sharedPostDetailPageControllerProvider';
+  String? get name => r'sharedPostDetailControllerProvider';
 }
 
-/// See also [sharedPostDetailPageController].
-class SharedPostDetailPageControllerProvider
-    extends AutoDisposeProvider<SharedPostDetailPageController> {
-  /// See also [sharedPostDetailPageController].
-  SharedPostDetailPageControllerProvider({
+/// See also [sharedPostDetailController].
+class SharedPostDetailControllerProvider
+    extends AutoDisposeProvider<SharedPostDetailController> {
+  /// See also [sharedPostDetailController].
+  SharedPostDetailControllerProvider({
     required this.postId,
   }) : super.internal(
-          (ref) => sharedPostDetailPageController(
+          (ref) => sharedPostDetailController(
             ref,
             postId: postId,
           ),
-          from: sharedPostDetailPageControllerProvider,
-          name: r'sharedPostDetailPageControllerProvider',
+          from: sharedPostDetailControllerProvider,
+          name: r'sharedPostDetailControllerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$sharedPostDetailPageControllerHash,
-          dependencies: SharedPostDetailPageControllerFamily._dependencies,
+                  : _$sharedPostDetailControllerHash,
+          dependencies: SharedPostDetailControllerFamily._dependencies,
           allTransitiveDependencies:
-              SharedPostDetailPageControllerFamily._allTransitiveDependencies,
+              SharedPostDetailControllerFamily._allTransitiveDependencies,
         );
 
   final int postId;
 
   @override
   bool operator ==(Object other) {
-    return other is SharedPostDetailPageControllerProvider &&
+    return other is SharedPostDetailControllerProvider &&
         other.postId == postId;
   }
 

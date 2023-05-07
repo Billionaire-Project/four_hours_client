@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/controller/shared_page_controller.dart';
+import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/shared_tab/shared_card.dart';
+import 'package:four_hours_client/views/home_screen/shared_tab/shared_post_card.dart';
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -13,13 +13,13 @@ class SharedPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final posts = ref.watch(sharedPageControllerProvider);
+    final posts = ref.watch(homeSharedControllerProvider);
     return SmartRefresher(
       enablePullDown: true,
       onRefresh:
-          ref.read(sharedPageControllerProvider.notifier).refreshSharedList,
+          ref.read(homeSharedControllerProvider.notifier).refreshSharedList,
       controller:
-          ref.read(sharedPageControllerProvider.notifier).refreshController,
+          ref.read(homeSharedControllerProvider.notifier).refreshController,
       //TODO: if need custom header
       // header:
       //     CustomHeader(builder: (BuildContext context, RefreshStatus? mode) {
@@ -52,7 +52,7 @@ class SharedPage extends ConsumerWidget {
               return Column(
                 children: [
                   if (index == 0) const SizedBox(height: 16),
-                  SharedCard(
+                  SharedPostCard(
                     post: posts[index],
                     labelText: leftTime,
                   ),

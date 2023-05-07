@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/shared_page_controller.dart';
+import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -16,10 +16,10 @@ import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:go_router/go_router.dart';
 
-class SharedCard extends ConsumerWidget {
+class SharedPostCard extends ConsumerWidget {
   final PostModel post;
   final String labelText;
-  const SharedCard({
+  const SharedPostCard({
     Key? key,
     required this.post,
     required this.labelText,
@@ -60,8 +60,8 @@ class SharedCard extends ConsumerWidget {
             bottom: 8.0,
           ),
           constraints: const BoxConstraints(
-            maxHeight: sharedCardMaxHeight,
-            minHeight: sharedCardMinHeight,
+            maxHeight: sharedPostCardMaxHeight,
+            minHeight: sharedPostCardMinHeight,
           ),
           decoration: BoxDecoration(
             color: customThemeColors.background,

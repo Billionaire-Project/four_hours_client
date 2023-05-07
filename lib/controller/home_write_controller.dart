@@ -1,10 +1,10 @@
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'write_page_controller.g.dart';
+part 'home_write_controller.g.dart';
 
 @riverpod
-class WritePageController extends _$WritePageController {
+class WriteController extends _$WriteController {
   late final PostsRepository postsRepository;
 
   @override

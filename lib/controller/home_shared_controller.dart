@@ -3,10 +3,10 @@ import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'shared_page_controller.g.dart';
+part 'home_shared_controller.g.dart';
 
 @Riverpod(keepAlive: true)
-class SharedPageController extends _$SharedPageController {
+class HomeSharedController extends _$HomeSharedController {
   late final PostsRepository postsRepository;
 
   final RefreshController _refreshController =

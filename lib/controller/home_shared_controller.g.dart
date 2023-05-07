@@ -1,28 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'shared_page_controller.dart';
+part of 'home_shared_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sharedPageControllerHash() =>
-    r'e28a5e597229546c5fd9ed973b6aa1456a5c7804';
+String _$homeSharedControllerHash() =>
+    r'84c5ee1646bff3254f69ee8e52657e123ab7259a';
 
-/// See also [SharedPageController].
-@ProviderFor(SharedPageController)
-final sharedPageControllerProvider = NotifierProvider<SharedPageController,
+/// See also [HomeSharedController].
+@ProviderFor(HomeSharedController)
+final homeSharedControllerProvider = NotifierProvider<HomeSharedController,
     AsyncValue<List<PostModel>>>.internal(
-  SharedPageController.new,
-  name: r'sharedPageControllerProvider',
+  HomeSharedController.new,
+  name: r'homeSharedControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$sharedPageControllerHash,
+      : _$homeSharedControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SharedPageController = Notifier<AsyncValue<List<PostModel>>>;
+typedef _$HomeSharedController = Notifier<AsyncValue<List<PostModel>>>;
 String _$sharedPageReportControllerHash() =>
     r'2afffc2661aa9a6bf817b6784ea86fc6ac2002bd';
 

@@ -2,13 +2,13 @@ import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'shared_post_detail_page_controller.g.dart';
+part 'shared_post_detail_controller.g.dart';
 
-class SharedPostDetailPageController {
+class SharedPostDetailController {
   final int postId;
   final PostsRepository postsRepository;
 
-  SharedPostDetailPageController({
+  SharedPostDetailController({
     required this.postId,
     required this.postsRepository,
   }) {
@@ -61,13 +61,13 @@ class SharedPostDetailPageController {
 }
 
 @riverpod
-SharedPostDetailPageController sharedPostDetailPageController(
-  SharedPostDetailPageControllerRef ref, {
+SharedPostDetailController sharedPostDetailController(
+  SharedPostDetailControllerRef ref, {
   required int postId,
 }) {
   final postsRepository = ref.watch(postsRepositoryProvider);
 
-  return SharedPostDetailPageController(
+  return SharedPostDetailController(
     postId: postId,
     postsRepository: postsRepository,
   );

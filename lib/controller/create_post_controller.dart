@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/controller/shared_page_controller.dart';
+import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/models/user_model.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/repositories/auth_repository.dart';
@@ -88,7 +88,7 @@ class CreatePostController extends _$CreatePostController {
           bool result = await _submitPost(content: state);
 
           if (context.mounted && result) {
-            ref.read(sharedPageControllerProvider.notifier).getPosts();
+            ref.read(homeSharedControllerProvider.notifier).getPosts();
             context.pop(true);
           } else {
             //TODO: 게시가 제대로 되지 않았을 경우 처리 필요
