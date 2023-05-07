@@ -4,8 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'shared_page_controller.g.dart';
 
-// @Riverpod(keepAlive: true)
-@riverpod
+@Riverpod(keepAlive: true)
 class SharedPageController extends _$SharedPageController {
   late final PostsRepository postsRepository;
   @override

@@ -7,12 +7,12 @@ part of 'shared_page_controller.dart';
 // **************************************************************************
 
 String _$sharedPageControllerHash() =>
-    r'38e7fe6ca05aa8390d4ee3dd2f8577edd58a83d2';
+    r'5afd2f8bd915fe9d0fa0d6d97ab6d24552dcda63';
 
 /// See also [SharedPageController].
 @ProviderFor(SharedPageController)
 final sharedPageControllerProvider =
-    AutoDisposeNotifierProvider<SharedPageController, List<PostModel>>.internal(
+    NotifierProvider<SharedPageController, List<PostModel>>.internal(
   SharedPageController.new,
   name: r'sharedPageControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,7 +22,7 @@ final sharedPageControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SharedPageController = AutoDisposeNotifier<List<PostModel>>;
+typedef _$SharedPageController = Notifier<List<PostModel>>;
 String _$sharedPageReportControllerHash() =>
     r'2afffc2661aa9a6bf817b6784ea86fc6ac2002bd';
 
