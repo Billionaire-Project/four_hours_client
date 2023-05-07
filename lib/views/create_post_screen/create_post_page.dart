@@ -54,16 +54,16 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final controllerNotifier = ref.watch(createPostControllerProvider.notifier);
 
-    bool isLoading = ref.watch(savePostControllerProvider).isLoading;
     return MainWrapper(
       appBar: CommonAppBar(
         title: '새 게시글',
         leadingAutomaticallyPop: false,
-        leadingOnTapHandler: isLoading
-            ? null
-            : () {
-                context.pop();
-              },
+        leadingOnTapHandler: () async {
+          await controllerNotifier.cancelCreatePost();
+          if (context.mounted) {
+            context.pop();
+          }
+        },
       ),
       padding: EdgeInsets.zero,
       child: Column(

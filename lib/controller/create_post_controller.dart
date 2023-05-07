@@ -71,10 +71,6 @@ class CreatePostController extends _$CreatePostController {
     }
   }
 
-  _getTemporaryText() {
-    _temporaryText = sharedPreferences.getString('temporaryText') ?? '';
-  }
-
   void handlePressedSubmitButton(BuildContext context) {
     _savingTimer?.cancel();
 
@@ -113,6 +109,13 @@ class CreatePostController extends _$CreatePostController {
     }
   }
 
+  Future<void> cancelCreatePost() async {
+    await savePostController.cancelRequestToSave();
+
+    _savingTimer?.cancel();
+    _textEditingController.clear();
+  }
+
   void _init() async {
     sharedPreferences = ref.watch(sharedPreferencesProvider);
     authRepository = ref.watch(authRepositoryProvider);
@@ -122,6 +125,10 @@ class CreatePostController extends _$CreatePostController {
     _user = await authRepository.getMyInformation();
 
     _getTemporaryText();
+  }
+
+  _getTemporaryText() {
+    _temporaryText = sharedPreferences.getString('temporaryText') ?? '';
   }
 
   Future<void> _removeTemporaryText() async {
@@ -170,5 +177,9 @@ class SavePostController extends _$SavePostController {
         state = AsyncValue.error('Error', StackTrace.current);
       }
     });
+  }
+
+  Future<void> cancelRequestToSave() async {
+    state = const AsyncValue.data(false);
   }
 }

@@ -7,7 +7,7 @@ part of 'create_post_controller.dart';
 // **************************************************************************
 
 String _$createPostControllerHash() =>
-    r'd3d1405c942cc247948e195db8101b7a03974078';
+    r'95105432abf129817b85773feb5a37bdbf68ad27';
 
 /// See also [CreatePostController].
 @ProviderFor(CreatePostController)
@@ -24,7 +24,7 @@ final createPostControllerProvider =
 
 typedef _$CreatePostController = AutoDisposeNotifier<String>;
 String _$savePostControllerHash() =>
-    r'ab4a03d9dfbe82d001f89f4953d445f20315a20d';
+    r'0bdd523630a257af55522a9e891762395d217484';
 
 /// See also [SavePostController].
 @ProviderFor(SavePostController)
