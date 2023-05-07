@@ -1,14 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
-import 'package:intl/intl.dart';
 
 class PostDetailBottom extends ConsumerWidget {
-  const PostDetailBottom({Key? key}) : super(key: key);
+  final PostModel post;
+
+  const PostDetailBottom({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,21 +30,64 @@ class PostDetailBottom extends ConsumerWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
-          _Timer(),
-          _PostDetailActions(),
+        children: [
+          _Timer(post: post),
+          const _PostDetailActions(),
         ],
       ),
     );
   }
 }
 
-class _Timer extends ConsumerWidget {
-  const _Timer({Key? key}) : super(key: key);
+//TODO: 이 글을 얼마나 볼 수 있는지 타이머 구현 필
+//TODO: 성우님한테 매초마다 get 요청해도 되는지 답 받아서
+//TODO: 된다고하면 이대로 구현 안되면 시간만 처음에 저장하고 타이머 로직 구현 필요함
+class _Timer extends ConsumerStatefulWidget {
+  final PostModel post;
+  const _Timer({
+    Key? key,
+    required this.post,
+  }) : super(key: key);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_Timer> createState() => _TimerState();
+}
+
+class _TimerState extends ConsumerState<_Timer> {
+  Duration _duration = const Duration(hours: 24, minutes: 0, seconds: 0);
+  Timer? _timer;
+  @override
+  void initState() {
+    super.initState();
+    final DateTime updatedAt = DateTime.parse(widget.post.updatedAt);
+    final DateTime now = DateTime.now();
+    final diff = now.difference(updatedAt);
+
+    _duration = _duration - diff;
+
+    _timer = Timer.periodic(const Duration(seconds: 1), _updateTimer);
+  }
+
+  void _updateTimer(Timer timer) {
+    setState(() {
+      _duration = _duration - const Duration(seconds: 1);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
+
+    String hours = _duration.inHours.toString().padLeft(2, '0');
+    String minutes = (_duration.inMinutes % 60).toString().padLeft(2, '0');
+    String seconds = (_duration.inSeconds % 60).toString().padLeft(2, '0');
 
     return Container(
       decoration: BoxDecoration(
@@ -50,7 +97,7 @@ class _Timer extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         child: Text(
-          DateFormat('hh:mm:ss').format(DateTime.now()).toString(),
+          '$hours:$minutes:$seconds',
           style: customTextStyle.montHeadlineSmall,
         ),
       ),

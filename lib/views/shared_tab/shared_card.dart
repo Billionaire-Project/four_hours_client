@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/controller/shared_page_controller.dart';
+import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
@@ -15,22 +17,21 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:go_router/go_router.dart';
 
 class SharedCard extends ConsumerWidget {
-  final int id;
+  final PostModel post;
   final String labelText;
-  final String content;
   const SharedCard({
     Key? key,
-    required this.id,
+    required this.post,
     required this.labelText,
-    required this.content,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    //TODO: isReported 필드에서 받아오기
     bool isReported = ref.watch(sharedPageReportControllerProvider);
-
+//TODO: 신고된 포스트만 숨기기
     if (isReported) {
       return const CommonCardCover(
         iconData: CustomIcons.report_fill,
@@ -46,8 +47,9 @@ class SharedCard extends ConsumerWidget {
           context.goNamed(
             PostDetailPage.name,
             params: {
-              'postId': id.toString(),
+              'postId': post.id.toString(),
             },
+            extra: post,
           );
         },
         child: Container(
@@ -57,7 +59,10 @@ class SharedCard extends ConsumerWidget {
             right: 8.0,
             bottom: 8.0,
           ),
-          constraints: const BoxConstraints(maxHeight: 232),
+          constraints: const BoxConstraints(
+            maxHeight: sharedCardMaxHeight,
+            minHeight: sharedCardMinHeight,
+          ),
           decoration: BoxDecoration(
             color: customThemeColors.background,
             borderRadius: BorderRadius.circular(12.0),
@@ -65,11 +70,14 @@ class SharedCard extends ConsumerWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               CommonRowWithDivider(
                 header: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 2.0),
+                    horizontal: 8.0,
+                    vertical: 2.0,
+                  ),
                   decoration: BoxDecoration(
                     color: customThemeColors.backgroundLabel,
                     borderRadius: BorderRadius.circular(4.0),
@@ -85,6 +93,7 @@ class SharedCard extends ConsumerWidget {
                     CustomIcons.more_line,
                   ),
                   onTap: () {
+                    //TODO: controller로 옮기기
                     showCommonActionSheet(
                       context,
                       actions: [
@@ -114,7 +123,7 @@ class SharedCard extends ConsumerWidget {
                   },
                 ),
               ),
-              Expanded(
+              Flexible(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: RichText(
@@ -123,7 +132,7 @@ class SharedCard extends ConsumerWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: content,
+                          text: post.content,
                           style: customTextStyle.bodySmall,
                         ),
                       ],

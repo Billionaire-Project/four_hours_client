@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
 import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
@@ -95,11 +96,15 @@ GoRouter appRouter(AppRouterRef ref) {
                   path: PostDetailPage.path,
                   name: PostDetailPage.name,
                   builder: (BuildContext context, GoRouterState state) {
+                    final post = state.extra! as PostModel;
+
                     if (state.params['postId'] != null) {
                       return PostDetailPage(
                         postId: state.params['postId']!,
+                        post: post,
                       );
                     } else {
+                      //TODO: redirect or show error page
                       return const SizedBox.shrink();
                     }
                   },
