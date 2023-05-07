@@ -46,9 +46,9 @@ GoRouter appRouter(AppRouterRef ref) {
       final bool isLogInLocation = state.location == logInLocation;
 
       if (isLogInLocation) {
-        return isAuth ? writeLocation : logInLocation;
+        return isAuth ? writeLocation : null;
       }
-      return isAuth ? writeLocation : splashLocation;
+      return isAuth ? null : logInLocation;
     },
     routes: [
       GoRoute(
