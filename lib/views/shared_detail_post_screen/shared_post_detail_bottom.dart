@@ -9,10 +9,11 @@ import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
-class PostDetailBottom extends ConsumerWidget {
+class SharedPostDetailBottom extends ConsumerWidget {
   final PostModel post;
 
-  const PostDetailBottom({Key? key, required this.post}) : super(key: key);
+  const SharedPostDetailBottom({Key? key, required this.post})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,9 +40,6 @@ class PostDetailBottom extends ConsumerWidget {
   }
 }
 
-//TODO: 이 글을 얼마나 볼 수 있는지 타이머 구현 필
-//TODO: 성우님한테 매초마다 get 요청해도 되는지 답 받아서
-//TODO: 된다고하면 이대로 구현 안되면 시간만 처음에 저장하고 타이머 로직 구현 필요함
 class _Timer extends ConsumerStatefulWidget {
   final PostModel post;
   const _Timer({
@@ -56,9 +54,11 @@ class _Timer extends ConsumerStatefulWidget {
 class _TimerState extends ConsumerState<_Timer> {
   Duration _duration = const Duration(hours: 24, minutes: 0, seconds: 0);
   Timer? _timer;
+
   @override
   void initState() {
     super.initState();
+
     final DateTime updatedAt = DateTime.parse(widget.post.updatedAt);
     final DateTime now = DateTime.now();
     final diff = now.difference(updatedAt);

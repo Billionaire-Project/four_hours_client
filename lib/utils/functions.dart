@@ -110,3 +110,17 @@ void showCommonDialogWithTwoButtons(
 bool checkHasOnlyWhiteSpace(String text) {
   return text.trim().isEmpty;
 }
+
+String getPostElapsedTime({required String date}) {
+  final DateTime dateTime = DateTime.parse(date);
+  final DateTime now = DateTime.now();
+  final Duration difference = now.difference(dateTime);
+
+  if (difference.inMinutes <= 0) {
+    return 'Just now';
+  } else if (difference.inHours <= 0) {
+    return '${difference.inMinutes}minutes';
+  } else {
+    return '${difference.inHours}hours';
+  }
+}

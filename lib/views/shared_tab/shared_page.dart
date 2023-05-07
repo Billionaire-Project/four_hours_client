@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/shared_page_controller.dart';
+import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/shared_tab/shared_card.dart';
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -45,18 +46,15 @@ class SharedPage extends ConsumerWidget {
         data: (posts) {
           return ListView.separated(
             itemBuilder: (context, index) {
-              //TODO: 몇시간 전인진, 몇분 전인지 계산하는 함수 따로 파기
-              final DateTime updatedAt = DateTime.parse(posts[index].updatedAt);
-              final DateTime now = DateTime.now();
-
-              final String hours = now.difference(updatedAt).inHours.toString();
+              final String leftTime =
+                  getPostElapsedTime(date: posts[index].createdAt);
 
               return Column(
                 children: [
                   if (index == 0) const SizedBox(height: 16),
                   SharedCard(
                     post: posts[index],
-                    labelText: hours,
+                    labelText: leftTime,
                   ),
                   if (index == posts.length - 1) const SizedBox(height: 16)
                 ],

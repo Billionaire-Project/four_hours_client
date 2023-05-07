@@ -8,7 +8,7 @@ import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
+import 'package:four_hours_client/views/shared_detail_post_screen/shared_post_detail_page.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
@@ -45,7 +45,7 @@ class SharedCard extends ConsumerWidget {
       child: InkWell(
         onTap: () {
           context.goNamed(
-            PostDetailPage.name,
+            SharedPostDetailPage.name,
             params: {
               'postId': post.id.toString(),
             },
@@ -83,7 +83,7 @@ class SharedCard extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: Text(
-                    '${labelText}hours',
+                    labelText,
                     style: customTextStyle.montLabelSmall,
                   ),
                 ),

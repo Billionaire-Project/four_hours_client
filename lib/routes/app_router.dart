@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
-import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
+import 'package:four_hours_client/views/shared_detail_post_screen/shared_post_detail_page.dart';
 import 'package:four_hours_client/views/splash_screen/splash_page.dart';
 import 'package:four_hours_client/views/write_tab/write_page.dart';
 import 'package:go_router/go_router.dart';
@@ -93,13 +93,13 @@ GoRouter appRouter(AppRouterRef ref) {
                   ),
               routes: [
                 GoRoute(
-                  path: PostDetailPage.path,
-                  name: PostDetailPage.name,
+                  path: SharedPostDetailPage.path,
+                  name: SharedPostDetailPage.name,
                   builder: (BuildContext context, GoRouterState state) {
                     final post = state.extra! as PostModel;
 
                     if (state.params['postId'] != null) {
-                      return PostDetailPage(
+                      return SharedPostDetailPage(
                         postId: state.params['postId']!,
                         post: post,
                       );
