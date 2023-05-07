@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/models/user_model.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
-import 'package:four_hours_client/providers/test_saving_provider.dart';
 import 'package:four_hours_client/repositories/auth_repository.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -19,12 +18,11 @@ part 'create_post_controller.g.dart';
 class CreatePostController extends _$CreatePostController {
   late final SharedPreferences sharedPreferences;
   late final AuthRepository authRepository;
-  late final TestSavingNotifier testSavingNotifier;
+  late final SavePostController savePostController;
 
   @override
   String build() {
     _init();
-    _getPreferences();
     return state;
   }
 
@@ -45,27 +43,36 @@ class CreatePostController extends _$CreatePostController {
 
   UserModel? _user;
 
-  void showDialogIfHasTemporaryText(BuildContext context) {
-    if (temporaryText.isNotEmpty && !checkHasOnlyWhiteSpace(temporaryText)) {
-      showCommonDialogWithTwoButtons(
-        context,
-        barrierDismissible: false,
-        iconData: CustomIcons.report_fill,
-        title: '작성중인 내용이 있어요',
-        subtitle: '이어서 작성하시겠어요?',
-        onPressedRightButton: () {
-          _textEditingController.text = _getTemporaryText();
-          state = textEditingController.text;
-          _focusNode.requestFocus();
-        },
-        rightButtonText: '네, 이어서 작성할게요',
-        onPressedLeftButton: () {
-          _removeTemporaryText();
-          _focusNode.requestFocus();
-        },
-        leftButtonText: '아니요',
-      );
+  void showDialogIfHasTemporaryText(BuildContext context) async {
+    await _getTemporaryText();
+
+    if (context.mounted) {
+      if (_temporaryText.isNotEmpty &&
+          !checkHasOnlyWhiteSpace(_temporaryText)) {
+        showCommonDialogWithTwoButtons(
+          context,
+          barrierDismissible: false,
+          iconData: CustomIcons.report_fill,
+          title: '작성중인 내용이 있어요',
+          subtitle: '이어서 작성하시겠어요?',
+          onPressedRightButton: () {
+            _textEditingController.text = _temporaryText;
+            state = textEditingController.text;
+            _focusNode.requestFocus();
+          },
+          rightButtonText: '네, 이어서 작성할게요',
+          onPressedLeftButton: () async {
+            await _removeTemporaryText();
+            _focusNode.requestFocus();
+          },
+          leftButtonText: '아니요',
+        );
+      }
     }
+  }
+
+  _getTemporaryText() {
+    _temporaryText = sharedPreferences.getString('temporaryText') ?? '';
   }
 
   void handlePressedSubmitButton(BuildContext context) {
@@ -75,9 +82,13 @@ class CreatePostController extends _$CreatePostController {
       title: '작성한 글을 게시하시겠어요?',
       subtitle: '게시된 글은 편집할 수 없어요',
       onPressedRightButton: () async {
-        await _submitPost(content: state);
-        _removeTemporaryText();
         _textEditingController.clear();
+
+        _savingTimer?.cancel();
+
+        await _removeTemporaryText();
+
+        await _submitPost(content: state);
 
         if (context.mounted) context.pop();
         //TODO: 게시 완료 후 home-write에서 어떻게 완료되었는지 알려줘야함
@@ -94,7 +105,7 @@ class CreatePostController extends _$CreatePostController {
       _savingTimer = Timer(
         const Duration(seconds: autoSaveTime),
         () async {
-          await testSavingNotifier.requestToSave(text);
+          await savePostController.requestToSave(text);
           if (_isFirstPost) {
             _isFirstPost = false;
           }
@@ -106,21 +117,15 @@ class CreatePostController extends _$CreatePostController {
   void _init() async {
     sharedPreferences = ref.watch(sharedPreferencesProvider);
     authRepository = ref.watch(authRepositoryProvider);
-    testSavingNotifier = ref.watch(testSavingNotifierProvider.notifier);
+    savePostController = ref.watch(savePostControllerProvider.notifier);
+
     state = _textEditingController.text;
     _user = await authRepository.getMyInformation();
+
+    _getTemporaryText();
   }
 
-  void _getPreferences() {
-    _temporaryText =
-        sharedPreferences.getString(SharedPreferenceKey.temporaryText) ?? '';
-  }
-
-  String _getTemporaryText() {
-    return sharedPreferences.getString(SharedPreferenceKey.temporaryText)!;
-  }
-
-  void _removeTemporaryText() {
+  Future<void> _removeTemporaryText() async {
     sharedPreferences.remove(SharedPreferenceKey.temporaryText);
   }
 
@@ -131,5 +136,33 @@ class CreatePostController extends _$CreatePostController {
     } else {
       throw ('User is null');
     }
+  }
+}
+
+@riverpod
+class SavePostController extends _$SavePostController {
+  late SharedPreferences sharedPreferences;
+
+  @override
+  FutureOr build() {
+    sharedPreferences = ref.watch(sharedPreferencesProvider);
+  }
+
+  Future<bool> savePost(String text) async {
+    await sharedPreferences.setString(SharedPreferenceKey.temporaryText, text);
+    return true;
+  }
+
+  Future<void> requestToSave(String text) async {
+    state = const AsyncValue.loading();
+
+    Timer(const Duration(seconds: 1), () async {
+      bool result = await savePost(text);
+      if (result) {
+        state = const AsyncValue.data(true);
+      } else {
+        state = AsyncValue.error('Error', StackTrace.current);
+      }
+    });
   }
 }

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/create_post_controller.dart';
-import 'package:four_hours_client/providers/test_saving_provider.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_bottom.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
@@ -55,7 +54,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final controllerNotifier = ref.watch(createPostControllerProvider.notifier);
 
-    bool isLoading = ref.watch(testSavingNotifierProvider).isLoading;
+    bool isLoading = ref.watch(savePostControllerProvider).isLoading;
     return MainWrapper(
       appBar: CommonAppBar(
         title: '새 게시글',

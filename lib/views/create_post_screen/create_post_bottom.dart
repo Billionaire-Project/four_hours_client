@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/create_post_controller.dart';
-import 'package:four_hours_client/providers/test_saving_provider.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
@@ -19,7 +18,7 @@ class CreatePostBottom extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
-    final isSavedProvider = ref.watch(testSavingNotifierProvider);
+    final isSavedProvider = ref.watch(savePostControllerProvider);
 
     final String content = ref.watch(createPostControllerProvider);
 
@@ -118,6 +117,8 @@ class CreatePostBottom extends ConsumerWidget {
               onPressed: isOverLimit || content.isEmpty
                   ? null
                   : () {
+                      print('jay --- submit UI ');
+
                       ref
                           .read(createPostControllerProvider.notifier)
                           .handlePressedSubmitButton(context);
