@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
@@ -14,19 +13,19 @@ import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:go_router/go_router.dart';
 
-class WritePage extends ConsumerStatefulWidget {
-  const WritePage({Key? key}) : super(key: key);
+class HomeWriteTab extends ConsumerStatefulWidget {
+  const HomeWriteTab({Key? key}) : super(key: key);
   static const String path = '/write';
 
   @override
-  ConsumerState<WritePage> createState() => _WritePageState();
+  ConsumerState<HomeWriteTab> createState() => _HomeWriteTabState();
 }
 
-class _WritePageState extends ConsumerState<WritePage> {
+class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
   @override
   Widget build(BuildContext context) {
     //TODO: 내 post 가져오기
-    // final posts = ref.watch(writePageControllerProvider);
+    // final posts = ref.watch(HomewriteTabControllerProvider);
     // print('jay --- posts $posts');
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -85,7 +84,7 @@ class BeforePostingCard extends ConsumerWidget {
           CommonFullWidthTextButton(
             onPressed: () async {
               bool? isCreatedPost = await context
-                  .push<bool?>('${WritePage.path}/${CreatePostPage.path}');
+                  .push<bool?>('${HomeWriteTab.path}/${CreatePostPage.path}');
               if (isCreatedPost ?? false) {
                 if (context.mounted) {
                   Future.delayed(

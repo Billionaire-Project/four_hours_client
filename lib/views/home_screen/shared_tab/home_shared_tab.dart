@@ -7,8 +7,8 @@ import 'package:four_hours_client/views/widgets/common_circular_progress_indicat
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 //TODO: pull down refresh
-class SharedPage extends ConsumerWidget {
-  const SharedPage({Key? key}) : super(key: key);
+class HomeSharedTab extends ConsumerWidget {
+  const HomeSharedTab({Key? key}) : super(key: key);
   static const String path = '/shared';
 
   @override

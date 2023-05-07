@@ -4,11 +4,11 @@ import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
 import 'package:four_hours_client/views/shared_detail_post_screen/shared_post_detail_page.dart';
 import 'package:four_hours_client/views/splash_screen/splash_page.dart';
-import 'package:four_hours_client/views/home_screen/write_tab/write_page.dart';
+import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
-import 'package:four_hours_client/views/home_screen/shared_tab/shared_page.dart';
+import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_tab.dart';
 import 'package:four_hours_client/views/widgets/common_widgets_page.dart';
 
 import 'package:four_hours_client/views/home_screen/home_page.dart';
@@ -33,7 +33,7 @@ GoRouter appRouter(AppRouterRef ref) {
       }
       const String splashLocation = SplashPage.path;
       const String logInLocation = LoginPage.path;
-      const String writeLocation = WritePage.path;
+      const String writeLocation = HomeWriteTab.path;
 
       final bool isAuth = appState.isLoggedIn;
 
@@ -70,11 +70,11 @@ GoRouter appRouter(AppRouterRef ref) {
         },
         routes: [
           GoRoute(
-              path: WritePage.path,
+              path: HomeWriteTab.path,
               pageBuilder: (BuildContext context, GoRouterState state) =>
                   NoTransitionPage(
                     key: state.pageKey,
-                    child: const WritePage(),
+                    child: const HomeWriteTab(),
                   ),
               routes: [
                 GoRoute(
@@ -85,11 +85,11 @@ GoRouter appRouter(AppRouterRef ref) {
                 ),
               ]),
           GoRoute(
-              path: SharedPage.path,
+              path: HomeSharedTab.path,
               pageBuilder: (BuildContext context, GoRouterState state) =>
                   NoTransitionPage(
                     key: state.pageKey,
-                    child: const SharedPage(),
+                    child: const HomeSharedTab(),
                   ),
               routes: [
                 GoRoute(
