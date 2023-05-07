@@ -29,6 +29,7 @@ GoRouter appRouter(AppRouterRef ref) {
     refreshListenable: appState,
     redirect: (BuildContext context, GoRouterState state) {
       if (state.error != null) {
+        //TODO: redirect to error page
         return null;
       }
       const String splashLocation = SplashPage.path;
@@ -45,9 +46,9 @@ GoRouter appRouter(AppRouterRef ref) {
       final bool isLogInLocation = state.location == logInLocation;
 
       if (isLogInLocation) {
-        return isAuth ? writeLocation : null;
+        return isAuth ? writeLocation : logInLocation;
       }
-      return isAuth ? null : splashLocation;
+      return isAuth ? writeLocation : splashLocation;
     },
     routes: [
       GoRoute(

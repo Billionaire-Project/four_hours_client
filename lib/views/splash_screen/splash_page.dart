@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+//TODO: flutter native splash screen 적용하기
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
   static const String path = '/';
