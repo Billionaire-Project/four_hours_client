@@ -21,8 +21,7 @@ class SharedPostDetailController {
   void _int() {}
 
   Future<void> getPostById() async {
-    _post = await postsRepository.getPostById(postId: postId.toString());
-    print('jay ---  불리나???? {$_post}}');
+    _post = await postsRepository.getPostById(postId: postId);
   }
 
   // @override

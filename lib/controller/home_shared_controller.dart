@@ -97,6 +97,20 @@ class HomeSharedController extends _$HomeSharedController {
     );
   }
 
+  Future<void> handlePressedLikeButton(int postId) async {
+    await postsRepository.likePost(postId: postId);
+
+    final PostModel newPost = await postsRepository.getPostById(postId: postId);
+
+    final int targetIndex = state.indexWhere((element) => element.id == postId);
+
+    final List<PostModel> newSharedList = List.from(state);
+
+    newSharedList[targetIndex] = newPost;
+
+    state = newSharedList;
+  }
+
   void _init() {
     postsRepository = ref.watch(postsRepositoryProvider);
     getPostsInitial();

@@ -115,11 +115,21 @@ class SharedPostCard extends ConsumerWidget {
                 ),
               ),
               const Gap(8),
-              const CommonRowWithDivider(
+              CommonRowWithDivider(
                 tail: CommonIconButton(
-                  icon: Icon(
-                    CustomIcons.heart_line,
-                  ),
+                  onTap: () {
+                    ref
+                        .read(homeSharedControllerProvider.notifier)
+                        .handlePressedLikeButton(post.id);
+                  },
+                  icon: post.isLiked!
+                      ? Icon(
+                          CustomIcons.heart_fill,
+                          color: customThemeColors.orange,
+                        )
+                      : const Icon(
+                          CustomIcons.heart_line,
+                        ),
                 ),
               ),
             ],

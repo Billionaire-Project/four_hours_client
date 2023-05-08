@@ -15,7 +15,7 @@ class PostsRepository extends BaseRepository {
     return PostsModel.fromJson(response.data);
   }
 
-  Future<PostModel> getPostById({required String postId}) async {
+  Future<PostModel> getPostById({required int postId}) async {
     Response response = await dioClient.get('/posts/$postId');
 
     return PostModel.fromJson(response.data);
@@ -39,6 +39,13 @@ class PostsRepository extends BaseRepository {
     };
 
     Response response = await dioClient.post('/posts/', data: data);
+
+    return response;
+  }
+
+  Future<Response> likePost({required int postId}) async {
+    Response response = await dioClient.post('/posts/like/$postId/');
+
     return response;
   }
 }

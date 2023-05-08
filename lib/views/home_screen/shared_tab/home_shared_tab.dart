@@ -6,7 +6,6 @@ import 'package:four_hours_client/views/home_screen/shared_tab/shared_post_card.
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-//TODO: pull down refresh
 class HomeSharedTab extends ConsumerWidget {
   const HomeSharedTab({Key? key}) : super(key: key);
   static const String path = '/shared';

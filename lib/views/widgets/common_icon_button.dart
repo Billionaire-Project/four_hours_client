@@ -13,9 +13,12 @@ class CommonIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: GestureDetector(onTap: onTap, child: icon),
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: padding,
+        child: icon,
+      ),
     );
   }
 }
