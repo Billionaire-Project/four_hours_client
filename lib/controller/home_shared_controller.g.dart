@@ -7,12 +7,12 @@ part of 'home_shared_controller.dart';
 // **************************************************************************
 
 String _$homeSharedControllerHash() =>
-    r'8b210b2a926ed1f0c14ec7ab853afe6ad58991ba';
+    r'f25bbf903f90d6b73cc9c19368172105cc9c9c64';
 
 /// See also [HomeSharedController].
 @ProviderFor(HomeSharedController)
-final homeSharedControllerProvider = NotifierProvider<HomeSharedController,
-    AsyncValue<List<PostModel>>>.internal(
+final homeSharedControllerProvider =
+    NotifierProvider<HomeSharedController, List<PostModel>>.internal(
   HomeSharedController.new,
   name: r'homeSharedControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,7 +22,7 @@ final homeSharedControllerProvider = NotifierProvider<HomeSharedController,
   allTransitiveDependencies: null,
 );
 
-typedef _$HomeSharedController = Notifier<AsyncValue<List<PostModel>>>;
+typedef _$HomeSharedController = Notifier<List<PostModel>>;
 String _$sharedPageReportControllerHash() =>
     r'2afffc2661aa9a6bf817b6784ea86fc6ac2002bd';
 

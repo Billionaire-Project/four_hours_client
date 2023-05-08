@@ -6,7 +6,10 @@ part 'posts_model.g.dart';
 @freezed
 class PostsModel with _$PostsModel {
   factory PostsModel({
-    required List<PostModel?> posts,
+    required int start,
+    required int offset,
+    required int? next,
+    required List<PostModel> posts,
   }) = _PostsModel;
 
   factory PostsModel.fromJson(Map<String, dynamic> json) =>

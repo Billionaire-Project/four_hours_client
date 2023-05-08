@@ -1,4 +1,5 @@
 import 'package:four_hours_client/models/post_model.dart';
+import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,23 +18,54 @@ class HomeSharedController extends _$HomeSharedController {
       RefreshController(initialRefresh: false);
   RefreshController get refreshController => _refreshController;
   @override
-  AsyncValue<List<PostModel>> build() {
+  List<PostModel> build() {
+    state = [];
+
     _init();
     return state;
   }
 
-  Future<void> getPosts() async {
-    state = const AsyncValue.loading();
+  String _start = '0';
+  String _offset = '10';
 
-    state = await AsyncValue.guard(() async {
-      return await postsRepository.getPosts();
-    });
+  PostsModel? _posts;
+  PostsModel? get posts => _posts;
+
+  Future<void> getPostsInitial() async {
+    await _getPosts();
+
+    //TODO: 에러 핸들링 필요
+    if (_posts!.posts.isEmpty) {
+      return;
+    }
+
+    state = _posts!.posts;
+
+    _start = _posts!.next.toString();
+  }
+
+  Future<void> getMorePosts() async {
+    await _getPosts();
+
+    if (_posts!.next == null) {
+      _refreshController.loadComplete();
+      return;
+    }
+
+    _start = _posts!.next.toString();
+    state = [...state, ..._posts!.posts];
+
+    _refreshController.loadComplete();
   }
 
   void refreshSharedList() async {
-    state = await AsyncValue.guard(() async {
-      return await postsRepository.getPosts();
-    });
+    _start = '0';
+    _offset = '10';
+
+    await _getPosts();
+
+    state = _posts!.posts;
+
     _refreshController.refreshCompleted();
   }
 
@@ -67,7 +99,11 @@ class HomeSharedController extends _$HomeSharedController {
 
   void _init() {
     postsRepository = ref.watch(postsRepositoryProvider);
-    getPosts();
+    getPostsInitial();
+  }
+
+  Future<void> _getPosts() async {
+    _posts = await postsRepository.getPosts(start: _start, offset: _offset);
   }
 }
 

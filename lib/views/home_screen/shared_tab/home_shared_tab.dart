@@ -14,66 +14,106 @@ class HomeSharedTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final posts = ref.watch(homeSharedControllerProvider);
-    return SmartRefresher(
-      enablePullDown: true,
-      onRefresh:
-          ref.read(homeSharedControllerProvider.notifier).refreshSharedList,
-      controller:
-          ref.read(homeSharedControllerProvider.notifier).refreshController,
-      //TODO: if need custom header
-      // header:
-      //     CustomHeader(builder: (BuildContext context, RefreshStatus? mode) {
-      //   Widget body;
-      //   if (mode == RefreshStatus.idle) {
-      //     body = const Text("pull up load");
-      //   } else if (mode == RefreshStatus.refreshing) {
-      //     body = const CupertinoActivityIndicator();
-      //   } else if (mode == RefreshStatus.completed) {
-      //     body = const Text("done");
-      //   } else if (mode == RefreshStatus.failed) {
-      //     body = const Text("failed");
-      //   } else if (mode == RefreshStatus.canRefresh) {
-      //     body = const Text("release to refresh");
-      //   } else {
-      //     body = const Text("pull down refresh");
-      //   }
-      //   return SizedBox(
-      //     height: 55.0,
-      //     child: Center(child: body),
-      //   );
-      // }),
-      child: posts.when(
-        data: (posts) {
-          return ListView.separated(
-            itemBuilder: (context, index) {
-              final String leftTime =
-                  getPostElapsedTime(date: posts[index].createdAt);
 
-              return Column(
-                children: [
-                  if (index == 0) const SizedBox(height: 16),
-                  SharedPostCard(
-                    post: posts[index],
-                    labelText: leftTime,
-                  ),
-                  if (index == posts.length - 1) const SizedBox(height: 16)
-                ],
-              );
-            },
-            separatorBuilder: (context, index) =>
-                SizedBox.fromSize(size: const Size(0, 0)),
-            itemCount: posts.length,
-          );
-        },
-        //TODO: show error page
-        error: (_, __) => const Text('error'),
-        loading: () => const Center(
+    if (posts.isEmpty) {
+      return const Center(
           child: CommonCircularProgressIndicator(
-            size: 32,
-            strokeWidth: 2,
-          ),
+        size: 32,
+        strokeWidth: 2,
+      ));
+    }
+
+    return SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: true,
+        controller:
+            ref.read(homeSharedControllerProvider.notifier).refreshController,
+        onRefresh:
+            ref.read(homeSharedControllerProvider.notifier).refreshSharedList,
+        onLoading: ref.read(homeSharedControllerProvider.notifier).getMorePosts,
+        footer: CustomFooter(
+          height: 120,
+          builder: (BuildContext context, LoadStatus? mode) {
+            return const SizedBox.shrink();
+          },
+          loadStyle: LoadStyle.HideAlways,
         ),
-      ),
-    );
+        //TODO: if need custom header
+        // header:
+        //     CustomHeader(builder: (BuildContext context, RefreshStatus? mode) {
+        //   Widget body;
+        //   if (mode == RefreshStatus.idle) {
+        //     body = const Text("pull up load");
+        //   } else if (mode == RefreshStatus.refreshing) {
+        //     body = const CupertinoActivityIndicator();
+        //   } else if (mode == RefreshStatus.completed) {
+        //     body = const Text("done");
+        //   } else if (mode == RefreshStatus.failed) {
+        //     body = const Text("failed");
+        //   } else if (mode == RefreshStatus.canRefresh) {
+        //     body = const Text("release to refresh");
+        //   } else {
+        //     body = const Text("pull down refresh");
+        //   }
+        //   return SizedBox(
+        //     height: 55.0,
+        //     child: Center(child: body),
+        //   );
+        // }),
+        child: ListView.separated(
+          itemBuilder: (context, index) {
+            final String leftTime =
+                getPostElapsedTime(date: posts[index].createdAt);
+
+            return Column(
+              children: [
+                if (index == 0) const SizedBox(height: 16),
+                SharedPostCard(
+                  post: posts[index],
+                  labelText: leftTime,
+                ),
+                if (index == posts.length - 1) const SizedBox(height: 16)
+              ],
+            );
+          },
+          separatorBuilder: (context, index) =>
+              SizedBox.fromSize(size: const Size(0, 0)),
+          itemCount: posts.length,
+        )
+        // child: posts.when(
+        //   data: (posts) {
+        //     final List<PostModel> sharedPostList = posts.posts;
+        //     return ListView.separated(
+        //       itemBuilder: (context, index) {
+        //         final String leftTime =
+        //             getPostElapsedTime(date: sharedPostList[index].createdAt);
+
+        //         return Column(
+        //           children: [
+        //             if (index == 0) const SizedBox(height: 16),
+        //             SharedPostCard(
+        //               post: sharedPostList[index],
+        //               labelText: leftTime,
+        //             ),
+        //             if (index == sharedPostList.length - 1)
+        //               const SizedBox(height: 16)
+        //           ],
+        //         );
+        //       },
+        //       separatorBuilder: (context, index) =>
+        //           SizedBox.fromSize(size: const Size(0, 0)),
+        //       itemCount: sharedPostList.length,
+        //     );
+        //   },
+        //   //TODO: show error page
+        //   error: (_, __) => const Text('error'),
+        //   loading: () => const Center(
+        //     child: CommonCircularProgressIndicator(
+        //       size: 32,
+        //       strokeWidth: 2,
+        //     ),
+        //   ),
+        // ),
+        );
   }
 }

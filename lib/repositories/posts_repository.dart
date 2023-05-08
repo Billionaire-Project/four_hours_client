@@ -1,17 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/models/post_model.dart';
+import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/base_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'posts_repository.g.dart';
 
 class PostsRepository extends BaseRepository {
-  Future<List<PostModel>> getPosts() async {
-    Response response = await dioClient.get('/posts/');
+  Future<PostsModel> getPosts(
+      {required String start, required String offset}) async {
+    Response response =
+        await dioClient.get('/posts/?start=$start&offset=$offset');
 
-    return (response.data['posts'] as List<dynamic>)
-        .map((e) => PostModel.fromJson(e))
-        .toList();
+    return PostsModel.fromJson(response.data);
   }
 
   Future<PostModel> getPostById({required String postId}) async {
