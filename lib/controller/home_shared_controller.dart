@@ -71,7 +71,7 @@ class HomeSharedController extends _$HomeSharedController {
     _refreshController.refreshCompleted();
   }
 
-  void handlePressedMoreButton(BuildContext context) {
+  void handlePressedMoreButton(BuildContext context, {required int postId}) {
     showCommonActionSheet(
       context,
       actions: [
@@ -85,9 +85,7 @@ class HomeSharedController extends _$HomeSharedController {
               title: '해당 게시글을 신고하시겠어요?',
               subtitle: '신고가 접수되면 즉시 사라집니다',
               onPressedRightButton: () {
-                ref
-                    .read(sharedPageReportControllerProvider.notifier)
-                    .reportPost();
+                _handlePressedReportButton(postId: postId);
               },
               rightButtonText: '신고',
             );
@@ -115,6 +113,20 @@ class HomeSharedController extends _$HomeSharedController {
     ref.read(likedPostControllerProvider.notifier).refreshLikedList();
   }
 
+  Future<void> _handlePressedReportButton({required int postId}) async {
+    await postsRepository.reportPost(postId: postId);
+
+    final PostModel newPost = await postsRepository.getPostById(postId: postId);
+
+    final int targetIndex = state.indexWhere((element) => element.id == postId);
+
+    final List<PostModel> newSharedList = List.from(state);
+
+    newSharedList[targetIndex] = newPost;
+
+    state = newSharedList;
+  }
+
   void _init() {
     postsRepository = ref.watch(postsRepositoryProvider);
     getPostsInitial();
@@ -125,14 +137,14 @@ class HomeSharedController extends _$HomeSharedController {
   }
 }
 
-@riverpod
-class SharedPageReportController extends _$SharedPageReportController {
-  @override
-  bool build() {
-    return false;
-  }
+// @riverpod
+// class SharedPageReportController extends _$SharedPageReportController {
+//   @override
+//   bool build() {
+//     return false;
+//   }
 
-  void reportPost() {
-    state = true;
-  }
-}
+//   void reportPost() {
+//     state = true;
+//   }
+// }

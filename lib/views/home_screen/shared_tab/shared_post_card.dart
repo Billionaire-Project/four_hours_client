@@ -32,8 +32,9 @@ class _SharedPostCardState extends ConsumerState<SharedPostCard> {
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
-    //TODO: isReported 필드에서 받아오기
-    bool isReported = ref.watch(sharedPageReportControllerProvider);
+    // TODO: isReported 필드에서 받아오기
+    // bool isReported = ref.watch(sharedPageReportControllerProvider);
+    bool isReported = widget.post.isReported!;
 //TODO: 신고된 포스트만 숨기기
     if (isReported) {
       return const CommonCardCover(
@@ -98,7 +99,10 @@ class _SharedPostCardState extends ConsumerState<SharedPostCard> {
                   onTap: () {
                     ref
                         .read(homeSharedControllerProvider.notifier)
-                        .handlePressedMoreButton(context);
+                        .handlePressedMoreButton(
+                          context,
+                          postId: widget.post.id,
+                        );
                   },
                 ),
               ),

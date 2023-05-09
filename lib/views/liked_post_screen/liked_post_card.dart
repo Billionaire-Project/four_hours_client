@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -88,9 +87,10 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                     CustomIcons.more_line,
                   ),
                   onTap: () {
-                    ref
-                        .read(homeSharedControllerProvider.notifier)
-                        .handlePressedMoreButton(context);
+                    //TODO: liked list에서 more button 필요?
+                    // ref
+                    //     .read(homeSharedControllerProvider.notifier)
+                    //     .handlePressedMoreButton(context);
                   },
                 ),
               ),

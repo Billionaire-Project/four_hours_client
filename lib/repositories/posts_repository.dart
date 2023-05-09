@@ -60,6 +60,12 @@ class PostsRepository extends BaseRepository {
 
     return PostsModel.fromJson(response.data);
   }
+
+  Future<Response> reportPost({required int postId}) async {
+    Response response = await dioClient.post('/posts/report/$postId/');
+
+    return response;
+  }
 }
 
 @Riverpod(keepAlive: true)
