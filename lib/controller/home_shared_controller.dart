@@ -35,13 +35,13 @@ class HomeSharedController extends _$HomeSharedController {
     await _getPosts();
 
     //TODO: 에러 핸들링 필요
-    if (_posts!.posts.isEmpty) {
+    if (_posts!.posts.isEmpty || _posts!.next == null) {
       return;
     }
 
     state = _posts!.posts;
 
-    _start = _posts!.next.toString();
+    _start = _posts!.next!;
   }
 
   Future<void> getMorePosts() async {
@@ -52,7 +52,7 @@ class HomeSharedController extends _$HomeSharedController {
       return;
     }
 
-    _start = _posts!.next.toString();
+    _start = _posts!.next!;
     state = [...state, ..._posts!.posts];
 
     _refreshController.loadComplete();

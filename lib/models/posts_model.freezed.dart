@@ -20,9 +20,9 @@ PostsModel _$PostsModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PostsModel {
-  int get start => throw _privateConstructorUsedError;
-  int get offset => throw _privateConstructorUsedError;
-  int? get next => throw _privateConstructorUsedError;
+  String get start => throw _privateConstructorUsedError;
+  String get offset => throw _privateConstructorUsedError;
+  String? get next => throw _privateConstructorUsedError;
   List<PostModel> get posts => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $PostsModelCopyWith<$Res> {
           PostsModel value, $Res Function(PostsModel) then) =
       _$PostsModelCopyWithImpl<$Res, PostsModel>;
   @useResult
-  $Res call({int start, int offset, int? next, List<PostModel> posts});
+  $Res call({String start, String offset, String? next, List<PostModel> posts});
 }
 
 /// @nodoc
@@ -62,15 +62,15 @@ class _$PostsModelCopyWithImpl<$Res, $Val extends PostsModel>
       start: null == start
           ? _value.start
           : start // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       offset: null == offset
           ? _value.offset
           : offset // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       posts: null == posts
           ? _value.posts
           : posts // ignore: cast_nullable_to_non_nullable
@@ -87,7 +87,7 @@ abstract class _$$_PostsModelCopyWith<$Res>
       __$$_PostsModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int start, int offset, int? next, List<PostModel> posts});
+  $Res call({String start, String offset, String? next, List<PostModel> posts});
 }
 
 /// @nodoc
@@ -110,15 +110,15 @@ class __$$_PostsModelCopyWithImpl<$Res>
       start: null == start
           ? _value.start
           : start // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       offset: null == offset
           ? _value.offset
           : offset // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       posts: null == posts
           ? _value._posts
           : posts // ignore: cast_nullable_to_non_nullable
@@ -141,11 +141,11 @@ class _$_PostsModel implements _PostsModel {
       _$$_PostsModelFromJson(json);
 
   @override
-  final int start;
+  final String start;
   @override
-  final int offset;
+  final String offset;
   @override
-  final int? next;
+  final String? next;
   final List<PostModel> _posts;
   @override
   List<PostModel> get posts {
@@ -191,20 +191,20 @@ class _$_PostsModel implements _PostsModel {
 
 abstract class _PostsModel implements PostsModel {
   factory _PostsModel(
-      {required final int start,
-      required final int offset,
-      required final int? next,
+      {required final String start,
+      required final String offset,
+      required final String? next,
       required final List<PostModel> posts}) = _$_PostsModel;
 
   factory _PostsModel.fromJson(Map<String, dynamic> json) =
       _$_PostsModel.fromJson;
 
   @override
-  int get start;
+  String get start;
   @override
-  int get offset;
+  String get offset;
   @override
-  int? get next;
+  String? get next;
   @override
   List<PostModel> get posts;
   @override

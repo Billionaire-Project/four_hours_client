@@ -6,9 +6,9 @@ part 'posts_model.g.dart';
 @freezed
 class PostsModel with _$PostsModel {
   factory PostsModel({
-    required int start,
-    required int offset,
-    required int? next,
+    required String start,
+    required String offset,
+    required String? next,
     required List<PostModel> posts,
   }) = _PostsModel;
 
