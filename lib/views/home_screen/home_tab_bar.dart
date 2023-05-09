@@ -7,9 +7,9 @@ import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_tab.d
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
 import 'package:go_router/go_router.dart';
 
-class BottomTabBar extends ConsumerWidget implements PreferredSizeWidget {
+class HomeTabBar extends ConsumerWidget implements PreferredSizeWidget {
   final TabController? tabController;
-  const BottomTabBar({Key? key, this.tabController}) : super(key: key);
+  const HomeTabBar({Key? key, this.tabController}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(appBarBottomHeight);

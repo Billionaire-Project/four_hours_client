@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:four_hours_client/views/home_screen/bottom_tab_bar.dart';
+import 'package:four_hours_client/views/home_screen/home_tab_bar.dart';
 import 'package:four_hours_client/views/widgets/main_app_bar.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 
@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return MainWrapper(
       appBar: MainAppBar(
-        bottom: BottomTabBar(
+        bottom: HomeTabBar(
           tabController: _tabController,
         ),
       ),
