@@ -7,8 +7,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'posts_repository.g.dart';
 
 class PostsRepository extends BaseRepository {
-  Future<PostsModel> getPosts(
-      {required String start, required String offset}) async {
+  Future<PostsModel> getPosts({
+    required String start,
+    required String offset,
+  }) async {
     Response response =
         await dioClient.get('/posts/?start=$start&offset=$offset');
 
@@ -43,10 +45,20 @@ class PostsRepository extends BaseRepository {
     return response;
   }
 
-  Future<Response> likePost({required int postId}) async {
+  Future<bool> likePost({required int postId}) async {
     Response response = await dioClient.post('/posts/like/$postId/');
 
-    return response;
+    return response.data['is_liked'];
+  }
+
+  Future<PostsModel> getLikePosts({
+    required String start,
+    required String offset,
+  }) async {
+    Response response =
+        await dioClient.get('/posts/likes/?start=$start&offset=$offset');
+
+    return PostsModel.fromJson(response.data);
   }
 }
 

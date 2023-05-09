@@ -14,7 +14,7 @@ import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:go_router/go_router.dart';
 
-class SharedPostCard extends ConsumerWidget {
+class SharedPostCard extends ConsumerStatefulWidget {
   final PostModel post;
   final String labelText;
   const SharedPostCard({
@@ -24,7 +24,12 @@ class SharedPostCard extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SharedPostCard> createState() => _SharedPostCardState();
+}
+
+class _SharedPostCardState extends ConsumerState<SharedPostCard> {
+  @override
+  Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
     //TODO: isReported 필드에서 받아오기
@@ -45,9 +50,9 @@ class SharedPostCard extends ConsumerWidget {
           context.goNamed(
             SharedPostDetailPage.name,
             params: {
-              'postId': post.id.toString(),
+              'postId': widget.post.id.toString(),
             },
-            extra: post,
+            extra: widget.post,
           );
         },
         child: Container(
@@ -81,7 +86,7 @@ class SharedPostCard extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: Text(
-                    labelText,
+                    widget.labelText,
                     style: customTextStyle.montLabelSmall,
                   ),
                 ),
@@ -106,7 +111,7 @@ class SharedPostCard extends ConsumerWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: post.content,
+                          text: widget.post.content,
                           style: customTextStyle.bodySmall,
                         ),
                       ],
@@ -116,20 +121,42 @@ class SharedPostCard extends ConsumerWidget {
               ),
               const Gap(8),
               CommonRowWithDivider(
-                tail: CommonIconButton(
-                  onTap: () {
-                    ref
-                        .read(homeSharedControllerProvider.notifier)
-                        .handlePressedLikeButton(post.id);
-                  },
-                  icon: post.isLiked!
-                      ? Icon(
-                          CustomIcons.heart_fill,
-                          color: customThemeColors.orange,
-                        )
-                      : const Icon(
-                          CustomIcons.heart_line,
-                        ),
+                tail: Row(
+                  children: [
+                    //TODO: Liked & Saved 표시
+                    // if (widget.post.isLiked! && !isShown)
+                    //   Container(
+                    //     padding: const EdgeInsets.symmetric(
+                    //       horizontal: 8.0,
+                    //       vertical: 2.0,
+                    //     ),
+                    //     decoration: BoxDecoration(
+                    //       color: customThemeColors.orange,
+                    //       borderRadius: BorderRadius.circular(4.0),
+                    //     ),
+                    //     child: Text(
+                    //       'Liked & Saved',
+                    //       style: customTextStyle.montLabelSmall.copyWith(
+                    //         color: customThemeColors.backgroundToggle,
+                    //       ),
+                    //     ),
+                    //   ),
+                    CommonIconButton(
+                      onTap: () {
+                        ref
+                            .read(homeSharedControllerProvider.notifier)
+                            .handlePressedLikeButton(widget.post.id);
+                      },
+                      icon: widget.post.isLiked!
+                          ? Icon(
+                              CustomIcons.heart_fill,
+                              color: customThemeColors.orange,
+                            )
+                          : const Icon(
+                              CustomIcons.heart_line,
+                            ),
+                    ),
+                  ],
                 ),
               ),
             ],

@@ -29,7 +29,7 @@ class LikedPostController extends _$LikedPostController {
   PostsModel? get posts => _likedPosts;
 
   Future<void> getLikedPostsInitial() async {
-    await _getPosts();
+    await _getLikePosts();
 
     //TODO: 에러 핸들링 필요
     if (_likedPosts!.posts.isEmpty || _likedPosts!.next == null) {
@@ -42,7 +42,7 @@ class LikedPostController extends _$LikedPostController {
   }
 
   Future<void> getMoreLikedPosts() async {
-    await _getPosts();
+    await _getLikePosts();
 
     if (_likedPosts!.next == null) {
       _refreshController.loadComplete();
@@ -62,7 +62,7 @@ class LikedPostController extends _$LikedPostController {
     _start = '0';
     _offset = '10';
 
-    await _getPosts();
+    await _getLikePosts();
 
     state = _likedPosts!.posts;
 
@@ -70,7 +70,7 @@ class LikedPostController extends _$LikedPostController {
   }
 
   Future<void> handlePressedLikeButton(int postId) async {
-    await postsRepository.likePost(postId: postId);
+    bool result = await postsRepository.likePost(postId: postId);
 
     final PostModel newPost = await postsRepository.getPostById(postId: postId);
 
@@ -78,14 +78,16 @@ class LikedPostController extends _$LikedPostController {
 
     final List<PostModel> newSharedList = List.from(state);
 
-    newSharedList[targetIndex] = newPost;
+    if (result) {
+      newSharedList[targetIndex] = newPost;
 
-    state = newSharedList;
+      state = newSharedList;
+    }
   }
 
-  Future<void> _getPosts() async {
+  Future<void> _getLikePosts() async {
     _likedPosts =
-        await postsRepository.getPosts(start: _start, offset: _offset);
+        await postsRepository.getLikePosts(start: _start, offset: _offset);
   }
 
   void _init() {
