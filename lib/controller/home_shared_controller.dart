@@ -17,6 +17,7 @@ class HomeSharedController extends _$HomeSharedController {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   RefreshController get refreshController => _refreshController;
+
   @override
   List<PostModel> build() {
     state = [];

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/routes/app_state.dart';
+import 'package:four_hours_client/views/liked_post_screen/liked_post_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
 import 'package:four_hours_client/views/shared_detail_post_screen/shared_post_detail_page.dart';
 import 'package:four_hours_client/views/splash_screen/splash_page.dart';
@@ -63,6 +64,15 @@ GoRouter appRouter(AppRouterRef ref) {
           key: state.pageKey,
           child: const LoginPage(),
         ),
+      ),
+      GoRoute(
+        path: LikedPostPage.path,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            NoTransitionPage(
+          key: state.pageKey,
+          child: const LikedPostPage(),
+        ),
+        parentNavigatorKey: _rootNavigatorKey,
       ),
       ShellRoute(
         navigatorKey: _shellNavigatorKey,

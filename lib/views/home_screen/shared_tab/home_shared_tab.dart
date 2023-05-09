@@ -4,6 +4,7 @@ import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/shared_post_card.dart';
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
+import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeSharedTab extends ConsumerWidget {
@@ -30,13 +31,7 @@ class HomeSharedTab extends ConsumerWidget {
       onRefresh:
           ref.read(homeSharedControllerProvider.notifier).refreshSharedList,
       onLoading: ref.read(homeSharedControllerProvider.notifier).getMorePosts,
-      footer: CustomFooter(
-        height: 120,
-        builder: (BuildContext context, LoadStatus? mode) {
-          return const SizedBox.shrink();
-        },
-        loadStyle: LoadStyle.HideAlways,
-      ),
+      footer: const CustomRefresherFooter(),
       //TODO: if need custom header
       // header:
       //     CustomHeader(builder: (BuildContext context, RefreshStatus? mode) {

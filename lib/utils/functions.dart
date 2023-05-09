@@ -119,7 +119,7 @@ String getPostElapsedTime({required String date}) {
   if (difference.inMinutes <= 0) {
     return 'Just now';
   } else if (difference.inHours <= 0) {
-    return '${difference.inMinutes}minutes';
+    return '${difference.inMinutes}mins';
   } else {
     return '${difference.inHours}hours';
   }
