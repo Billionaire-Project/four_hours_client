@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'liked_post_controller.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class LikedPostController extends _$LikedPostController {
   late final PostsRepository postsRepository;
 
@@ -36,7 +36,7 @@ class LikedPostController extends _$LikedPostController {
       return;
     }
 
-    state = _likedPosts!.posts.where((post) => post.isLiked == true).toList();
+    state = _likedPosts!.posts;
 
     _start = _likedPosts!.next!;
   }
@@ -52,7 +52,7 @@ class LikedPostController extends _$LikedPostController {
     _start = _likedPosts!.next!;
     state = [
       ...state,
-      ..._likedPosts!.posts.where((post) => post.isLiked == true).toList()
+      ..._likedPosts!.posts,
     ];
 
     _refreshController.loadComplete();
@@ -70,7 +70,7 @@ class LikedPostController extends _$LikedPostController {
   }
 
   Future<void> handlePressedLikeButton(int postId) async {
-    bool result = await postsRepository.likePost(postId: postId);
+    await postsRepository.likePost(postId: postId);
 
     final PostModel newPost = await postsRepository.getPostById(postId: postId);
 
@@ -78,11 +78,9 @@ class LikedPostController extends _$LikedPostController {
 
     final List<PostModel> newSharedList = List.from(state);
 
-    if (result) {
-      newSharedList[targetIndex] = newPost;
+    newSharedList[targetIndex] = newPost;
 
-      state = newSharedList;
-    }
+    state = newSharedList;
   }
 
   Future<void> _getLikePosts() async {

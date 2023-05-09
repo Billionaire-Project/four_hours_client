@@ -88,7 +88,7 @@ class CreatePostController extends _$CreatePostController {
           bool result = await _submitPost(content: state);
 
           if (context.mounted && result) {
-            ref.read(homeSharedControllerProvider.notifier).getPostsInitial();
+            ref.read(homeSharedControllerProvider.notifier).refreshSharedList();
             context.pop(true);
           } else {
             //TODO: 게시가 제대로 되지 않았을 경우 처리 필요

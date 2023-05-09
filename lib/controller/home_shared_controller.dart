@@ -1,3 +1,4 @@
+import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -99,18 +100,19 @@ class HomeSharedController extends _$HomeSharedController {
   }
 
   Future<void> handlePressedLikeButton(int postId) async {
-    bool result = await postsRepository.likePost(postId: postId);
+    await postsRepository.likePost(postId: postId);
+
     final PostModel newPost = await postsRepository.getPostById(postId: postId);
 
     final int targetIndex = state.indexWhere((element) => element.id == postId);
 
     final List<PostModel> newSharedList = List.from(state);
 
-    if (result) {
-      newSharedList[targetIndex] = newPost;
+    newSharedList[targetIndex] = newPost;
 
-      state = newSharedList;
-    }
+    state = newSharedList;
+
+    ref.read(likedPostControllerProvider.notifier).refreshLikedList();
   }
 
   void _init() {
