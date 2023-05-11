@@ -125,6 +125,7 @@ class _SharedPostCardState extends ConsumerState<SharedPostCard> {
               ),
               const Gap(8),
               CommonRowWithDivider(
+                rightGap: 8,
                 tail: Row(
                   children: [
                     //TODO: Liked & Saved 표시

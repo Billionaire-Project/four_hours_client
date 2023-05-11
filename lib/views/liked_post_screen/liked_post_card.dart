@@ -82,17 +82,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                   ),
                 ),
                 rightGap: 8,
-                tail: CommonIconButton(
-                  icon: const Icon(
-                    CustomIcons.more_line,
-                  ),
-                  onTap: () {
-                    //TODO: liked list에서 more button 필요?
-                    // ref
-                    //     .read(homeSharedControllerProvider.notifier)
-                    //     .handlePressedMoreButton(context);
-                  },
-                ),
+                tail: const SizedBox(width: 8),
               ),
               Flexible(
                 child: Padding(
@@ -113,19 +103,12 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
               ),
               const Gap(8),
               CommonRowWithDivider(
+                rightGap: 8,
                 tail: CommonIconButton(
                   onTap: () {
                     ref
                         .read(likedPostControllerProvider.notifier)
                         .handlePressedLikeButton(widget.post.id);
-                    setState(() {
-                      isShown = false;
-                    });
-                    Future.delayed(const Duration(seconds: 2), () {
-                      setState(() {
-                        isShown = true;
-                      });
-                    });
                   },
                   icon: widget.post.isLiked!
                       ? Icon(
