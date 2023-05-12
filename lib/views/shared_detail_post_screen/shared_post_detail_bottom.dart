@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/controller/post_like_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
-import 'package:four_hours_client/views/widgets/gap.dart';
 
 class SharedPostDetailBottom extends ConsumerWidget {
   final PostModel post;
@@ -18,6 +18,14 @@ class SharedPostDetailBottom extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    bool isLiked = ref.watch(
+      postLikeControllerProvider(
+        PostLikeControllerParameters(
+          isLiked: post.isLiked!,
+          postId: post.id,
+        ),
+      ),
+    );
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -33,7 +41,24 @@ class SharedPostDetailBottom extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _Timer(post: post),
-          const _PostDetailActions(),
+          _PostDetailAction(
+            onTap: ref
+                .read(postLikeControllerProvider(
+                  PostLikeControllerParameters(
+                    isLiked: post.isLiked!,
+                    postId: post.id,
+                  ),
+                ).notifier)
+                .handlePressedLikeButton,
+            icon: isLiked
+                ? Icon(
+                    CustomIcons.heart_fill,
+                    color: customThemeColors.orange,
+                  )
+                : const Icon(
+                    CustomIcons.heart_line,
+                  ),
+          ),
         ],
       ),
     );
@@ -105,40 +130,27 @@ class _TimerState extends ConsumerState<_Timer> {
   }
 }
 
-class _PostDetailActions extends ConsumerWidget {
-  const _PostDetailActions({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Row(
-      children: const [
-        _PostDetailAction(iconData: CustomIcons.fontsize_line),
-        Gap(16),
-        _PostDetailAction(iconData: CustomIcons.share_line),
-        Gap(16),
-        _PostDetailAction(iconData: CustomIcons.heart_line),
-      ],
-    );
-  }
-}
-
 class _PostDetailAction extends ConsumerWidget {
-  final IconData iconData;
-  const _PostDetailAction({Key? key, required this.iconData}) : super(key: key);
+  final Icon icon;
+  final VoidCallback onTap;
+  const _PostDetailAction({
+    Key? key,
+    required this.icon,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: customThemeColors.backgroundLabel,
         shape: BoxShape.circle,
       ),
       child: CommonIconButton(
-        icon: Icon(
-          iconData,
-        ),
+        onTap: onTap,
+        icon: icon,
       ),
     );
   }
