@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/liked_post_controller.dart';
+import 'package:four_hours_client/controller/post_like_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -27,12 +27,19 @@ class LikedPostCard extends ConsumerStatefulWidget {
 }
 
 class _LikedPostCardState extends ConsumerState<LikedPostCard> {
-  bool isShown = true;
-
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
+
+    bool isLiked = ref.watch(
+      postLikeControllerProvider(
+        PostLikeControllerParameters(
+          isLiked: widget.post.isLiked!,
+          postId: widget.post.id,
+        ),
+      ),
+    );
 
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
@@ -49,7 +56,8 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
         child: Container(
           padding: const EdgeInsets.only(
             left: 16.0,
-            top: 8.0,
+            top: 16.0,
+            //common icon buttons has 8.0 padding
             right: 8.0,
             bottom: 8.0,
           ),
@@ -107,10 +115,17 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                 tail: CommonIconButton(
                   onTap: () {
                     ref
-                        .read(likedPostControllerProvider.notifier)
-                        .handlePressedLikeButton(widget.post.id);
+                        .read(
+                          postLikeControllerProvider(
+                            PostLikeControllerParameters(
+                              isLiked: widget.post.isLiked!,
+                              postId: widget.post.id,
+                            ),
+                          ).notifier,
+                        )
+                        .handlePressedLikeButton(isNeedRefresh: false);
                   },
-                  icon: widget.post.isLiked!
+                  icon: isLiked
                       ? Icon(
                           CustomIcons.heart_fill,
                           color: customThemeColors.orange,

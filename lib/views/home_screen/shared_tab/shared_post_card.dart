@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
+import 'package:four_hours_client/controller/post_like_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -32,17 +33,27 @@ class _SharedPostCardState extends ConsumerState<SharedPostCard> {
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
-    // TODO: isReported 필드에서 받아오기
-    // bool isReported = ref.watch(sharedPageReportControllerProvider);
+
     bool isReported = widget.post.isReported!;
-//TODO: 신고된 포스트만 숨기기
     if (isReported) {
-      return const CommonCardCover(
-        iconData: CustomIcons.report_fill,
-        title: '신고가 정상적으로 접수되었어요',
-        subtitle: '해당 글은 숨긴처리 됐습니다',
+      return const Padding(
+        padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+        child: CommonCardCover(
+          iconData: CustomIcons.report_fill,
+          title: '신고가 정상적으로 접수되었어요',
+          subtitle: '해당 글은 숨긴처리 됐습니다',
+        ),
       );
     }
+
+    bool isLiked = ref.watch(
+      postLikeControllerProvider(
+        PostLikeControllerParameters(
+          isLiked: widget.post.isLiked!,
+          postId: widget.post.id,
+        ),
+      ),
+    );
 
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
@@ -147,12 +158,17 @@ class _SharedPostCardState extends ConsumerState<SharedPostCard> {
                     //     ),
                     //   ),
                     CommonIconButton(
-                      onTap: () {
-                        ref
-                            .read(homeSharedControllerProvider.notifier)
-                            .handlePressedLikeButton(widget.post.id);
-                      },
-                      icon: widget.post.isLiked!
+                      onTap: ref
+                          .read(
+                            postLikeControllerProvider(
+                              PostLikeControllerParameters(
+                                isLiked: widget.post.isLiked!,
+                                postId: widget.post.id,
+                              ),
+                            ).notifier,
+                          )
+                          .handlePressedLikeButton,
+                      icon: isLiked
                           ? Icon(
                               CustomIcons.heart_fill,
                               color: customThemeColors.orange,
