@@ -1,73 +1,66 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:four_hours_client/utils/custom_icons_icons.dart';
+import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
+import 'package:go_router/go_router.dart';
 
-part 'shared_post_detail_controller.g.dart';
+class SharedPostDetailController extends StateNotifier<PostModel?> {
+  late StateNotifierProviderRef _ref;
+  late PostsRepository _postsRepository;
 
-class SharedPostDetailController {
-  final int postId;
-  final PostsRepository postsRepository;
-
-  SharedPostDetailController({
-    required this.postId,
-    required this.postsRepository,
-  }) {
+  SharedPostDetailController(
+    StateNotifierProviderRef ref, {
+    required PostModel post,
+  }) : super(post) {
+    _ref = ref;
+    _post = post;
+    _postsRepository = _ref.read(postsRepositoryProvider);
     getPostById();
   }
 
   PostModel? _post;
-  PostModel? get post => _post;
-
-  void _int() {}
 
   Future<void> getPostById() async {
-    _post = await postsRepository.getPostById(postId: postId);
+    _post = await _postsRepository.getPostById(postId: _post!.id);
   }
 
-  // @override
-  // AsyncValue<PostModel> build() {
-  //   _init();
-  //   return state;
-  // }
-
-  // Future<void> getPostById({required String id}) async {
-  //   state = const AsyncValue.loading();
-  //   state = await AsyncValue.guard(() async {
-  //     return await postsRepository.getPostById(postId: id);
-  //   });
-  // }
-
-  // String howMuchTimeLeft() {
-  //   final DateTime date = DateTime.parse(state.updatedAt);
-  //   final DateTime now = DateTime.now();
-  //   final int difference = now.difference(date).inHours;
-
-  //   String time;
-  //   if (difference <= 0) {
-  //     time = now.difference(date).inMinutes.toString();
-  //     return '${time}minutes';
-  //   } else {
-  //     time = now.difference(now).inHours.toString();
-  //     return '${time}hours';
-  //   }
-  // }
-
-  // void _init() {
-  //   postsRepository = ref.watch(postsRepositoryProvider);
-
-  //   getPostById(id: postId);
-  // }
+  void handlePressedMoreButton(BuildContext context) {
+    showCommonActionSheet(
+      context,
+      actions: [
+        CommonActionSheetAction(
+          isDestructiveAction: true,
+          onPressed: () {
+            closeRootNavigator(context);
+            showCommonDialogWithTwoButtons(
+              context,
+              iconData: CustomIcons.report_fill,
+              title: '해당 게시글을 신고하시겠어요?',
+              subtitle: '신고가 접수되면 즉시 사라집니다',
+              onPressedRightButton: () {
+                context.pop();
+                _ref
+                    .read(homeSharedControllerProvider.notifier)
+                    .handlePressedReportButton(postId: _post!.id);
+              },
+              rightButtonText: '신고',
+            );
+          },
+          iconData: CustomIcons.report_line,
+          text: '게시글 신고',
+        )
+      ],
+    );
+  }
 }
 
-@riverpod
-SharedPostDetailController sharedPostDetailController(
-  SharedPostDetailControllerRef ref, {
-  required int postId,
-}) {
-  final postsRepository = ref.watch(postsRepositoryProvider);
-
-  return SharedPostDetailController(
-    postId: postId,
-    postsRepository: postsRepository,
-  );
-}
+final sharedPostDetailControllerProvider = StateNotifierProvider.family<
+    SharedPostDetailController, PostModel?, PostModel>(
+  (StateNotifierProviderRef ref, PostModel post) {
+    return SharedPostDetailController(ref, post: post);
+  },
+);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/controller/shared_post_detail_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
@@ -35,10 +36,16 @@ class _SharedPostDetailPageState extends ConsumerState<SharedPostDetailPage> {
     final customTextStyle = ref.watch(customTextStyleProvider);
 
     return MainWrapper(
-      appBar: const CommonAppBar(
+      appBar: CommonAppBar(
         actions: [
           CommonIconButton(
-            icon: Icon(
+            onTap: () {
+              ref
+                  .read(
+                      sharedPostDetailControllerProvider(widget.post).notifier)
+                  .handlePressedMoreButton(context);
+            },
+            icon: const Icon(
               CustomIcons.more_line,
             ),
           )

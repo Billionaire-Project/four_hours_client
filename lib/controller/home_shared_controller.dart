@@ -85,7 +85,7 @@ class HomeSharedController extends _$HomeSharedController {
               title: '해당 게시글을 신고하시겠어요?',
               subtitle: '신고가 접수되면 즉시 사라집니다',
               onPressedRightButton: () {
-                _handlePressedReportButton(postId: postId);
+                handlePressedReportButton(postId: postId);
               },
               rightButtonText: '신고',
             );
@@ -100,31 +100,15 @@ class HomeSharedController extends _$HomeSharedController {
   Future<void> handlePressedLikeButton(int postId) async {
     await postsRepository.likePost(postId: postId);
 
-    final PostModel newPost = await postsRepository.getPostById(postId: postId);
-
-    final int targetIndex = state.indexWhere((element) => element.id == postId);
-
-    final List<PostModel> newSharedList = List.from(state);
-
-    newSharedList[targetIndex] = newPost;
-
-    state = newSharedList;
+    await _replacePost(postId);
 
     ref.read(likedPostControllerProvider.notifier).refreshLikedList();
   }
 
-  Future<void> _handlePressedReportButton({required int postId}) async {
+  Future<void> handlePressedReportButton({required int postId}) async {
     await postsRepository.reportPost(postId: postId);
 
-    final PostModel newPost = await postsRepository.getPostById(postId: postId);
-
-    final int targetIndex = state.indexWhere((element) => element.id == postId);
-
-    final List<PostModel> newSharedList = List.from(state);
-
-    newSharedList[targetIndex] = newPost;
-
-    state = newSharedList;
+    _replacePost(postId);
   }
 
   void _init() {
@@ -135,16 +119,16 @@ class HomeSharedController extends _$HomeSharedController {
   Future<void> _getPosts() async {
     _posts = await postsRepository.getPosts(start: _start, offset: _offset);
   }
+
+  Future<void> _replacePost(int postId) async {
+    final PostModel newPost = await postsRepository.getPostById(postId: postId);
+
+    final int targetIndex = state.indexWhere((element) => element.id == postId);
+
+    final List<PostModel> newSharedList = List.from(state);
+
+    newSharedList[targetIndex] = newPost;
+
+    state = newSharedList;
+  }
 }
-
-// @riverpod
-// class SharedPageReportController extends _$SharedPageReportController {
-//   @override
-//   bool build() {
-//     return false;
-//   }
-
-//   void reportPost() {
-//     state = true;
-//   }
-// }
