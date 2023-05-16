@@ -62,8 +62,8 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
             bottom: 8.0,
           ),
           constraints: const BoxConstraints(
-            maxHeight: sharedPostCardMaxHeight,
-            minHeight: sharedPostCardMinHeight,
+            maxHeight: cardWithTwoDividersMaxHeight,
+            minHeight: cardWithTwoDividersMinHeight,
           ),
           decoration: BoxDecoration(
             color: customThemeColors.background,

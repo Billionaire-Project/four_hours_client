@@ -14,7 +14,7 @@ class CommonCardCover extends ConsumerWidget {
 
   const CommonCardCover({
     Key? key,
-    this.height = cardMaxHeight,
+    this.height = cardWithTwoDividersMaxHeight,
     required this.iconData,
     required this.title,
     required this.subtitle,

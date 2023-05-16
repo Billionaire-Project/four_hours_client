@@ -60,8 +60,8 @@ class _HomeWriteCardState extends ConsumerState<HomeWriteCard> {
               bottom: 8.0,
             ),
             constraints: const BoxConstraints(
-              maxHeight: homeWriteCardMaxHeight,
-              minHeight: homeWriteCardMinHeight,
+              maxHeight: cardWithOneDividerMaxHeight,
+              minHeight: cardWithOneDividerMinHeight,
             ),
             decoration: BoxDecoration(
               color: customThemeColors.background,
