@@ -21,8 +21,6 @@ class HomeSharedController extends _$HomeSharedController {
 
   @override
   List<PostModel> build() {
-    state = [];
-
     _init();
     return state;
   }
@@ -60,7 +58,7 @@ class HomeSharedController extends _$HomeSharedController {
     _refreshController.loadComplete();
   }
 
-  void refreshSharedList() async {
+  Future<void> refreshSharedList() async {
     _start = '0';
     _offset = '10';
 
@@ -112,6 +110,8 @@ class HomeSharedController extends _$HomeSharedController {
   }
 
   void _init() {
+    state = [];
+
     postsRepository = ref.watch(postsRepositoryProvider);
     getPostsInitial();
   }

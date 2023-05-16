@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/controller/home_write_controller.dart';
+import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
+import 'package:four_hours_client/views/home_screen/write_tab/home_write_card.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
+import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
@@ -24,33 +28,50 @@ class HomeWriteTab extends ConsumerStatefulWidget {
 class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
   @override
   Widget build(BuildContext context) {
-    //TODO: 내 post 가져오기
-    // final posts = ref.watch(HomewriteTabControllerProvider);
-    // print('jay --- posts $posts');
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            CommonTitle('Today'),
-            Gap(8),
-            BeforePostingCard(),
-            Gap(16),
-            CommonCardCover(
+    final myPosts = ref.watch(homeWriteControllerProvider);
+    final myPostsNotifier = ref.watch(homeWriteControllerProvider.notifier);
+
+    List<String>? dateList = myPostsNotifier.dateList;
+    if (dateList == null) {
+      return const Center(
+        child: CommonCircularProgressIndicator(size: 32, strokeWidth: 2),
+      );
+    }
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(left: 16),
+            child: CommonTitle('Today'),
+          ),
+          const Gap(8),
+          //TODO: 글을 이미 작성해서 타이머가 돌고있다면 타이머 표시
+          //그렇지 않다면 글 작성 표시
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: _TodaysTopic(),
+          ),
+          const Gap(8),
+          if (myPosts.isEmpty) ...[
+            const Gap(8),
+            const CommonCardCover(
               iconData: CustomIcons.pencil_fill,
               title: '첫 게시글을 작성해보세요!',
               subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
-            )
+            ),
           ],
-        ),
+          if (dateList[0] == 'Today') const _TodaysList(),
+          const _MyPostList()
+        ],
       ),
     );
   }
 }
 
-class BeforePostingCard extends ConsumerWidget {
-  const BeforePostingCard({Key? key}) : super(key: key);
+class _TodaysTopic extends ConsumerWidget {
+  const _TodaysTopic({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -108,42 +129,83 @@ class BeforePostingCard extends ConsumerWidget {
   }
 }
 
-class TryYourFirstPostCard extends ConsumerWidget {
-  const TryYourFirstPostCard({Key? key}) : super(key: key);
+class _TodaysList extends ConsumerWidget {
+  const _TodaysList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final customTextStyle = ref.watch(customTextStyleProvider);
+    final myPosts = ref.watch(homeWriteControllerProvider);
+    final myPostsNotifier = ref.watch(homeWriteControllerProvider.notifier);
 
-    return Container(
-      height: 232,
-      decoration: BoxDecoration(
-        color: CustomColors.light.gray100,
-        border: Border.all(width: 2, color: CustomColors.light.gray900),
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: CustomShadowColors.shadow3,
+    List<String>? dateList = myPostsNotifier.dateList;
+
+    return Flexible(
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: myPosts[dateList![0]]!.length,
+        itemBuilder: (BuildContext context, int postIndex) {
+          PostModel post = myPosts[dateList[0]]![postIndex];
+
+          return HomeWriteCard(
+            post: post,
+            labelText: '',
+          );
+        },
       ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(CustomIcons.pencil_fill,
-                size: 32, color: CustomColors.light.gray900),
-            const Gap(8),
-            Text(
-              '첫 게시글을 작성해보세요!',
-              style: customTextStyle.titleLarge,
-              textAlign: TextAlign.center,
-            ),
-            const Gap(4),
-            Text(
-              '순간의 일과 감정들을 글로 적어보면,\n 그것들을 더 잘 이해하고 조절할 수 있어요.',
-              style: customTextStyle.bodySmall
-                  .copyWith(color: CustomColors.light.gray600),
-              textAlign: TextAlign.center,
-            )
-          ],
+    );
+  }
+}
+
+class _MyPostList extends ConsumerWidget {
+  const _MyPostList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final myPosts = ref.watch(homeWriteControllerProvider);
+    final myPostsNotifier = ref.watch(homeWriteControllerProvider.notifier);
+
+    List<String>? dateList = myPostsNotifier.dateList;
+
+    return Flexible(
+      child: ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int dateIndex) {
+          if (dateList[dateIndex] != 'Today') {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: CommonTitle(dateList[dateIndex]),
+                ),
+                Flexible(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: myPosts[dateList[dateIndex]]!.length,
+                    itemBuilder: (BuildContext context, int postIndex) {
+                      PostModel post = myPosts[dateList[dateIndex]]![postIndex];
+
+                      return HomeWriteCard(
+                        post: post,
+                        //TODO: 내가 작성한 시간 표시
+                        labelText: '',
+                      );
+                    },
+                  ),
+                )
+              ],
+            );
+          }
+          return const SizedBox.shrink();
+        },
+        separatorBuilder: (context, index) => SizedBox.fromSize(
+          size: const Size(0, 24),
         ),
+        itemCount: dateList!.length,
       ),
     );
   }

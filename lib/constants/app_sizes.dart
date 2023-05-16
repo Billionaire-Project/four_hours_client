@@ -5,3 +5,5 @@ const double pagePadding = 16;
 const double cardMaxHeight = 232;
 const double sharedPostCardMaxHeight = 232;
 const double sharedPostCardMinHeight = 117;
+const double homeWriteCardMaxHeight = 240;
+const double homeWriteCardMinHeight = 106;

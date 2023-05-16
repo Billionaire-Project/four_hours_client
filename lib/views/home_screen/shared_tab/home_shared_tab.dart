@@ -70,8 +70,9 @@ class HomeSharedTab extends ConsumerWidget {
             ],
           );
         },
-        separatorBuilder: (context, index) =>
-            SizedBox.fromSize(size: const Size(0, 0)),
+        separatorBuilder: (context, index) => SizedBox.fromSize(
+          size: const Size(0, 0),
+        ),
         itemCount: posts.length,
       ),
     );

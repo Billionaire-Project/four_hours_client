@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:four_hours_client/models/my_posts_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/base_repository.dart';
@@ -23,12 +24,14 @@ class PostsRepository extends BaseRepository {
     return PostModel.fromJson(response.data);
   }
 
-  Future<List<PostModel>> getMyPosts() async {
-    Response response = await dioClient.get('/posts/my/');
+  Future<MyPostsModel> getMyPosts({
+    required String start,
+    required String offset,
+  }) async {
+    Response response =
+        await dioClient.get('/posts/my/?start=$start&offset=$offset');
 
-    return (response.data['posts'] as List<dynamic>)
-        .map((e) => PostModel.fromJson(e))
-        .toList();
+    return MyPostsModel.fromJson(response.data);
   }
 
   Future<Response> submitPosts({
