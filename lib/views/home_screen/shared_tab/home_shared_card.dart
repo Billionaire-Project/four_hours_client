@@ -16,20 +16,20 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/measure_size.dart';
 import 'package:go_router/go_router.dart';
 
-class SharedPostCard extends ConsumerStatefulWidget {
+class HomeSharedCard extends ConsumerStatefulWidget {
   final PostModel post;
   final String labelText;
-  const SharedPostCard({
+  const HomeSharedCard({
     Key? key,
     required this.post,
     required this.labelText,
   }) : super(key: key);
 
   @override
-  ConsumerState<SharedPostCard> createState() => _SharedPostCardState();
+  ConsumerState<HomeSharedCard> createState() => _HomeSharedCardState();
 }
 
-class _SharedPostCardState extends ConsumerState<SharedPostCard> {
+class _HomeSharedCardState extends ConsumerState<HomeSharedCard> {
   Size childSize = Size.zero;
 
   @override
@@ -85,8 +85,8 @@ class _SharedPostCardState extends ConsumerState<SharedPostCard> {
               bottom: 8.0,
             ),
             constraints: const BoxConstraints(
-              maxHeight: sharedPostCardMaxHeight,
-              minHeight: sharedPostCardMinHeight,
+              maxHeight: cardWithTwoDividersMaxHeight,
+              minHeight: cardWithTwoDividersMinHeight,
             ),
             decoration: BoxDecoration(
               color: customThemeColors.background,

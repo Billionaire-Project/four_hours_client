@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/home_screen/shared_tab/shared_post_card.dart';
+import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_card.dart';
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -62,7 +62,7 @@ class HomeSharedTab extends ConsumerWidget {
           return Column(
             children: [
               if (index == 0) const SizedBox(height: 16),
-              SharedPostCard(
+              HomeSharedCard(
                 post: posts[index],
                 labelText: leftTime,
               ),
