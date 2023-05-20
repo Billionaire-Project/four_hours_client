@@ -146,10 +146,10 @@ class _TodaysList extends ConsumerWidget {
         itemCount: myPosts[dateList![0]]!.length,
         itemBuilder: (BuildContext context, int postIndex) {
           PostModel post = myPosts[dateList[0]]![postIndex];
-
+          final String createdTime = getCreatePostTime(date: post.updatedAt);
           return HomeWriteCard(
             post: post,
-            labelText: '',
+            labelText: createdTime,
           );
         },
       ),
@@ -188,11 +188,12 @@ class _MyPostList extends ConsumerWidget {
                     itemCount: myPosts[dateList[dateIndex]]!.length,
                     itemBuilder: (BuildContext context, int postIndex) {
                       PostModel post = myPosts[dateList[dateIndex]]![postIndex];
-
+                      final String createdTime =
+                          getCreatePostTime(date: post.updatedAt);
                       return HomeWriteCard(
                         post: post,
                         //TODO: 내가 작성한 시간 표시
-                        labelText: '',
+                        labelText: createdTime,
                       );
                     },
                   ),

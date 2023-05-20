@@ -10,6 +10,7 @@ import 'package:four_hours_client/views/widgets/common_alert.dart';
 import 'package:four_hours_client/views/widgets/common_dialog_with_two_buttons.dart';
 import 'package:four_hours_client/views/widgets/common_loader.dart';
 import 'package:four_hours_client/views/widgets/common_toast.dart';
+import 'package:intl/intl.dart';
 
 void showCommonAlert(
   BuildContext context, {
@@ -122,5 +123,18 @@ String getPostElapsedTime({required String date}) {
     return '${difference.inMinutes}mins';
   } else {
     return '${difference.inHours}hours';
+  }
+}
+
+String getCreatePostTime({required String date}) {
+  final DateTime dateTime = DateTime.parse(date);
+  final DateTime now = DateTime.now();
+  final Duration difference = now.difference(dateTime);
+  var a = DateFormat.jm().format(dateTime);
+
+  if (difference.inMinutes <= 0) {
+    return 'Just now';
+  } else {
+    return a;
   }
 }
