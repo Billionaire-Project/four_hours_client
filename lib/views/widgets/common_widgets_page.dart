@@ -23,7 +23,6 @@ class CommonWidgetsPage extends ConsumerWidget {
           ElevatedButton(
             onPressed: () {
               showCommonActionSheet(
-                context,
                 actions: [
                   CommonActionSheetAction(
                     isDestructiveAction: true,
@@ -45,7 +44,6 @@ class CommonWidgetsPage extends ConsumerWidget {
           ElevatedButton(
             onPressed: () {
               showCommonAlert(
-                context,
                 iconData: CustomIcons.check_line,
                 text: '삭제 되었어요!',
               );
@@ -65,7 +63,6 @@ class CommonWidgetsPage extends ConsumerWidget {
           ElevatedButton(
             onPressed: () {
               showCommonDialogWithTwoButtons(
-                context,
                 iconData: CustomIcons.report_fill,
                 title: '해당 게시글을 신고하시겠어요?',
                 subtitle: '신고가 접수되면 즉시 사라집니다',

@@ -54,7 +54,6 @@ class CreatePostController extends _$CreatePostController {
       if (_temporaryText.isNotEmpty &&
           !checkHasOnlyWhiteSpace(_temporaryText)) {
         showCommonDialogWithTwoButtons(
-          context,
           barrierDismissible: false,
           iconData: CustomIcons.report_fill,
           title: '작성중인 내용이 있어요',
@@ -79,7 +78,7 @@ class CreatePostController extends _$CreatePostController {
     _savingTimer?.cancel();
     _focusNode.unfocus();
 
-    showCommonDialogWithTwoButtons(context,
+    showCommonDialogWithTwoButtons(
         iconData: CustomIcons.pencil_fill,
         title: '작성한 글을 게시하시겠어요?',
         subtitle: '게시된 글은 편집할 수 없어요',

@@ -67,7 +67,7 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
                   child: CommonTextButton(
                     onPressed: () {
                       onPressedLeftButton?.call();
-                      closeRootNavigator(context);
+                      closeRootNavigator();
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 13),
@@ -85,7 +85,7 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
                   child: CommonTextButton(
                     onPressed: () {
                       onPressedRightButton.call();
-                      closeRootNavigator(context);
+                      closeRootNavigator();
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 13),

@@ -3,6 +3,8 @@ import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
+import 'package:four_hours_client/views/shared_post_detail_screen/shared_post_detail_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
@@ -81,16 +83,27 @@ class HomeSharedController extends _$HomeSharedController {
     }
   }
 
+  void handlePressedCard(
+    BuildContext context, {
+    required PostModel post,
+  }) {
+    context.goNamed(
+      SharedPostDetailPage.name,
+      params: {
+        'postId': post.id.toString(),
+      },
+      extra: post,
+    );
+  }
+
   void handlePressedMoreButton(BuildContext context, {required int postId}) {
     showCommonActionSheet(
-      context,
       actions: [
         CommonActionSheetAction(
           isDestructiveAction: true,
           onPressed: () {
-            closeRootNavigator(context);
+            closeRootNavigator();
             showCommonDialogWithTwoButtons(
-              context,
               iconData: CustomIcons.report_fill,
               title: '해당 게시글을 신고하시겠어요?',
               subtitle: '신고가 접수되면 즉시 사라집니다',

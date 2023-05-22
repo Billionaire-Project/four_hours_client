@@ -69,7 +69,6 @@ class SettingDrawer extends ConsumerWidget {
           CommonTextButton(
             onPressed: () {
               showCommonDialogWithTwoButtons(
-                context,
                 isDestructiveAction: true,
                 iconData: CustomIcons.logout_line,
                 title: '로그아웃 하시겠어요?',

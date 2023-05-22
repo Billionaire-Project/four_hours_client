@@ -19,7 +19,7 @@ class SharedPostDetailController extends StateNotifier<PostModel?> {
   }) : super(post) {
     _ref = ref;
     _post = post;
-    _postsRepository = _ref.read(postsRepositoryProvider);
+    _postsRepository = _ref.watch(postsRepositoryProvider);
     _getPostByIdInitial();
   }
 
@@ -27,14 +27,12 @@ class SharedPostDetailController extends StateNotifier<PostModel?> {
 
   void handlePressedMoreButton(BuildContext context) {
     showCommonActionSheet(
-      context,
       actions: [
         CommonActionSheetAction(
           isDestructiveAction: true,
           onPressed: () {
-            closeRootNavigator(context);
+            closeRootNavigator();
             showCommonDialogWithTwoButtons(
-              context,
               iconData: CustomIcons.report_fill,
               title: '해당 게시글을 신고하시겠어요?',
               subtitle: '신고가 접수되면 즉시 사라집니다',
@@ -63,8 +61,8 @@ class SharedPostDetailController extends StateNotifier<PostModel?> {
   }
 }
 
-final sharedPostDetailControllerProvider = StateNotifierProvider.family<
-    SharedPostDetailController, PostModel?, PostModel>(
+final sharedPostDetailControllerProvider = StateNotifierProvider.autoDispose
+    .family<SharedPostDetailController, PostModel?, PostModel>(
   (StateNotifierProviderRef ref, PostModel post) {
     return SharedPostDetailController(ref, post: post);
   },
