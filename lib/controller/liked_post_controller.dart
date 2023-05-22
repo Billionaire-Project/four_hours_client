@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
+import 'package:four_hours_client/utils/functions.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -29,58 +31,76 @@ class LikedPostController extends _$LikedPostController {
   PostsModel? get posts => _likedPosts;
 
   Future<void> getLikedPostsInitial() async {
-    await _getLikePosts();
+    try {
+      await _getLikePosts();
 
-    //TODO: 에러 핸들링 필요
-    if (_likedPosts!.posts.isEmpty || _likedPosts!.next == null) {
-      return;
+      //TODO: 에러 핸들링 필요
+      if (_likedPosts!.posts.isEmpty || _likedPosts!.next == null) {
+        return;
+      }
+
+      state = _likedPosts!.posts;
+
+      _start = _likedPosts!.next!;
+    } on DioError catch (e) {
+      throw throwExceptions(e);
     }
-
-    state = _likedPosts!.posts;
-
-    _start = _likedPosts!.next!;
   }
 
   Future<void> getMoreLikedPosts() async {
-    await _getLikePosts();
+    try {
+      await _getLikePosts();
 
-    if (_likedPosts!.next == null) {
+      if (_likedPosts!.next == null) {
+        _refreshController.loadComplete();
+        return;
+      }
+
+      _start = _likedPosts!.next!;
+      state = [
+        ...state,
+        ..._likedPosts!.posts,
+      ];
+
       _refreshController.loadComplete();
-      return;
+    } on DioError catch (e) {
+      throw throwExceptions(e);
     }
-
-    _start = _likedPosts!.next!;
-    state = [
-      ...state,
-      ..._likedPosts!.posts,
-    ];
-
-    _refreshController.loadComplete();
   }
 
   void refreshLikedList() async {
     _start = '0';
     _offset = '10';
 
-    await _getLikePosts();
+    try {
+      await _getLikePosts();
 
-    state = _likedPosts!.posts;
+      state = _likedPosts!.posts;
 
-    _refreshController.refreshCompleted();
+      _refreshController.refreshCompleted();
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
   }
 
   Future<void> handlePressedLikeButton(int postId) async {
-    await postsRepository.likePost(postId: postId);
+    try {
+      await postsRepository.likePost(postId: postId);
 
-    final PostModel newPost = await postsRepository.getPostById(postId: postId);
+      final PostModel newPost =
+          await postsRepository.getPostById(postId: postId);
 
-    final int targetIndex = state.indexWhere((element) => element.id == postId);
+      final int targetIndex =
+          state.indexWhere((element) => element.id == postId);
 
-    final List<PostModel> newSharedList = List.from(state);
+      final List<PostModel> newSharedList = List.from(state);
 
-    newSharedList[targetIndex] = newPost;
+      newSharedList[targetIndex] = newPost;
 
-    state = newSharedList;
+      state = newSharedList;
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
   }
 
   Future<void> _getLikePosts() async {

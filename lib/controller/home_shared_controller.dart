@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
@@ -32,41 +33,52 @@ class HomeSharedController extends _$HomeSharedController {
   PostsModel? get posts => _posts;
 
   Future<void> getPostsInitial() async {
-    await _getPosts();
+    try {
+      _posts = await postsRepository.getPosts(start: _start, offset: _offset);
 
-    //TODO: 에러 핸들링 필요
-    if (_posts!.posts.isEmpty || _posts!.next == null) {
-      return;
+      //TODO: 에러 핸들링 필요
+      if (_posts!.posts.isEmpty || _posts!.next == null) {
+        return;
+      }
+
+      state = _posts!.posts;
+
+      _start = _posts!.next!;
+    } on DioError catch (e) {
+      throw throwExceptions(e);
     }
-
-    state = _posts!.posts;
-
-    _start = _posts!.next!;
   }
 
   Future<void> getMorePosts() async {
-    await _getPosts();
+    try {
+      _posts = await postsRepository.getPosts(start: _start, offset: _offset);
 
-    if (_posts!.next == null) {
+      if (_posts!.next == null) {
+        _refreshController.loadComplete();
+        return;
+      }
+
+      _start = _posts!.next!;
+      state = [...state, ..._posts!.posts];
+
       _refreshController.loadComplete();
-      return;
+    } on DioError catch (e) {
+      throw throwExceptions(e);
     }
-
-    _start = _posts!.next!;
-    state = [...state, ..._posts!.posts];
-
-    _refreshController.loadComplete();
   }
 
   Future<void> refreshSharedList() async {
     _start = '0';
     _offset = '10';
+    try {
+      _posts = await postsRepository.getPosts(start: _start, offset: _offset);
 
-    await _getPosts();
+      state = _posts!.posts;
 
-    state = _posts!.posts;
-
-    _refreshController.refreshCompleted();
+      _refreshController.refreshCompleted();
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
   }
 
   void handlePressedMoreButton(BuildContext context, {required int postId}) {
@@ -96,17 +108,25 @@ class HomeSharedController extends _$HomeSharedController {
   }
 
   Future<void> handlePressedLikeButton(int postId) async {
-    await postsRepository.likePost(postId: postId);
+    try {
+      await postsRepository.likePost(postId: postId);
 
-    await _replacePost(postId);
+      await _replacePost(postId);
 
-    ref.read(likedPostControllerProvider.notifier).refreshLikedList();
+      ref.read(likedPostControllerProvider.notifier).refreshLikedList();
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
   }
 
   Future<void> handlePressedReportButton({required int postId}) async {
-    await postsRepository.reportPost(postId: postId);
+    try {
+      await postsRepository.reportPost(postId: postId);
 
-    _replacePost(postId);
+      _replacePost(postId);
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
   }
 
   void _init() {
@@ -116,19 +136,21 @@ class HomeSharedController extends _$HomeSharedController {
     getPostsInitial();
   }
 
-  Future<void> _getPosts() async {
-    _posts = await postsRepository.getPosts(start: _start, offset: _offset);
-  }
-
   Future<void> _replacePost(int postId) async {
-    final PostModel newPost = await postsRepository.getPostById(postId: postId);
+    try {
+      final PostModel newPost =
+          await postsRepository.getPostById(postId: postId);
 
-    final int targetIndex = state.indexWhere((element) => element.id == postId);
+      final int targetIndex =
+          state.indexWhere((element) => element.id == postId);
 
-    final List<PostModel> newSharedList = List.from(state);
+      final List<PostModel> newSharedList = List.from(state);
 
-    newSharedList[targetIndex] = newPost;
+      newSharedList[targetIndex] = newPost;
 
-    state = newSharedList;
+      state = newSharedList;
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
   }
 }

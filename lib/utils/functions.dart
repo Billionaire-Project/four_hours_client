@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:four_hours_client/network/dio_exceptions.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
@@ -137,4 +139,9 @@ String getCreatePostTime({required String date}) {
   } else {
     return a;
   }
+}
+
+String throwExceptions(DioError e) {
+  final errorMessage = DioExceptions.fromDioError(e).toString();
+  return errorMessage;
 }

@@ -35,6 +35,7 @@ class MyApp extends ConsumerWidget {
     final appRouter = ref.watch(appRouterProvider);
     final appTheme = ref.watch(appThemeProvider);
     final isDarkMode = ref.watch(themeNotifierProvider);
+
     return MaterialApp.router(
       title: '4hours',
       routerConfig: appRouter,

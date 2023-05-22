@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
@@ -19,14 +20,10 @@ class SharedPostDetailController extends StateNotifier<PostModel?> {
     _ref = ref;
     _post = post;
     _postsRepository = _ref.read(postsRepositoryProvider);
-    getPostById();
+    _getPostByIdInitial();
   }
 
   PostModel? _post;
-
-  Future<void> getPostById() async {
-    _post = await _postsRepository.getPostById(postId: _post!.id);
-  }
 
   void handlePressedMoreButton(BuildContext context) {
     showCommonActionSheet(
@@ -55,6 +52,14 @@ class SharedPostDetailController extends StateNotifier<PostModel?> {
         )
       ],
     );
+  }
+
+  Future<void> _getPostByIdInitial() async {
+    try {
+      _post = await _postsRepository.getPostById(postId: _post!.id);
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
   }
 }
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
@@ -20,6 +21,7 @@ part 'create_post_controller.g.dart';
 class CreatePostController extends _$CreatePostController {
   late final SharedPreferences sharedPreferences;
   late final AuthRepository authRepository;
+  late final PostsRepository postsRepository;
   late final SavePostController savePostController;
 
   @override
@@ -46,7 +48,7 @@ class CreatePostController extends _$CreatePostController {
   UserModel? _user;
 
   void showDialogIfHasTemporaryText(BuildContext context) async {
-    await _getTemporaryText();
+    _getTemporaryText();
 
     if (context.mounted) {
       if (_temporaryText.isNotEmpty &&
@@ -134,15 +136,24 @@ class CreatePostController extends _$CreatePostController {
   void _init() async {
     sharedPreferences = ref.watch(sharedPreferencesProvider);
     authRepository = ref.watch(authRepositoryProvider);
+    postsRepository = ref.watch(postsRepositoryProvider);
     savePostController = ref.watch(savePostControllerProvider.notifier);
 
     state = _textEditingController.text;
-    _user = await authRepository.getMyInformation();
 
+    _getMyInformation();
     _getTemporaryText();
   }
 
-  _getTemporaryText() {
+  void _getMyInformation() async {
+    try {
+      _user = await authRepository.getMyInformation();
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
+  }
+
+  void _getTemporaryText() {
     _temporaryText = sharedPreferences.getString('temporaryText') ?? '';
   }
 
@@ -152,11 +163,15 @@ class CreatePostController extends _$CreatePostController {
 
   Future<bool> _submitPost({required String content}) async {
     if (_user != null) {
-      final repository = ref.read(postsRepositoryProvider);
-      await repository.submitPosts(userId: _user!.id, content: content);
+      try {
+        await postsRepository.submitPosts(userId: _user!.id, content: content);
 
-      return true;
+        return true;
+      } on DioError catch (e) {
+        throw throwExceptions(e);
+      }
     } else {
+      //TODO: 유저가 null일 경우 처리 필요
       throw ('User is null');
     }
   }
