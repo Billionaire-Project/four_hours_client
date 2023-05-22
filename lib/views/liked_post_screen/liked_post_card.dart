@@ -7,7 +7,7 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/shared_detail_post_screen/shared_post_detail_page.dart';
+import 'package:four_hours_client/views/shared_post_detail_screen/shared_post_detail_page.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';

@@ -5,7 +5,7 @@ import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/shared_detail_post_screen/shared_post_detail_bottom.dart';
+import 'package:four_hours_client/views/shared_post_detail_screen/shared_post_detail_bottom.dart';
 
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
