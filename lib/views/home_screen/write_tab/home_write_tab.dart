@@ -15,8 +15,10 @@ import 'package:four_hours_client/views/widgets/common_circular_progress_indicat
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
+import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeWriteTab extends ConsumerStatefulWidget {
   const HomeWriteTab({Key? key}) : super(key: key);
@@ -38,7 +40,14 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
         child: CommonCircularProgressIndicator(size: 32, strokeWidth: 2),
       );
     }
-    return SingleChildScrollView(
+
+    return SmartRefresher(
+      enablePullDown: false,
+      enablePullUp: true,
+      controller:
+          ref.read(homeWriteControllerProvider.notifier).refreshController,
+      onLoading: ref.read(homeWriteControllerProvider.notifier).getMoreMyPosts,
+      footer: const CustomRefresherFooter(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -193,7 +202,7 @@ class _MyPostList extends ConsumerWidget {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    //TODO: null value
+                    //TODO: null value error
                     itemCount: myPosts[dateList[dateIndex]]!.length,
                     itemBuilder: (BuildContext context, int postIndex) {
                       PostModel post = myPosts[dateList[dateIndex]]![postIndex];
