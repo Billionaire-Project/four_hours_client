@@ -14,7 +14,23 @@
       },
       "oauth_client": [
         {
-          "client_id": "938925885472-mp9lgluqrkmvtg8913nd2pntndtg0e5m.apps.googleusercontent.com",
+          "client_id": "938925885472-9dhv6koln9hds36bqfhdh9drdm7rf9oc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.four_hours_client",
+            "certificate_hash": "bd84a4d26aeea28677e2a78f32215c3e2994cb1b"
+          }
+        },
+        {
+          "client_id": "938925885472-hrog0qdhgo6kbja51kqudui3g732kgsl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.four_hours_client",
+            "certificate_hash": "f751d3ade123cd2b02691ac791f43b31a1e1c453"
+          }
+        },
+        {
+          "client_id": "938925885472-fviak5hi6ipo9qvv58vju6lunml6dcgv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,11 +43,11 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "938925885472-mp9lgluqrkmvtg8913nd2pntndtg0e5m.apps.googleusercontent.com",
+              "client_id": "938925885472-fviak5hi6ipo9qvv58vju6lunml6dcgv.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "938925885472-986lg85l4e7afn2sgo36q99ecshepa6o.apps.googleusercontent.com",
+              "client_id": "938925885472-4t56ceonlioiqq1f5js5c048sd3oo5tl.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.example.fourHoursClient"
@@ -42,12 +58,5 @@
       }
     }
   ],
-  "configuration_version": "1",
-  "installed": {
-    "client_id": "938925885472-oon0t88dn6n29f1o78c11mvoir6g8n15.apps.googleusercontent.com",
-    "project_id": "four-hours-5d3dd",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs"
-  }
+  "configuration_version": "1"
 }
