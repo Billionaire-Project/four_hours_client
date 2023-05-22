@@ -44,9 +44,8 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
     return SmartRefresher(
       enablePullDown: false,
       enablePullUp: true,
-      controller:
-          ref.read(homeWriteControllerProvider.notifier).refreshController,
-      onLoading: ref.read(homeWriteControllerProvider.notifier).getMoreMyPosts,
+      controller: myPostsNotifier.refreshController,
+      onLoading: myPostsNotifier.getMoreMyPosts,
       footer: const CustomRefresherFooter(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -118,6 +117,7 @@ class _TodaysTopic extends ConsumerWidget {
                 .copyWith(color: CustomColors.light.gray400),
           ),
           const Gap(16),
+          //TODO: controller로 이동
           CommonFullWidthTextButton(
             onPressed: () async {
               bool? isCreatedPost = await context
@@ -128,7 +128,6 @@ class _TodaysTopic extends ConsumerWidget {
                     const Duration(milliseconds: 100),
                     () {
                       showCommonAlert(
-                        context,
                         iconData: CustomIcons.check_line,
                         text: '게시 되었어요!',
                       );
@@ -155,11 +154,13 @@ class _TodaysList extends ConsumerWidget {
 
     List<String>? dateList = myPostsNotifier.dateList;
 
+    if (myPosts[dateList![0]] == null) return const SizedBox.shrink();
+
     return Flexible(
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: myPosts[dateList![0]]!.length,
+        itemCount: myPosts[dateList[0]]!.length,
         itemBuilder: (BuildContext context, int postIndex) {
           PostModel post = myPosts[dateList[0]]![postIndex];
           final String createdTime = getCreatePostTime(date: post.updatedAt);
@@ -190,6 +191,9 @@ class _MyPostList extends ConsumerWidget {
         itemBuilder: (BuildContext context, int dateIndex) {
           //TODO: Today가 없을 수도 있음..
           if (dateList[dateIndex] != 'Today') {
+            if (myPosts[dateList[dateIndex]] == null) {
+              return const SizedBox.shrink();
+            }
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
