@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 
-class CustomColors extends AppLightColors with AppDarkColors {
+class CustomColors extends AppLightColors implements AppDarkColors {
   static const white = Color(0xFFFFFFFF);
   static const black = Color(0xFF000000);
 

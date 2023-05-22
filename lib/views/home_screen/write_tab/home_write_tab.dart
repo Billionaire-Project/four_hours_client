@@ -9,6 +9,7 @@ import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_card.dart';
+import 'package:four_hours_client/views/home_screen/write_tab/home_write_timer.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
@@ -51,6 +52,10 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
           //그렇지 않다면 글 작성 표시
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
+            child: HomeWriteTimer(),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: _TodaysTopic(),
           ),
           const Gap(8),
@@ -62,6 +67,8 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
               subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
             ),
           ],
+          //TODO: Today가 없을 수도 있음..
+
           if (dateList[0] == 'Today') const _TodaysList(),
           const _MyPostList()
         ],
@@ -172,6 +179,7 @@ class _MyPostList extends ConsumerWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int dateIndex) {
+          //TODO: Today가 없을 수도 있음..
           if (dateList[dateIndex] != 'Today') {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -185,6 +193,7 @@ class _MyPostList extends ConsumerWidget {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
+                    //TODO: null value
                     itemCount: myPosts[dateList[dateIndex]]!.length,
                     itemBuilder: (BuildContext context, int postIndex) {
                       PostModel post = myPosts[dateList[dateIndex]]![postIndex];

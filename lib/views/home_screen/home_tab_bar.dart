@@ -17,6 +17,14 @@ class HomeTabBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
+    final currentLocation = GoRouter.of(context).location;
+
+    if (currentLocation == HomeWriteTab.path) {
+      tabController?.animateTo(0);
+    } else if (currentLocation == HomeSharedTab.path) {
+      tabController?.animateTo(1);
+    }
+
     return PreferredSize(
       preferredSize: preferredSize,
       child: Align(
@@ -28,7 +36,7 @@ class HomeTabBar extends ConsumerWidget implements PreferredSizeWidget {
             Text(
               'WRITE',
               style: customTextStyle.montTitleLarge.copyWith(
-                color: tabController?.index == 0
+                color: currentLocation == HomeWriteTab.path
                     ? CustomColors.light.gray900
                     : CustomColors.light.gray300,
               ),
@@ -36,7 +44,7 @@ class HomeTabBar extends ConsumerWidget implements PreferredSizeWidget {
             Text(
               'SHARED',
               style: customTextStyle.montTitleLarge.copyWith(
-                color: tabController?.index == 1
+                color: currentLocation == HomeSharedTab.path
                     ? CustomColors.light.gray900
                     : CustomColors.light.gray300,
               ),
@@ -54,14 +62,11 @@ class HomeTabBar extends ConsumerWidget implements PreferredSizeWidget {
           splashFactory: NoSplash.splashFactory,
           padding: EdgeInsets.zero,
           labelPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          unselectedLabelColor: CustomColors.light.gray300,
-          unselectedLabelStyle: customTextStyle.montTitleLarge
-              .copyWith(color: CustomColors.light.gray300),
           onTap: (int index) {
-            if (index == 0) {
-              context.go(HomeWriteTab.path);
-            } else {
+            if (currentLocation == HomeWriteTab.path && index == 1) {
               context.go(HomeSharedTab.path);
+            } else if (currentLocation == HomeSharedTab.path && index == 0) {
+              context.go(HomeWriteTab.path);
             }
           },
         ),

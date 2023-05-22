@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -123,7 +124,9 @@ class _TimerState extends ConsumerState<_Timer> {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         child: Text(
           '$hours:$minutes:$seconds',
-          style: customTextStyle.montHeadlineSmall,
+          style: customTextStyle.montHeadlineSmall.copyWith(
+            fontFeatures: [const FontFeature.tabularFigures()],
+          ),
         ),
       ),
     );
