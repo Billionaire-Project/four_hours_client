@@ -64,10 +64,12 @@ class PostsRepository extends BaseRepository {
     return PostsModel.fromJson(response.data);
   }
 
-  Future<Response> reportPost({required int postId}) async {
-    Response response = await dioClient.post('/posts/report/$postId/');
+  Future<void> reportPost({required int postId}) async {
+    await dioClient.post('/posts/report/$postId/');
+  }
 
-    return response;
+  Future<void> deletePost({required int postId}) async {
+    await dioClient.delete('/posts/$postId/');
   }
 }
 

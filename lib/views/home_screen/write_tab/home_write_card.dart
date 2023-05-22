@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/write_post_detail_controller.dart';
+import 'package:four_hours_client/controller/home_write_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -11,8 +11,6 @@ import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/measure_size.dart';
-import 'package:four_hours_client/views/write_post_detail_screen/write_post_detail_page.dart';
-import 'package:go_router/go_router.dart';
 
 class HomeWriteCard extends ConsumerStatefulWidget {
   final PostModel post;
@@ -45,13 +43,10 @@ class _HomeWriteCardState extends ConsumerState<HomeWriteCard> {
         },
         child: InkWell(
           onTap: () {
-            context.goNamed(
-              WritePostDetailPage.name,
-              params: {
-                'postId': widget.post.id.toString(),
-              },
-              extra: widget.post,
-            );
+            ref.read(homeWriteControllerProvider.notifier).handlePressedCard(
+                  context,
+                  post: widget.post,
+                );
           },
           child: Container(
             padding: const EdgeInsets.only(
@@ -95,9 +90,8 @@ class _HomeWriteCardState extends ConsumerState<HomeWriteCard> {
                     ),
                     onTap: () {
                       ref
-                          .read(writePostDetailControllerProvider(widget.post)
-                              .notifier)
-                          .handlePressedMoreButton(context);
+                          .read(homeWriteControllerProvider.notifier)
+                          .handlePressedMoreButton(context, widget.post.id);
                     },
                   ),
                 ),

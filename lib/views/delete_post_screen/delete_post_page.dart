@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/controller/delete_post_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
@@ -8,8 +9,15 @@ import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
 
 class DeletePostPage extends ConsumerWidget {
-  const DeletePostPage({Key? key}) : super(key: key);
-  static String path = '/delete-post';
+  final String postId;
+  final bool? isDetailPage;
+  const DeletePostPage({
+    Key? key,
+    required this.postId,
+    required this.isDetailPage,
+  }) : super(key: key);
+  static String path = '/delete-post/:postId';
+  static String name = 'DeletePostPage';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -74,7 +82,13 @@ class DeletePostPage extends ConsumerWidget {
                 isDestructiveAction: true,
                 text: '네, 삭제할래요',
                 onPressed: () {
-                  //TODO: 글 삭제 API 호출
+                  ref
+                      .read(deletePostControllerProvider(int.parse(postId))
+                          .notifier)
+                      .handlePressedDeleteButton(
+                        context,
+                        isDetailPage: isDetailPage ?? false,
+                      );
                 },
               ),
               const Gap(8),

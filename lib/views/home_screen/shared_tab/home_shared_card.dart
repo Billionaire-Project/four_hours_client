@@ -8,13 +8,11 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/shared_post_detail_screen/shared_post_detail_page.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/measure_size.dart';
-import 'package:go_router/go_router.dart';
 
 class HomeSharedCard extends ConsumerStatefulWidget {
   final PostModel post;
@@ -69,13 +67,10 @@ class _HomeSharedCardState extends ConsumerState<HomeSharedCard> {
         },
         child: InkWell(
           onTap: () {
-            context.goNamed(
-              SharedPostDetailPage.name,
-              params: {
-                'postId': widget.post.id.toString(),
-              },
-              extra: widget.post,
-            );
+            ref.read(homeSharedControllerProvider.notifier).handlePressedCard(
+                  context,
+                  post: widget.post,
+                );
           },
           child: Container(
             padding: const EdgeInsets.only(

@@ -18,7 +18,7 @@ import 'package:four_hours_client/views/home_screen/home_page.dart';
 
 part 'app_router.g.dart';
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final navigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 @riverpod
@@ -27,7 +27,7 @@ GoRouter appRouter(AppRouterRef ref) {
 
   return GoRouter(
     debugLogDiagnostics: true,
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: navigatorKey,
     initialLocation: SplashPage.path,
     refreshListenable: appState,
     redirect: (BuildContext context, GoRouterState state) {
@@ -85,7 +85,7 @@ GoRouter appRouter(AppRouterRef ref) {
                   path: CreatePostPage.path,
                   builder: (BuildContext context, GoRouterState state) =>
                       const CreatePostPage(),
-                  parentNavigatorKey: _rootNavigatorKey,
+                  parentNavigatorKey: navigatorKey,
                 ),
                 GoRoute(
                   path: WritePostDetailPage.path,
@@ -103,7 +103,7 @@ GoRouter appRouter(AppRouterRef ref) {
                       return const SizedBox.shrink();
                     }
                   },
-                  parentNavigatorKey: _rootNavigatorKey,
+                  parentNavigatorKey: navigatorKey,
                 ),
               ]),
           GoRoute(
@@ -130,7 +130,7 @@ GoRouter appRouter(AppRouterRef ref) {
                     return const SizedBox.shrink();
                   }
                 },
-                parentNavigatorKey: _rootNavigatorKey,
+                parentNavigatorKey: navigatorKey,
               ),
             ],
           ),
@@ -143,17 +143,30 @@ GoRouter appRouter(AppRouterRef ref) {
           key: state.pageKey,
           child: const LikedPostPage(),
         ),
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: navigatorKey,
       ),
       GoRoute(
         path: DeletePostPage.path,
-        builder: (BuildContext context, GoRouterState state) =>
-            const DeletePostPage(),
-        parentNavigatorKey: _rootNavigatorKey,
+        name: DeletePostPage.name,
+        builder: (BuildContext context, GoRouterState state) {
+          final extra = state.extra as Map<String, bool?>?;
+          final bool? isDetailPage = extra?['isDetailPage'];
+
+          if (state.params['postId'] != null) {
+            return DeletePostPage(
+              postId: state.params['postId']!,
+              isDetailPage: isDetailPage,
+            );
+          } else {
+            //TODO: redirect or show error page
+            return const SizedBox.shrink();
+          }
+        },
+        parentNavigatorKey: navigatorKey,
       ),
       GoRoute(
         path: CommonWidgetsPage.path,
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: navigatorKey,
         builder: (BuildContext context, GoRouterState state) =>
             const CommonWidgetsPage(),
       ),
