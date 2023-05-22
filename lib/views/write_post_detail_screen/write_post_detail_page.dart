@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/controller/shared_post_detail_controller.dart';
+import 'package:four_hours_client/controller/write_post_detail_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/shared_post_detail_screen/shared_post_detail_bottom.dart';
 
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
@@ -14,23 +13,23 @@ import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 
-class SharedPostDetailPage extends ConsumerStatefulWidget {
+class WritePostDetailPage extends ConsumerStatefulWidget {
   final String postId;
   final PostModel post;
-  const SharedPostDetailPage({
+  const WritePostDetailPage({
     Key? key,
     required this.postId,
     required this.post,
   }) : super(key: key);
-  static String path = 'shared-post-detail/:postId';
-  static String name = 'SharedPostDetailPage';
+  static String path = 'write-post-detail/:postId';
+  static String name = 'WritePostDetailPage';
 
   @override
-  ConsumerState<SharedPostDetailPage> createState() =>
-      _SharedPostDetailPageState();
+  ConsumerState<WritePostDetailPage> createState() =>
+      _WritePostDetailPageState();
 }
 
-class _SharedPostDetailPageState extends ConsumerState<SharedPostDetailPage> {
+class _WritePostDetailPageState extends ConsumerState<WritePostDetailPage> {
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
@@ -41,8 +40,7 @@ class _SharedPostDetailPageState extends ConsumerState<SharedPostDetailPage> {
           CommonIconButton(
             onTap: () {
               ref
-                  .read(
-                      sharedPostDetailControllerProvider(widget.post).notifier)
+                  .read(writePostDetailControllerProvider(widget.post).notifier)
                   .handlePressedMoreButton(context);
             },
             icon: const Icon(
@@ -61,7 +59,7 @@ class _SharedPostDetailPageState extends ConsumerState<SharedPostDetailPage> {
                 children: [
                   CommonRowWithDivider(
                     header: CommonTitle(
-                        getPostElapsedTime(date: widget.post.createdAt)),
+                        getPostElapsedTime(date: widget.post.updatedAt)),
                   ),
                   const Gap(8),
                   Text(
@@ -72,7 +70,6 @@ class _SharedPostDetailPageState extends ConsumerState<SharedPostDetailPage> {
               ),
             ),
           ),
-          SharedPostDetailBottom(post: widget.post),
         ],
       ),
     );
