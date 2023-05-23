@@ -8,7 +8,7 @@ import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
-import 'package:four_hours_client/views/home_screen/write_tab/home_write_card.dart';
+import 'package:four_hours_client/views/home_screen/write_tab/home_write_post_card.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_timer.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
@@ -164,7 +164,7 @@ class _TodaysList extends ConsumerWidget {
         itemBuilder: (BuildContext context, int postIndex) {
           PostModel post = myPosts[dateList[0]]![postIndex];
           final String createdTime = getCreatePostTime(date: post.updatedAt);
-          return HomeWriteCard(
+          return HomeWritePostCard(
             post: post,
             labelText: createdTime,
           );
@@ -212,7 +212,7 @@ class _MyPostList extends ConsumerWidget {
                       PostModel post = myPosts[dateList[dateIndex]]![postIndex];
                       final String createdTime =
                           getCreatePostTime(date: post.updatedAt);
-                      return HomeWriteCard(
+                      return HomeWritePostCard(
                         post: post,
                         //TODO: 내가 작성한 시간 표시
                         labelText: createdTime,

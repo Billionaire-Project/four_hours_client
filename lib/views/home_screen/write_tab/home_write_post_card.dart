@@ -12,20 +12,20 @@ import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/measure_size.dart';
 
-class HomeWriteCard extends ConsumerStatefulWidget {
+class HomeWritePostCard extends ConsumerStatefulWidget {
   final PostModel post;
   final String labelText;
-  const HomeWriteCard({
+  const HomeWritePostCard({
     Key? key,
     required this.post,
     required this.labelText,
   }) : super(key: key);
 
   @override
-  ConsumerState<HomeWriteCard> createState() => _HomeWriteCardState();
+  ConsumerState<HomeWritePostCard> createState() => _HomeWritePostCardState();
 }
 
-class _HomeWriteCardState extends ConsumerState<HomeWriteCard> {
+class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
   Size childSize = Size.zero;
 
   @override

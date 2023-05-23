@@ -14,20 +14,20 @@ import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/measure_size.dart';
 
-class HomeSharedCard extends ConsumerStatefulWidget {
+class HomeSharedPostCard extends ConsumerStatefulWidget {
   final PostModel post;
   final String labelText;
-  const HomeSharedCard({
+  const HomeSharedPostCard({
     Key? key,
     required this.post,
     required this.labelText,
   }) : super(key: key);
 
   @override
-  ConsumerState<HomeSharedCard> createState() => _HomeSharedCardState();
+  ConsumerState<HomeSharedPostCard> createState() => _HomeSharedPostCardState();
 }
 
-class _HomeSharedCardState extends ConsumerState<HomeSharedCard> {
+class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
   Size childSize = Size.zero;
 
   @override
