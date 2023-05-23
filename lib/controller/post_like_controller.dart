@@ -22,10 +22,16 @@ class PostLikeController extends StateNotifier<bool> {
     _postsRepository = ref.read(postsRepositoryProvider);
   }
 
-  void handlePressedLikeButton({bool isNeedRefresh = true}) async {
+  void handlePressedLikeButton({bool canBeRemoved = true}) async {
     state = !state;
 
     await _likePost();
+
+    // _ref.read(likedPostControllerProvider.notifier).addOrRemovePost(
+    //       isLiked: state,
+    //       postId: _postDetailId,
+    //       canBeRemoved: canBeRemoved,
+    //     );
   }
 
   Future<void> _likePost() async {

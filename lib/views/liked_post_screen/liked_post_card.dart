@@ -124,7 +124,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                             ),
                           ).notifier,
                         )
-                        .handlePressedLikeButton(isNeedRefresh: false);
+                        .handlePressedLikeButton(canBeRemoved: false);
                   },
                   icon: isLiked
                       ? Icon(

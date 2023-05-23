@@ -8,7 +8,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'liked_post_controller.g.dart';
 
-@riverpod
+// @riverpod
+@Riverpod(keepAlive: true)
 class LikedPostController extends _$LikedPostController {
   PostsRepository? postsRepository;
 
@@ -35,13 +36,15 @@ class LikedPostController extends _$LikedPostController {
       await _getLikePosts();
 
       //TODO: 에러 핸들링 필요
-      if (_likedPosts!.posts.isEmpty || _likedPosts!.next == null) {
+      if (_likedPosts!.posts.isEmpty) {
         return;
       }
 
       state = _likedPosts!.posts;
 
-      _start = _likedPosts!.next!;
+      if (_likedPosts!.next != null) {
+        _start = _likedPosts!.next!;
+      }
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -82,6 +85,52 @@ class LikedPostController extends _$LikedPostController {
       throw throwExceptions(e);
     }
   }
+
+  // Future<void> addOrRemovePost({
+  //   required bool isLiked,
+  //   required int postId,
+  //   required bool canBeRemoved,
+  // }) async {
+  //   if (!canBeRemoved) {
+  //     return;
+  //   }
+
+  //   try {
+  //     if (!isLiked) {
+  //       _removePostFromList(postId: postId);
+  //     } else {
+  //       _addPostToListByOrder(postId: postId);
+  //     }
+  //   } on DioError catch (e) {
+  //     throw throwExceptions(e);
+  //   }
+  // }
+
+  // void _addPostToListByOrder({
+  //   required int postId,
+  // }) async {
+  //   final PostModel newPost =
+  //       await postsRepository!.getPostById(postId: postId);
+
+  //   List<PostModel> newList = List.from(state);
+
+  //   List<int> postIds = newList.map((post) => post.id).toList();
+
+  //   bool isContain = postIds.contains(newPost.id);
+  //   if (isContain) return;
+
+  //   int targetIndex = postIds.indexWhere((id) => id < newPost.id);
+
+  //   newList.insert(targetIndex, newPost);
+  //   state = newList;
+
+  // }
+
+  // void _removePostFromList({required int postId}) {
+  //   final List<PostModel> newList = List.from(state);
+
+  //   state = newList.where((element) => element.id != postId).toList();
+  // }
 
   Future<void> _getLikePosts() async {
     _likedPosts =

@@ -23,6 +23,7 @@ class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+
     return AppBar(
       automaticallyImplyLeading: false,
       title: SvgPicture.asset(

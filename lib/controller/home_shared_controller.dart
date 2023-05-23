@@ -39,13 +39,15 @@ class HomeSharedController extends _$HomeSharedController {
       _posts = await postsRepository!.getPosts(start: _start, offset: _offset);
 
       //TODO: 에러 핸들링 필요
-      if (_posts!.posts.isEmpty || _posts!.next == null) {
+      if (_posts!.posts.isEmpty) {
         return;
       }
 
       state = _posts!.posts;
 
-      _start = _posts!.next!;
+      if (_posts!.next != null) {
+        _start = _posts!.next!;
+      }
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -153,8 +155,6 @@ class HomeSharedController extends _$HomeSharedController {
     try {
       final PostModel newPost =
           await postsRepository!.getPostById(postId: postId);
-
-      print('jay --- newPost like ${newPost.isLiked}');
 
       final int targetIndex =
           state.indexWhere((element) => element.id == postId);

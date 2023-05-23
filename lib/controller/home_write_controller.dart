@@ -45,13 +45,15 @@ class HomeWriteController extends _$HomeWriteController {
           await postsRepository.getMyPosts(start: _start, offset: _offset);
 
       //TODO: 에러 핸들링 필요
-      if (_myPosts!.posts.isEmpty || _myPosts!.next == null) {
+      if (_myPosts!.posts.isEmpty) {
         return;
       }
 
       state = _myPosts!.posts;
 
-      _start = _myPosts!.next!;
+      if (_myPosts!.next != null) {
+        _start = _myPosts!.next!;
+      }
 
       _dateList = _myPosts!.posts.keys.map((e) => e).toList();
     } on DioError catch (e) {
