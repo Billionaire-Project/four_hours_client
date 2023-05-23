@@ -7,6 +7,7 @@ import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class LikedPostPage extends ConsumerStatefulWidget {
@@ -21,18 +22,24 @@ class _LikedPostPageState extends ConsumerState<LikedPostPage> {
   @override
   Widget build(BuildContext context) {
     final likedPosts = ref.watch(likedPostControllerProvider);
+    final likedPostNotifier = ref.watch(likedPostControllerProvider.notifier);
 
     return MainWrapper(
-      appBar: const CommonAppBar(title: '내가 좋아한 글'),
+      appBar: CommonAppBar(
+        title: '내가 좋아한 글',
+        leadingOnTapHandler: () async {
+          await likedPostNotifier.refreshLikedList();
+          if (context.mounted) {
+            context.pop();
+          }
+        },
+      ),
       child: SmartRefresher(
         enablePullDown: true,
         enablePullUp: true,
-        controller:
-            ref.read(likedPostControllerProvider.notifier).refreshController,
-        onRefresh:
-            ref.read(likedPostControllerProvider.notifier).refreshLikedList,
-        onLoading:
-            ref.read(likedPostControllerProvider.notifier).getMoreLikedPosts,
+        controller: likedPostNotifier.refreshController,
+        onRefresh: likedPostNotifier.refreshLikedList,
+        onLoading: likedPostNotifier.getMoreLikedPosts,
         footer: const CustomRefresherFooter(),
         child: likedPosts.isEmpty
             ? const Center(
