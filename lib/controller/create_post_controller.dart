@@ -83,8 +83,6 @@ class CreatePostController extends _$CreatePostController {
         title: '작성한 글을 게시하시겠어요?',
         subtitle: '게시된 글은 편집할 수 없어요',
         onPressedRightButton: () async {
-          _textEditingController.clear();
-
           await _removeTemporaryText();
 
           bool result = await _submitPost(content: state);
