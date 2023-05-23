@@ -8,9 +8,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'liked_post_controller.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class LikedPostController extends _$LikedPostController {
-  late final PostsRepository postsRepository;
+  PostsRepository? postsRepository;
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -68,7 +68,7 @@ class LikedPostController extends _$LikedPostController {
     }
   }
 
-  void refreshLikedList() async {
+  Future<void> refreshLikedList() async {
     _start = '0';
     _offset = '10';
 
@@ -83,33 +83,13 @@ class LikedPostController extends _$LikedPostController {
     }
   }
 
-  Future<void> handlePressedLikeButton(int postId) async {
-    try {
-      await postsRepository.likePost(postId: postId);
-
-      final PostModel newPost =
-          await postsRepository.getPostById(postId: postId);
-
-      final int targetIndex =
-          state.indexWhere((element) => element.id == postId);
-
-      final List<PostModel> newSharedList = List.from(state);
-
-      newSharedList[targetIndex] = newPost;
-
-      state = newSharedList;
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
-  }
-
   Future<void> _getLikePosts() async {
     _likedPosts =
-        await postsRepository.getLikePosts(start: _start, offset: _offset);
+        await postsRepository!.getLikePosts(start: _start, offset: _offset);
   }
 
   void _init() {
-    postsRepository = ref.watch(postsRepositoryProvider);
+    postsRepository ??= ref.watch(postsRepositoryProvider);
     getLikedPostsInitial();
   }
 }

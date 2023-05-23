@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -26,11 +25,14 @@ class PostLikeController extends StateNotifier<bool> {
   void handlePressedLikeButton({bool isNeedRefresh = true}) async {
     state = !state;
 
+    await _likePost();
+  }
+
+  Future<void> _likePost() async {
     try {
-      await _postsRepository.likePost(postId: _postDetailId);
-      if (isNeedRefresh) {
-        _ref.read(likedPostControllerProvider.notifier).refreshLikedList();
-      }
+      bool isLiked = await _postsRepository.likePost(postId: _postDetailId);
+
+      state = isLiked;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }

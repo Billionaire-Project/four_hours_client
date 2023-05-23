@@ -16,7 +16,7 @@ part 'home_shared_controller.g.dart';
 
 @Riverpod(keepAlive: true)
 class HomeSharedController extends _$HomeSharedController {
-  late final PostsRepository postsRepository;
+  PostsRepository? postsRepository;
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -36,7 +36,7 @@ class HomeSharedController extends _$HomeSharedController {
 
   Future<void> getPostsInitial() async {
     try {
-      _posts = await postsRepository.getPosts(start: _start, offset: _offset);
+      _posts = await postsRepository!.getPosts(start: _start, offset: _offset);
 
       //TODO: 에러 핸들링 필요
       if (_posts!.posts.isEmpty || _posts!.next == null) {
@@ -53,7 +53,7 @@ class HomeSharedController extends _$HomeSharedController {
 
   Future<void> getMorePosts() async {
     try {
-      _posts = await postsRepository.getPosts(start: _start, offset: _offset);
+      _posts = await postsRepository!.getPosts(start: _start, offset: _offset);
 
       if (_posts!.next == null) {
         _refreshController.loadComplete();
@@ -73,7 +73,7 @@ class HomeSharedController extends _$HomeSharedController {
     _start = '0';
     _offset = '10';
     try {
-      _posts = await postsRepository.getPosts(start: _start, offset: _offset);
+      _posts = await postsRepository!.getPosts(start: _start, offset: _offset);
 
       state = _posts!.posts;
 
@@ -87,7 +87,7 @@ class HomeSharedController extends _$HomeSharedController {
     BuildContext context, {
     required PostModel post,
   }) {
-    context.goNamed(
+    context.pushNamed(
       SharedPostDetailPage.name,
       params: {
         'postId': post.id.toString(),
@@ -122,9 +122,9 @@ class HomeSharedController extends _$HomeSharedController {
 
   Future<void> handlePressedLikeButton(int postId) async {
     try {
-      await postsRepository.likePost(postId: postId);
+      await postsRepository!.likePost(postId: postId);
 
-      await _replacePost(postId);
+      await replacePost(postId);
 
       ref.read(likedPostControllerProvider.notifier).refreshLikedList();
     } on DioError catch (e) {
@@ -134,9 +134,9 @@ class HomeSharedController extends _$HomeSharedController {
 
   Future<void> handlePressedReportButton({required int postId}) async {
     try {
-      await postsRepository.reportPost(postId: postId);
+      await postsRepository!.reportPost(postId: postId);
 
-      _replacePost(postId);
+      replacePost(postId);
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -145,14 +145,16 @@ class HomeSharedController extends _$HomeSharedController {
   void _init() {
     state = [];
 
-    postsRepository = ref.watch(postsRepositoryProvider);
+    postsRepository ??= ref.watch(postsRepositoryProvider);
     getPostsInitial();
   }
 
-  Future<void> _replacePost(int postId) async {
+  Future<void> replacePost(int postId) async {
     try {
       final PostModel newPost =
-          await postsRepository.getPostById(postId: postId);
+          await postsRepository!.getPostById(postId: postId);
+
+      print('jay --- newPost like ${newPost.isLiked}');
 
       final int targetIndex =
           state.indexWhere((element) => element.id == postId);

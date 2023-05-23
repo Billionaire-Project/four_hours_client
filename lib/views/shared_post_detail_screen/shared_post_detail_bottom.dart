@@ -19,6 +19,7 @@ class SharedPostDetailBottom extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+
     bool isLiked = ref.watch(
       postLikeControllerProvider(
         PostLikeControllerParameters(

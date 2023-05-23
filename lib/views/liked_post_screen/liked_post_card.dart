@@ -44,8 +44,9 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
       child: InkWell(
+        //TODO: controller로 이동
         onTap: () {
-          context.goNamed(
+          context.pushNamed(
             SharedPostDetailPage.name,
             params: {
               'postId': widget.post.id.toString(),
@@ -57,7 +58,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
           padding: const EdgeInsets.only(
             left: 16.0,
             top: 16.0,
-            //common icon buttons has 8.0 padding
+            //* common icon buttons has 8.0 padding
             right: 8.0,
             bottom: 8.0,
           ),
