@@ -35,6 +35,8 @@ class HomeSharedController extends _$HomeSharedController {
   PostsModel? get posts => _posts;
 
   Future<void> getPostsInitial() async {
+    _start = '0';
+    _offset = '10';
     try {
       _posts = await postsRepository!.getPosts(start: _start, offset: _offset);
 
@@ -48,6 +50,8 @@ class HomeSharedController extends _$HomeSharedController {
       if (_posts!.next != null) {
         _start = _posts!.next!;
       }
+
+      _refreshController.refreshCompleted();
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -66,20 +70,6 @@ class HomeSharedController extends _$HomeSharedController {
       state = [...state, ..._posts!.posts];
 
       _refreshController.loadComplete();
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
-  }
-
-  Future<void> refreshSharedList() async {
-    _start = '0';
-    _offset = '10';
-    try {
-      _posts = await postsRepository!.getPosts(start: _start, offset: _offset);
-
-      state = _posts!.posts;
-
-      _refreshController.refreshCompleted();
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -122,13 +112,15 @@ class HomeSharedController extends _$HomeSharedController {
     );
   }
 
-  Future<void> handlePressedLikeButton(int postId) async {
+  Future<void> handlePressedLikeButton({
+    required int postId,
+  }) async {
     try {
       await postsRepository!.likePost(postId: postId);
 
       await replacePost(postId);
 
-      ref.read(likedPostControllerProvider.notifier).refreshLikedList();
+      ref.read(likedPostControllerProvider.notifier).getLikedPostsInitial();
     } on DioError catch (e) {
       throw throwExceptions(e);
     }

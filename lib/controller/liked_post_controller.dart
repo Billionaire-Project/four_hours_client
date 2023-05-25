@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -8,7 +9,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'liked_post_controller.g.dart';
 
-// @riverpod
 @Riverpod(keepAlive: true)
 class LikedPostController extends _$LikedPostController {
   PostsRepository? postsRepository;
@@ -32,19 +32,18 @@ class LikedPostController extends _$LikedPostController {
   PostsModel? get posts => _likedPosts;
 
   Future<void> getLikedPostsInitial() async {
+    _start = '0';
+    _offset = '10';
+
     try {
       await _getLikePosts();
-
-      //TODO: 에러 핸들링 필요
-      if (_likedPosts!.posts.isEmpty) {
-        return;
-      }
 
       state = _likedPosts!.posts;
 
       if (_likedPosts!.next != null) {
         _start = _likedPosts!.next!;
       }
+      _refreshController.refreshCompleted();
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -71,66 +70,37 @@ class LikedPostController extends _$LikedPostController {
     }
   }
 
-  Future<void> refreshLikedList() async {
-    _start = '0';
-    _offset = '10';
-
+  Future<void> handlePressedLikeButton({
+    required int postId,
+  }) async {
     try {
-      await _getLikePosts();
+      await postsRepository!.likePost(postId: postId);
 
-      state = _likedPosts!.posts;
+      await _replacePost(postId);
 
-      _refreshController.refreshCompleted();
+      ref.read(homeSharedControllerProvider.notifier).replacePost(postId);
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
   }
 
-  // Future<void> addOrRemovePost({
-  //   required bool isLiked,
-  //   required int postId,
-  //   required bool canBeRemoved,
-  // }) async {
-  //   if (!canBeRemoved) {
-  //     return;
-  //   }
+  Future<void> _replacePost(int postId) async {
+    try {
+      final PostModel newPost =
+          await postsRepository!.getPostById(postId: postId);
 
-  //   try {
-  //     if (!isLiked) {
-  //       _removePostFromList(postId: postId);
-  //     } else {
-  //       _addPostToListByOrder(postId: postId);
-  //     }
-  //   } on DioError catch (e) {
-  //     throw throwExceptions(e);
-  //   }
-  // }
+      final int targetIndex =
+          state.indexWhere((element) => element.id == postId);
 
-  // void _addPostToListByOrder({
-  //   required int postId,
-  // }) async {
-  //   final PostModel newPost =
-  //       await postsRepository!.getPostById(postId: postId);
+      final List<PostModel> newSharedList = List.from(state);
 
-  //   List<PostModel> newList = List.from(state);
+      newSharedList[targetIndex] = newPost;
 
-  //   List<int> postIds = newList.map((post) => post.id).toList();
-
-  //   bool isContain = postIds.contains(newPost.id);
-  //   if (isContain) return;
-
-  //   int targetIndex = postIds.indexWhere((id) => id < newPost.id);
-
-  //   newList.insert(targetIndex, newPost);
-  //   state = newList;
-
-  // }
-
-  // void _removePostFromList({required int postId}) {
-  //   final List<PostModel> newList = List.from(state);
-
-  //   state = newList.where((element) => element.id != postId).toList();
-  // }
+      state = newSharedList;
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
+  }
 
   Future<void> _getLikePosts() async {
     _likedPosts =

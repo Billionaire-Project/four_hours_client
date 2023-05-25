@@ -44,11 +44,6 @@ class HomeWriteController extends _$HomeWriteController {
       _myPosts =
           await postsRepository.getMyPosts(start: _start, offset: _offset);
 
-      //TODO: 에러 핸들링 필요
-      if (_myPosts!.posts.isEmpty) {
-        return;
-      }
-
       state = _myPosts!.posts;
 
       if (_myPosts!.next != null) {

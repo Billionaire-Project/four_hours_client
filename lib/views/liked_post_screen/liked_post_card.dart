@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/post_like_controller.dart';
+import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -31,15 +31,6 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
-
-    bool isLiked = ref.watch(
-      postLikeControllerProvider(
-        PostLikeControllerParameters(
-          isLiked: widget.post.isLiked!,
-          postId: widget.post.id,
-        ),
-      ),
-    );
 
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
@@ -111,31 +102,26 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                 ),
               ),
               const Gap(8),
-              CommonRowWithDivider(
-                rightGap: 8,
-                tail: CommonIconButton(
-                  onTap: () {
-                    ref
-                        .read(
-                          postLikeControllerProvider(
-                            PostLikeControllerParameters(
-                              isLiked: widget.post.isLiked!,
-                              postId: widget.post.id,
-                            ),
-                          ).notifier,
-                        )
-                        .handlePressedLikeButton(canBeRemoved: false);
-                  },
-                  icon: isLiked
-                      ? Icon(
-                          CustomIcons.heart_fill,
-                          color: customThemeColors.orange,
-                        )
-                      : const Icon(
-                          CustomIcons.heart_line,
-                        ),
-                ),
-              ),
+              Consumer(builder: (context, ref, child) {
+                return CommonRowWithDivider(
+                  rightGap: 8,
+                  tail: CommonIconButton(
+                    onTap: () {
+                      ref
+                          .read(likedPostControllerProvider.notifier)
+                          .handlePressedLikeButton(postId: widget.post.id);
+                    },
+                    icon: widget.post.isLiked!
+                        ? Icon(
+                            CustomIcons.heart_fill,
+                            color: customThemeColors.orange,
+                          )
+                        : const Icon(
+                            CustomIcons.heart_line,
+                          ),
+                  ),
+                );
+              })
             ],
           ),
         ),

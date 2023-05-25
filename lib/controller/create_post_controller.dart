@@ -89,7 +89,7 @@ class CreatePostController extends _$CreatePostController {
 
           await ref
               .read(homeSharedControllerProvider.notifier)
-              .refreshSharedList();
+              .getPostsInitial();
 
           await ref
               .read(homeWriteControllerProvider.notifier)

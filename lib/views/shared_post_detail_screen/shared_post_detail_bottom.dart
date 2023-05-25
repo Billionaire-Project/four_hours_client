@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/controller/post_like_controller.dart';
+import 'package:four_hours_client/controller/shared_post_detail_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
@@ -20,14 +20,9 @@ class SharedPostDetailBottom extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    bool isLiked = ref.watch(
-      postLikeControllerProvider(
-        PostLikeControllerParameters(
-          isLiked: post.isLiked!,
-          postId: post.id,
-        ),
-      ),
-    );
+    final postDetail = ref.watch(sharedPostDetailControllerProvider(post))!;
+
+    bool isLiked = postDetail.isLiked!;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -44,14 +39,11 @@ class SharedPostDetailBottom extends ConsumerWidget {
         children: [
           _Timer(post: post),
           _PostDetailAction(
-            onTap: ref
-                .read(postLikeControllerProvider(
-                  PostLikeControllerParameters(
-                    isLiked: post.isLiked!,
-                    postId: post.id,
-                  ),
-                ).notifier)
-                .handlePressedLikeButton,
+            onTap: () {
+              ref
+                  .read(sharedPostDetailControllerProvider(post).notifier)
+                  .handlePressedLikeButton(postId: post.id);
+            },
             icon: isLiked
                 ? Icon(
                     CustomIcons.heart_fill,

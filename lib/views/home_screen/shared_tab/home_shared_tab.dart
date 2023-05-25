@@ -14,6 +14,7 @@ class HomeSharedTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final posts = ref.watch(homeSharedControllerProvider);
+    final sharedNotifier = ref.watch(homeSharedControllerProvider.notifier);
 
     if (posts.isEmpty) {
       return const Center(
@@ -26,11 +27,9 @@ class HomeSharedTab extends ConsumerWidget {
     return SmartRefresher(
       enablePullDown: true,
       enablePullUp: true,
-      controller:
-          ref.read(homeSharedControllerProvider.notifier).refreshController,
-      onRefresh:
-          ref.read(homeSharedControllerProvider.notifier).refreshSharedList,
-      onLoading: ref.read(homeSharedControllerProvider.notifier).getMorePosts,
+      controller: sharedNotifier.refreshController,
+      onRefresh: sharedNotifier.getPostsInitial,
+      onLoading: sharedNotifier.getMorePosts,
       footer: const CustomRefresherFooter(),
       //TODO: if need custom header
       // header:

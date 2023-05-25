@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
-import 'package:four_hours_client/controller/post_like_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -47,15 +46,6 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
         ),
       );
     }
-
-    bool isLiked = ref.watch(
-      postLikeControllerProvider(
-        PostLikeControllerParameters(
-          isLiked: widget.post.isLiked!,
-          postId: widget.post.id,
-        ),
-      ),
-    );
 
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
@@ -140,51 +130,53 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                   ),
                 ),
                 const Gap(8),
-                CommonRowWithDivider(
-                  rightGap: 8,
-                  tail: Row(
-                    children: [
-                      //TODO: Liked & Saved 표시
-                      // if (widget.post.isLiked! && !isShown)
-                      //   Container(
-                      //     padding: const EdgeInsets.symmetric(
-                      //       horizontal: 8.0,
-                      //       vertical: 2.0,
-                      //     ),
-                      //     decoration: BoxDecoration(
-                      //       color: customThemeColors.orange,
-                      //       borderRadius: BorderRadius.circular(4.0),
-                      //     ),
-                      //     child: Text(
-                      //       'Liked & Saved',
-                      //       style: customTextStyle.montLabelSmall.copyWith(
-                      //         color: customThemeColors.backgroundToggle,
-                      //       ),
-                      //     ),
-                      //   ),
-                      CommonIconButton(
-                        onTap: ref
-                            .read(
-                              postLikeControllerProvider(
-                                PostLikeControllerParameters(
-                                  isLiked: widget.post.isLiked!,
+                Consumer(builder: (context, ref, child) {
+                  //TODO: Card controller를 만들어서? 관리? 가능?
+                  bool isLiked = widget.post.isLiked!;
+
+                  return CommonRowWithDivider(
+                    rightGap: 8,
+                    tail: Row(
+                      children: [
+                        //TODO: Liked & Saved 표시
+                        // if (isLiked! && !isShown)
+                        //   Container(
+                        //     padding: const EdgeInsets.symmetric(
+                        //       horizontal: 8.0,
+                        //       vertical: 2.0,
+                        //     ),
+                        //     decoration: BoxDecoration(
+                        //       color: customThemeColors.orange,
+                        //       borderRadius: BorderRadius.circular(4.0),
+                        //     ),
+                        //     child: Text(
+                        //       'Liked & Saved',
+                        //       style: customTextStyle.montLabelSmall.copyWith(
+                        //         color: customThemeColors.backgroundToggle,
+                        //       ),
+                        //     ),
+                        //   ),
+                        CommonIconButton(
+                          onTap: () {
+                            ref
+                                .read(homeSharedControllerProvider.notifier)
+                                .handlePressedLikeButton(
                                   postId: widget.post.id,
+                                );
+                          },
+                          icon: isLiked
+                              ? Icon(
+                                  CustomIcons.heart_fill,
+                                  color: customThemeColors.orange,
+                                )
+                              : const Icon(
+                                  CustomIcons.heart_line,
                                 ),
-                              ).notifier,
-                            )
-                            .handlePressedLikeButton,
-                        icon: isLiked
-                            ? Icon(
-                                CustomIcons.heart_fill,
-                                color: customThemeColors.orange,
-                              )
-                            : const Icon(
-                                CustomIcons.heart_line,
-                              ),
-                      ),
-                    ],
-                  ),
-                ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
               ],
             ),
           ),
