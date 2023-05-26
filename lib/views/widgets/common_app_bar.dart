@@ -5,16 +5,17 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
+import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:go_router/go_router.dart';
 
 class CommonAppBar extends ConsumerWidget implements PreferredSizeWidget {
-  final String title;
-  final List<Widget>? actions;
+  final String? title;
+  final List<CommonIconButton>? actions;
   final VoidCallback? leadingOnTapHandler;
   final bool leadingAutomaticallyPop;
   const CommonAppBar({
     Key? key,
-    required this.title,
+    this.title,
     this.actions,
     this.leadingOnTapHandler,
     this.leadingAutomaticallyPop = true,
@@ -30,10 +31,13 @@ class CommonAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
     return AppBar(
       automaticallyImplyLeading: false,
-      title: Text(
-        title,
-        style: customTextStyle.titleLarge,
-      ),
+
+      title: title != null
+          ? Text(
+              title!,
+              style: customTextStyle.titleLarge,
+            )
+          : null,
       leading: CommonIconButton(
         onTap: () {
           if (leadingOnTapHandler != null) {
@@ -48,10 +52,9 @@ class CommonAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ),
       ),
       //! endDrawer를 사용하니 메뉴 아이콘이 앱바 우측에 자동 생성 됨
-      actions: actions ??
-          [
-            const SizedBox.shrink(),
-          ],
+      actions: actions != null
+          ? [...actions!, const Gap(8)]
+          : [const SizedBox.shrink()],
       backgroundColor: customThemeColors.background,
       foregroundColor: customThemeColors.onBackground,
       centerTitle: true,

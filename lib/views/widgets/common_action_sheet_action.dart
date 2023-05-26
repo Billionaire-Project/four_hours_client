@@ -29,7 +29,6 @@ class CommonActionSheetAction extends ConsumerWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: backgroundColor ?? customThemeColors.background,
-        borderRadius: BorderRadius.circular(8),
       ),
       child: CupertinoActionSheetAction(
         onPressed: onPressed,

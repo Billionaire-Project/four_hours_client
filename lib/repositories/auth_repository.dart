@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:four_hours_client/models/user_model.dart';
 import 'package:four_hours_client/repositories/base_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -67,10 +68,12 @@ class AuthRepository extends BaseRepository {
     await auth.signOut();
   }
 
-  Future<Response> getMyInformation() async {
+  Future<UserModel> getMyInformation() async {
     Response response = await dioClient.get('/auth/me/');
 
-    return response;
+    UserModel result = UserModel.fromJson(response.data);
+
+    return result;
   }
 
   Future<Response> userLogin() async {

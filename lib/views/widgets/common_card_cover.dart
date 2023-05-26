@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
 class CommonCardCover extends ConsumerWidget {
+  final double? height;
   final IconData iconData;
   final String title;
   final String subtitle;
+
   const CommonCardCover({
     Key? key,
+    this.height = cardWithTwoDividersMaxHeight,
     required this.iconData,
     required this.title,
     required this.subtitle,
@@ -22,7 +26,7 @@ class CommonCardCover extends ConsumerWidget {
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
     return Container(
-      height: 232,
+      height: height,
       decoration: BoxDecoration(
         color: customThemeColors.backgroundSurface,
         border: Border.all(

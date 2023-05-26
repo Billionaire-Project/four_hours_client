@@ -13,9 +13,24 @@ class CommonIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: GestureDetector(onTap: onTap, child: icon),
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        shape: const CircleBorder(),
+        child: InkWell(
+          hoverColor: Colors.white.withOpacity(0.05),
+          splashColor: Colors.white.withOpacity(0.15),
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: Padding(
+            padding: padding,
+            child: icon,
+          ),
+        ),
+      ),
     );
   }
 }

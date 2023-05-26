@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:four_hours_client/repositories/auth_repository.dart';
+import 'package:four_hours_client/utils/functions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_controller.g.dart';
@@ -11,24 +13,36 @@ class AuthController extends _$AuthController {
   FutureOr build() {}
 
   Future<void> signInWithGoogle() async {
-    final authRepository = ref.watch(authRepositoryProvider);
+    try {
+      final authRepository = ref.watch(authRepositoryProvider);
 
-    state = const AsyncLoading();
+      state = const AsyncLoading();
 
-    state = await AsyncValue.guard(authRepository.signInWithGoogle);
+      state = await AsyncValue.guard(authRepository.signInWithGoogle);
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
   }
 
   Future<void> signInWithApple() async {
-    final authRepository = ref.watch(authRepositoryProvider);
+    try {
+      final authRepository = ref.watch(authRepositoryProvider);
 
-    state = const AsyncLoading();
+      state = const AsyncLoading();
 
-    state = await AsyncValue.guard(authRepository.signInWithApple);
+      state = await AsyncValue.guard(authRepository.signInWithApple);
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
   }
 
   Future<void> signOut() async {
-    final authRepository = ref.watch(authRepositoryProvider);
+    try {
+      final authRepository = ref.watch(authRepositoryProvider);
 
-    state = await AsyncValue.guard(authRepository.signOut);
+      state = await AsyncValue.guard(authRepository.signOut);
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
   }
 }

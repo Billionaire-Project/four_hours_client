@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
@@ -10,20 +9,22 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 class CommonDialogWithTwoButtons extends ConsumerWidget {
   final IconData iconData;
   final String title;
-  final String subtitle;
   final VoidCallback onPressedRightButton;
   final String rightButtonText;
+  final String? subtitle;
   final VoidCallback? onPressedLeftButton;
   final String? leftButtonText;
+  final bool isDestructiveAction;
   const CommonDialogWithTwoButtons({
     Key? key,
     required this.iconData,
     required this.title,
-    required this.subtitle,
     required this.onPressedRightButton,
     required this.rightButtonText,
+    this.subtitle,
     this.onPressedLeftButton,
     this.leftButtonText,
+    this.isDestructiveAction = false,
   }) : super(key: key);
 
   @override
@@ -50,13 +51,15 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
             ),
             const Gap(8),
             Text(title, style: customTextStyle.headlineSmall),
-            const Gap(4),
-            Text(
-              subtitle,
-              style: customTextStyle.bodyMedium.copyWith(
-                color: customThemeColors.textSecondary,
+            if (subtitle != null) ...[
+              const Gap(4),
+              Text(
+                subtitle!,
+                style: customTextStyle.bodyMedium.copyWith(
+                  color: customThemeColors.textSecondary,
+                ),
               ),
-            ),
+            ],
             const Gap(24),
             Row(
               children: [
@@ -64,7 +67,7 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
                   child: CommonTextButton(
                     onPressed: () {
                       onPressedLeftButton?.call();
-                      closeRootNavigator(context);
+                      closeRootNavigator();
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 13),
@@ -82,18 +85,19 @@ class CommonDialogWithTwoButtons extends ConsumerWidget {
                   child: CommonTextButton(
                     onPressed: () {
                       onPressedRightButton.call();
-                      closeRootNavigator(context);
+                      closeRootNavigator();
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 13),
-                      backgroundColor: customThemeColors.red,
-                      foregroundColor: customThemeColors.textPrimary,
+                      backgroundColor: isDestructiveAction
+                          ? customThemeColors.red
+                          : customThemeColors.buttonPrimary,
+                      foregroundColor: customThemeColors.textInvert,
                     ),
                     child: Text(
                       rightButtonText,
-                      style: customTextStyle.titleMedium.copyWith(
-                        color: CustomColors.light.gray50,
-                      ),
+                      style: customTextStyle.titleMedium
+                          .copyWith(color: customThemeColors.textInvert),
                     ),
                   ),
                 ),

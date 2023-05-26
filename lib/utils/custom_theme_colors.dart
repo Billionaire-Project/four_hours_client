@@ -29,6 +29,8 @@ class CustomThemeColors {
       isDarkMode ? CustomColors.dark.gray50 : CustomColors.light.gray100;
   Color get backgroundPath =>
       isDarkMode ? CustomColors.dark.gray100 : CustomColors.light.gray200;
+  Color get backgroundToggle =>
+      isDarkMode ? CustomColors.dark.gray900 : CustomColors.white;
 
   Color get surface =>
       isDarkMode ? CustomColors.dark.gray100 : CustomColors.white;

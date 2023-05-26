@@ -2,25 +2,24 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/providers/test_saving_provider.dart';
+import 'package:four_hours_client/controller/create_post_controller.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
-import 'package:four_hours_client/views/create_writing_screen/create_writing_bottom.dart';
-import 'package:four_hours_client/views/create_writing_screen/create_writing_provider.dart';
+import 'package:four_hours_client/views/create_post_screen/create_post_bottom.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
 
-class CreateWritingPage extends ConsumerStatefulWidget {
-  const CreateWritingPage({Key? key}) : super(key: key);
-  static const String path = 'create-writing';
+class CreatePostPage extends ConsumerStatefulWidget {
+  const CreatePostPage({Key? key}) : super(key: key);
+  static const String path = 'create-post';
 
   @override
-  ConsumerState<CreateWritingPage> createState() => _CreateWritingPageState();
+  ConsumerState<CreatePostPage> createState() => _CreatePostPageState();
 }
 
-class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
+class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   late final TextEditingController textEditingController;
   late final FocusNode focusNode;
   late Timer? savingTimer;
@@ -32,16 +31,14 @@ class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
   @override
   void initState() {
     super.initState();
+    final controllerNotifier = ref.read(createPostControllerProvider.notifier);
 
-    textEditingController =
-        ref.read(createWritingProvider.notifier).textEditingController;
-    focusNode = ref.read(createWritingProvider.notifier).focusNode;
-    temporaryText = ref.read(createWritingProvider.notifier).temporaryText;
+    textEditingController = controllerNotifier.textEditingController;
+    focusNode = controllerNotifier.focusNode;
+    temporaryText = controllerNotifier.temporaryText;
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref
-          .read(createWritingProvider.notifier)
-          .showDialogIfHasTemporaryText(context);
+      controllerNotifier.showDialogIfHasTemporaryText(context);
     });
   }
 
@@ -55,16 +52,18 @@ class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
-    bool isLoading = ref.watch(testSavingNotifierProvider).isLoading;
+    final controllerNotifier = ref.watch(createPostControllerProvider.notifier);
+
     return MainWrapper(
       appBar: CommonAppBar(
         title: '새 게시글',
         leadingAutomaticallyPop: false,
-        leadingOnTapHandler: isLoading
-            ? null
-            : () {
-                context.pop();
-              },
+        leadingOnTapHandler: () async {
+          await controllerNotifier.cancelCreatePost();
+          if (context.mounted) {
+            context.pop();
+          }
+        },
       ),
       padding: EdgeInsets.zero,
       child: Column(
@@ -106,9 +105,7 @@ class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
                                 ),
                                 maxLines: null,
                                 focusNode: focusNode,
-                                onChanged: ref
-                                    .read(createWritingProvider.notifier)
-                                    .onChanged,
+                                onChanged: controllerNotifier.onChanged,
                                 onTap: () {
                                   if (focusNode.hasFocus) {
                                     focusNode.unfocus();
@@ -129,7 +126,7 @@ class _CreateWritingPageState extends ConsumerState<CreateWritingPage> {
               },
             ),
           ),
-          const CreateWritingBottom(),
+          const CreatePostBottom(),
         ],
       ),
     );

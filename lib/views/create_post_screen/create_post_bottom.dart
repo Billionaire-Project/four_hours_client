@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/providers/test_saving_provider.dart';
+import 'package:four_hours_client/controller/create_post_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/create_writing_screen/create_writing_provider.dart';
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:four_hours_client/views/widgets/common_text_button.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
-class CreateWritingBottom extends ConsumerWidget {
-  const CreateWritingBottom({
+class CreatePostBottom extends ConsumerWidget {
+  const CreatePostBottom({
     Key? key,
   }) : super(key: key);
 
@@ -19,13 +18,13 @@ class CreateWritingBottom extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
-    final isSavedProvider = ref.watch(testSavingNotifierProvider);
+    final isSavedProvider = ref.watch(savePostControllerProvider);
 
-    final isFirstWriting =
-        ref.watch(createWritingProvider.notifier).isFirstWriting;
+    final String content = ref.watch(createPostControllerProvider);
 
-    int textLength = writingTextLimit - ref.watch(createWritingProvider).length;
-
+    bool isFirstPost =
+        ref.watch(createPostControllerProvider.notifier).isFirstPost;
+    int textLength = postTextLimit - content.length;
     bool isOverLimit = textLength < 0;
 
     Row saveRow = isSavedProvider.when(
@@ -35,7 +34,7 @@ class CreateWritingBottom extends ConsumerWidget {
             Icon(
               CustomIcons.save_fill,
               size: 16,
-              color: isFirstWriting
+              color: isFirstPost
                   ? customThemeColors.textDisabled
                   : customThemeColors.blue,
             ),
@@ -43,7 +42,7 @@ class CreateWritingBottom extends ConsumerWidget {
             Text(
               'Saved',
               style: customTextStyle.montLabelSmall.copyWith(
-                color: isFirstWriting
+                color: isFirstPost
                     ? customThemeColors.textDisabled
                     : customThemeColors.blue,
               ),
@@ -60,9 +59,11 @@ class CreateWritingBottom extends ConsumerWidget {
               color: customThemeColors.red,
             ),
             const Gap(4),
-            Text('{error.toString()}',
-                style: customTextStyle.montLabelSmall
-                    .copyWith(color: customThemeColors.blue)),
+            Text(
+              '{error.toString()}',
+              style: customTextStyle.montLabelSmall
+                  .copyWith(color: customThemeColors.blue),
+            ),
           ],
         );
       },
@@ -113,7 +114,13 @@ class CreateWritingBottom extends ConsumerWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
               ),
-              onPressed: isOverLimit ? null : () {},
+              onPressed: isOverLimit || content.isEmpty
+                  ? null
+                  : () {
+                      ref
+                          .read(createPostControllerProvider.notifier)
+                          .handlePressedSubmitButton(context);
+                    },
               child: Text(
                 '게시',
                 style: customTextStyle.titleMedium
