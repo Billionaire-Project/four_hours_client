@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:938925885472:android:0cb2e4b9e8fa5179b91445",
         "android_client_info": {
-          "package_name": "com.example.four_hours_client"
+          "package_name": "com.bilp.fourHours"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "938925885472-9dhv6koln9hds36bqfhdh9drdm7rf9oc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.four_hours_client",
+            "package_name": "com.bilp.fourHours",
             "certificate_hash": "bd84a4d26aeea28677e2a78f32215c3e2994cb1b"
           }
         },
@@ -25,7 +25,7 @@
           "client_id": "938925885472-hrog0qdhgo6kbja51kqudui3g732kgsl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.four_hours_client",
+            "package_name": "com.bilp.fourHours",
             "certificate_hash": "f751d3ade123cd2b02691ac791f43b31a1e1c453"
           }
         },
@@ -50,7 +50,7 @@
               "client_id": "938925885472-4t56ceonlioiqq1f5js5c048sd3oo5tl.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.fourHoursClient"
+                "bundle_id": "com.bilp.fourHours"
               }
             }
           ]

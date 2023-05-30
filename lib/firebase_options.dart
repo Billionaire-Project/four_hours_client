@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '938925885472',
     projectId: 'four-hours-5d3dd',
     storageBucket: 'four-hours-5d3dd.appspot.com',
-    iosClientId: '938925885472-986lg85l4e7afn2sgo36q99ecshepa6o.apps.googleusercontent.com',
-    iosBundleId: 'com.example.fourHoursClient',
+    iosClientId:
+        '938925885472-986lg85l4e7afn2sgo36q99ecshepa6o.apps.googleusercontent.com',
+    iosBundleId: 'com.bilp.fourHours',
   );
 }
