@@ -40,8 +40,18 @@ class WritePostDetailController extends StateNotifier<PostModel?> {
           text: '게시글 삭제',
         ),
         CommonActionSheetAction(
-          onPressed: () {
-            //TODO: 글 내용 복사
+          onPressed: () async {
+            await saveToClipboard(_post!.content);
+            if (context.mounted) {
+              closeRootNavigator();
+
+              showCommonToast(
+                context,
+                iconData: CustomIcons.check_line,
+                text: '클립보드에 복사되었어요!',
+                bottom: 40,
+              );
+            }
           },
           iconData: CustomIcons.copy_line,
           text: '글 내용 복사',

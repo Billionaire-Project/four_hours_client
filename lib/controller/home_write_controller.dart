@@ -62,6 +62,7 @@ class HomeWriteController extends _$HomeWriteController {
       _myPosts =
           await postsRepository.getMyPosts(start: _start, offset: _offset);
 
+//TODO: next가 null이면 더이상 get 요청을 하지 않음
       if (_myPosts!.next == null) {
         _refreshController.loadComplete();
         return;
@@ -91,7 +92,10 @@ class HomeWriteController extends _$HomeWriteController {
       // }
 
       _start = _myPosts!.next!;
-      // _dateList = [..._dateList!, ..._myPosts!.posts.keys.map((e) => e).toList()];
+      // _dateList = [
+      //   ..._dateList!,
+      //   ..._myPosts!.posts.keys.map((e) => e).toList()
+      // ];
       // _dateList = _dateList!.toSet().toList();
       state = {...state};
       print('jay --- durldhsiu');
@@ -131,7 +135,7 @@ class HomeWriteController extends _$HomeWriteController {
     );
   }
 
-  void handlePressedMoreButton(BuildContext context, int postId) {
+  void handlePressedMoreButton(BuildContext context, PostModel post) {
     showCommonActionSheet(
       actions: [
         CommonActionSheetAction(
@@ -142,7 +146,7 @@ class HomeWriteController extends _$HomeWriteController {
             await context.pushNamed(
               DeletePostPage.name,
               params: {
-                'postId': postId.toString(),
+                'postId': post.id.toString(),
               },
             );
           },
@@ -150,8 +154,18 @@ class HomeWriteController extends _$HomeWriteController {
           text: '게시글 삭제',
         ),
         CommonActionSheetAction(
-          onPressed: () {
-            //TODO: 글 내용 복사
+          onPressed: () async {
+            await saveToClipboard(post.content);
+            if (context.mounted) {
+              closeRootNavigator();
+
+              showCommonToast(
+                context,
+                iconData: CustomIcons.check_line,
+                text: '클립보드에 복사되었어요!',
+                bottom: 40,
+              );
+            }
           },
           iconData: CustomIcons.copy_line,
           text: '글 내용 복사',

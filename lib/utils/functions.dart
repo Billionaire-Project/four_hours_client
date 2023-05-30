@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:four_hours_client/network/dio_exceptions.dart';
 import 'package:four_hours_client/routes/app_router.dart';
@@ -57,8 +58,12 @@ void showCommonActionSheet({required List<CommonActionSheetAction> actions}) {
       });
 }
 
-void showCommonToast(BuildContext context,
-    {required IconData iconData, required String text}) {
+void showCommonToast(
+  BuildContext context, {
+  required IconData iconData,
+  required String text,
+  double? bottom,
+}) {
   final fToast = FToast();
   fToast.removeCustomToast();
 
@@ -71,7 +76,7 @@ void showCommonToast(BuildContext context,
         alignment: Alignment.bottomCenter,
         children: [
           Positioned(
-            bottom: 0,
+            bottom: bottom ?? 0,
             child: child,
           ),
         ],
@@ -142,4 +147,8 @@ String getCreatePostTime({required String date}) {
 String throwExceptions(DioError e) {
   final errorMessage = DioExceptions.fromDioError(e).toString();
   return errorMessage;
+}
+
+Future<void> saveToClipboard(String text) async {
+  await Clipboard.setData(ClipboardData(text: text));
 }

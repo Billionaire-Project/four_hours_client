@@ -91,7 +91,7 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
                     onTap: () {
                       ref
                           .read(homeWriteControllerProvider.notifier)
-                          .handlePressedMoreButton(context, widget.post.id);
+                          .handlePressedMoreButton(context, widget.post);
                     },
                   ),
                 ),
