@@ -44,14 +44,14 @@ class HomeWriteController extends _$HomeWriteController {
 
   bool _isLoadingMore = false;
 
-  Future<bool> getMyPostsInitial() async {
+  Future<void> getMyPostsInitial() async {
     _start = '0';
     _offset = '10';
 
     try {
       if (_start == null) {
         _refreshController.refreshCompleted();
-        return false;
+        return;
       }
 
       _myPosts =
@@ -64,8 +64,6 @@ class HomeWriteController extends _$HomeWriteController {
       _dateList = _myPosts!.posts.keys.map((e) => e).toList();
 
       _refreshController.refreshCompleted();
-
-      return true;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }

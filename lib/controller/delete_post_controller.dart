@@ -34,11 +34,9 @@ class DeletePostController extends StateNotifier<PostModel?> {
 //* HomeWriteTab에서 왔는지 WritePostDetailPage에서 왔는지에 따라 context pop을 다르게 처리해야 하기 때문에
 //* 코드의 통일성을 위해 write list를 refresh하는 로직과 삭제되었다는 alert를 띄우는 로직을 여기서 처리하고 있음
 
-    bool isRefreshed = await _ref
-        .read(homeWriteControllerProvider.notifier)
-        .getMyPostsInitial();
+    await _ref.read(homeWriteControllerProvider.notifier).getMyPostsInitial();
 
-    if (isDeleted && isRefreshed) {
+    if (isDeleted) {
       if (context.mounted) {
         if (isDetailPage) {
           context.go(HomeWriteTab.path);
