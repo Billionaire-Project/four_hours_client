@@ -28,8 +28,8 @@ class HomeSharedTab extends ConsumerWidget {
       enablePullDown: true,
       enablePullUp: true,
       controller: sharedNotifier.refreshController,
+      scrollController: sharedNotifier.scrollController,
       onRefresh: sharedNotifier.getPostsInitial,
-      onLoading: sharedNotifier.getMorePosts,
       footer: const CustomRefresherFooter(),
       //TODO: if need custom header
       // header:

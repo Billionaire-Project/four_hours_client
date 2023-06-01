@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
@@ -22,23 +23,32 @@ class HomeSharedController extends _$HomeSharedController {
       RefreshController(initialRefresh: false);
   RefreshController get refreshController => _refreshController;
 
+  final ScrollController _scrollController = ScrollController();
+  ScrollController get scrollController => _scrollController;
+
   @override
   List<PostModel> build() {
     _init();
     return state;
   }
 
-  String _start = '0';
+  String? _start = '0';
   String _offset = '10';
 
   PostsModel? _posts;
   PostsModel? get posts => _posts;
 
+  bool _isLoadingMore = false;
+
   Future<void> getPostsInitial() async {
     _start = '0';
     _offset = '10';
     try {
-      _posts = await postsRepository!.getPosts(start: _start, offset: _offset);
+      if (_start == null) {
+        _refreshController.refreshCompleted();
+        return;
+      }
+      _posts = await postsRepository!.getPosts(start: _start!, offset: _offset);
 
       //TODO: 에러 핸들링 필요
       if (_posts!.posts.isEmpty) {
@@ -47,9 +57,7 @@ class HomeSharedController extends _$HomeSharedController {
 
       state = _posts!.posts;
 
-      if (_posts!.next != null) {
-        _start = _posts!.next!;
-      }
+      _start = _posts!.next;
 
       _refreshController.refreshCompleted();
     } on DioError catch (e) {
@@ -59,7 +67,7 @@ class HomeSharedController extends _$HomeSharedController {
 
   Future<void> getMorePosts() async {
     try {
-      _posts = await postsRepository!.getPosts(start: _start, offset: _offset);
+      _posts = await postsRepository!.getPosts(start: _start!, offset: _offset);
 
       if (_posts!.next == null) {
         _refreshController.loadComplete();
@@ -140,6 +148,7 @@ class HomeSharedController extends _$HomeSharedController {
     state = [];
 
     postsRepository ??= ref.watch(postsRepositoryProvider);
+    _scrollController.addListener(_handleScroll);
     getPostsInitial();
   }
 
@@ -158,6 +167,20 @@ class HomeSharedController extends _$HomeSharedController {
       state = newSharedList;
     } on DioError catch (e) {
       throw throwExceptions(e);
+    }
+  }
+
+  void _handleScroll() async {
+    if (_start == null) return;
+    if (_scrollController.position.pixels >
+        _scrollController.position.maxScrollExtent - loadMoreOffset) {
+      if (_isLoadingMore) {
+        return;
+      } else {
+        _isLoadingMore = true;
+        await getMorePosts();
+        _isLoadingMore = false;
+      }
     }
   }
 }

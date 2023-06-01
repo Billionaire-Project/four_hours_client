@@ -11,3 +11,5 @@ class SharedPreferenceKey {
 const int postTextLimit = 9999;
 
 const int autoSaveTime = 3;
+
+const loadMoreOffset = 200;

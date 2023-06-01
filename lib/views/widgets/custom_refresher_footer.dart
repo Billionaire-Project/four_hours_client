@@ -7,7 +7,7 @@ class CustomRefresherFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFooter(
-      height: 120,
+      height: 0,
       builder: (BuildContext context, LoadStatus? mode) {
         return const SizedBox.shrink();
       },

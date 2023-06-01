@@ -93,7 +93,7 @@ class CreatePostController extends _$CreatePostController {
 
           await ref
               .read(homeWriteControllerProvider.notifier)
-              .refreshWriteList();
+              .getMyPostsInitial();
 
           if (result) {
             if (context.mounted) {
