@@ -7,7 +7,7 @@ part of 'create_post_controller.dart';
 // **************************************************************************
 
 String _$createPostControllerHash() =>
-    r'a4f9475bf7d9aad48faa5220b0e372f65b3f78ff';
+    r'1f4757dfea676f24402b525475eae35cca9fcb45';
 
 /// See also [CreatePostController].
 @ProviderFor(CreatePostController)
