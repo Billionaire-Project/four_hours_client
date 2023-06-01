@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/models/my_posts_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
+import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/write_post_detail_screen/write_post_detail_page.dart';
 import 'package:go_router/go_router.dart';
@@ -21,36 +24,48 @@ class HomeWriteController extends _$HomeWriteController {
       RefreshController(initialRefresh: false);
   RefreshController get refreshController => _refreshController;
 
+  final ScrollController _scrollController = ScrollController();
+  ScrollController get scrollController => _scrollController;
+
   @override
   Map<String, List<PostModel>> build() {
     _init();
     return state;
   }
 
-  String _start = '0';
+  String? _start = '0';
   String _offset = '10';
 
   MyPostsModel? _myPosts;
   MyPostsModel? get posts => _myPosts;
 
-  List<String>? _dateList;
-  List<String>? get dateList => _dateList;
+  List<String> _dateList = [];
+  List<String> get dateList => _dateList;
 
-  Future<void> getMyPostsInitial() async {
+  bool _isLoadingMore = false;
+
+  Future<bool> getMyPostsInitial() async {
     _start = '0';
     _offset = '10';
 
     try {
+      if (_start == null) {
+        _refreshController.refreshCompleted();
+        return false;
+      }
+
       _myPosts =
-          await postsRepository.getMyPosts(start: _start, offset: _offset);
+          await postsRepository.getMyPosts(start: _start!, offset: _offset);
+
+      _start = _myPosts!.next;
 
       state = _myPosts!.posts;
 
-      if (_myPosts!.next != null) {
-        _start = _myPosts!.next!;
-      }
-
       _dateList = _myPosts!.posts.keys.map((e) => e).toList();
+
+      _refreshController.refreshCompleted();
+
+      return true;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -58,65 +73,28 @@ class HomeWriteController extends _$HomeWriteController {
 
   Future<void> getMoreMyPosts() async {
     try {
-      //TODO: 내 포스트 리스트를 날짜별로 내려주는데 이걸 자연스럽게 페이지네이션하도록 구현이 필요함
-      _myPosts =
-          await postsRepository.getMyPosts(start: _start, offset: _offset);
-
-//TODO: next가 null이면 더이상 get 요청을 하지 않음
-      if (_myPosts!.next == null) {
+      if (_start == null) {
         _refreshController.loadComplete();
         return;
       }
-      // final newDateList = _myPosts!.posts.keys.map((e) => e).toList();
 
-      // for (int i = 0; i < newDateList.length; i++) {
-      //   if (_dateList!.contains(newDateList[i])) {
-      //     print('jay --- contain new ${newDateList[i]}');
-      //     state[newDateList[i]] = [
-      //       ...state[newDateList[i]]!,
-      //       ..._myPosts!.posts[newDateList[i]]!
-      //     ];
-
-      //     // state = {...state};
-      //     print(
-      //         'jay --- state[newDateList[i]] ${state[newDateList[i]]!.length}');
-      //   } else {
-      //     print('jay --- not contain new ${newDateList[i]}');
-      //     // print('jay --- state[newDateList[i]] ${state[newDateList[i - 1]]}');
-
-      //     _dateList!.add(newDateList[i]);
-      //     print('jay --- state $state');
-      //     // state[newDateList[i]] = _myPosts!.posts[newDateList[i]]!;
-      //     state = {...state, ..._myPosts!.posts};
-      //   }
-      // }
-
-      _start = _myPosts!.next!;
-      // _dateList = [
-      //   ..._dateList!,
-      //   ..._myPosts!.posts.keys.map((e) => e).toList()
-      // ];
-      // _dateList = _dateList!.toSet().toList();
-      state = {...state};
-      print('jay --- durldhsiu');
-      _refreshController.loadComplete();
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
-  }
-
-  Future<bool> refreshWriteList() async {
-    _start = '0';
-    _offset = '10';
-
-    try {
       _myPosts =
-          await postsRepository.getMyPosts(start: _start, offset: _offset);
+          await postsRepository.getMyPosts(start: _start!, offset: _offset);
 
-      _dateList = _myPosts!.posts.keys.map((e) => e).toList();
-      state = _myPosts!.posts;
+      if (_myPosts == null) {
+        //TODO: my posts가 null일 경우 예외처리
+      }
 
-      return true;
+      _start = _myPosts!.next;
+
+      _dateList = [
+        ..._dateList,
+        ..._myPosts!.posts.keys.map((e) => e).toList()
+      ];
+
+      state = {...state, ..._myPosts!.posts};
+
+      _refreshController.loadComplete();
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -174,10 +152,44 @@ class HomeWriteController extends _$HomeWriteController {
     );
   }
 
+  void handlePressedWritePost(BuildContext context) async {
+    bool? isCreatedPost = await context
+        .push<bool?>('${HomeWriteTab.path}/${CreatePostPage.path}');
+
+    if (isCreatedPost ?? false) {
+      if (context.mounted) {
+        Future.delayed(
+          const Duration(milliseconds: 100),
+          () {
+            showCommonAlert(
+              iconData: CustomIcons.check_line,
+              text: '게시 되었어요!',
+            );
+          },
+        );
+      }
+    }
+  }
+
   void _init() async {
     state = {};
 
     postsRepository = ref.watch(postsRepositoryProvider);
+    _scrollController.addListener(_handleScroll);
     getMyPostsInitial();
+  }
+
+  void _handleScroll() async {
+    if (_start == null) return;
+    if (_scrollController.position.pixels >
+        _scrollController.position.maxScrollExtent - loadMoreOffset) {
+      if (_isLoadingMore) {
+        return;
+      } else {
+        _isLoadingMore = true;
+        await getMoreMyPosts();
+        _isLoadingMore = false;
+      }
+    }
   }
 }

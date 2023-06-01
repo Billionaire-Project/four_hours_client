@@ -135,12 +135,13 @@ String getCreatePostTime({required String date}) {
   final DateTime dateTime = DateTime.parse(date);
   final DateTime now = DateTime.now();
   final Duration difference = now.difference(dateTime);
-  var a = DateFormat.jm().format(dateTime);
+
+  final String hoursWithMins = DateFormat.jm().format(dateTime);
 
   if (difference.inMinutes <= 0) {
     return 'Just now';
   } else {
-    return a;
+    return hoursWithMins;
   }
 }
 

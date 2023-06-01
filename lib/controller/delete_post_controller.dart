@@ -36,7 +36,7 @@ class DeletePostController extends StateNotifier<PostModel?> {
 
     bool isRefreshed = await _ref
         .read(homeWriteControllerProvider.notifier)
-        .refreshWriteList();
+        .getMyPostsInitial();
 
     if (isDeleted && isRefreshed) {
       if (context.mounted) {

@@ -7,7 +7,6 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_post_card.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_timer.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
@@ -17,7 +16,6 @@ import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeWriteTab extends ConsumerStatefulWidget {
@@ -35,17 +33,18 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
     final myPostsNotifier = ref.watch(homeWriteControllerProvider.notifier);
 
     List<String>? dateList = myPostsNotifier.dateList;
-    if (dateList == null) {
+    if (dateList.isEmpty) {
       return const Center(
         child: CommonCircularProgressIndicator(size: 32, strokeWidth: 2),
       );
     }
 
     return SmartRefresher(
-      enablePullDown: false,
+      enablePullDown: true,
       enablePullUp: true,
       controller: myPostsNotifier.refreshController,
-      onLoading: myPostsNotifier.getMoreMyPosts,
+      scrollController: myPostsNotifier.scrollController,
+      onRefresh: myPostsNotifier.getMyPostsInitial,
       footer: const CustomRefresherFooter(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -75,9 +74,8 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
               subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
             ),
           ],
-          //TODO: Today가 없을 수도 있음..
 
-          if (dateList[0] == 'Today') const _TodaysList(),
+          const _TodaysList(),
           const _MyPostList()
         ],
       ),
@@ -91,6 +89,7 @@ class _TodaysTopic extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
+    final myPostsNotifier = ref.watch(homeWriteControllerProvider.notifier);
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -117,24 +116,9 @@ class _TodaysTopic extends ConsumerWidget {
                 .copyWith(color: CustomColors.light.gray400),
           ),
           const Gap(16),
-          //TODO: controller로 이동
           CommonFullWidthTextButton(
-            onPressed: () async {
-              bool? isCreatedPost = await context
-                  .push<bool?>('${HomeWriteTab.path}/${CreatePostPage.path}');
-              if (isCreatedPost ?? false) {
-                if (context.mounted) {
-                  Future.delayed(
-                    const Duration(milliseconds: 100),
-                    () {
-                      showCommonAlert(
-                        iconData: CustomIcons.check_line,
-                        text: '게시 되었어요!',
-                      );
-                    },
-                  );
-                }
-              }
+            onPressed: () {
+              myPostsNotifier.handlePressedWritePost(context);
             },
             text: '글 쓰기',
           )
@@ -152,9 +136,11 @@ class _TodaysList extends ConsumerWidget {
     final myPosts = ref.watch(homeWriteControllerProvider);
     final myPostsNotifier = ref.watch(homeWriteControllerProvider.notifier);
 
-    List<String>? dateList = myPostsNotifier.dateList;
+    List<String> dateList = myPostsNotifier.dateList;
 
-    if (myPosts[dateList![0]] == null) return const SizedBox.shrink();
+    if (myPosts[dateList[0]] == null || dateList[0] != 'Today') {
+      return const SizedBox.shrink();
+    }
 
     return Flexible(
       child: ListView.builder(
@@ -206,7 +192,6 @@ class _MyPostList extends ConsumerWidget {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    //TODO: null value error
                     itemCount: myPosts[dateList[dateIndex]]!.length,
                     itemBuilder: (BuildContext context, int postIndex) {
                       PostModel post = myPosts[dateList[dateIndex]]![postIndex];
@@ -214,7 +199,6 @@ class _MyPostList extends ConsumerWidget {
                           getCreatePostTime(date: post.updatedAt);
                       return HomeWritePostCard(
                         post: post,
-                        //TODO: 내가 작성한 시간 표시
                         labelText: createdTime,
                       );
                     },
@@ -228,7 +212,7 @@ class _MyPostList extends ConsumerWidget {
         separatorBuilder: (context, index) => SizedBox.fromSize(
           size: const Size(0, 24),
         ),
-        itemCount: dateList!.length,
+        itemCount: dateList.length,
       ),
     );
   }
