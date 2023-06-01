@@ -175,7 +175,6 @@ class _MyPostList extends ConsumerWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int dateIndex) {
-          //TODO: Today가 없을 수도 있음..
           if (dateList[dateIndex] != 'Today') {
             if (myPosts[dateList[dateIndex]] == null) {
               return const SizedBox.shrink();
