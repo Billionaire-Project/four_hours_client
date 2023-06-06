@@ -7,7 +7,7 @@ part of 'liked_post_controller.dart';
 // **************************************************************************
 
 String _$likedPostControllerHash() =>
-    r'10af608a435f956b5d2f1346750bb1f133e73ec7';
+    r'a55dc0a3c814ce4dce95fbbf25f80f80e3e1f3c4';
 
 /// See also [LikedPostController].
 @ProviderFor(LikedPostController)

@@ -25,7 +25,7 @@ class LikedPostController extends _$LikedPostController {
     return state;
   }
 
-  String _start = '0';
+  String? _start = '0';
   String _offset = '10';
 
   PostsModel? _likedPosts;
@@ -36,13 +36,17 @@ class LikedPostController extends _$LikedPostController {
     _offset = '10';
 
     try {
+      if (_start == null) {
+        _refreshController.refreshCompleted();
+        return;
+      }
+
       await _getLikePosts();
 
       state = _likedPosts!.posts;
 
-      if (_likedPosts!.next != null) {
-        _start = _likedPosts!.next!;
-      }
+      _start = _likedPosts!.next;
+
       _refreshController.refreshCompleted();
     } on DioError catch (e) {
       throw throwExceptions(e);
@@ -53,12 +57,8 @@ class LikedPostController extends _$LikedPostController {
     try {
       await _getLikePosts();
 
-      if (_likedPosts!.next == null) {
-        _refreshController.loadComplete();
-        return;
-      }
+      _start = _likedPosts!.next;
 
-      _start = _likedPosts!.next!;
       state = [
         ...state,
         ..._likedPosts!.posts,
@@ -104,7 +104,7 @@ class LikedPostController extends _$LikedPostController {
 
   Future<void> _getLikePosts() async {
     _likedPosts =
-        await postsRepository!.getLikePosts(start: _start, offset: _offset);
+        await postsRepository!.getLikePosts(start: _start!, offset: _offset);
   }
 
   void _init() {

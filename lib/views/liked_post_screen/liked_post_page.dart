@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/liked_post_controller.dart';
-import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/liked_post_screen/liked_post_card.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
-import 'package:four_hours_client/views/widgets/common_card_cover.dart';
+import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
@@ -28,6 +27,7 @@ class _LikedPostPageState extends ConsumerState<LikedPostPage> {
     return MainWrapper(
       appBar: CommonAppBar(
         title: '내가 좋아한 글',
+        //TODO: controller로 이동
         leadingOnTapHandler: () async {
           await likedPostNotifier.getLikedPostsInitial();
           if (context.mounted) {
@@ -43,14 +43,19 @@ class _LikedPostPageState extends ConsumerState<LikedPostPage> {
         onLoading: likedPostNotifier.getMoreLikedPosts,
         footer: const CustomRefresherFooter(),
         child: likedPosts.isEmpty
-            ? const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: CommonCardCover(
-                  iconData: CustomIcons.heart_line,
-                  title: '좋아한 글이 없어요 :(',
-                  subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
-                ),
+            ? const Center(
+                child:
+                    CommonCircularProgressIndicator(size: 32, strokeWidth: 2),
               )
+            //TODO: 좋아한 글이 없을 때 처리 필요
+            //  const Padding(
+            //     padding: EdgeInsets.all(16.0),
+            //     child: CommonCardCover(
+            //       iconData: CustomIcons.heart_line,
+            //       title: '좋아한 글이 없어요 :(',
+            //       subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
+            //     ),
+            //   )
             : ListView.separated(
                 itemBuilder: (context, index) {
                   final String leftTime =

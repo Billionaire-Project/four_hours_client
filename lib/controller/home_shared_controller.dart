@@ -50,9 +50,9 @@ class HomeSharedController extends _$HomeSharedController {
       }
       _posts = await postsRepository!.getPosts(start: _start!, offset: _offset);
 
-      //TODO: 에러 핸들링 필요
       if (_posts!.posts.isEmpty) {
-        return;
+        //TODO: 에러 핸들링 필요
+        throw ('posts are empty');
       }
 
       state = _posts!.posts;
@@ -156,12 +156,11 @@ class HomeSharedController extends _$HomeSharedController {
     try {
       final PostModel newPost =
           await postsRepository!.getPostById(postId: postId);
-
       final int targetIndex =
           state.indexWhere((element) => element.id == postId);
 
       final List<PostModel> newSharedList = List.from(state);
-
+//! state에 해당 포스트가 없는데 replace할 수가 없지
       newSharedList[targetIndex] = newPost;
 
       state = newSharedList;
