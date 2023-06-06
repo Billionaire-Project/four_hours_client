@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
-import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -31,9 +32,13 @@ class LikedPostController extends _$LikedPostController {
   PostsModel? _likedPosts;
   PostsModel? get posts => _likedPosts;
 
+  bool _isLoading = true;
+  bool get isLoading => _isLoading;
+
   Future<void> getLikedPostsInitial() async {
     _start = '0';
     _offset = '10';
+    _isLoading = true;
 
     try {
       if (_start == null) {
@@ -41,11 +46,15 @@ class LikedPostController extends _$LikedPostController {
         return;
       }
 
-      await _getLikePosts();
+      await Future.delayed(const Duration(milliseconds: 300), () async {
+        await _getLikePosts();
+      });
 
       state = _likedPosts!.posts;
 
       _start = _likedPosts!.next;
+
+      _isLoading = false;
 
       _refreshController.refreshCompleted();
     } on DioError catch (e) {
@@ -77,8 +86,6 @@ class LikedPostController extends _$LikedPostController {
       await postsRepository!.likePost(postId: postId);
 
       await _replacePost(postId);
-
-      ref.read(homeSharedControllerProvider.notifier).replacePost(postId);
     } on DioError catch (e) {
       throw throwExceptions(e);
     }

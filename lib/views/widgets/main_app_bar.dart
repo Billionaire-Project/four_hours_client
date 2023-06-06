@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:four_hours_client/constants/app_sizes.dart';
+import 'package:four_hours_client/controller/home_shared_controller.dart';
+import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/liked_post_screen/liked_post_page.dart';
@@ -34,8 +36,19 @@ class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
         children: [
           const Gap(8),
           CommonIconButton(
-            onTap: () {
-              context.push(LikedPostPage.path);
+            onTap: () async {
+              ref
+                  .read(likedPostControllerProvider.notifier)
+                  .getLikedPostsInitial();
+              if (context.mounted) {
+                await context.push(LikedPostPage.path);
+              }
+              await ref
+                  .read(homeSharedControllerProvider.notifier)
+                  .getPostsInitial();
+              await ref
+                  .read(homeSharedControllerProvider.notifier)
+                  .getPostsInitial();
             },
             icon: const Icon(
               CustomIcons.heart_line,

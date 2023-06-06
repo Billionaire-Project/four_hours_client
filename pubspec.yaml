@@ -54,6 +54,7 @@ dependencies:
   intl: ^0.17.0
   pull_to_refresh: ^2.0.0
   sleek_circular_slider: ^2.0.1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
