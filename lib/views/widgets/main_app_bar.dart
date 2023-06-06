@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
+import 'package:four_hours_client/controller/home_write_controller.dart';
 import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
@@ -43,12 +44,13 @@ class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
               if (context.mounted) {
                 await context.push(LikedPostPage.path);
               }
+
               await ref
                   .read(homeSharedControllerProvider.notifier)
                   .getPostsInitial();
               await ref
-                  .read(homeSharedControllerProvider.notifier)
-                  .getPostsInitial();
+                  .read(homeWriteControllerProvider.notifier)
+                  .getMyPostsInitial();
             },
             icon: const Icon(
               CustomIcons.heart_line,

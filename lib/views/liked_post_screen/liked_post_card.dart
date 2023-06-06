@@ -84,6 +84,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                 rightGap: 8,
                 tail: const SizedBox(width: 8),
               ),
+              const Gap(8),
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),

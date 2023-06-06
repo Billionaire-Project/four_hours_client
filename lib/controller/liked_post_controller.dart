@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -46,7 +47,7 @@ class LikedPostController extends _$LikedPostController {
         return;
       }
 
-      await Future.delayed(const Duration(milliseconds: 300), () async {
+      await Future.delayed(skeletonDelay, () async {
         await _getLikePosts();
       });
 
