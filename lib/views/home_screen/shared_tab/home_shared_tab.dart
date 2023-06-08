@@ -14,7 +14,7 @@ class HomeSharedTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final posts = ref.watch(homeSharedControllerProvider);
-    final sharedNotifier = ref.watch(homeSharedControllerProvider.notifier);
+    final sharedNotifier = ref.read(homeSharedControllerProvider.notifier);
 
     return posts.when(
       data: (posts) {

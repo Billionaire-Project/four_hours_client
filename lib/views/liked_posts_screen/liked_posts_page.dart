@@ -23,32 +23,38 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
   @override
   Widget build(BuildContext context) {
     final likedPosts = ref.watch(likedPostsControllerProvider);
-    final likedPostsNotifier = ref.watch(likedPostsControllerProvider.notifier);
 
     return MainWrapper(
       appBar: const CommonAppBar(
         title: '내가 좋아한 글',
       ),
-      child: SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: true,
-        controller: likedPostsNotifier.refreshController,
-        onRefresh: likedPostsNotifier.getLikedPostsInitial,
-        onLoading: likedPostsNotifier.getMoreLikedPosts,
-        footer: const CustomRefresherFooter(),
-        child: likedPosts.when(
-          data: (posts) {
-            return posts.isEmpty
-                ? const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CommonCardCover(
-                      iconData: CustomIcons.heart_line,
-                      title: '좋아한 글이 없어요 :(',
-                      subtitle:
-                          '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
-                    ),
-                  )
-                : ListView.separated(
+      child: likedPosts.when(
+        data: (posts) {
+          return posts.isEmpty
+              ? const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: CommonCardCover(
+                    iconData: CustomIcons.heart_line,
+                    title: '좋아한 글이 없어요 :(',
+                    subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
+                  ),
+                )
+              : Consumer(
+                  builder: (context, ref, child) {
+                    final likedPostsNotifier =
+                        ref.read(likedPostsControllerProvider.notifier);
+
+                    return SmartRefresher(
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      controller: likedPostsNotifier.refreshController,
+                      onRefresh: likedPostsNotifier.refreshLiked,
+                      onLoading: likedPostsNotifier.getMoreLikedPosts,
+                      footer: const CustomRefresherFooter(),
+                      child: child,
+                    );
+                  },
+                  child: ListView.separated(
                     itemBuilder: (context, index) {
                       final String leftTime =
                           getPostElapsedTime(date: posts[index].createdAt);
@@ -68,11 +74,11 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                     separatorBuilder: (context, index) =>
                         SizedBox.fromSize(size: const Size(0, 0)),
                     itemCount: posts.length,
-                  );
-          },
-          error: (error, __) => throw ('error: $error'),
-          loading: () => const CommonPostSkeleton(),
-        ),
+                  ),
+                );
+        },
+        error: (error, __) => throw ('error: $error'),
+        loading: () => const CommonPostSkeleton(),
       ),
     );
   }

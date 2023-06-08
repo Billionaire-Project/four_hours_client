@@ -30,7 +30,7 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
   @override
   Widget build(BuildContext context) {
     final myPosts = ref.watch(homeWriteControllerProvider);
-    final myPostsNotifier = ref.watch(homeWriteControllerProvider.notifier);
+    final myPostsNotifier = ref.read(homeWriteControllerProvider.notifier);
 
     final List<PostModel> todayPosts = myPostsNotifier.todayPosts;
     final List<String> postingDates = myPostsNotifier.postingDates;

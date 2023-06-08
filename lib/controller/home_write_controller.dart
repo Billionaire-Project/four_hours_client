@@ -55,9 +55,7 @@ class HomeWriteController extends _$HomeWriteController {
 
     try {
       await Future.delayed(skeletonDelay, () async {
-        _start = '0';
-
-        await _fetchWritePosts();
+        _myPosts = await _fetchWritePosts();
       });
 
       final bool hasToday = _myPosts!.posts.containsKey('Today');
@@ -91,23 +89,18 @@ class HomeWriteController extends _$HomeWriteController {
 
   Future<void> getMoreMyPosts() async {
     try {
-      if (_start == null) {
-        _refreshController.loadComplete();
-        return;
+      _myPosts = await _fetchWritePosts();
+
+      if (_myPosts != null) {
+        _start = _myPosts!.next;
+
+        _postingDates = [
+          ..._postingDates,
+          ..._myPosts!.posts.keys.map((e) => e).toList()
+        ];
+
+        state = AsyncData({...state.value!, ..._myPosts!.posts});
       }
-
-      _myPosts =
-          await postsRepository.getMyPosts(start: _start!, offset: _offset);
-
-      _start = _myPosts!.next;
-
-      _postingDates = [
-        ..._postingDates,
-        ..._myPosts!.posts.keys.map((e) => e).toList()
-      ];
-
-      state = AsyncData({...state.value!, ..._myPosts!.posts});
-
       _refreshController.loadComplete();
     } on DioError catch (e) {
       throw throwExceptions(e);
@@ -117,7 +110,7 @@ class HomeWriteController extends _$HomeWriteController {
   void refreshTab() async {
     _start = '0';
 
-    await _fetchWritePosts();
+    _myPosts = await _fetchWritePosts();
 
     _start = _myPosts!.next;
 
@@ -219,9 +212,20 @@ class HomeWriteController extends _$HomeWriteController {
     }
   }
 
-  Future<void> _fetchWritePosts() async {
-    if (_start == null) return;
-    _myPosts =
-        await postsRepository.getMyPosts(start: _start!, offset: _offset);
+  Future<MyPostsModel?> _fetchWritePosts() async {
+    if (_start != null) {
+      final MyPostsModel myPostsModel = await postsRepository.getMyPosts(
+        start: _start!,
+        offset: _offset,
+      );
+
+      if (myPostsModel.posts.isEmpty) {
+        state = const AsyncData({});
+      }
+
+      return myPostsModel;
+    } else {
+      return null;
+    }
   }
 }

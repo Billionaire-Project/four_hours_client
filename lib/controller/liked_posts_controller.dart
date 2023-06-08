@@ -26,7 +26,7 @@ class LikedPostsController extends _$LikedPostsController {
     return getLikedPostsInitial();
   }
 
-  String? _start = '0';
+  String? _start;
   final String _offset = '10';
 
   PostsModel? _likedPosts;
@@ -42,10 +42,7 @@ class LikedPostsController extends _$LikedPostsController {
 
     try {
       await Future.delayed(skeletonDelay, () async {
-        //TODO: start를 두 번 초기화 해줘야하는 이슈
-        _start = '0';
-
-        await _fetchLikedPosts();
+        _likedPosts = await _fetchLikedPosts();
       });
 
       _start = _likedPosts!.next;
@@ -57,8 +54,6 @@ class LikedPostsController extends _$LikedPostsController {
         return [];
       }
 
-      _refreshController.refreshCompleted();
-
       return state.value!.toList();
     } on DioError catch (e) {
       throw throwExceptions(e);
@@ -67,11 +62,13 @@ class LikedPostsController extends _$LikedPostsController {
 
   Future<void> getMoreLikedPosts() async {
     try {
-      await _fetchLikedPosts();
+      _likedPosts = await _fetchLikedPosts();
 
-      _start = _likedPosts!.next;
+      if (_likedPosts != null) {
+        _start = _likedPosts!.next;
 
-      state = AsyncData([...state.value!.toList(), ..._likedPosts!.posts]);
+        state = AsyncData([...state.value!.toList(), ..._likedPosts!.posts]);
+      }
 
       _refreshController.loadComplete();
     } on DioError catch (e) {
@@ -79,15 +76,36 @@ class LikedPostsController extends _$LikedPostsController {
     }
   }
 
-  Future<void> _fetchLikedPosts() async {
-    if (_start == null) return;
+  void refreshLiked() async {
+    _start = '0';
 
-    _likedPosts =
-        await postsRepository!.getLikePosts(start: _start!, offset: _offset);
+    _likedPosts = await _fetchLikedPosts();
+
+    _refreshController.refreshCompleted();
+
+    _start = _likedPosts!.next;
+
+    state = AsyncData(_likedPosts!.posts);
+  }
+
+  Future<PostsModel?> _fetchLikedPosts() async {
+    if (_start != null) {
+      final PostsModel postsModel = await postsRepository!.getLikePosts(
+        start: _start!,
+        offset: _offset,
+      );
+
+      if (postsModel.posts.isEmpty) {
+        state = const AsyncData([]);
+      }
+
+      return postsModel;
+    } else {
+      return null;
+    }
   }
 
   void _init() {
     postsRepository ??= ref.watch(postsRepositoryProvider);
-    getLikedPostsInitial();
   }
 }

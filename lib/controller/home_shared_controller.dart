@@ -47,10 +47,7 @@ class HomeSharedController extends _$HomeSharedController {
 
     try {
       await Future.delayed(skeletonDelay, () async {
-        //TODO: start를 두 번 초기화 해줘야하는 이슈
-        _start = '0';
-
-        await _fetchSharedPosts();
+        _posts = await _fetchSharedPosts();
       });
 
       _start = _posts!.next;
@@ -70,12 +67,13 @@ class HomeSharedController extends _$HomeSharedController {
 
   Future<void> getMorePosts() async {
     try {
-      await _fetchSharedPosts();
+      _posts = await _fetchSharedPosts();
 
-      _start = _posts!.next;
+      if (_posts != null) {
+        _start = _posts!.next;
 
-      state = AsyncData([...state.value!.toList(), ..._posts!.posts]);
-
+        state = AsyncData([...state.value!.toList(), ..._posts!.posts]);
+      }
       _refreshController.loadComplete();
     } on DioError catch (e) {
       throw throwExceptions(e);
@@ -85,7 +83,7 @@ class HomeSharedController extends _$HomeSharedController {
   void refreshTab() async {
     _start = '0';
 
-    await _fetchSharedPosts();
+    _posts = await _fetchSharedPosts();
 
     _start = _posts!.next;
 
@@ -179,13 +177,20 @@ class HomeSharedController extends _$HomeSharedController {
     }
   }
 
-  Future<void> _fetchSharedPosts() async {
-    if (_start == null) return;
+  Future<PostsModel?> _fetchSharedPosts() async {
+    if (_start != null) {
+      final PostsModel postsModel = await postsRepository!.getPosts(
+        start: _start!,
+        offset: _offset,
+      );
 
-    _posts = await postsRepository!.getPosts(start: _start!, offset: _offset);
+      if (postsModel.posts.isEmpty) {
+        state = const AsyncData([]);
+      }
 
-    if (_posts!.posts.isEmpty) {
-      state = const AsyncData([]);
+      return postsModel;
+    } else {
+      return null;
     }
   }
 }
