@@ -8,11 +8,10 @@ import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_like_button.dart';
 
-class SharedPostDetailBottom extends ConsumerWidget {
+class PostDetailBottom extends ConsumerWidget {
   final PostModel post;
 
-  const SharedPostDetailBottom({Key? key, required this.post})
-      : super(key: key);
+  const PostDetailBottom({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

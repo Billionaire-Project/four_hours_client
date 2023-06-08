@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -8,22 +7,18 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class SharedPostDetailController extends StateNotifier<PostModel?> {
-  late StateNotifierProviderRef _ref;
-  late PostsRepository _postsRepository;
+part 'post_detail_controller.g.dart';
 
-  SharedPostDetailController(
-    StateNotifierProviderRef ref, {
+@riverpod
+class PostDetailController extends _$PostDetailController {
+  @override
+  Future<PostModel> build({
     required PostModel post,
-  }) : super(post) {
-    _ref = ref;
-    _post = post;
-    _postsRepository = _ref.watch(postsRepositoryProvider);
-    _getPostByIdInitial();
+  }) {
+    return _getPostByIdInitial();
   }
-
-  PostModel? _post;
 
   void handlePressedMoreButton(BuildContext context) {
     showCommonActionSheet(
@@ -38,9 +33,9 @@ class SharedPostDetailController extends StateNotifier<PostModel?> {
               subtitle: '신고가 접수되면 즉시 사라집니다',
               onPressedRightButton: () {
                 context.pop();
-                _ref
+                ref
                     .read(homeSharedControllerProvider.notifier)
-                    .handlePressedReportButton(postId: _post!.id);
+                    .handlePressedReportButton(postId: post.id);
               },
               rightButtonText: '신고',
             );
@@ -52,19 +47,22 @@ class SharedPostDetailController extends StateNotifier<PostModel?> {
     );
   }
 
-  Future<void> _getPostByIdInitial() async {
+  Future<PostModel> _getPostByIdInitial() async {
+    state = const AsyncValue.loading();
     try {
-      _post = await _postsRepository.getPostById(postId: _post!.id);
-      state = _post;
+      state = await AsyncValue.guard(_fetchPostDetail);
+
+      if (!state.hasValue) {
+        state = const AsyncValue.loading();
+      }
+
+      return state.value!;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
   }
-}
 
-final sharedPostDetailControllerProvider = StateNotifierProvider.autoDispose
-    .family<SharedPostDetailController, PostModel?, PostModel>(
-  (StateNotifierProviderRef ref, PostModel post) {
-    return SharedPostDetailController(ref, post: post);
-  },
-);
+  Future<PostModel> _fetchPostDetail() async {
+    return await ref.read(postsRepositoryProvider).getPostById(postId: post.id);
+  }
+}

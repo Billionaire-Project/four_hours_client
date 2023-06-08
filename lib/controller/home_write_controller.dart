@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/models/my_posts_model.dart';
+import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -9,8 +10,8 @@ import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
+import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
-import 'package:four_hours_client/views/write_post_detail_screen/write_post_detail_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -34,7 +35,7 @@ class HomeWriteController extends _$HomeWriteController {
   }
 
   String? _start = '0';
-  String _offset = '10';
+  final String _offset = '10';
 
   MyPostsModel? _myPosts;
   MyPostsModel? get posts => _myPosts;
@@ -46,7 +47,6 @@ class HomeWriteController extends _$HomeWriteController {
 
   Future<void> getMyPostsInitial() async {
     _start = '0';
-    _offset = '10';
 
     try {
       if (_start == null) {
@@ -80,7 +80,7 @@ class HomeWriteController extends _$HomeWriteController {
           await postsRepository.getMyPosts(start: _start!, offset: _offset);
 
       if (_myPosts == null) {
-        //TODO: my posts가 null일 경우 예외처리
+        //TODO: my posts가 null일 경우 투데이와 주제 추천
       }
 
       _start = _myPosts!.next;
@@ -103,11 +103,14 @@ class HomeWriteController extends _$HomeWriteController {
     required PostModel post,
   }) {
     context.pushNamed(
-      WritePostDetailPage.name,
+      PostDetailPage.name,
       params: {
         'postId': post.id.toString(),
       },
-      extra: post,
+      extra: PostDetailExtraModel(
+        post: post,
+        isNeedBottom: false,
+      ),
     );
   }
 

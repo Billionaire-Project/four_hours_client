@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
-import 'package:four_hours_client/views/shared_post_detail_screen/shared_post_detail_page.dart';
+import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -88,11 +89,13 @@ class HomeSharedController extends _$HomeSharedController {
     required PostModel post,
   }) {
     context.pushNamed(
-      SharedPostDetailPage.name,
+      PostDetailPage.name,
       params: {
         'postId': post.id.toString(),
       },
-      extra: post,
+      extra: PostDetailExtraModel(
+        post: post,
+      ),
     );
   }
 
