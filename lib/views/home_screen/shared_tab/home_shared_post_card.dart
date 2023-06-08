@@ -9,6 +9,7 @@ import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
+import 'package:four_hours_client/views/widgets/common_like_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/measure_size.dart';
@@ -130,53 +131,13 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                   ),
                 ),
                 const Gap(8),
-                Consumer(builder: (context, ref, child) {
-                  //TODO: Card controller를 만들어서? 관리? 가능?
-                  bool isLiked = widget.post.isLiked!;
-
-                  return CommonRowWithDivider(
-                    rightGap: 8,
-                    tail: Row(
-                      children: [
-                        //TODO: Liked & Saved 표시
-                        // if (isLiked! && !isShown)
-                        //   Container(
-                        //     padding: const EdgeInsets.symmetric(
-                        //       horizontal: 8.0,
-                        //       vertical: 2.0,
-                        //     ),
-                        //     decoration: BoxDecoration(
-                        //       color: customThemeColors.orange,
-                        //       borderRadius: BorderRadius.circular(4.0),
-                        //     ),
-                        //     child: Text(
-                        //       'Liked & Saved',
-                        //       style: customTextStyle.montLabelSmall.copyWith(
-                        //         color: customThemeColors.backgroundToggle,
-                        //       ),
-                        //     ),
-                        //   ),
-                        CommonIconButton(
-                          onTap: () {
-                            ref
-                                .read(homeSharedControllerProvider.notifier)
-                                .handlePressedLikeButton(
-                                  postId: widget.post.id,
-                                );
-                          },
-                          icon: isLiked
-                              ? Icon(
-                                  CustomIcons.heart_fill,
-                                  color: customThemeColors.orange,
-                                )
-                              : const Icon(
-                                  CustomIcons.heart_line,
-                                ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
+                CommonRowWithDivider(
+                  rightGap: 8,
+                  tail: CommonLikeButton(
+                    isLiked: widget.post.isLiked!,
+                    postId: widget.post.id,
+                  ),
+                ),
               ],
             ),
           ),

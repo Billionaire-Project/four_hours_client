@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
-import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/shared_post_detail_screen/shared_post_detail_page.dart';
-import 'package:four_hours_client/views/widgets/common_icon_button.dart';
+import 'package:four_hours_client/views/widgets/common_like_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -84,6 +82,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                 rightGap: 8,
                 tail: const SizedBox(width: 8),
               ),
+              const Gap(8),
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
@@ -102,26 +101,13 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                 ),
               ),
               const Gap(8),
-              Consumer(builder: (context, ref, child) {
-                return CommonRowWithDivider(
-                  rightGap: 8,
-                  tail: CommonIconButton(
-                    onTap: () {
-                      ref
-                          .read(likedPostControllerProvider.notifier)
-                          .handlePressedLikeButton(postId: widget.post.id);
-                    },
-                    icon: widget.post.isLiked!
-                        ? Icon(
-                            CustomIcons.heart_fill,
-                            color: customThemeColors.orange,
-                          )
-                        : const Icon(
-                            CustomIcons.heart_line,
-                          ),
-                  ),
-                );
-              })
+              CommonRowWithDivider(
+                rightGap: 8,
+                tail: CommonLikeButton(
+                  isLiked: widget.post.isLiked!,
+                  postId: widget.post.id,
+                ),
+              )
             ],
           ),
         ),

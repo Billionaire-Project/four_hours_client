@@ -132,7 +132,7 @@ String getPostElapsedTime({required String date}) {
 }
 
 String getCreatePostTime({required String date}) {
-  final DateTime dateTime = DateTime.parse(date);
+  final DateTime dateTime = DateTime.parse(date).toLocal();
   final DateTime now = DateTime.now();
   final Duration difference = now.difference(dateTime);
 

@@ -15,7 +15,7 @@ import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart'
 
 part 'home_shared_controller.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class HomeSharedController extends _$HomeSharedController {
   PostsRepository? postsRepository;
 
@@ -27,39 +27,44 @@ class HomeSharedController extends _$HomeSharedController {
   ScrollController get scrollController => _scrollController;
 
   @override
-  List<PostModel> build() {
+  Future<List<PostModel>> build() {
     _init();
-    return state;
+    return getPostsInitial();
   }
 
   String? _start = '0';
-  String _offset = '10';
+  final String _offset = '10';
 
   PostsModel? _posts;
   PostsModel? get posts => _posts;
 
   bool _isLoadingMore = false;
 
-  Future<void> getPostsInitial() async {
+  Future<List<PostModel>> getPostsInitial() async {
+    state = const AsyncValue.loading();
+
     _start = '0';
-    _offset = '10';
+
     try {
-      if (_start == null) {
-        _refreshController.refreshCompleted();
-        return;
-      }
-      _posts = await postsRepository!.getPosts(start: _start!, offset: _offset);
+      await Future.delayed(skeletonDelay, () async {
+        //TODO: start를 두 번 초기화 해줘야하는 이슈
+        _start = '0';
 
-      //TODO: 에러 핸들링 필요
-      if (_posts!.posts.isEmpty) {
-        return;
-      }
-
-      state = _posts!.posts;
+        await _fetchSharedPosts();
+      });
 
       _start = _posts!.next;
 
+      state = AsyncData(_posts!.posts);
+
+      if (!state.hasValue) {
+        debugPrint('List of Post is null');
+        return [];
+      }
+
       _refreshController.refreshCompleted();
+
+      return state.value!.toList();
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -67,15 +72,11 @@ class HomeSharedController extends _$HomeSharedController {
 
   Future<void> getMorePosts() async {
     try {
-      _posts = await postsRepository!.getPosts(start: _start!, offset: _offset);
+      await _fetchSharedPosts();
 
-      if (_posts!.next == null) {
-        _refreshController.loadComplete();
-        return;
-      }
+      _start = _posts!.next;
 
-      _start = _posts!.next!;
-      state = [...state, ..._posts!.posts];
+      state = AsyncData([...state.value!.toList(), ..._posts!.posts]);
 
       _refreshController.loadComplete();
     } on DioError catch (e) {
@@ -126,7 +127,7 @@ class HomeSharedController extends _$HomeSharedController {
     try {
       await postsRepository!.likePost(postId: postId);
 
-      await replacePost(postId);
+      await _replacePost(postId);
 
       ref.read(likedPostControllerProvider.notifier).getLikedPostsInitial();
     } on DioError catch (e) {
@@ -138,33 +139,29 @@ class HomeSharedController extends _$HomeSharedController {
     try {
       await postsRepository!.reportPost(postId: postId);
 
-      replacePost(postId);
+      _replacePost(postId);
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
   }
 
   void _init() {
-    state = [];
-
     postsRepository ??= ref.watch(postsRepositoryProvider);
     _scrollController.addListener(_handleScroll);
-    getPostsInitial();
   }
 
-  Future<void> replacePost(int postId) async {
+  Future<void> _replacePost(int postId) async {
     try {
       final PostModel newPost =
           await postsRepository!.getPostById(postId: postId);
-
       final int targetIndex =
-          state.indexWhere((element) => element.id == postId);
+          state.value!.indexWhere((element) => element.id == postId);
 
-      final List<PostModel> newSharedList = List.from(state);
+      final List<PostModel> newSharedList = List.from(state.value!.toList());
 
       newSharedList[targetIndex] = newPost;
 
-      state = newSharedList;
+      state = AsyncData(newSharedList);
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -181,6 +178,16 @@ class HomeSharedController extends _$HomeSharedController {
         await getMorePosts();
         _isLoadingMore = false;
       }
+    }
+  }
+
+  Future<void> _fetchSharedPosts() async {
+    if (_start == null) return;
+
+    _posts = await postsRepository!.getPosts(start: _start!, offset: _offset);
+
+    if (_posts!.posts.isEmpty) {
+      state = const AsyncData([]);
     }
   }
 }

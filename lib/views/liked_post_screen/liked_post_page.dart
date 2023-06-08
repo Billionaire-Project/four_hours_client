@@ -6,9 +6,9 @@ import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/liked_post_screen/liked_post_card.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
+import 'package:four_hours_client/views/widgets/common_post_skeleton.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class LikedPostPage extends ConsumerStatefulWidget {
@@ -26,14 +26,8 @@ class _LikedPostPageState extends ConsumerState<LikedPostPage> {
     final likedPostNotifier = ref.watch(likedPostControllerProvider.notifier);
 
     return MainWrapper(
-      appBar: CommonAppBar(
+      appBar: const CommonAppBar(
         title: '내가 좋아한 글',
-        leadingOnTapHandler: () async {
-          await likedPostNotifier.getLikedPostsInitial();
-          if (context.mounted) {
-            context.pop();
-          }
-        },
       ),
       child: SmartRefresher(
         enablePullDown: true,
@@ -42,36 +36,43 @@ class _LikedPostPageState extends ConsumerState<LikedPostPage> {
         onRefresh: likedPostNotifier.getLikedPostsInitial,
         onLoading: likedPostNotifier.getMoreLikedPosts,
         footer: const CustomRefresherFooter(),
-        child: likedPosts.isEmpty
-            ? const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: CommonCardCover(
-                  iconData: CustomIcons.heart_line,
-                  title: '좋아한 글이 없어요 :(',
-                  subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
-                ),
-              )
-            : ListView.separated(
-                itemBuilder: (context, index) {
-                  final String leftTime =
-                      getPostElapsedTime(date: likedPosts[index].createdAt);
+        child: likedPosts.when(
+          data: (posts) {
+            return posts.isEmpty
+                ? const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: CommonCardCover(
+                      iconData: CustomIcons.heart_line,
+                      title: '좋아한 글이 없어요 :(',
+                      subtitle:
+                          '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
+                    ),
+                  )
+                : ListView.separated(
+                    itemBuilder: (context, index) {
+                      final String leftTime =
+                          getPostElapsedTime(date: posts[index].createdAt);
 
-                  return Column(
-                    children: [
-                      if (index == 0) const SizedBox(height: 16),
-                      LikedPostCard(
-                        post: likedPosts[index],
-                        labelText: leftTime,
-                      ),
-                      if (index == likedPosts.length - 1)
-                        const SizedBox(height: 16)
-                    ],
+                      return Column(
+                        children: [
+                          if (index == 0) const SizedBox(height: 16),
+                          LikedPostCard(
+                            post: posts[index],
+                            labelText: leftTime,
+                          ),
+                          if (index == posts.length - 1)
+                            const SizedBox(height: 16)
+                        ],
+                      );
+                    },
+                    separatorBuilder: (context, index) =>
+                        SizedBox.fromSize(size: const Size(0, 0)),
+                    itemCount: posts.length,
                   );
-                },
-                separatorBuilder: (context, index) =>
-                    SizedBox.fromSize(size: const Size(0, 0)),
-                itemCount: likedPosts.length,
-              ),
+          },
+          error: (error, __) => throw ('error: $error'),
+          loading: () => const CommonPostSkeleton(),
+        ),
       ),
     );
   }

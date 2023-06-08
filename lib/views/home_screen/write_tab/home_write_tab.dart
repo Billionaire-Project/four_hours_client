@@ -10,7 +10,6 @@ import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_post_card.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_timer.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
-import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
@@ -32,12 +31,13 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
     final myPosts = ref.watch(homeWriteControllerProvider);
     final myPostsNotifier = ref.watch(homeWriteControllerProvider.notifier);
 
+//TODO: 내가 쓴 글 없을 때 무한 로딩 처리 필요
     List<String>? dateList = myPostsNotifier.dateList;
-    if (dateList.isEmpty) {
-      return const Center(
-        child: CommonCircularProgressIndicator(size: 32, strokeWidth: 2),
-      );
-    }
+    // if (dateList.isEmpty) {
+    //   return const Center(
+    //     child: CommonCircularProgressIndicator(size: 32, strokeWidth: 2),
+    //   );
+    // }
 
     return SmartRefresher(
       enablePullDown: true,
@@ -75,8 +75,8 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
             ),
           ],
 
-          const _TodaysList(),
-          const _MyPostList()
+          const _TodayList(),
+          if (dateList.isNotEmpty) const _MyPostList()
         ],
       ),
     );
@@ -128,8 +128,8 @@ class _TodaysTopic extends ConsumerWidget {
   }
 }
 
-class _TodaysList extends ConsumerWidget {
-  const _TodaysList({Key? key}) : super(key: key);
+class _TodayList extends ConsumerWidget {
+  const _TodayList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -138,7 +138,9 @@ class _TodaysList extends ConsumerWidget {
 
     List<String> dateList = myPostsNotifier.dateList;
 
-    if (myPosts[dateList[0]] == null || dateList[0] != 'Today') {
+    if (dateList.isEmpty ||
+        myPosts[dateList[0]] == null ||
+        dateList[0] != 'Today') {
       return const SizedBox.shrink();
     }
 

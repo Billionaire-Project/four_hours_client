@@ -3,12 +3,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/controller/shared_post_detail_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
-import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/widgets/common_icon_button.dart';
+import 'package:four_hours_client/views/widgets/common_like_button.dart';
 
 class SharedPostDetailBottom extends ConsumerWidget {
   final PostModel post;
@@ -19,10 +17,6 @@ class SharedPostDetailBottom extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
-
-    final postDetail = ref.watch(sharedPostDetailControllerProvider(post))!;
-
-    bool isLiked = postDetail.isLiked!;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -38,20 +32,15 @@ class SharedPostDetailBottom extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _Timer(post: post),
-          _PostDetailAction(
-            onTap: () {
-              ref
-                  .read(sharedPostDetailControllerProvider(post).notifier)
-                  .handlePressedLikeButton(postId: post.id);
-            },
-            icon: isLiked
-                ? Icon(
-                    CustomIcons.heart_fill,
-                    color: customThemeColors.orange,
-                  )
-                : const Icon(
-                    CustomIcons.heart_line,
-                  ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: customThemeColors.backgroundLabel,
+              shape: BoxShape.circle,
+            ),
+            child: CommonLikeButton(
+              isLiked: post.isLiked!,
+              postId: post.id,
+            ),
           ),
         ],
       ),
@@ -121,32 +110,6 @@ class _TimerState extends ConsumerState<_Timer> {
             fontFeatures: [const FontFeature.tabularFigures()],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _PostDetailAction extends ConsumerWidget {
-  final Icon icon;
-  final VoidCallback onTap;
-  const _PostDetailAction({
-    Key? key,
-    required this.icon,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final customThemeColors = ref.watch(customThemeColorsProvider);
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: customThemeColors.backgroundLabel,
-        shape: BoxShape.circle,
-      ),
-      child: CommonIconButton(
-        onTap: onTap,
-        icon: icon,
       ),
     );
   }
