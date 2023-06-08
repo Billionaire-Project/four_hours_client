@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_post_card.dart';
-import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_skeleton.dart';
+import 'package:four_hours_client/views/widgets/common_post_skeleton.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -48,7 +48,7 @@ class HomeSharedTab extends ConsumerWidget {
           );
         },
         error: (error, __) => throw ('error: $error'),
-        loading: () => const HomeSharedSkeleton(),
+        loading: () => const CommonPostSkeleton(),
       ),
     );
   }
