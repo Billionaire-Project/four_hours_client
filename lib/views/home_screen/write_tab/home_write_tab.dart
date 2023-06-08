@@ -40,7 +40,7 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
       enablePullUp: true,
       controller: myPostsNotifier.refreshController,
       scrollController: myPostsNotifier.scrollController,
-      onRefresh: myPostsNotifier.getMyPostsInitial,
+      onRefresh: myPostsNotifier.refreshTab,
       footer: const CustomRefresherFooter(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

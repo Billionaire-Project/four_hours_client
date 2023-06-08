@@ -16,16 +16,16 @@ class HomeSharedTab extends ConsumerWidget {
     final posts = ref.watch(homeSharedControllerProvider);
     final sharedNotifier = ref.watch(homeSharedControllerProvider.notifier);
 
-    return SmartRefresher(
-      enablePullDown: true,
-      enablePullUp: true,
-      controller: sharedNotifier.refreshController,
-      scrollController: sharedNotifier.scrollController,
-      onRefresh: sharedNotifier.getPostsInitial,
-      footer: const CustomRefresherFooter(),
-      child: posts.when(
-        data: (posts) {
-          return ListView.separated(
+    return posts.when(
+      data: (posts) {
+        return SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: true,
+          controller: sharedNotifier.refreshController,
+          scrollController: sharedNotifier.scrollController,
+          onRefresh: sharedNotifier.refreshTab,
+          footer: const CustomRefresherFooter(),
+          child: ListView.separated(
             itemBuilder: (context, index) {
               final String leftTime =
                   getPostElapsedTime(date: posts[index].createdAt);
@@ -45,11 +45,11 @@ class HomeSharedTab extends ConsumerWidget {
               size: const Size(0, 0),
             ),
             itemCount: posts.length,
-          );
-        },
-        error: (error, __) => throw ('error: $error'),
-        loading: () => const CommonPostSkeleton(),
-      ),
+          ),
+        );
+      },
+      error: (error, __) => throw ('error: $error'),
+      loading: () => const CommonPostSkeleton(),
     );
   }
 }

@@ -99,22 +99,31 @@ class HomeWriteController extends _$HomeWriteController {
       _myPosts =
           await postsRepository.getMyPosts(start: _start!, offset: _offset);
 
-      if (_myPosts == null) {
-        //TODO: my posts가 null일 경우 투데이와 주제 추천
-      }
-
       _start = _myPosts!.next;
 
       _postingDates = [
         ..._postingDates,
         ..._myPosts!.posts.keys.map((e) => e).toList()
       ];
+
       state = AsyncData({...state.value!, ..._myPosts!.posts});
 
       _refreshController.loadComplete();
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
+  }
+
+  void refreshTab() async {
+    _start = '0';
+
+    await _fetchWritePosts();
+
+    _start = _myPosts!.next;
+
+    state = AsyncData(_myPosts!.posts);
+
+    _refreshController.refreshCompleted();
   }
 
   void handlePressedCard(

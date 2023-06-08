@@ -15,7 +15,7 @@ import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart'
 
 part 'home_shared_controller.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class HomeSharedController extends _$HomeSharedController {
   PostsRepository? postsRepository;
 
@@ -62,8 +62,6 @@ class HomeSharedController extends _$HomeSharedController {
         return [];
       }
 
-      _refreshController.refreshCompleted();
-
       return state.value!.toList();
     } on DioError catch (e) {
       throw throwExceptions(e);
@@ -82,6 +80,18 @@ class HomeSharedController extends _$HomeSharedController {
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
+  }
+
+  void refreshTab() async {
+    _start = '0';
+
+    await _fetchSharedPosts();
+
+    _start = _posts!.next;
+
+    state = AsyncData(_posts!.posts);
+
+    _refreshController.refreshCompleted();
   }
 
   void handlePressedCard(
