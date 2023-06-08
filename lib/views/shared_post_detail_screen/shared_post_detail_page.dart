@@ -34,16 +34,17 @@ class _SharedPostDetailPageState extends ConsumerState<SharedPostDetailPage> {
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
+    final postDetail =
+        ref.watch(sharedPostDetailControllerProvider(widget.post));
+    final postDetailNotifier =
+        ref.read(sharedPostDetailControllerProvider(widget.post).notifier);
 
     return MainWrapper(
       appBar: CommonAppBar(
         actions: [
           CommonIconButton(
             onTap: () {
-              ref
-                  .read(
-                      sharedPostDetailControllerProvider(widget.post).notifier)
-                  .handlePressedMoreButton(context);
+              postDetailNotifier.handlePressedMoreButton(context);
             },
             icon: const Icon(
               CustomIcons.more_line,

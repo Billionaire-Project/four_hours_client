@@ -41,32 +41,28 @@ class HomeSharedController extends _$HomeSharedController {
   bool _isLoadingMore = false;
 
   Future<List<PostModel>> getPostsInitial() async {
-    _start = '0';
-
     state = const AsyncValue.loading();
 
+    _start = '0';
+
     try {
-      if (_start == null) {
-        _refreshController.refreshCompleted();
-        return state.value!.toList();
-      }
       await Future.delayed(skeletonDelay, () async {
         //TODO: start를 두 번 초기화 해줘야하는 이슈
         _start = '0';
 
-        await _fetchSharedPost();
+        await _fetchSharedPosts();
       });
 
       _start = _posts!.next;
 
       state = AsyncData(_posts!.posts);
 
-      _refreshController.refreshCompleted();
-
-      if (state.value == null) {
-        //TODO: state.value가 null이면 에러 핸들링 필요
-        throw ('List of Post is null');
+      if (!state.hasValue) {
+        debugPrint('List of Post is null');
+        return [];
       }
+
+      _refreshController.refreshCompleted();
 
       return state.value!.toList();
     } on DioError catch (e) {
@@ -76,12 +72,7 @@ class HomeSharedController extends _$HomeSharedController {
 
   Future<void> getMorePosts() async {
     try {
-      if (_start == null) {
-        _refreshController.loadComplete();
-        return;
-      }
-
-      await _fetchSharedPost();
+      await _fetchSharedPosts();
 
       _start = _posts!.next;
 
@@ -167,7 +158,7 @@ class HomeSharedController extends _$HomeSharedController {
           state.value!.indexWhere((element) => element.id == postId);
 
       final List<PostModel> newSharedList = List.from(state.value!.toList());
-//! state에 해당 포스트가 없는데 replace할 수가 없지
+
       newSharedList[targetIndex] = newPost;
 
       state = AsyncData(newSharedList);
@@ -190,12 +181,13 @@ class HomeSharedController extends _$HomeSharedController {
     }
   }
 
-  Future<void> _fetchSharedPost() async {
+  Future<void> _fetchSharedPosts() async {
+    if (_start == null) return;
+
     _posts = await postsRepository!.getPosts(start: _start!, offset: _offset);
 
     if (_posts!.posts.isEmpty) {
-      //TODO: 에러 핸들링 필요
-      throw ('posts are empty');
+      state = const AsyncData([]);
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
@@ -11,7 +12,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'liked_post_controller.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class LikedPostController extends _$LikedPostController {
   PostsRepository? postsRepository;
 
@@ -20,44 +21,47 @@ class LikedPostController extends _$LikedPostController {
   RefreshController get refreshController => _refreshController;
 
   @override
-  List<PostModel> build() {
-    state = [];
-
+  Future<List<PostModel>> build() {
     _init();
-    return state;
+    return getLikedPostsInitial();
   }
 
   String? _start = '0';
-  String _offset = '10';
+  final String _offset = '10';
 
   PostsModel? _likedPosts;
   PostsModel? get posts => _likedPosts;
 
-  bool _isLoading = true;
+  final bool _isLoading = true;
   bool get isLoading => _isLoading;
 
-  Future<void> getLikedPostsInitial() async {
+  Future<List<PostModel>> getLikedPostsInitial() async {
+    state = const AsyncValue.loading();
+
     _start = '0';
-    _offset = '10';
-    _isLoading = true;
 
     try {
-      if (_start == null) {
-        _refreshController.refreshCompleted();
-        return;
-      }
-
       await Future.delayed(skeletonDelay, () async {
-        await _getLikePosts();
+        //TODO: start를 두 번 초기화 해줘야하는 이슈
+        _start = '0';
+
+        await _fetchLikedPosts();
       });
 
-      state = _likedPosts!.posts;
+      // state = _likedPosts!.posts;
 
       _start = _likedPosts!.next;
 
-      _isLoading = false;
+      state = AsyncData(_likedPosts!.posts);
+
+      if (!state.hasValue) {
+        debugPrint('List of Post is null');
+        return [];
+      }
 
       _refreshController.refreshCompleted();
+
+      return state.value!.toList();
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -65,14 +69,11 @@ class LikedPostController extends _$LikedPostController {
 
   Future<void> getMoreLikedPosts() async {
     try {
-      await _getLikePosts();
+      await _fetchLikedPosts();
 
       _start = _likedPosts!.next;
 
-      state = [
-        ...state,
-        ..._likedPosts!.posts,
-      ];
+      state = AsyncData([...state.value!.toList(), ..._likedPosts!.posts]);
 
       _refreshController.loadComplete();
     } on DioError catch (e) {
@@ -98,19 +99,21 @@ class LikedPostController extends _$LikedPostController {
           await postsRepository!.getPostById(postId: postId);
 
       final int targetIndex =
-          state.indexWhere((element) => element.id == postId);
+          state.value!.indexWhere((element) => element.id == postId);
 
-      final List<PostModel> newSharedList = List.from(state);
+      final List<PostModel> newSharedList = List.from(state.value!.toList());
 
       newSharedList[targetIndex] = newPost;
 
-      state = newSharedList;
+      state = AsyncData(newSharedList);
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
   }
 
-  Future<void> _getLikePosts() async {
+  Future<void> _fetchLikedPosts() async {
+    if (_start == null) return;
+
     _likedPosts =
         await postsRepository!.getLikePosts(start: _start!, offset: _offset);
   }

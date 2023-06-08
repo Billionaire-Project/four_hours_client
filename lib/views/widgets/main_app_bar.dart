@@ -38,13 +38,11 @@ class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
           const Gap(8),
           CommonIconButton(
             onTap: () async {
-              ref
+              context.push(LikedPostPage.path);
+
+              await ref
                   .read(likedPostControllerProvider.notifier)
                   .getLikedPostsInitial();
-              if (context.mounted) {
-                await context.push(LikedPostPage.path);
-              }
-
               await ref
                   .read(homeSharedControllerProvider.notifier)
                   .getPostsInitial();

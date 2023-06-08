@@ -25,8 +25,6 @@ class _LikedPostPageState extends ConsumerState<LikedPostPage> {
     final likedPosts = ref.watch(likedPostControllerProvider);
     final likedPostNotifier = ref.watch(likedPostControllerProvider.notifier);
 
-    bool isLoading = ref.watch(likedPostControllerProvider.notifier).isLoading;
-
     return MainWrapper(
       appBar: const CommonAppBar(
         title: '내가 좋아한 글',
@@ -38,11 +36,9 @@ class _LikedPostPageState extends ConsumerState<LikedPostPage> {
         onRefresh: likedPostNotifier.getLikedPostsInitial,
         onLoading: likedPostNotifier.getMoreLikedPosts,
         footer: const CustomRefresherFooter(),
-        child: isLoading
-            ? const LikedPostSkeleton()
-            //TODO: 좋아한 글이 없을 때 처리 필요
-
-            : likedPosts.isEmpty
+        child: likedPosts.when(
+          data: (posts) {
+            return posts.isEmpty
                 ? const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: CommonCardCover(
@@ -55,24 +51,28 @@ class _LikedPostPageState extends ConsumerState<LikedPostPage> {
                 : ListView.separated(
                     itemBuilder: (context, index) {
                       final String leftTime =
-                          getPostElapsedTime(date: likedPosts[index].createdAt);
+                          getPostElapsedTime(date: posts[index].createdAt);
 
                       return Column(
                         children: [
                           if (index == 0) const SizedBox(height: 16),
                           LikedPostCard(
-                            post: likedPosts[index],
+                            post: posts[index],
                             labelText: leftTime,
                           ),
-                          if (index == likedPosts.length - 1)
+                          if (index == posts.length - 1)
                             const SizedBox(height: 16)
                         ],
                       );
                     },
                     separatorBuilder: (context, index) =>
                         SizedBox.fromSize(size: const Size(0, 0)),
-                    itemCount: likedPosts.length,
-                  ),
+                    itemCount: posts.length,
+                  );
+          },
+          error: (error, __) => throw ('error: $error'),
+          loading: () => const LikedPostSkeleton(),
+        ),
       ),
     );
   }

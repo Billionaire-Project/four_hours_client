@@ -1,59 +1,35 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/functions.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'like_controller.freezed.dart';
+part 'like_controller.g.dart';
 
-class LikeController extends StateNotifier<bool> {
-  late StateNotifierProviderRef _ref;
-  late PostsRepository _postsRepository;
-  late int _postDetailId;
-
-  LikeController(
-    StateNotifierProviderRef ref, {
+@riverpod
+class LikeController extends _$LikeController {
+  @override
+  bool build({
     required bool isLiked,
     required int postId,
-  }) : super(isLiked) {
-    _ref = ref;
+  }) {
     state = isLiked;
-    _postDetailId = postId;
-    _postsRepository = ref.read(postsRepositoryProvider);
+    return state;
   }
 
-  void handlePressedLikeButton({bool isNeedRefresh = true}) async {
+  void handlePressedLikeButton() async {
     state = !state;
 
-    await _likePost();
+    state = await _likePost();
   }
 
-  Future<void> _likePost() async {
+  Future<bool> _likePost() async {
     try {
-      bool isLiked = await _postsRepository.likePost(postId: _postDetailId);
+      bool isLiked =
+          await ref.read(postsRepositoryProvider).likePost(postId: postId);
 
-      state = isLiked;
+      return isLiked;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
   }
 }
-
-@freezed
-class LikeControllerParameters with _$LikeControllerParameters {
-  factory LikeControllerParameters({
-    required bool isLiked,
-    required int postId,
-  }) = _LikeControllerParameters;
-}
-
-final likeControllerProvider = StateNotifierProvider.family<LikeController,
-    bool, LikeControllerParameters>(
-  (StateNotifierProviderRef ref, LikeControllerParameters likeStateParameters) {
-    return LikeController(
-      ref,
-      isLiked: likeStateParameters.isLiked,
-      postId: likeStateParameters.postId,
-    );
-  },
-);
