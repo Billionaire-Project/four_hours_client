@@ -3,7 +3,7 @@ import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
-import 'package:four_hours_client/views/liked_post_screen/liked_post_page.dart';
+import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
 import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:four_hours_client/views/splash_screen/splash_page.dart';
@@ -122,11 +122,11 @@ GoRouter appRouter(AppRouterRef ref) {
         parentNavigatorKey: navigatorKey,
       ),
       GoRoute(
-        path: LikedPostPage.path,
+        path: LikedPostsPage.path,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             NoTransitionPage(
           key: state.pageKey,
-          child: const LikedPostPage(),
+          child: const LikedPostsPage(),
         ),
         parentNavigatorKey: navigatorKey,
       ),

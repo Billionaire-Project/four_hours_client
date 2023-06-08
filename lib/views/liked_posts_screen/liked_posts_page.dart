@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/controller/liked_post_controller.dart';
+import 'package:four_hours_client/controller/liked_posts_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/liked_post_screen/liked_post_card.dart';
+import 'package:four_hours_client/views/liked_posts_screen/liked_post_card.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_post_skeleton.dart';
@@ -11,19 +11,19 @@ import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class LikedPostPage extends ConsumerStatefulWidget {
-  const LikedPostPage({Key? key}) : super(key: key);
+class LikedPostsPage extends ConsumerStatefulWidget {
+  const LikedPostsPage({Key? key}) : super(key: key);
   static const String path = '/liked-post';
 
   @override
-  ConsumerState<LikedPostPage> createState() => _LikedPostPageState();
+  ConsumerState<LikedPostsPage> createState() => _LikedPostsPageState();
 }
 
-class _LikedPostPageState extends ConsumerState<LikedPostPage> {
+class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
   @override
   Widget build(BuildContext context) {
-    final likedPosts = ref.watch(likedPostControllerProvider);
-    final likedPostNotifier = ref.watch(likedPostControllerProvider.notifier);
+    final likedPosts = ref.watch(likedPostsControllerProvider);
+    final likedPostsNotifier = ref.watch(likedPostsControllerProvider.notifier);
 
     return MainWrapper(
       appBar: const CommonAppBar(
@@ -32,9 +32,9 @@ class _LikedPostPageState extends ConsumerState<LikedPostPage> {
       child: SmartRefresher(
         enablePullDown: true,
         enablePullUp: true,
-        controller: likedPostNotifier.refreshController,
-        onRefresh: likedPostNotifier.getLikedPostsInitial,
-        onLoading: likedPostNotifier.getMoreLikedPosts,
+        controller: likedPostsNotifier.refreshController,
+        onRefresh: likedPostsNotifier.getLikedPostsInitial,
+        onLoading: likedPostsNotifier.getMoreLikedPosts,
         footer: const CustomRefresherFooter(),
         child: likedPosts.when(
           data: (posts) {

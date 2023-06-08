@@ -10,10 +10,10 @@ import 'package:four_hours_client/utils/functions.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'liked_post_controller.g.dart';
+part 'liked_posts_controller.g.dart';
 
 @riverpod
-class LikedPostController extends _$LikedPostController {
+class LikedPostsController extends _$LikedPostsController {
   PostsRepository? postsRepository;
 
   final RefreshController _refreshController =
