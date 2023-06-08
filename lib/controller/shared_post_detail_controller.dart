@@ -52,19 +52,6 @@ class SharedPostDetailController extends StateNotifier<PostModel?> {
     );
   }
 
-  Future<void> handlePressedLikeButton({
-    required int postId,
-  }) async {
-    try {
-      _ref
-          .read(homeSharedControllerProvider.notifier)
-          .handlePressedLikeButton(postId: postId);
-      _getPostByIdInitial();
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
-  }
-
   Future<void> _getPostByIdInitial() async {
     try {
       _post = await _postsRepository.getPostById(postId: _post!.id);

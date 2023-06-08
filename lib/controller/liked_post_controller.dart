@@ -81,18 +81,6 @@ class LikedPostController extends _$LikedPostController {
     }
   }
 
-  Future<void> handlePressedLikeButton({
-    required int postId,
-  }) async {
-    try {
-      await postsRepository!.likePost(postId: postId);
-
-      await _replacePost(postId);
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
-  }
-
   Future<void> _replacePost(int postId) async {
     try {
       final PostModel newPost =

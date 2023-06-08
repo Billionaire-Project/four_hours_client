@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -119,20 +118,6 @@ class HomeSharedController extends _$HomeSharedController {
         )
       ],
     );
-  }
-
-  Future<void> handlePressedLikeButton({
-    required int postId,
-  }) async {
-    try {
-      await postsRepository!.likePost(postId: postId);
-
-      await _replacePost(postId);
-
-      ref.read(likedPostControllerProvider.notifier).getLikedPostsInitial();
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
   }
 
   Future<void> handlePressedReportButton({required int postId}) async {
