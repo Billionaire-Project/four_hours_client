@@ -4,9 +4,9 @@ import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/liked_post_screen/liked_post_card.dart';
-import 'package:four_hours_client/views/liked_post_screen/liked_post_skeleton.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
+import 'package:four_hours_client/views/widgets/common_post_skeleton.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -71,7 +71,7 @@ class _LikedPostPageState extends ConsumerState<LikedPostPage> {
                   );
           },
           error: (error, __) => throw ('error: $error'),
-          loading: () => const LikedPostSkeleton(),
+          loading: () => const CommonPostSkeleton(),
         ),
       ),
     );

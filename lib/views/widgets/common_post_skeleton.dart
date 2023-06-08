@@ -9,8 +9,8 @@ import 'package:shimmer/shimmer.dart';
 
 const int _itemCount = 6;
 
-class LikedPostSkeleton extends ConsumerWidget {
-  const LikedPostSkeleton({Key? key}) : super(key: key);
+class CommonPostSkeleton extends ConsumerWidget {
+  const CommonPostSkeleton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
