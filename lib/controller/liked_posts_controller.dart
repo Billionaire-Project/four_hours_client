@@ -48,8 +48,6 @@ class LikedPostsController extends _$LikedPostsController {
         await _fetchLikedPosts();
       });
 
-      // state = _likedPosts!.posts;
-
       _start = _likedPosts!.next;
 
       state = AsyncData(_likedPosts!.posts);
@@ -76,24 +74,6 @@ class LikedPostsController extends _$LikedPostsController {
       state = AsyncData([...state.value!.toList(), ..._likedPosts!.posts]);
 
       _refreshController.loadComplete();
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
-  }
-
-  Future<void> _replacePost(int postId) async {
-    try {
-      final PostModel newPost =
-          await postsRepository!.getPostById(postId: postId);
-
-      final int targetIndex =
-          state.value!.indexWhere((element) => element.id == postId);
-
-      final List<PostModel> newSharedList = List.from(state.value!.toList());
-
-      newSharedList[targetIndex] = newPost;
-
-      state = AsyncData(newSharedList);
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
