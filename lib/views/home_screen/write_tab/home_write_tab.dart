@@ -11,6 +11,7 @@ import 'package:four_hours_client/views/home_screen/write_tab/home_write_post_ca
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_timer.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
+import 'package:four_hours_client/views/widgets/common_post_skeleton.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
@@ -31,13 +32,8 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
     final myPosts = ref.watch(homeWriteControllerProvider);
     final myPostsNotifier = ref.watch(homeWriteControllerProvider.notifier);
 
-//TODO: 내가 쓴 글 없을 때 무한 로딩 처리 필요
-    List<String>? dateList = myPostsNotifier.dateList;
-    // if (dateList.isEmpty) {
-    //   return const Center(
-    //     child: CommonCircularProgressIndicator(size: 32, strokeWidth: 2),
-    //   );
-    // }
+    final List<PostModel> todayPosts = myPostsNotifier.todayPosts;
+    final List<String> postingDates = myPostsNotifier.postingDates;
 
     return SmartRefresher(
       enablePullDown: true,
@@ -66,17 +62,73 @@ class _HomeWriteTabState extends ConsumerState<HomeWriteTab> {
             child: _TodaysTopic(),
           ),
           const Gap(8),
-          if (myPosts.isEmpty) ...[
-            const Gap(8),
-            const CommonCardCover(
-              iconData: CustomIcons.pencil_fill,
-              title: '첫 게시글을 작성해보세요!',
-              subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
-            ),
-          ],
 
-          const _TodayList(),
-          if (dateList.isNotEmpty) const _MyPostList()
+          _TodayList(todayPosts: todayPosts),
+
+          myPosts.when(
+            data: (posts) {
+              if (posts.isEmpty) {
+                return const Flexible(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Gap(8),
+                      CommonCardCover(
+                        iconData: CustomIcons.pencil_fill,
+                        title: '첫 게시글을 작성해보세요!',
+                        subtitle:
+                            '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return Flexible(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int dateIndex) {
+                    if (posts[postingDates[dateIndex]] == null) {
+                      return const SizedBox.shrink();
+                    }
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: CommonTitle(postingDates[dateIndex]),
+                        ),
+                        Flexible(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: posts[postingDates[dateIndex]]!.length,
+                            itemBuilder: (BuildContext context, int postIndex) {
+                              PostModel post =
+                                  posts[postingDates[dateIndex]]![postIndex];
+                              final String createdTime =
+                                  getCreatePostTime(date: post.updatedAt);
+                              return HomeWritePostCard(
+                                post: post,
+                                labelText: createdTime,
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                  separatorBuilder: (context, index) => SizedBox.fromSize(
+                    size: const Size(0, 24),
+                  ),
+                  itemCount: postingDates.length,
+                ),
+              );
+            },
+            error: (error, __) => Center(child: Text('error: $error')),
+            loading: () => const Expanded(child: CommonPostSkeleton()),
+          )
         ],
       ),
     );
@@ -129,18 +181,15 @@ class _TodaysTopic extends ConsumerWidget {
 }
 
 class _TodayList extends ConsumerWidget {
-  const _TodayList({Key? key}) : super(key: key);
+  final List<PostModel> todayPosts;
+  const _TodayList({
+    Key? key,
+    required this.todayPosts,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final myPosts = ref.watch(homeWriteControllerProvider);
-    final myPostsNotifier = ref.watch(homeWriteControllerProvider.notifier);
-
-    List<String> dateList = myPostsNotifier.dateList;
-
-    if (dateList.isEmpty ||
-        myPosts[dateList[0]] == null ||
-        dateList[0] != 'Today') {
+    if (todayPosts.isEmpty) {
       return const SizedBox.shrink();
     }
 
@@ -148,72 +197,15 @@ class _TodayList extends ConsumerWidget {
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: myPosts[dateList[0]]!.length,
+        itemCount: todayPosts.length,
         itemBuilder: (BuildContext context, int postIndex) {
-          PostModel post = myPosts[dateList[0]]![postIndex];
+          PostModel post = todayPosts[postIndex];
           final String createdTime = getCreatePostTime(date: post.updatedAt);
           return HomeWritePostCard(
             post: post,
             labelText: createdTime,
           );
         },
-      ),
-    );
-  }
-}
-
-class _MyPostList extends ConsumerWidget {
-  const _MyPostList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final myPosts = ref.watch(homeWriteControllerProvider);
-    final myPostsNotifier = ref.watch(homeWriteControllerProvider.notifier);
-
-    List<String>? dateList = myPostsNotifier.dateList;
-
-    return Flexible(
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int dateIndex) {
-          if (dateList[dateIndex] != 'Today') {
-            if (myPosts[dateList[dateIndex]] == null) {
-              return const SizedBox.shrink();
-            }
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: CommonTitle(dateList[dateIndex]),
-                ),
-                Flexible(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: myPosts[dateList[dateIndex]]!.length,
-                    itemBuilder: (BuildContext context, int postIndex) {
-                      PostModel post = myPosts[dateList[dateIndex]]![postIndex];
-                      final String createdTime =
-                          getCreatePostTime(date: post.updatedAt);
-                      return HomeWritePostCard(
-                        post: post,
-                        labelText: createdTime,
-                      );
-                    },
-                  ),
-                )
-              ],
-            );
-          }
-          return const SizedBox.shrink();
-        },
-        separatorBuilder: (context, index) => SizedBox.fromSize(
-          size: const Size(0, 24),
-        ),
-        itemCount: dateList.length,
       ),
     );
   }

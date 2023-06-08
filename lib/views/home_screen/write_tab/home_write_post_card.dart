@@ -10,7 +10,6 @@ import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
-import 'package:four_hours_client/views/widgets/measure_size.dart';
 
 class HomeWritePostCard extends ConsumerStatefulWidget {
   final PostModel post;
@@ -35,86 +34,79 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
 
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-      child: MeasureSize(
-        onChange: (size) {
-          setState(() {
-            childSize = size;
-          });
+      child: InkWell(
+        onTap: () {
+          ref.read(homeWriteControllerProvider.notifier).handlePressedCard(
+                context,
+                post: widget.post,
+              );
         },
-        child: InkWell(
-          onTap: () {
-            ref.read(homeWriteControllerProvider.notifier).handlePressedCard(
-                  context,
-                  post: widget.post,
-                );
-          },
-          child: Container(
-            padding: const EdgeInsets.only(
-              left: 16.0,
-              top: 8.0,
-              right: 8.0,
-              bottom: 8.0,
-            ),
-            constraints: const BoxConstraints(
-              maxHeight: cardWithOneDividerMaxHeight,
-              minHeight: cardWithOneDividerMinHeight,
-            ),
-            decoration: BoxDecoration(
-              color: customThemeColors.background,
-              borderRadius: BorderRadius.circular(12.0),
-              boxShadow: CustomShadowColors.shadow3,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CommonRowWithDivider(
-                  header: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0,
-                      vertical: 2.0,
-                    ),
-                    decoration: BoxDecoration(
-                      color: customThemeColors.backgroundLabel,
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Text(
-                      widget.labelText,
-                      style: customTextStyle.montLabelSmall,
-                    ),
+        child: Container(
+          padding: const EdgeInsets.only(
+            left: 16.0,
+            top: 8.0,
+            right: 8.0,
+            bottom: 8.0,
+          ),
+          constraints: const BoxConstraints(
+            maxHeight: cardWithOneDividerMaxHeight,
+            minHeight: cardWithOneDividerMinHeight,
+          ),
+          decoration: BoxDecoration(
+            color: customThemeColors.background,
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: CustomShadowColors.shadow3,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CommonRowWithDivider(
+                header: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 2.0,
                   ),
-                  rightGap: 8,
-                  tail: CommonIconButton(
-                    icon: const Icon(
-                      CustomIcons.more_line,
-                    ),
-                    onTap: () {
-                      ref
-                          .read(homeWriteControllerProvider.notifier)
-                          .handlePressedMoreButton(context, widget.post);
-                    },
+                  decoration: BoxDecoration(
+                    color: customThemeColors.backgroundLabel,
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Text(
+                    widget.labelText,
+                    style: customTextStyle.montLabelSmall,
                   ),
                 ),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: RichText(
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 6,
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: widget.post.content,
-                            style: customTextStyle.bodySmall,
-                          ),
-                        ],
-                      ),
+                rightGap: 8,
+                tail: CommonIconButton(
+                  icon: const Icon(
+                    CustomIcons.more_line,
+                  ),
+                  onTap: () {
+                    ref
+                        .read(homeWriteControllerProvider.notifier)
+                        .handlePressedMoreButton(context, widget.post);
+                  },
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: RichText(
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 6,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: widget.post.content,
+                          style: customTextStyle.bodySmall,
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                const Gap(8),
-              ],
-            ),
+              ),
+              const Gap(8),
+            ],
           ),
         ),
       ),

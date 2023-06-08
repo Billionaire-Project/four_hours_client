@@ -29,9 +29,9 @@ class HomeWriteController extends _$HomeWriteController {
   ScrollController get scrollController => _scrollController;
 
   @override
-  Map<String, List<PostModel>> build() {
+  Future<Map<String, List<PostModel>>> build() {
     _init();
-    return state;
+    return getMyPostsInitial();
   }
 
   String? _start = '0';
@@ -40,30 +40,50 @@ class HomeWriteController extends _$HomeWriteController {
   MyPostsModel? _myPosts;
   MyPostsModel? get posts => _myPosts;
 
-  List<String> _dateList = [];
-  List<String> get dateList => _dateList;
+  List<String> _postingDates = [];
+  List<String> get postingDates => _postingDates;
+
+  List<PostModel> _todayPosts = [];
+  List<PostModel> get todayPosts => _todayPosts;
 
   bool _isLoadingMore = false;
 
-  Future<void> getMyPostsInitial() async {
+  Future<Map<String, List<PostModel>>> getMyPostsInitial() async {
+    state = const AsyncValue.loading();
+
     _start = '0';
 
     try {
-      if (_start == null) {
-        _refreshController.refreshCompleted();
-        return;
-      }
+      await Future.delayed(skeletonDelay, () async {
+        _start = '0';
 
-      _myPosts =
-          await postsRepository.getMyPosts(start: _start!, offset: _offset);
+        await _fetchWritePosts();
+      });
+
+      final bool hasToday = _myPosts!.posts.containsKey('Today');
+
+      if (!hasToday) {
+        _todayPosts = [];
+      } else {
+        _todayPosts = _myPosts!.posts['Today']!;
+
+        _postingDates = _myPosts!.posts.keys
+            .map((key) => key)
+            .where((date) => date != 'Today')
+            .toList();
+      }
 
       _start = _myPosts!.next;
 
-      state = _myPosts!.posts;
+      state = AsyncData(_myPosts!.posts);
 
-      _dateList = _myPosts!.posts.keys.map((e) => e).toList();
+      if (!state.hasValue) {
+        return {};
+      }
 
       _refreshController.refreshCompleted();
+
+      return state.value!;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -85,12 +105,11 @@ class HomeWriteController extends _$HomeWriteController {
 
       _start = _myPosts!.next;
 
-      _dateList = [
-        ..._dateList,
+      _postingDates = [
+        ..._postingDates,
         ..._myPosts!.posts.keys.map((e) => e).toList()
       ];
-
-      state = {...state, ..._myPosts!.posts};
+      state = AsyncData({...state.value!, ..._myPosts!.posts});
 
       _refreshController.loadComplete();
     } on DioError catch (e) {
@@ -173,11 +192,8 @@ class HomeWriteController extends _$HomeWriteController {
   }
 
   void _init() async {
-    state = {};
-
     postsRepository = ref.watch(postsRepositoryProvider);
     _scrollController.addListener(_handleScroll);
-    getMyPostsInitial();
   }
 
   void _handleScroll() async {
@@ -192,5 +208,11 @@ class HomeWriteController extends _$HomeWriteController {
         _isLoadingMore = false;
       }
     }
+  }
+
+  Future<void> _fetchWritePosts() async {
+    if (_start == null) return;
+    _myPosts =
+        await postsRepository.getMyPosts(start: _start!, offset: _offset);
   }
 }
