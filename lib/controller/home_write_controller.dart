@@ -2,16 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/models/my_posts_model.dart';
-import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
-import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
-import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
-import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -117,61 +113,6 @@ class HomeWriteController extends _$HomeWriteController {
     state = AsyncData(_myPosts!.posts);
 
     _refreshController.refreshCompleted();
-  }
-
-  void handlePressedCard(
-    BuildContext context, {
-    required PostModel post,
-  }) {
-    context.pushNamed(
-      PostDetailPage.name,
-      params: {
-        'postId': post.id.toString(),
-      },
-      extra: PostDetailExtraModel(
-        post: post,
-        isNeedBottom: false,
-      ),
-    );
-  }
-
-  void handlePressedMoreButton(BuildContext context, PostModel post) {
-    showCommonActionSheet(
-      actions: [
-        CommonActionSheetAction(
-          isDestructiveAction: true,
-          onPressed: () async {
-            closeRootNavigator();
-
-            await context.pushNamed(
-              DeletePostPage.name,
-              params: {
-                'postId': post.id.toString(),
-              },
-            );
-          },
-          iconData: CustomIcons.delete_bin_line,
-          text: '게시글 삭제',
-        ),
-        CommonActionSheetAction(
-          onPressed: () async {
-            await saveToClipboard(post.content);
-            if (context.mounted) {
-              closeRootNavigator();
-
-              showCommonToast(
-                context,
-                iconData: CustomIcons.check_line,
-                text: '클립보드에 복사되었어요!',
-                bottom: 40,
-              );
-            }
-          },
-          iconData: CustomIcons.copy_line,
-          text: '글 내용 복사',
-        ),
-      ],
-    );
   }
 
   void handlePressedWritePost(BuildContext context) async {

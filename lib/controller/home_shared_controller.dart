@@ -1,17 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
-import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 
 part 'home_shared_controller.g.dart';
 
@@ -92,75 +87,9 @@ class HomeSharedController extends _$HomeSharedController {
     _refreshController.refreshCompleted();
   }
 
-  void handlePressedCard(
-    BuildContext context, {
-    required PostModel post,
-  }) {
-    context.pushNamed(
-      PostDetailPage.name,
-      params: {
-        'postId': post.id.toString(),
-      },
-      extra: PostDetailExtraModel(
-        post: post,
-      ),
-    );
-  }
-
-  void handlePressedMoreButton(BuildContext context, {required int postId}) {
-    showCommonActionSheet(
-      actions: [
-        CommonActionSheetAction(
-          isDestructiveAction: true,
-          onPressed: () {
-            closeRootNavigator();
-            showCommonDialogWithTwoButtons(
-              iconData: CustomIcons.report_fill,
-              title: '해당 게시글을 신고하시겠어요?',
-              subtitle: '신고가 접수되면 즉시 사라집니다',
-              onPressedRightButton: () {
-                handlePressedReportButton(postId: postId);
-              },
-              rightButtonText: '신고',
-            );
-          },
-          iconData: CustomIcons.report_line,
-          text: '게시글 신고',
-        )
-      ],
-    );
-  }
-
-  Future<void> handlePressedReportButton({required int postId}) async {
-    try {
-      await postsRepository!.reportPost(postId: postId);
-
-      _replacePost(postId);
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
-  }
-
   void _init() {
     postsRepository ??= ref.watch(postsRepositoryProvider);
     _scrollController.addListener(_handleScroll);
-  }
-
-  Future<void> _replacePost(int postId) async {
-    try {
-      final PostModel newPost =
-          await postsRepository!.getPostById(postId: postId);
-      final int targetIndex =
-          state.value!.indexWhere((element) => element.id == postId);
-
-      final List<PostModel> newSharedList = List.from(state.value!.toList());
-
-      newSharedList[targetIndex] = newPost;
-
-      state = AsyncData(newSharedList);
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
   }
 
   void _handleScroll() async {

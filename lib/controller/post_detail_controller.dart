@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:four_hours_client/controller/home_shared_controller.dart';
+import 'package:four_hours_client/controller/post_card_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -34,8 +34,8 @@ class PostDetailController extends _$PostDetailController {
               onPressedRightButton: () {
                 context.pop();
                 ref
-                    .read(homeSharedControllerProvider.notifier)
-                    .handlePressedReportButton(postId: post.id);
+                    .read(postCardControllerProvider(postId: post.id).notifier)
+                    .handlePressedReportButton();
               },
               rightButtonText: '신고',
             );

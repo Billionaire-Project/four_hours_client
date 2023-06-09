@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'post_detail_controller.dart';
+part of 'post_card_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$postDetailControllerHash() =>
-    r'021f73f590c28fc8ab0c3c0e6b328d798629aff3';
+String _$postCardControllerHash() =>
+    r'88c980ba0d587e3d2a0ab405b076b4b4db19e5c4';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,39 +30,39 @@ class _SystemHash {
   }
 }
 
-abstract class _$PostDetailController
+abstract class _$PostCardController
     extends BuildlessAutoDisposeAsyncNotifier<PostModel> {
-  late final PostModel post;
+  late final int postId;
 
   Future<PostModel> build({
-    required PostModel post,
+    required int postId,
   });
 }
 
-/// See also [PostDetailController].
-@ProviderFor(PostDetailController)
-const postDetailControllerProvider = PostDetailControllerFamily();
+/// See also [PostCardController].
+@ProviderFor(PostCardController)
+const postCardControllerProvider = PostCardControllerFamily();
 
-/// See also [PostDetailController].
-class PostDetailControllerFamily extends Family<AsyncValue<PostModel>> {
-  /// See also [PostDetailController].
-  const PostDetailControllerFamily();
+/// See also [PostCardController].
+class PostCardControllerFamily extends Family<AsyncValue<PostModel>> {
+  /// See also [PostCardController].
+  const PostCardControllerFamily();
 
-  /// See also [PostDetailController].
-  PostDetailControllerProvider call({
-    required PostModel post,
+  /// See also [PostCardController].
+  PostCardControllerProvider call({
+    required int postId,
   }) {
-    return PostDetailControllerProvider(
-      post: post,
+    return PostCardControllerProvider(
+      postId: postId,
     );
   }
 
   @override
-  PostDetailControllerProvider getProviderOverride(
-    covariant PostDetailControllerProvider provider,
+  PostCardControllerProvider getProviderOverride(
+    covariant PostCardControllerProvider provider,
   ) {
     return call(
-      post: provider.post,
+      postId: provider.postId,
     );
   }
 
@@ -78,49 +78,49 @@ class PostDetailControllerFamily extends Family<AsyncValue<PostModel>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'postDetailControllerProvider';
+  String? get name => r'postCardControllerProvider';
 }
 
-/// See also [PostDetailController].
-class PostDetailControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    PostDetailController, PostModel> {
-  /// See also [PostDetailController].
-  PostDetailControllerProvider({
-    required this.post,
+/// See also [PostCardController].
+class PostCardControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    PostCardController, PostModel> {
+  /// See also [PostCardController].
+  PostCardControllerProvider({
+    required this.postId,
   }) : super.internal(
-          () => PostDetailController()..post = post,
-          from: postDetailControllerProvider,
-          name: r'postDetailControllerProvider',
+          () => PostCardController()..postId = postId,
+          from: postCardControllerProvider,
+          name: r'postCardControllerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$postDetailControllerHash,
-          dependencies: PostDetailControllerFamily._dependencies,
+                  : _$postCardControllerHash,
+          dependencies: PostCardControllerFamily._dependencies,
           allTransitiveDependencies:
-              PostDetailControllerFamily._allTransitiveDependencies,
+              PostCardControllerFamily._allTransitiveDependencies,
         );
 
-  final PostModel post;
+  final int postId;
 
   @override
   bool operator ==(Object other) {
-    return other is PostDetailControllerProvider && other.post == post;
+    return other is PostCardControllerProvider && other.postId == postId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, post.hashCode);
+    hash = _SystemHash.combine(hash, postId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 
   @override
   Future<PostModel> runNotifierBuild(
-    covariant PostDetailController notifier,
+    covariant PostCardController notifier,
   ) {
     return notifier.build(
-      post: post,
+      postId: postId,
     );
   }
 }

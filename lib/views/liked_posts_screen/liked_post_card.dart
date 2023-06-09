@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/models/post_detail_extra_model.dart';
+import 'package:four_hours_client/controller/post_card_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:four_hours_client/views/widgets/common_like_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
-import 'package:go_router/go_router.dart';
 
-class LikedPostCard extends ConsumerStatefulWidget {
+class LikedPostCard extends ConsumerWidget {
   final PostModel post;
   final String labelText;
   const LikedPostCard({
@@ -22,28 +20,52 @@ class LikedPostCard extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  ConsumerState<LikedPostCard> createState() => _LikedPostCardState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asyncPost = ref.watch(postCardControllerProvider(postId: post.id));
+
+    return asyncPost.when(
+      data: (postData) {
+        return PostCard(post: postData, labelText: labelText);
+      },
+      loading: () {
+        return PostCard(post: post, labelText: labelText);
+      },
+      error: (e, __) => Center(
+        child: Text('error $e'),
+      ),
+    );
+  }
 }
 
-class _LikedPostCardState extends ConsumerState<LikedPostCard> {
+class PostCard extends ConsumerStatefulWidget {
+  final PostModel post;
+  final String labelText;
+  const PostCard({
+    Key? key,
+    required this.post,
+    required this.labelText,
+  }) : super(key: key);
+
+  @override
+  ConsumerState<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends ConsumerState<PostCard> {
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
+    final postNotifier =
+        ref.read(postCardControllerProvider(postId: widget.post.id).notifier);
+
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
       child: InkWell(
-        //TODO: controller로 이동
         onTap: () {
-          context.pushNamed(
-            PostDetailPage.name,
-            params: {
-              'postId': widget.post.id.toString(),
-            },
-            extra: PostDetailExtraModel(
-              post: widget.post,
-            ),
+          postNotifier.handlePressedCard(
+            context,
+            post: widget.post,
           );
         },
         child: Container(
