@@ -18,10 +18,7 @@ class ReceiptController extends _$ReceiptController {
 
       state = await AsyncValue.guard(postsRepository.getReceipt);
 
-      print('jay --- state $state');
-
       if (!state.hasValue) {
-        print('jay --- novalue');
         throw ('There is no receipt');
       }
 
