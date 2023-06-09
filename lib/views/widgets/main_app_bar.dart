@@ -40,9 +40,9 @@ class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
             onTap: () async {
               context.push(LikedPostsPage.path);
 
-//! 좋아요 목록에 들어가는 순간 write, shared, liked 리스트를 모두 다시 불러온다.
-//! 이렇게 해서 liked에서 좋아요를 누르면 shared에서도 좋아요가 반영되도록 한다.
-//! 근데 왜 이게 되는지 모르겠다.
+//? 좋아요 목록에 들어가는 순간 write, shared, liked 리스트를 모두 다시 불러온다.
+//? 이렇게 해서 liked에서 좋아요를 누르면 shared에서도 좋아요가 반영되도록 한다.
+//? 근데 왜 이게 되는지 모르겠다.
               await ref
                   .read(likedPostsControllerProvider.notifier)
                   .getLikedPostsInitial();
