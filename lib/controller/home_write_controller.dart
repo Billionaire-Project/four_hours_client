@@ -78,7 +78,7 @@ class HomeWriteController extends _$HomeWriteController {
 
       _refreshController.refreshCompleted();
 
-      return state.value!;
+      return _myPosts!.posts;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -108,6 +108,19 @@ class HomeWriteController extends _$HomeWriteController {
     _start = '0';
 
     _myPosts = await _fetchWritePosts();
+
+    final bool hasToday = _myPosts!.posts.containsKey('Today');
+
+    if (!hasToday) {
+      _todayPosts = [];
+    } else {
+      _todayPosts = _myPosts!.posts['Today']!;
+    }
+
+    _postingDates = _myPosts!.posts.keys
+        .map((key) => key)
+        .where((date) => date != 'Today')
+        .toList();
 
     _start = _myPosts!.next;
 

@@ -18,8 +18,6 @@ class HomeWriteTab extends ConsumerWidget {
     final myPosts = ref.watch(homeWriteControllerProvider);
     final myPostsNotifier = ref.read(homeWriteControllerProvider.notifier);
 
-    final asyncReceipt = ref.watch(receiptControllerProvider);
-
     return myPosts.when(
       data: (posts) {
         return SmartRefresher(
@@ -33,7 +31,13 @@ class HomeWriteTab extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Today(asyncReceipt: asyncReceipt),
+              Consumer(
+                builder: (context, ref, child) {
+                  final asyncReceipt = ref.watch(receiptControllerProvider);
+
+                  return Today(asyncReceipt: asyncReceipt);
+                },
+              ),
               const Gap(16),
               const MyPosts(),
             ],
