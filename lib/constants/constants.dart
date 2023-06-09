@@ -15,3 +15,5 @@ const int autoSaveTime = 3;
 const loadMoreOffset = 200;
 
 const Duration skeletonDelay = Duration(milliseconds: 300);
+
+const double writeTimerTotalSeconds = 4 * 60 * 60;

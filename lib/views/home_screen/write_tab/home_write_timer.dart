@@ -1,9 +1,11 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
+import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
+import 'package:four_hours_client/controller/write_timer_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
@@ -68,30 +70,7 @@ class _Timer extends ConsumerStatefulWidget {
 }
 
 class _TimerState extends ConsumerState<_Timer> {
-  //TODO: need time from server
-  Timer? _timer;
-  double time = 14400;
-  double elapsedTime = 0;
-  Duration _duration = const Duration(hours: 4);
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), _updateTimer);
-  }
-
-  void _updateTimer(Timer timer) {
-    setState(() {
-      elapsedTime = elapsedTime + 1;
-      _duration = _duration - const Duration(seconds: 1);
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
+  double totalSeconds = writeTimerTotalSeconds;
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +80,19 @@ class _TimerState extends ConsumerState<_Timer> {
     final double timerDiameter = getTimerSize(context).diameter;
     final double timerRadius = getTimerSize(context).radius;
 
-    String hours = _duration.inHours.toString().padLeft(2, '0');
-    String minutes = (_duration.inMinutes % 60).toString().padLeft(2, '0');
-    String seconds = (_duration.inSeconds % 60).toString().padLeft(2, '0');
+    WriteTimerControllerProvider writeTimerController =
+        writeTimerControllerProvider(
+            asyncReceipt: ref.watch(receiptControllerProvider));
+
+    final elapsedTime = ref.watch(writeTimerController);
+
+    final notifier = ref.watch(writeTimerController.notifier);
+
+    Duration duration = notifier.duration;
+
+    String hours = duration.inHours.toString().padLeft(2, '0');
+    String minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
+    String seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
 
     return SleekCircularSlider(
       innerWidget: (double value) {
@@ -183,7 +172,7 @@ class _TimerState extends ConsumerState<_Timer> {
         ),
       ),
       min: 0,
-      max: time,
+      max: totalSeconds,
       initialValue: elapsedTime,
     );
   }
