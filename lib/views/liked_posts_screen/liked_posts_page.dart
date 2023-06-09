@@ -8,6 +8,7 @@ import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_post_skeleton.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
+import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -61,13 +62,12 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
 
                       return Column(
                         children: [
-                          if (index == 0) const SizedBox(height: 16),
+                          if (index == 0) const Gap(16),
                           LikedPostCard(
                             post: posts[index],
                             labelText: leftTime,
                           ),
-                          if (index == posts.length - 1)
-                            const SizedBox(height: 16)
+                          if (index == posts.length - 1) const Gap(16)
                         ],
                       );
                     },
