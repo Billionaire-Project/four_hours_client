@@ -41,8 +41,6 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
         ref.read(postCardControllerProvider(postId: widget.post.id).notifier);
 
     bool isReported = widget.post.isReported!;
-    // final isReported = ref.watch(isReportedProvider(postId: widget.post.id));
-    // print('jay --- isReported $isReported');
     if (isReported) {
       return Padding(
         padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),

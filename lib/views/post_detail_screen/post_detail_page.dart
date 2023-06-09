@@ -109,25 +109,6 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
               ),
             );
           }),
-          // Expanded(
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(16.0),
-          //     child: Column(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         CommonRowWithDivider(
-          //           header: CommonTitle(
-          //               getPostElapsedTime(date: widget.post.updatedAt)),
-          //         ),
-          //         const Gap(8),
-          //         Text(
-          //           widget.post.content,
-          //           style: customTextStyle.bodySmall,
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
           widget.isNeedBottom
               ? PostDetailBottom(post: widget.post)
               : const SizedBox.shrink()
