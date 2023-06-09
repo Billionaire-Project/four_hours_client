@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:four_hours_client/models/my_posts_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
+import 'package:four_hours_client/models/receipt_model.dart';
 import 'package:four_hours_client/repositories/base_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -70,6 +71,12 @@ class PostsRepository extends BaseRepository {
 
   Future<void> deletePost({required int postId}) async {
     await dioClient.delete('/posts/$postId/');
+  }
+
+  Future<ReceiptModel> getReceipt() async {
+    Response response = await dioClient.get('/posts/receipt/');
+
+    return ReceiptModel.fromJson(response.data);
   }
 }
 
