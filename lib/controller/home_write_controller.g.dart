@@ -7,11 +7,11 @@ part of 'home_write_controller.dart';
 // **************************************************************************
 
 String _$homeWriteControllerHash() =>
-    r'17d391d1dcf1ee5a799b1ca7b9859214651850f8';
+    r'47248bffbb630e7cfdb275a1b046ee43a63dca91';
 
 /// See also [HomeWriteController].
 @ProviderFor(HomeWriteController)
-final homeWriteControllerProvider = NotifierProvider<HomeWriteController,
+final homeWriteControllerProvider = AsyncNotifierProvider<HomeWriteController,
     Map<String, List<PostModel>>>.internal(
   HomeWriteController.new,
   name: r'homeWriteControllerProvider',
@@ -22,5 +22,5 @@ final homeWriteControllerProvider = NotifierProvider<HomeWriteController,
   allTransitiveDependencies: null,
 );
 
-typedef _$HomeWriteController = Notifier<Map<String, List<PostModel>>>;
+typedef _$HomeWriteController = AsyncNotifier<Map<String, List<PostModel>>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

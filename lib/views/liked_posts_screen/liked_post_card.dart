@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
+import 'package:four_hours_client/controller/post_card_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/shared_post_detail_screen/shared_post_detail_page.dart';
 import 'package:four_hours_client/views/widgets/common_like_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
-import 'package:go_router/go_router.dart';
 
 class LikedPostCard extends ConsumerStatefulWidget {
   final PostModel post;
@@ -30,17 +29,16 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
+    final postNotifier =
+        ref.read(postCardControllerProvider(postId: widget.post.id).notifier);
+
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
       child: InkWell(
-        //TODO: controller로 이동
         onTap: () {
-          context.pushNamed(
-            SharedPostDetailPage.name,
-            params: {
-              'postId': widget.post.id.toString(),
-            },
-            extra: widget.post,
+          postNotifier.handlePressedCard(
+            context,
+            post: widget.post,
           );
         },
         child: Container(

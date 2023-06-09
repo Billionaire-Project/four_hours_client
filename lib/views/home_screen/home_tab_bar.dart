@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
+import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_tab.dart';
@@ -67,6 +68,8 @@ class HomeTabBar extends ConsumerWidget implements PreferredSizeWidget {
               context.go(HomeSharedTab.path);
             } else if (currentLocation == HomeSharedTab.path && index == 0) {
               context.go(HomeWriteTab.path);
+              //TODO: 이렇게 해도 될까..?
+              ref.read(homeSharedControllerProvider.notifier).getPostsInitial();
             }
           },
         ),

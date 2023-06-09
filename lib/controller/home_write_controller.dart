@@ -7,10 +7,7 @@ import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
-import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
-import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
-import 'package:four_hours_client/views/write_post_detail_screen/write_post_detail_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -28,42 +25,59 @@ class HomeWriteController extends _$HomeWriteController {
   ScrollController get scrollController => _scrollController;
 
   @override
-  Map<String, List<PostModel>> build() {
+  Future<Map<String, List<PostModel>>> build() {
     _init();
-    return state;
+    return getMyPostsInitial();
   }
 
   String? _start = '0';
-  String _offset = '10';
+  final String _offset = '10';
 
   MyPostsModel? _myPosts;
   MyPostsModel? get posts => _myPosts;
 
-  List<String> _dateList = [];
-  List<String> get dateList => _dateList;
+  List<String> _postingDates = [];
+  List<String> get postingDates => _postingDates;
+
+  List<PostModel> _todayPosts = [];
+  List<PostModel> get todayPosts => _todayPosts;
 
   bool _isLoadingMore = false;
 
-  Future<void> getMyPostsInitial() async {
+  Future<Map<String, List<PostModel>>> getMyPostsInitial() async {
+    state = const AsyncValue.loading();
+
     _start = '0';
-    _offset = '10';
 
     try {
-      if (_start == null) {
-        _refreshController.refreshCompleted();
-        return;
-      }
+      await Future.delayed(skeletonDelay, () async {
+        _myPosts = await _fetchWritePosts();
+      });
 
-      _myPosts =
-          await postsRepository.getMyPosts(start: _start!, offset: _offset);
+      final bool hasToday = _myPosts!.posts.containsKey('Today');
+
+      if (!hasToday) {
+        _todayPosts = [];
+      } else {
+        _todayPosts = _myPosts!.posts['Today']!;
+
+        _postingDates = _myPosts!.posts.keys
+            .map((key) => key)
+            .where((date) => date != 'Today')
+            .toList();
+      }
 
       _start = _myPosts!.next;
 
-      state = _myPosts!.posts;
+      state = AsyncData(_myPosts!.posts);
 
-      _dateList = _myPosts!.posts.keys.map((e) => e).toList();
+      if (!state.hasValue) {
+        return {};
+      }
 
       _refreshController.refreshCompleted();
+
+      return state.value!;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -71,83 +85,34 @@ class HomeWriteController extends _$HomeWriteController {
 
   Future<void> getMoreMyPosts() async {
     try {
-      if (_start == null) {
-        _refreshController.loadComplete();
-        return;
+      _myPosts = await _fetchWritePosts();
+
+      if (_myPosts != null) {
+        _start = _myPosts!.next;
+
+        _postingDates = [
+          ..._postingDates,
+          ..._myPosts!.posts.keys.map((e) => e).toList()
+        ];
+
+        state = AsyncData({...state.value!, ..._myPosts!.posts});
       }
-
-      _myPosts =
-          await postsRepository.getMyPosts(start: _start!, offset: _offset);
-
-      if (_myPosts == null) {
-        //TODO: my posts가 null일 경우 예외처리
-      }
-
-      _start = _myPosts!.next;
-
-      _dateList = [
-        ..._dateList,
-        ..._myPosts!.posts.keys.map((e) => e).toList()
-      ];
-
-      state = {...state, ..._myPosts!.posts};
-
       _refreshController.loadComplete();
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
   }
 
-  void handlePressedCard(
-    BuildContext context, {
-    required PostModel post,
-  }) {
-    context.pushNamed(
-      WritePostDetailPage.name,
-      params: {
-        'postId': post.id.toString(),
-      },
-      extra: post,
-    );
-  }
+  void refreshTab() async {
+    _start = '0';
 
-  void handlePressedMoreButton(BuildContext context, PostModel post) {
-    showCommonActionSheet(
-      actions: [
-        CommonActionSheetAction(
-          isDestructiveAction: true,
-          onPressed: () async {
-            closeRootNavigator();
+    _myPosts = await _fetchWritePosts();
 
-            await context.pushNamed(
-              DeletePostPage.name,
-              params: {
-                'postId': post.id.toString(),
-              },
-            );
-          },
-          iconData: CustomIcons.delete_bin_line,
-          text: '게시글 삭제',
-        ),
-        CommonActionSheetAction(
-          onPressed: () async {
-            await saveToClipboard(post.content);
-            if (context.mounted) {
-              closeRootNavigator();
+    _start = _myPosts!.next;
 
-              showCommonToast(
-                context,
-                iconData: CustomIcons.check_line,
-                text: '클립보드에 복사되었어요!',
-                bottom: 40,
-              );
-            }
-          },
-          iconData: CustomIcons.copy_line,
-          text: '글 내용 복사',
-        ),
-      ],
-    );
+    state = AsyncData(_myPosts!.posts);
+
+    _refreshController.refreshCompleted();
   }
 
   void handlePressedWritePost(BuildContext context) async {
@@ -170,11 +135,8 @@ class HomeWriteController extends _$HomeWriteController {
   }
 
   void _init() async {
-    state = {};
-
     postsRepository = ref.watch(postsRepositoryProvider);
     _scrollController.addListener(_handleScroll);
-    getMyPostsInitial();
   }
 
   void _handleScroll() async {
@@ -188,6 +150,23 @@ class HomeWriteController extends _$HomeWriteController {
         await getMoreMyPosts();
         _isLoadingMore = false;
       }
+    }
+  }
+
+  Future<MyPostsModel?> _fetchWritePosts() async {
+    if (_start != null) {
+      final MyPostsModel myPostsModel = await postsRepository.getMyPosts(
+        start: _start!,
+        offset: _offset,
+      );
+
+      if (myPostsModel.posts.isEmpty) {
+        state = const AsyncData({});
+      }
+
+      return myPostsModel;
+    } else {
+      return null;
     }
   }
 }

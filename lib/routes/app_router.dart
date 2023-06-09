@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
-import 'package:four_hours_client/views/liked_post_screen/liked_post_page.dart';
+import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
-import 'package:four_hours_client/views/shared_post_detail_screen/shared_post_detail_page.dart';
+import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:four_hours_client/views/splash_screen/splash_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
-import 'package:four_hours_client/views/write_post_detail_screen/write_post_detail_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
@@ -87,24 +87,6 @@ GoRouter appRouter(AppRouterRef ref) {
                       const CreatePostPage(),
                   parentNavigatorKey: navigatorKey,
                 ),
-                GoRoute(
-                  path: WritePostDetailPage.path,
-                  name: WritePostDetailPage.name,
-                  builder: (BuildContext context, GoRouterState state) {
-                    final post = state.extra! as PostModel;
-
-                    if (state.params['postId'] != null) {
-                      return WritePostDetailPage(
-                        postId: state.params['postId']!,
-                        post: post,
-                      );
-                    } else {
-                      //TODO: redirect or show error page
-                      return const SizedBox.shrink();
-                    }
-                  },
-                  parentNavigatorKey: navigatorKey,
-                ),
               ]),
           GoRoute(
             path: HomeSharedTab.path,
@@ -113,35 +95,38 @@ GoRouter appRouter(AppRouterRef ref) {
               key: state.pageKey,
               child: const HomeSharedTab(),
             ),
-            routes: [
-              GoRoute(
-                path: SharedPostDetailPage.path,
-                name: SharedPostDetailPage.name,
-                builder: (BuildContext context, GoRouterState state) {
-                  final post = state.extra! as PostModel;
-
-                  if (state.params['postId'] != null) {
-                    return SharedPostDetailPage(
-                      postId: state.params['postId']!,
-                      post: post,
-                    );
-                  } else {
-                    //TODO: redirect or show error page
-                    return const SizedBox.shrink();
-                  }
-                },
-                parentNavigatorKey: navigatorKey,
-              ),
-            ],
           ),
         ],
       ),
       GoRoute(
-        path: LikedPostPage.path,
+        path: PostDetailPage.path,
+        name: PostDetailPage.name,
+        builder: (BuildContext context, GoRouterState state) {
+          final PostDetailExtraModel extra =
+              state.extra as PostDetailExtraModel;
+
+          final PostModel post = extra.post;
+          final bool? isNeedBottom = extra.isNeedBottom;
+
+          if (state.params['postId'] != null) {
+            return PostDetailPage(
+              postId: state.params['postId']!,
+              post: post,
+              isNeedBottom: isNeedBottom ?? true,
+            );
+          } else {
+            //TODO: redirect or show error page
+            return const SizedBox.shrink();
+          }
+        },
+        parentNavigatorKey: navigatorKey,
+      ),
+      GoRoute(
+        path: LikedPostsPage.path,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             NoTransitionPage(
           key: state.pageKey,
-          child: const LikedPostPage(),
+          child: const LikedPostsPage(),
         ),
         parentNavigatorKey: navigatorKey,
       ),

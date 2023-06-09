@@ -1,21 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/controller/liked_post_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
-import 'package:four_hours_client/views/shared_post_detail_screen/shared_post_detail_page.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 
 part 'home_shared_controller.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class HomeSharedController extends _$HomeSharedController {
   PostsRepository? postsRepository;
 
@@ -47,10 +42,7 @@ class HomeSharedController extends _$HomeSharedController {
 
     try {
       await Future.delayed(skeletonDelay, () async {
-        //TODO: start를 두 번 초기화 해줘야하는 이슈
-        _start = '0';
-
-        await _fetchSharedPosts();
+        _posts = await _fetchSharedPosts();
       });
 
       _start = _posts!.next;
@@ -62,8 +54,6 @@ class HomeSharedController extends _$HomeSharedController {
         return [];
       }
 
-      _refreshController.refreshCompleted();
-
       return state.value!.toList();
     } on DioError catch (e) {
       throw throwExceptions(e);
@@ -72,99 +62,45 @@ class HomeSharedController extends _$HomeSharedController {
 
   Future<void> getMorePosts() async {
     try {
-      await _fetchSharedPosts();
+      _posts = await _fetchSharedPosts();
 
-      _start = _posts!.next;
+      if (_posts != null) {
+        _start = _posts!.next;
 
-      state = AsyncData([...state.value!.toList(), ..._posts!.posts]);
-
+        state = AsyncData([...state.value!.toList(), ..._posts!.posts]);
+      }
       _refreshController.loadComplete();
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
   }
 
-  void handlePressedCard(
-    BuildContext context, {
-    required PostModel post,
-  }) {
-    context.pushNamed(
-      SharedPostDetailPage.name,
-      params: {
-        'postId': post.id.toString(),
-      },
-      extra: post,
-    );
+  void refreshTab() async {
+    _start = '0';
+
+    _posts = await _fetchSharedPosts();
+
+    _start = _posts!.next;
+
+    state = AsyncData(_posts!.posts);
+
+    _refreshController.refreshCompleted();
   }
 
-  void handlePressedMoreButton(BuildContext context, {required int postId}) {
-    showCommonActionSheet(
-      actions: [
-        CommonActionSheetAction(
-          isDestructiveAction: true,
-          onPressed: () {
-            closeRootNavigator();
-            showCommonDialogWithTwoButtons(
-              iconData: CustomIcons.report_fill,
-              title: '해당 게시글을 신고하시겠어요?',
-              subtitle: '신고가 접수되면 즉시 사라집니다',
-              onPressedRightButton: () {
-                handlePressedReportButton(postId: postId);
-              },
-              rightButtonText: '신고',
-            );
-          },
-          iconData: CustomIcons.report_line,
-          text: '게시글 신고',
-        )
-      ],
-    );
-  }
+  void replacePost(PostModel newPost) async {
+    final List<PostModel> newSharedList = List.from(state.value!.toList());
 
-  Future<void> handlePressedLikeButton({
-    required int postId,
-  }) async {
-    try {
-      await postsRepository!.likePost(postId: postId);
+    final int targetIndex =
+        state.value!.indexWhere((element) => element.id == newPost.id);
 
-      await _replacePost(postId);
+    newSharedList[targetIndex] = newPost;
 
-      ref.read(likedPostControllerProvider.notifier).getLikedPostsInitial();
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
-  }
-
-  Future<void> handlePressedReportButton({required int postId}) async {
-    try {
-      await postsRepository!.reportPost(postId: postId);
-
-      _replacePost(postId);
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
+    state = AsyncData(newSharedList);
   }
 
   void _init() {
     postsRepository ??= ref.watch(postsRepositoryProvider);
     _scrollController.addListener(_handleScroll);
-  }
-
-  Future<void> _replacePost(int postId) async {
-    try {
-      final PostModel newPost =
-          await postsRepository!.getPostById(postId: postId);
-      final int targetIndex =
-          state.value!.indexWhere((element) => element.id == postId);
-
-      final List<PostModel> newSharedList = List.from(state.value!.toList());
-
-      newSharedList[targetIndex] = newPost;
-
-      state = AsyncData(newSharedList);
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
   }
 
   void _handleScroll() async {
@@ -181,13 +117,20 @@ class HomeSharedController extends _$HomeSharedController {
     }
   }
 
-  Future<void> _fetchSharedPosts() async {
-    if (_start == null) return;
+  Future<PostsModel?> _fetchSharedPosts() async {
+    if (_start != null) {
+      final PostsModel postsModel = await postsRepository!.getPosts(
+        start: _start!,
+        offset: _offset,
+      );
 
-    _posts = await postsRepository!.getPosts(start: _start!, offset: _offset);
+      if (postsModel.posts.isEmpty) {
+        state = const AsyncData([]);
+      }
 
-    if (_posts!.posts.isEmpty) {
-      state = const AsyncData([]);
+      return postsModel;
+    } else {
+      return null;
     }
   }
 }
