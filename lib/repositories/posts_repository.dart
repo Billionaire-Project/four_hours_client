@@ -19,7 +19,8 @@ class PostsRepository extends BaseRepository {
   }
 
   Future<PostModel> getPostById({required int postId}) async {
-    Response response = await dioClient.get('/posts/$postId');
+    print('jay --- get post by id');
+    Response response = await dioClient.get('/posts/$postId/');
 
     return PostModel.fromJson(response.data);
   }

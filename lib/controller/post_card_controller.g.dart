@@ -7,7 +7,7 @@ part of 'post_card_controller.dart';
 // **************************************************************************
 
 String _$postCardControllerHash() =>
-    r'88c980ba0d587e3d2a0ab405b076b4b4db19e5c4';
+    r'a7752902efc195bc7437029652921f52bdf52342';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,10 @@ class _SystemHash {
 }
 
 abstract class _$PostCardController
-    extends BuildlessAutoDisposeAsyncNotifier<PostModel> {
+    extends BuildlessAutoDisposeAsyncNotifier<dynamic> {
   late final int postId;
 
-  Future<PostModel> build({
+  FutureOr<dynamic> build({
     required int postId,
   });
 }
@@ -44,7 +44,7 @@ abstract class _$PostCardController
 const postCardControllerProvider = PostCardControllerFamily();
 
 /// See also [PostCardController].
-class PostCardControllerFamily extends Family<AsyncValue<PostModel>> {
+class PostCardControllerFamily extends Family<AsyncValue<dynamic>> {
   /// See also [PostCardController].
   const PostCardControllerFamily();
 
@@ -82,8 +82,8 @@ class PostCardControllerFamily extends Family<AsyncValue<PostModel>> {
 }
 
 /// See also [PostCardController].
-class PostCardControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    PostCardController, PostModel> {
+class PostCardControllerProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<PostCardController, dynamic> {
   /// See also [PostCardController].
   PostCardControllerProvider({
     required this.postId,
@@ -116,7 +116,7 @@ class PostCardControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  Future<PostModel> runNotifierBuild(
+  FutureOr<dynamic> runNotifierBuild(
     covariant PostCardController notifier,
   ) {
     return notifier.build(

@@ -87,6 +87,17 @@ class HomeSharedController extends _$HomeSharedController {
     _refreshController.refreshCompleted();
   }
 
+  void replacePost(PostModel newPost) async {
+    final List<PostModel> newSharedList = List.from(state.value!.toList());
+
+    final int targetIndex =
+        state.value!.indexWhere((element) => element.id == newPost.id);
+
+    newSharedList[targetIndex] = newPost;
+
+    state = AsyncData(newSharedList);
+  }
+
   void _init() {
     postsRepository ??= ref.watch(postsRepositoryProvider);
     _scrollController.addListener(_handleScroll);

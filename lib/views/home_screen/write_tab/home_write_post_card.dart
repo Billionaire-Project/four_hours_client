@@ -15,7 +15,7 @@ import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeWritePostCard extends ConsumerWidget {
+class HomeWritePostCard extends ConsumerStatefulWidget {
   final PostModel post;
   final String labelText;
   const HomeWritePostCard({
@@ -25,37 +25,10 @@ class HomeWritePostCard extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final asyncPost = ref.watch(postCardControllerProvider(postId: post.id));
-
-    return asyncPost.when(
-      data: (postData) {
-        return PostCard(post: postData, labelText: labelText);
-      },
-      loading: () {
-        return PostCard(post: post, labelText: labelText);
-      },
-      error: (e, __) => Center(
-        child: Text('error $e'),
-      ),
-    );
-  }
+  ConsumerState<HomeWritePostCard> createState() => _HomeWritePostCardState();
 }
 
-class PostCard extends ConsumerStatefulWidget {
-  final PostModel post;
-  final String labelText;
-  const PostCard({
-    Key? key,
-    required this.post,
-    required this.labelText,
-  }) : super(key: key);
-
-  @override
-  ConsumerState<PostCard> createState() => _PostCardState();
-}
-
-class _PostCardState extends ConsumerState<PostCard> {
+class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
   Size childSize = Size.zero;
 
   @override

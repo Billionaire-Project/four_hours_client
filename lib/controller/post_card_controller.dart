@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -16,9 +17,8 @@ class PostCardController extends _$PostCardController {
   PostsRepository? postsRepository;
 
   @override
-  Future<PostModel> build({required int postId}) {
+  FutureOr build({required int postId}) {
     _init();
-    return _getPostInitial();
   }
 
   void handlePressedCard(
@@ -50,7 +50,9 @@ class PostCardController extends _$PostCardController {
     try {
       await postsRepository!.reportPost(postId: postId);
 
-      _replacePost();
+      final PostModel newPost = await _fetchPost();
+
+      ref.read(homeSharedControllerProvider.notifier).replacePost(newPost);
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -58,16 +60,6 @@ class PostCardController extends _$PostCardController {
 
   void _init() {
     postsRepository ??= ref.read(postsRepositoryProvider);
-  }
-
-  Future<PostModel> _getPostInitial() async {
-    try {
-      state = await AsyncValue.guard(_fetchPost);
-
-      return state.value!;
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
   }
 
   Future<PostModel> _fetchPost() async {

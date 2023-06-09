@@ -10,7 +10,7 @@ import 'package:four_hours_client/views/widgets/common_like_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
-class LikedPostCard extends ConsumerWidget {
+class LikedPostCard extends ConsumerStatefulWidget {
   final PostModel post;
   final String labelText;
   const LikedPostCard({
@@ -20,37 +20,10 @@ class LikedPostCard extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final asyncPost = ref.watch(postCardControllerProvider(postId: post.id));
-
-    return asyncPost.when(
-      data: (postData) {
-        return PostCard(post: postData, labelText: labelText);
-      },
-      loading: () {
-        return PostCard(post: post, labelText: labelText);
-      },
-      error: (e, __) => Center(
-        child: Text('error $e'),
-      ),
-    );
-  }
+  ConsumerState<LikedPostCard> createState() => _LikedPostCardState();
 }
 
-class PostCard extends ConsumerStatefulWidget {
-  final PostModel post;
-  final String labelText;
-  const PostCard({
-    Key? key,
-    required this.post,
-    required this.labelText,
-  }) : super(key: key);
-
-  @override
-  ConsumerState<PostCard> createState() => _PostCardState();
-}
-
-class _PostCardState extends ConsumerState<PostCard> {
+class _LikedPostCardState extends ConsumerState<LikedPostCard> {
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
