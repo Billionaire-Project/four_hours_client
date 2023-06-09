@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
-import 'package:four_hours_client/models/my_posts_model.dart';
+import 'package:four_hours_client/models/my_posts_pagination_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -34,8 +34,8 @@ class HomeWriteController extends _$HomeWriteController {
   String? _start = '0';
   final String _offset = '10';
 
-  MyPostsModel? _myPosts;
-  MyPostsModel? get posts => _myPosts;
+  MyPostsPaginationModel? _myPosts;
+  MyPostsPaginationModel? get posts => _myPosts;
 
   List<String> _postingDates = [];
   List<String> get postingDates => _postingDates;
@@ -156,18 +156,19 @@ class HomeWriteController extends _$HomeWriteController {
     }
   }
 
-  Future<MyPostsModel?> _fetchWritePosts() async {
+  Future<MyPostsPaginationModel?> _fetchWritePosts() async {
     if (_start != null) {
-      final MyPostsModel myPostsModel = await postsRepository.getMyPosts(
+      final MyPostsPaginationModel myPostsPaginationModel =
+          await postsRepository.getMyPosts(
         start: _start!,
         offset: _offset,
       );
 
-      if (myPostsModel.posts.isEmpty) {
+      if (myPostsPaginationModel.posts.isEmpty) {
         state = const AsyncData({});
       }
 
-      return myPostsModel;
+      return myPostsPaginationModel;
     } else {
       return null;
     }

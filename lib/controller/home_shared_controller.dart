@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/models/post_model.dart';
-import 'package:four_hours_client/models/posts_model.dart';
+import 'package:four_hours_client/models/posts_pagination_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -30,8 +30,8 @@ class HomeSharedController extends _$HomeSharedController {
   String? _start = '0';
   final String _offset = '10';
 
-  PostsModel? _posts;
-  PostsModel? get posts => _posts;
+  PostsPaginationModel? _posts;
+  PostsPaginationModel? get posts => _posts;
 
   bool _isLoadingMore = false;
 
@@ -117,18 +117,19 @@ class HomeSharedController extends _$HomeSharedController {
     }
   }
 
-  Future<PostsModel?> _fetchSharedPosts() async {
+  Future<PostsPaginationModel?> _fetchSharedPosts() async {
     if (_start != null) {
-      final PostsModel postsModel = await postsRepository!.getPosts(
+      final PostsPaginationModel postsPaginationModel =
+          await postsRepository!.getPosts(
         start: _start!,
         offset: _offset,
       );
 
-      if (postsModel.posts.isEmpty) {
+      if (postsPaginationModel.posts.isEmpty) {
         state = const AsyncData([]);
       }
 
-      return postsModel;
+      return postsPaginationModel;
     } else {
       return null;
     }
