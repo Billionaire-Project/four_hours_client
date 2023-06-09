@@ -48,6 +48,7 @@ class WriteTimerController extends _$WriteTimerController {
     state = state + 1;
     _duration = _duration - const Duration(seconds: 1);
 
+//TODO: 시간이 다 되었을 때 어떻게 동작하는지 확인 필요
     if (duration == Duration.zero) {
       await ref.read(receiptControllerProvider.notifier).getReceipt();
     }
