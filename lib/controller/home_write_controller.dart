@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/my_posts_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -60,12 +61,12 @@ class HomeWriteController extends _$HomeWriteController {
         _todayPosts = [];
       } else {
         _todayPosts = _myPosts!.posts['Today']!;
-
-        _postingDates = _myPosts!.posts.keys
-            .map((key) => key)
-            .where((date) => date != 'Today')
-            .toList();
       }
+
+      _postingDates = _myPosts!.posts.keys
+          .map((key) => key)
+          .where((date) => date != 'Today')
+          .toList();
 
       _start = _myPosts!.next;
 
@@ -111,6 +112,8 @@ class HomeWriteController extends _$HomeWriteController {
     _start = _myPosts!.next;
 
     state = AsyncData(_myPosts!.posts);
+
+    await ref.read(receiptControllerProvider.notifier).getReceipt();
 
     _refreshController.refreshCompleted();
   }

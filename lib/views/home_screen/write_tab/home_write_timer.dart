@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/controller/write_timer_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
@@ -80,13 +79,9 @@ class _TimerState extends ConsumerState<_Timer> {
     final double timerDiameter = getTimerSize(context).diameter;
     final double timerRadius = getTimerSize(context).radius;
 
-    WriteTimerControllerProvider writeTimerController =
-        writeTimerControllerProvider(
-            asyncReceipt: ref.watch(receiptControllerProvider));
+    final elapsedTime = ref.watch(writeTimerControllerProvider);
 
-    final elapsedTime = ref.watch(writeTimerController);
-
-    final notifier = ref.watch(writeTimerController.notifier);
+    final notifier = ref.watch(writeTimerControllerProvider.notifier);
 
     Duration duration = notifier.duration;
 

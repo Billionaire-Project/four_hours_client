@@ -14,7 +14,7 @@ class AuthController extends _$AuthController {
 
   Future<void> signInWithGoogle() async {
     try {
-      final authRepository = ref.watch(authRepositoryProvider);
+      final authRepository = ref.read(authRepositoryProvider);
 
       state = const AsyncLoading();
 
@@ -26,7 +26,7 @@ class AuthController extends _$AuthController {
 
   Future<void> signInWithApple() async {
     try {
-      final authRepository = ref.watch(authRepositoryProvider);
+      final authRepository = ref.read(authRepositoryProvider);
 
       state = const AsyncLoading();
 
@@ -38,7 +38,7 @@ class AuthController extends _$AuthController {
 
   Future<void> signOut() async {
     try {
-      final authRepository = ref.watch(authRepositoryProvider);
+      final authRepository = ref.read(authRepositoryProvider);
 
       state = await AsyncValue.guard(authRepository.signOut);
     } on DioError catch (e) {

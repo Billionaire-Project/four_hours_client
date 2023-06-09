@@ -6,12 +6,12 @@ part of 'receipt_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$receiptControllerHash() => r'0123ac24a214fad10d356b77fc872f4c18ad6c64';
+String _$receiptControllerHash() => r'849c1351eba79a4a2b76ce50c1eb2174551dd368';
 
 /// See also [ReceiptController].
 @ProviderFor(ReceiptController)
 final receiptControllerProvider =
-    AutoDisposeAsyncNotifierProvider<ReceiptController, ReceiptModel>.internal(
+    AsyncNotifierProvider<ReceiptController, ReceiptModel>.internal(
   ReceiptController.new,
   name: r'receiptControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,5 +21,5 @@ final receiptControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ReceiptController = AutoDisposeAsyncNotifier<ReceiptModel>;
+typedef _$ReceiptController = AsyncNotifier<ReceiptModel>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

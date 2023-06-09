@@ -5,7 +5,7 @@ import 'package:four_hours_client/utils/functions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'receipt_controller.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class ReceiptController extends _$ReceiptController {
   @override
   Future<ReceiptModel> build() {

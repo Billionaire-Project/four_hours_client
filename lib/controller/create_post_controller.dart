@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/home_write_controller.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/user_model.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/repositories/auth_repository.dart';
@@ -87,15 +88,17 @@ class CreatePostController extends _$CreatePostController {
 
           bool result = await _submitPost(content: state);
 
-          await ref
-              .read(homeSharedControllerProvider.notifier)
-              .getPostsInitial();
-
-          await ref
-              .read(homeWriteControllerProvider.notifier)
-              .getMyPostsInitial();
-
           if (result) {
+            await ref
+                .read(homeSharedControllerProvider.notifier)
+                .getPostsInitial();
+
+            await ref
+                .read(homeWriteControllerProvider.notifier)
+                .getMyPostsInitial();
+
+            await ref.read(receiptControllerProvider.notifier).getReceipt();
+
             if (context.mounted) {
               context.pop(true);
             }

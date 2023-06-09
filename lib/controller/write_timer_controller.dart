@@ -1,17 +1,17 @@
 import 'dart:async';
 
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/models/receipt_model.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'write_timer_controller.g.dart';
 
 @riverpod
 class WriteTimerController extends _$WriteTimerController {
   @override
-  double build({required AsyncValue<ReceiptModel> asyncReceipt}) {
-    state = 1;
+  double build() {
+    state = 0;
 
-    _getElapsedTime();
+    getElapsedTime();
     return _updateElapsedTime();
   }
 
@@ -20,7 +20,11 @@ class WriteTimerController extends _$WriteTimerController {
   Duration _duration = const Duration(hours: 4);
   Duration get duration => _duration;
 
-  void _getElapsedTime() {
+  Timer? _timer;
+
+  void getElapsedTime() {
+    final asyncReceipt = ref.read(receiptControllerProvider);
+
     asyncReceipt.whenData((receipt) {
       DateTime postableAt = DateTime.parse(receipt.postableAt!);
 
@@ -33,13 +37,19 @@ class WriteTimerController extends _$WriteTimerController {
   }
 
   double _updateElapsedTime() {
-    Timer.periodic(const Duration(seconds: 1), _updateTimer);
+    _timer?.cancel();
+
+    _timer = Timer.periodic(const Duration(seconds: 1), _updateTimer);
 
     return state;
   }
 
-  void _updateTimer(Timer timer) {
-    state = state - 1;
+  void _updateTimer(Timer timer) async {
+    state = state + 1;
     _duration = _duration - const Duration(seconds: 1);
+
+    if (duration == Duration.zero) {
+      await ref.read(receiptControllerProvider.notifier).getReceipt();
+    }
   }
 }
