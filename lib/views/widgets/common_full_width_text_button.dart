@@ -8,11 +8,13 @@ class CommonFullWidthTextButton extends ConsumerWidget {
   final bool isCancelingAction;
   final String text;
   final VoidCallback onPressed;
+  final double height;
 
   const CommonFullWidthTextButton({
     Key? key,
     this.isDestructiveAction = false,
     this.isCancelingAction = false,
+    this.height = 48,
     required this.text,
     required this.onPressed,
   }) : super(key: key);
@@ -51,9 +53,7 @@ class CommonFullWidthTextButton extends ConsumerWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        width: double.infinity,
-        height: 48,
-        padding: const EdgeInsets.symmetric(vertical: 13),
+        height: height,
         decoration: boxDecoration,
         child: Center(
           child: Text(

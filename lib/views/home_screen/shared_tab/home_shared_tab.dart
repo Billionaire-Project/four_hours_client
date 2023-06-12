@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
+import 'package:four_hours_client/controller/home_shared_obscured_controller.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_obscured_bottom.dart';
+import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_obscured_post_card.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_post_card.dart';
 import 'package:four_hours_client/views/widgets/common_post_skeleton.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
@@ -14,43 +19,105 @@ class HomeSharedTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final posts = ref.watch(homeSharedControllerProvider);
-    final sharedNotifier = ref.read(homeSharedControllerProvider.notifier);
+    final asyncReceipt = ref.watch(receiptControllerProvider);
 
-    return posts.when(
-      data: (posts) {
-        return SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: true,
-          controller: sharedNotifier.refreshController,
-          scrollController: sharedNotifier.scrollController,
-          onRefresh: sharedNotifier.refreshTab,
-          footer: const CustomRefresherFooter(),
-          child: ListView.separated(
-            itemBuilder: (context, index) {
-              final String leftTime =
-                  getPostElapsedTime(date: posts[index].createdAt);
+//? isReadable이 null이면 어떻게 해야하지?
+    if (asyncReceipt.value?.isReadable ?? false) {
+      return Consumer(
+        builder: (context, ref, child) {
+          final posts = ref.watch(homeSharedControllerProvider);
+          final sharedNotifier =
+              ref.read(homeSharedControllerProvider.notifier);
 
-              return Column(
-                children: [
-                  if (index == 0) const Gap(16),
-                  HomeSharedPostCard(
-                    post: posts[index],
-                    labelText: leftTime,
+          return posts.when(
+            data: (posts) {
+              return SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                controller: sharedNotifier.refreshController,
+                scrollController: sharedNotifier.scrollController,
+                onRefresh: sharedNotifier.refreshTab,
+                footer: const CustomRefresherFooter(),
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    final String leftTime =
+                        getPostElapsedTime(date: posts[index].createdAt);
+
+                    return Column(
+                      children: [
+                        if (index == 0) const Gap(16),
+                        HomeSharedPostCard(
+                          post: posts[index],
+                          labelText: leftTime,
+                        ),
+                        if (index == posts.length - 1) const Gap(16)
+                      ],
+                    );
+                  },
+                  separatorBuilder: (context, index) => SizedBox.fromSize(
+                    size: const Size(0, 0),
                   ),
-                  if (index == posts.length - 1) const Gap(16)
-                ],
+                  itemCount: posts.length,
+                ),
               );
             },
-            separatorBuilder: (context, index) => SizedBox.fromSize(
-              size: const Size(0, 0),
-            ),
-            itemCount: posts.length,
-          ),
-        );
-      },
-      error: (error, __) => throw ('error: $error'),
-      loading: () => const CommonPostSkeleton(),
-    );
+            error: (error, __) => throw ('error: $error'),
+            loading: () => const CommonPostSkeleton(),
+          );
+        },
+      );
+    } else {
+      return Consumer(
+        builder: (context, ref, child) {
+          final obscuredPosts = ref.watch(homeSharedObscuredControllerProvider);
+          final sharedObscuredNotifier =
+              ref.read(homeSharedObscuredControllerProvider.notifier);
+
+//TODO: obscured에서 리프레쉬 기능이나 다른 인터렉티브한 기능이 필요한가?
+          return obscuredPosts.when(
+            data: (posts) {
+              return SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                controller: sharedObscuredNotifier.refreshController,
+                scrollController: sharedObscuredNotifier.scrollController,
+                onRefresh: sharedObscuredNotifier.refreshTab,
+                footer: const CustomRefresherFooter(),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.separated(
+                        itemBuilder: (context, index) {
+                          final String leftTime =
+                              getPostElapsedTime(date: posts[index].createdAt);
+
+                          return Column(
+                            children: [
+                              if (index == 0) const Gap(16),
+                              HomeSharedObscuredPostCard(
+                                post: posts[index],
+                                labelText: leftTime,
+                              ),
+                              if (index == posts.length - 1) const Gap(16)
+                            ],
+                          );
+                        },
+                        separatorBuilder: (context, index) => SizedBox.fromSize(
+                          size: const Size(0, 0),
+                        ),
+                        itemCount: posts.length,
+                      ),
+                    ),
+                    const HomeSharedObscuredBottom()
+                  ],
+                ),
+              );
+            },
+            error: (error, __) => throw ('error: $error'),
+            loading: () => const CommonPostSkeleton(),
+          );
+        },
+      );
+    }
   }
 }

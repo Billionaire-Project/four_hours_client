@@ -8,8 +8,8 @@ import 'package:shimmer/shimmer.dart';
 
 const int _itemCount = 6;
 
-class HomeSharedSkeleton extends ConsumerWidget {
-  const HomeSharedSkeleton({Key? key}) : super(key: key);
+class HomeWriteSkeleton extends ConsumerWidget {
+  const HomeWriteSkeleton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,6 +19,7 @@ class HomeSharedSkeleton extends ConsumerWidget {
       itemBuilder: (context, index) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             if (index == 0) const Gap(16),
             Container(

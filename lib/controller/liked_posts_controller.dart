@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/models/post_model.dart';
-import 'package:four_hours_client/models/posts_model.dart';
+import 'package:four_hours_client/models/posts_pagination_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -29,8 +29,8 @@ class LikedPostsController extends _$LikedPostsController {
   String? _start;
   final String _offset = '10';
 
-  PostsModel? _likedPosts;
-  PostsModel? get posts => _likedPosts;
+  PostsPaginationModel? _likedPosts;
+  PostsPaginationModel? get posts => _likedPosts;
 
   final bool _isLoading = true;
   bool get isLoading => _isLoading;
@@ -88,18 +88,19 @@ class LikedPostsController extends _$LikedPostsController {
     state = AsyncData(_likedPosts!.posts);
   }
 
-  Future<PostsModel?> _fetchLikedPosts() async {
+  Future<PostsPaginationModel?> _fetchLikedPosts() async {
     if (_start != null) {
-      final PostsModel postsModel = await postsRepository!.getLikePosts(
+      final PostsPaginationModel postsPaginationModel =
+          await postsRepository!.getLikePosts(
         start: _start!,
         offset: _offset,
       );
 
-      if (postsModel.posts.isEmpty) {
+      if (postsPaginationModel.posts.isEmpty) {
         state = const AsyncData([]);
       }
 
-      return postsModel;
+      return postsPaginationModel;
     } else {
       return null;
     }

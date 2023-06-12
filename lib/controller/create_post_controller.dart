@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/home_write_controller.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/user_model.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/repositories/auth_repository.dart';
@@ -19,10 +20,10 @@ part 'create_post_controller.g.dart';
 
 @riverpod
 class CreatePostController extends _$CreatePostController {
-  late final SharedPreferences sharedPreferences;
-  late final AuthRepository authRepository;
-  late final PostsRepository postsRepository;
-  late final SavePostController savePostController;
+  SharedPreferences? sharedPreferences;
+  AuthRepository? authRepository;
+  PostsRepository? postsRepository;
+  SavePostController? savePostController;
 
   @override
   String build() {
@@ -87,15 +88,17 @@ class CreatePostController extends _$CreatePostController {
 
           bool result = await _submitPost(content: state);
 
-          await ref
-              .read(homeSharedControllerProvider.notifier)
-              .getPostsInitial();
-
-          await ref
-              .read(homeWriteControllerProvider.notifier)
-              .getMyPostsInitial();
-
           if (result) {
+            await ref
+                .read(homeSharedControllerProvider.notifier)
+                .getPostsInitial();
+
+            await ref
+                .read(homeWriteControllerProvider.notifier)
+                .getMyPostsInitial();
+
+            await ref.read(receiptControllerProvider.notifier).getReceipt();
+
             if (context.mounted) {
               context.pop(true);
             }
@@ -124,7 +127,7 @@ class CreatePostController extends _$CreatePostController {
   }
 
   Future<void> cancelCreatePost() async {
-    await savePostController.cancelRequestToSave();
+    await savePostController!.cancelRequestToSave();
 
     _savingTimer?.cancel();
     _textEditingController.clear();
@@ -144,24 +147,24 @@ class CreatePostController extends _$CreatePostController {
 
   void _getMyInformation() async {
     try {
-      _user = await authRepository.getMyInformation();
+      _user = await authRepository!.getMyInformation();
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
   }
 
   void _getTemporaryText() {
-    _temporaryText = sharedPreferences.getString('temporaryText') ?? '';
+    _temporaryText = sharedPreferences!.getString('temporaryText') ?? '';
   }
 
   Future<void> _removeTemporaryText() async {
-    sharedPreferences.remove(SharedPreferenceKey.temporaryText);
+    sharedPreferences!.remove(SharedPreferenceKey.temporaryText);
   }
 
   Future<bool> _submitPost({required String content}) async {
     if (_user != null) {
       try {
-        await postsRepository.submitPosts(userId: _user!.id, content: content);
+        await postsRepository!.submitPosts(userId: _user!.id, content: content);
 
         return true;
       } on DioError catch (e) {
@@ -174,7 +177,7 @@ class CreatePostController extends _$CreatePostController {
   }
 
   Future<void> _requestToSave() async {
-    await savePostController.requestToSave(state);
+    await savePostController!.requestToSave(state);
     if (_isFirstPost) {
       _isFirstPost = false;
     }
@@ -183,7 +186,7 @@ class CreatePostController extends _$CreatePostController {
 
 @riverpod
 class SavePostController extends _$SavePostController {
-  late SharedPreferences sharedPreferences;
+  SharedPreferences? sharedPreferences;
 
   @override
   FutureOr build() {
@@ -191,7 +194,7 @@ class SavePostController extends _$SavePostController {
   }
 
   Future<bool> savePost(String text) async {
-    await sharedPreferences.setString(SharedPreferenceKey.temporaryText, text);
+    await sharedPreferences!.setString(SharedPreferenceKey.temporaryText, text);
     return true;
   }
 

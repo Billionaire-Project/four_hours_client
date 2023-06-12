@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/models/post_model.dart';
-import 'package:four_hours_client/models/posts_pagination_model.dart';
+import 'package:four_hours_client/models/posts_obscured_pagination_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/utils/functions.dart';
 
-part 'home_shared_controller.g.dart';
+part 'home_shared_obscured_controller.g.dart';
 
 @Riverpod(keepAlive: true)
-class HomeSharedController extends _$HomeSharedController {
+class HomeSharedObscuredController extends _$HomeSharedObscuredController {
   PostsRepository? postsRepository;
 
   final RefreshController _refreshController =
@@ -24,30 +24,30 @@ class HomeSharedController extends _$HomeSharedController {
   @override
   Future<List<PostModel>> build() {
     _init();
-    return getPostsInitial();
+    return getObscuredPostsInitial();
   }
 
   String? _start = '0';
   final String _offset = '10';
 
-  PostsPaginationModel? _posts;
-  PostsPaginationModel? get posts => _posts;
+  PostsObscuredPaginationModel? _obscuredPosts;
+  PostsObscuredPaginationModel? get obscuredPosts => _obscuredPosts;
 
   bool _isLoadingMore = false;
 
-  Future<List<PostModel>> getPostsInitial() async {
+  Future<List<PostModel>> getObscuredPostsInitial() async {
     state = const AsyncValue.loading();
 
     _start = '0';
 
     try {
       await Future.delayed(skeletonDelay, () async {
-        _posts = await _fetchSharedPosts();
+        _obscuredPosts = await _fetchObscuredPosts();
+
+        _start = _obscuredPosts!.next;
+
+        state = AsyncData(_obscuredPosts!.posts);
       });
-
-      _start = _posts!.next;
-
-      state = AsyncData(_posts!.posts);
 
       if (!state.hasValue) {
         debugPrint('List of Post is null');
@@ -60,14 +60,14 @@ class HomeSharedController extends _$HomeSharedController {
     }
   }
 
-  Future<void> getMorePosts() async {
+  Future<void> getMoreObscuredPosts() async {
     try {
-      _posts = await _fetchSharedPosts();
+      _obscuredPosts = await _fetchObscuredPosts();
 
-      if (_posts != null) {
-        _start = _posts!.next;
+      if (_obscuredPosts != null) {
+        _start = _obscuredPosts!.next;
 
-        state = AsyncData([...state.value!.toList(), ..._posts!.posts]);
+        state = AsyncData([...state.value!.toList(), ..._obscuredPosts!.posts]);
       }
       _refreshController.loadComplete();
     } on DioError catch (e) {
@@ -78,11 +78,11 @@ class HomeSharedController extends _$HomeSharedController {
   void refreshTab() async {
     _start = '0';
 
-    _posts = await _fetchSharedPosts();
+    _obscuredPosts = await _fetchObscuredPosts();
 
-    _start = _posts!.next;
+    _start = _obscuredPosts!.next;
 
-    state = AsyncData(_posts!.posts);
+    state = AsyncData(_obscuredPosts!.posts);
 
     _refreshController.refreshCompleted();
   }
@@ -111,25 +111,25 @@ class HomeSharedController extends _$HomeSharedController {
         return;
       } else {
         _isLoadingMore = true;
-        await getMorePosts();
+        await getMoreObscuredPosts();
         _isLoadingMore = false;
       }
     }
   }
 
-  Future<PostsPaginationModel?> _fetchSharedPosts() async {
+  Future<PostsObscuredPaginationModel?> _fetchObscuredPosts() async {
     if (_start != null) {
-      final PostsPaginationModel postsPaginationModel =
-          await postsRepository!.getPosts(
+      final PostsObscuredPaginationModel obscuredPaginationModel =
+          await postsRepository!.getPostObscured(
         start: _start!,
         offset: _offset,
       );
 
-      if (postsPaginationModel.posts.isEmpty) {
+      if (obscuredPaginationModel.posts.isEmpty) {
         state = const AsyncData([]);
       }
 
-      return postsPaginationModel;
+      return obscuredPaginationModel;
     } else {
       return null;
     }

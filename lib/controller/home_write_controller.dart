@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/models/my_posts_model.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
+import 'package:four_hours_client/models/my_posts_pagination_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -15,7 +16,7 @@ part 'home_write_controller.g.dart';
 
 @Riverpod(keepAlive: true)
 class HomeWriteController extends _$HomeWriteController {
-  late final PostsRepository postsRepository;
+  PostsRepository? postsRepository;
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -33,8 +34,8 @@ class HomeWriteController extends _$HomeWriteController {
   String? _start = '0';
   final String _offset = '10';
 
-  MyPostsModel? _myPosts;
-  MyPostsModel? get posts => _myPosts;
+  MyPostsPaginationModel? _myPosts;
+  MyPostsPaginationModel? get posts => _myPosts;
 
   List<String> _postingDates = [];
   List<String> get postingDates => _postingDates;
@@ -60,12 +61,12 @@ class HomeWriteController extends _$HomeWriteController {
         _todayPosts = [];
       } else {
         _todayPosts = _myPosts!.posts['Today']!;
-
-        _postingDates = _myPosts!.posts.keys
-            .map((key) => key)
-            .where((date) => date != 'Today')
-            .toList();
       }
+
+      _postingDates = _myPosts!.posts.keys
+          .map((key) => key)
+          .where((date) => date != 'Today')
+          .toList();
 
       _start = _myPosts!.next;
 
@@ -77,7 +78,7 @@ class HomeWriteController extends _$HomeWriteController {
 
       _refreshController.refreshCompleted();
 
-      return state.value!;
+      return _myPosts!.posts;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -108,9 +109,24 @@ class HomeWriteController extends _$HomeWriteController {
 
     _myPosts = await _fetchWritePosts();
 
+    final bool hasToday = _myPosts!.posts.containsKey('Today');
+
+    if (!hasToday) {
+      _todayPosts = [];
+    } else {
+      _todayPosts = _myPosts!.posts['Today']!;
+    }
+
+    _postingDates = _myPosts!.posts.keys
+        .map((key) => key)
+        .where((date) => date != 'Today')
+        .toList();
+
     _start = _myPosts!.next;
 
     state = AsyncData(_myPosts!.posts);
+
+    await ref.read(receiptControllerProvider.notifier).getReceipt();
 
     _refreshController.refreshCompleted();
   }
@@ -153,18 +169,19 @@ class HomeWriteController extends _$HomeWriteController {
     }
   }
 
-  Future<MyPostsModel?> _fetchWritePosts() async {
+  Future<MyPostsPaginationModel?> _fetchWritePosts() async {
     if (_start != null) {
-      final MyPostsModel myPostsModel = await postsRepository.getMyPosts(
+      final MyPostsPaginationModel myPostsPaginationModel =
+          await postsRepository!.getMyPosts(
         start: _start!,
         offset: _offset,
       );
 
-      if (myPostsModel.posts.isEmpty) {
+      if (myPostsPaginationModel.posts.isEmpty) {
         state = const AsyncData({});
       }
 
-      return myPostsModel;
+      return myPostsPaginationModel;
     } else {
       return null;
     }

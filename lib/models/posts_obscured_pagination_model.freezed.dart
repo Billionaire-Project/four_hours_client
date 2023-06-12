@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'my_posts_model.dart';
+part of 'posts_obscured_pagination_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,40 +14,40 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-MyPostsModel _$MyPostsModelFromJson(Map<String, dynamic> json) {
-  return _MyPostsModel.fromJson(json);
+PostsObscuredPaginationModel _$PostsObscuredPaginationModelFromJson(
+    Map<String, dynamic> json) {
+  return _PostsObscuredPaginationModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$MyPostsModel {
+mixin _$PostsObscuredPaginationModel {
   String get start => throw _privateConstructorUsedError;
   String get offset => throw _privateConstructorUsedError;
   String? get next => throw _privateConstructorUsedError;
-  Map<String, List<PostModel>> get posts => throw _privateConstructorUsedError;
+  List<PostModel> get posts => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $MyPostsModelCopyWith<MyPostsModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PostsObscuredPaginationModelCopyWith<PostsObscuredPaginationModel>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $MyPostsModelCopyWith<$Res> {
-  factory $MyPostsModelCopyWith(
-          MyPostsModel value, $Res Function(MyPostsModel) then) =
-      _$MyPostsModelCopyWithImpl<$Res, MyPostsModel>;
+abstract class $PostsObscuredPaginationModelCopyWith<$Res> {
+  factory $PostsObscuredPaginationModelCopyWith(
+          PostsObscuredPaginationModel value,
+          $Res Function(PostsObscuredPaginationModel) then) =
+      _$PostsObscuredPaginationModelCopyWithImpl<$Res,
+          PostsObscuredPaginationModel>;
   @useResult
-  $Res call(
-      {String start,
-      String offset,
-      String? next,
-      Map<String, List<PostModel>> posts});
+  $Res call({String start, String offset, String? next, List<PostModel> posts});
 }
 
 /// @nodoc
-class _$MyPostsModelCopyWithImpl<$Res, $Val extends MyPostsModel>
-    implements $MyPostsModelCopyWith<$Res> {
-  _$MyPostsModelCopyWithImpl(this._value, this._then);
+class _$PostsObscuredPaginationModelCopyWithImpl<$Res,
+        $Val extends PostsObscuredPaginationModel>
+    implements $PostsObscuredPaginationModelCopyWith<$Res> {
+  _$PostsObscuredPaginationModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -78,32 +78,31 @@ class _$MyPostsModelCopyWithImpl<$Res, $Val extends MyPostsModel>
       posts: null == posts
           ? _value.posts
           : posts // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<PostModel>>,
+              as List<PostModel>,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_MyPostsModelCopyWith<$Res>
-    implements $MyPostsModelCopyWith<$Res> {
-  factory _$$_MyPostsModelCopyWith(
-          _$_MyPostsModel value, $Res Function(_$_MyPostsModel) then) =
-      __$$_MyPostsModelCopyWithImpl<$Res>;
+abstract class _$$_PostsObscuredPaginationModelCopyWith<$Res>
+    implements $PostsObscuredPaginationModelCopyWith<$Res> {
+  factory _$$_PostsObscuredPaginationModelCopyWith(
+          _$_PostsObscuredPaginationModel value,
+          $Res Function(_$_PostsObscuredPaginationModel) then) =
+      __$$_PostsObscuredPaginationModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String start,
-      String offset,
-      String? next,
-      Map<String, List<PostModel>> posts});
+  $Res call({String start, String offset, String? next, List<PostModel> posts});
 }
 
 /// @nodoc
-class __$$_MyPostsModelCopyWithImpl<$Res>
-    extends _$MyPostsModelCopyWithImpl<$Res, _$_MyPostsModel>
-    implements _$$_MyPostsModelCopyWith<$Res> {
-  __$$_MyPostsModelCopyWithImpl(
-      _$_MyPostsModel _value, $Res Function(_$_MyPostsModel) _then)
+class __$$_PostsObscuredPaginationModelCopyWithImpl<$Res>
+    extends _$PostsObscuredPaginationModelCopyWithImpl<$Res,
+        _$_PostsObscuredPaginationModel>
+    implements _$$_PostsObscuredPaginationModelCopyWith<$Res> {
+  __$$_PostsObscuredPaginationModelCopyWithImpl(
+      _$_PostsObscuredPaginationModel _value,
+      $Res Function(_$_PostsObscuredPaginationModel) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -114,7 +113,7 @@ class __$$_MyPostsModelCopyWithImpl<$Res>
     Object? next = freezed,
     Object? posts = null,
   }) {
-    return _then(_$_MyPostsModel(
+    return _then(_$_PostsObscuredPaginationModel(
       start: null == start
           ? _value.start
           : start // ignore: cast_nullable_to_non_nullable
@@ -130,23 +129,23 @@ class __$$_MyPostsModelCopyWithImpl<$Res>
       posts: null == posts
           ? _value._posts
           : posts // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<PostModel>>,
+              as List<PostModel>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_MyPostsModel implements _MyPostsModel {
-  _$_MyPostsModel(
+class _$_PostsObscuredPaginationModel implements _PostsObscuredPaginationModel {
+  _$_PostsObscuredPaginationModel(
       {required this.start,
       required this.offset,
       required this.next,
-      required final Map<String, List<PostModel>> posts})
+      required final List<PostModel> posts})
       : _posts = posts;
 
-  factory _$_MyPostsModel.fromJson(Map<String, dynamic> json) =>
-      _$$_MyPostsModelFromJson(json);
+  factory _$_PostsObscuredPaginationModel.fromJson(Map<String, dynamic> json) =>
+      _$$_PostsObscuredPaginationModelFromJson(json);
 
   @override
   final String start;
@@ -154,24 +153,24 @@ class _$_MyPostsModel implements _MyPostsModel {
   final String offset;
   @override
   final String? next;
-  final Map<String, List<PostModel>> _posts;
+  final List<PostModel> _posts;
   @override
-  Map<String, List<PostModel>> get posts {
-    if (_posts is EqualUnmodifiableMapView) return _posts;
+  List<PostModel> get posts {
+    if (_posts is EqualUnmodifiableListView) return _posts;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_posts);
+    return EqualUnmodifiableListView(_posts);
   }
 
   @override
   String toString() {
-    return 'MyPostsModel(start: $start, offset: $offset, next: $next, posts: $posts)';
+    return 'PostsObscuredPaginationModel(start: $start, offset: $offset, next: $next, posts: $posts)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MyPostsModel &&
+            other is _$_PostsObscuredPaginationModel &&
             (identical(other.start, start) || other.start == start) &&
             (identical(other.offset, offset) || other.offset == offset) &&
             (identical(other.next, next) || other.next == next) &&
@@ -186,26 +185,28 @@ class _$_MyPostsModel implements _MyPostsModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MyPostsModelCopyWith<_$_MyPostsModel> get copyWith =>
-      __$$_MyPostsModelCopyWithImpl<_$_MyPostsModel>(this, _$identity);
+  _$$_PostsObscuredPaginationModelCopyWith<_$_PostsObscuredPaginationModel>
+      get copyWith => __$$_PostsObscuredPaginationModelCopyWithImpl<
+          _$_PostsObscuredPaginationModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MyPostsModelToJson(
+    return _$$_PostsObscuredPaginationModelToJson(
       this,
     );
   }
 }
 
-abstract class _MyPostsModel implements MyPostsModel {
-  factory _MyPostsModel(
+abstract class _PostsObscuredPaginationModel
+    implements PostsObscuredPaginationModel {
+  factory _PostsObscuredPaginationModel(
       {required final String start,
       required final String offset,
       required final String? next,
-      required final Map<String, List<PostModel>> posts}) = _$_MyPostsModel;
+      required final List<PostModel> posts}) = _$_PostsObscuredPaginationModel;
 
-  factory _MyPostsModel.fromJson(Map<String, dynamic> json) =
-      _$_MyPostsModel.fromJson;
+  factory _PostsObscuredPaginationModel.fromJson(Map<String, dynamic> json) =
+      _$_PostsObscuredPaginationModel.fromJson;
 
   @override
   String get start;
@@ -214,9 +215,9 @@ abstract class _MyPostsModel implements MyPostsModel {
   @override
   String? get next;
   @override
-  Map<String, List<PostModel>> get posts;
+  List<PostModel> get posts;
   @override
   @JsonKey(ignore: true)
-  _$$_MyPostsModelCopyWith<_$_MyPostsModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_PostsObscuredPaginationModelCopyWith<_$_PostsObscuredPaginationModel>
+      get copyWith => throw _privateConstructorUsedError;
 }

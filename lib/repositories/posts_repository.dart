@@ -1,21 +1,23 @@
 import 'package:dio/dio.dart';
-import 'package:four_hours_client/models/my_posts_model.dart';
+import 'package:four_hours_client/models/my_posts_pagination_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
-import 'package:four_hours_client/models/posts_model.dart';
+import 'package:four_hours_client/models/posts_obscured_pagination_model.dart';
+import 'package:four_hours_client/models/posts_pagination_model.dart';
+import 'package:four_hours_client/models/receipt_model.dart';
 import 'package:four_hours_client/repositories/base_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'posts_repository.g.dart';
 
 class PostsRepository extends BaseRepository {
-  Future<PostsModel> getPosts({
+  Future<PostsPaginationModel> getPosts({
     required String start,
     required String offset,
   }) async {
     Response response =
         await dioClient.get('/posts/?start=$start&offset=$offset');
 
-    return PostsModel.fromJson(response.data);
+    return PostsPaginationModel.fromJson(response.data);
   }
 
   Future<PostModel> getPostById({required int postId}) async {
@@ -24,14 +26,14 @@ class PostsRepository extends BaseRepository {
     return PostModel.fromJson(response.data);
   }
 
-  Future<MyPostsModel> getMyPosts({
+  Future<MyPostsPaginationModel> getMyPosts({
     required String start,
     required String offset,
   }) async {
     Response response =
         await dioClient.get('/posts/my/?start=$start&offset=$offset');
 
-    return MyPostsModel.fromJson(response.data);
+    return MyPostsPaginationModel.fromJson(response.data);
   }
 
   Future<Response> submitPosts({
@@ -54,14 +56,14 @@ class PostsRepository extends BaseRepository {
     return response.data['is_liked'];
   }
 
-  Future<PostsModel> getLikePosts({
+  Future<PostsPaginationModel> getLikePosts({
     required String start,
     required String offset,
   }) async {
     Response response =
         await dioClient.get('/posts/likes/?start=$start&offset=$offset');
 
-    return PostsModel.fromJson(response.data);
+    return PostsPaginationModel.fromJson(response.data);
   }
 
   Future<void> reportPost({required int postId}) async {
@@ -70,6 +72,22 @@ class PostsRepository extends BaseRepository {
 
   Future<void> deletePost({required int postId}) async {
     await dioClient.delete('/posts/$postId/');
+  }
+
+  Future<ReceiptModel> getReceipt() async {
+    Response response = await dioClient.get('/posts/receipt/');
+
+    return ReceiptModel.fromJson(response.data);
+  }
+
+  Future<PostsObscuredPaginationModel> getPostObscured({
+    required String start,
+    required String offset,
+  }) async {
+    Response response =
+        await dioClient.get('/posts/obscured/?start=$start&offset=$offset');
+
+    return PostsObscuredPaginationModel.fromJson(response.data);
   }
 }
 

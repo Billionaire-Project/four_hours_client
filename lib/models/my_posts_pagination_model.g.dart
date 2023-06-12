@@ -1,13 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'my_posts_model.dart';
+part of 'my_posts_pagination_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MyPostsModel _$$_MyPostsModelFromJson(Map<String, dynamic> json) =>
-    _$_MyPostsModel(
+_$_MyPostsPaginationModel _$$_MyPostsPaginationModelFromJson(
+        Map<String, dynamic> json) =>
+    _$_MyPostsPaginationModel(
       start: json['start'] as String,
       offset: json['offset'] as String,
       next: json['next'] as String?,
@@ -20,7 +21,8 @@ _$_MyPostsModel _$$_MyPostsModelFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$$_MyPostsModelToJson(_$_MyPostsModel instance) =>
+Map<String, dynamic> _$$_MyPostsPaginationModelToJson(
+        _$_MyPostsPaginationModel instance) =>
     <String, dynamic>{
       'start': instance.start,
       'offset': instance.offset,

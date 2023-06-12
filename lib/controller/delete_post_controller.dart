@@ -10,8 +10,8 @@ import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dar
 import 'package:go_router/go_router.dart';
 
 class DeletePostController extends StateNotifier<PostModel?> {
-  late StateNotifierProviderRef _ref;
-  late PostsRepository _postsRepository;
+  late final StateNotifierProviderRef _ref;
+  late final PostsRepository _postsRepository;
 
   DeletePostController(
     StateNotifierProviderRef ref, {
