@@ -41,7 +41,7 @@ class PostCardController extends _$PostCardController {
   }
 
   void handlePressedMoreButton(
-    context, {
+    BuildContext context, {
     required PostModel post,
     bool isMyPost = false,
   }) {
