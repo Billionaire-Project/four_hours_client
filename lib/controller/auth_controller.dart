@@ -9,16 +9,18 @@ part 'auth_controller.g.dart';
 
 @riverpod
 class AuthController extends _$AuthController {
+  AuthRepository? authRepository;
+
   @override
-  FutureOr build() {}
+  FutureOr build() {
+    _init();
+  }
 
   Future<void> signInWithGoogle() async {
     try {
-      final authRepository = ref.read(authRepositoryProvider);
-
       state = const AsyncLoading();
 
-      state = await AsyncValue.guard(authRepository.signInWithGoogle);
+      state = await AsyncValue.guard(authRepository!.signInWithGoogle);
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -26,11 +28,9 @@ class AuthController extends _$AuthController {
 
   Future<void> signInWithApple() async {
     try {
-      final authRepository = ref.read(authRepositoryProvider);
-
       state = const AsyncLoading();
 
-      state = await AsyncValue.guard(authRepository.signInWithApple);
+      state = await AsyncValue.guard(authRepository!.signInWithApple);
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
@@ -38,11 +38,13 @@ class AuthController extends _$AuthController {
 
   Future<void> signOut() async {
     try {
-      final authRepository = ref.read(authRepositoryProvider);
-
-      state = await AsyncValue.guard(authRepository.signOut);
+      state = await AsyncValue.guard(authRepository!.signOut);
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
+  }
+
+  void _init() {
+    authRepository = ref.read(authRepositoryProvider);
   }
 }
