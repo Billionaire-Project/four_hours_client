@@ -7,8 +7,6 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/common_like_button.dart';
@@ -111,24 +109,8 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                       ),
                       onTap: () {
                         postNotifier.handlePressedMoreButton(
-                          actions: [
-                            CommonActionSheetAction(
-                              isDestructiveAction: true,
-                              onPressed: () {
-                                closeRootNavigator();
-                                showCommonDialogWithTwoButtons(
-                                  iconData: CustomIcons.report_fill,
-                                  title: '해당 게시글을 신고하시겠어요?',
-                                  subtitle: '신고가 접수되면 즉시 사라집니다',
-                                  onPressedRightButton:
-                                      postNotifier.handlePressedReportButton,
-                                  rightButtonText: '신고',
-                                );
-                              },
-                              iconData: CustomIcons.report_line,
-                              text: '게시글 신고',
-                            )
-                          ],
+                          context,
+                          post: widget.post,
                         );
                       },
                     ),
