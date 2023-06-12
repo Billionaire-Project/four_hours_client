@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/delete_post_controller.dart';
-import 'package:four_hours_client/models/delete_reason_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
+import 'package:four_hours_client/views/delete_post_screen/delete_post_reasons.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
@@ -23,20 +23,6 @@ class DeletePostPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
-
-    final deletePostController = ref.watch(deletePostControllerProvider(
-      postId: int.parse(
-        postId,
-      ),
-    ));
-
-    List<DeleteReasonModel> deleteReasons = [];
-
-    deletePostController.whenData((value) {
-      deleteReasons = value;
-    });
-
-    print('jay --- deleteReasons $deleteReasons');
 
     return MainWrapper(
       padding: const EdgeInsets.only(
@@ -63,33 +49,12 @@ class DeletePostPage extends ConsumerWidget {
             '다음 글 작성 전까지 SHARED 목록을 볼 수 없어요',
             style: customTextStyle.bodyMedium,
           ),
-
           const Gap(40),
-          //TODO: 서버에서 내려주는 삭제 이유
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  '왜 해당 게시글을 삭제하시나요?',
-                  style: customTextStyle.titleMedium,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 4,
-                    itemBuilder: (BuildContext context, int index) {
-                      return const SizedBox(
-                        height: 24,
-                      );
-                    },
-                  ),
-                ),
-              ],
+          DeletePostReasons(
+            postId: int.parse(
+              postId,
             ),
           ),
-
           const Spacer(),
           Column(
             children: [

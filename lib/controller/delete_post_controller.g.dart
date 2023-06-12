@@ -7,7 +7,7 @@ part of 'delete_post_controller.dart';
 // **************************************************************************
 
 String _$deletePostControllerHash() =>
-    r'98fbd4e70345ec68a10fb0330fd4d2d60078f343';
+    r'aa113a869fe0be6a124b79fbddc506c7bc347650';
 
 /// Copied from Dart SDK
 class _SystemHash {

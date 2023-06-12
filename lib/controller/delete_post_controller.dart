@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/controller/home_write_controller.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/delete_reason_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -30,9 +31,9 @@ class DeletePostController extends _$DeletePostController {
 //* HomeWriteTab에서 왔는지 WritePostDetailPage에서 왔는지에 따라 context pop을 다르게 처리해야 하기 때문에
 //* 코드의 통일성을 위해 write list를 refresh하는 로직과 삭제되었다는 alert를 띄우는 로직을 여기서 처리하고 있음
 
-    await ref.read(homeWriteControllerProvider.notifier).getMyPostsInitial();
-
     if (isDeleted) {
+      await ref.read(homeWriteControllerProvider.notifier).getMyPostsInitial();
+      await ref.read(receiptControllerProvider.notifier).getReceipt();
       if (context.mounted) {
         if (isDetailPage) {
           context.go(HomeWriteTab.path);
