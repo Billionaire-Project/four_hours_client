@@ -71,7 +71,10 @@ class PostsRepository extends BaseRepository {
     await dioClient.post('/posts/report/$postId/');
   }
 
-  Future<void> deletePost({required int postId}) async {
+  Future<void> deletePost({
+    required int postId,
+    required int reasonId,
+  }) async {
     await dioClient.delete('/posts/$postId/');
   }
 
@@ -92,7 +95,7 @@ class PostsRepository extends BaseRepository {
   }
 
   Future<List<DeleteReasonModel>> getDeleteReason() async {
-    Response response = await dioClient.get('/posts/delete_reason/');
+    Response response = await dioClient.get('/posts/delete-reason/');
 
     return (response.data as List<dynamic>)
         .map((e) => DeleteReasonModel.fromJson(e))

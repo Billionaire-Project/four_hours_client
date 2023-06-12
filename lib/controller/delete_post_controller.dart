@@ -16,8 +16,12 @@ part 'delete_post_controller.g.dart';
 class DeletePostController extends _$DeletePostController {
   PostsRepository? postsRepository;
   @override
-  Future<List<DeleteReasonModel>> build({required int postId}) {
+  Future<List<DeleteReasonModel>> build({
+    required int postId,
+    required int reasonId,
+  }) {
     _init();
+    _getDeleteReason();
     return _getDeleteReason();
   }
 
@@ -34,6 +38,7 @@ class DeletePostController extends _$DeletePostController {
     if (isDeleted) {
       await ref.read(homeWriteControllerProvider.notifier).getMyPostsInitial();
       await ref.read(receiptControllerProvider.notifier).getReceipt();
+
       if (context.mounted) {
         if (isDetailPage) {
           context.go(HomeWriteTab.path);
@@ -55,7 +60,10 @@ class DeletePostController extends _$DeletePostController {
 
   Future<bool> _deletePost() async {
     try {
-      await postsRepository!.deletePost(postId: postId);
+      await postsRepository!.deletePost(
+        postId: postId,
+        reasonId: reasonId,
+      );
 
       return true;
     } on DioError catch (e) {
@@ -69,6 +77,7 @@ class DeletePostController extends _$DeletePostController {
 
   Future<List<DeleteReasonModel>> _getDeleteReason() async {
     state = await AsyncValue.guard(postsRepository!.getDeleteReason);
+
     return state.value ?? [];
   }
 }

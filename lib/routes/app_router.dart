@@ -139,7 +139,7 @@ GoRouter appRouter(AppRouterRef ref) {
 
           if (state.params['postId'] != null) {
             return DeletePostPage(
-              postId: state.params['postId']!,
+              postId: int.parse(state.params['postId']!),
               isDetailPage: isDetailPage,
             );
           } else {

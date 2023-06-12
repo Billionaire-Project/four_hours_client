@@ -7,7 +7,7 @@ part of 'delete_post_controller.dart';
 // **************************************************************************
 
 String _$deletePostControllerHash() =>
-    r'aa113a869fe0be6a124b79fbddc506c7bc347650';
+    r'08dafd1e3b1940f921eefb2181ec6d4d404aaeeb';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -33,9 +33,11 @@ class _SystemHash {
 abstract class _$DeletePostController
     extends BuildlessAutoDisposeAsyncNotifier<List<DeleteReasonModel>> {
   late final int postId;
+  late final int reasonId;
 
   Future<List<DeleteReasonModel>> build({
     required int postId,
+    required int reasonId,
   });
 }
 
@@ -52,9 +54,11 @@ class DeletePostControllerFamily
   /// See also [DeletePostController].
   DeletePostControllerProvider call({
     required int postId,
+    required int reasonId,
   }) {
     return DeletePostControllerProvider(
       postId: postId,
+      reasonId: reasonId,
     );
   }
 
@@ -64,6 +68,7 @@ class DeletePostControllerFamily
   ) {
     return call(
       postId: provider.postId,
+      reasonId: provider.reasonId,
     );
   }
 
@@ -88,8 +93,11 @@ class DeletePostControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   /// See also [DeletePostController].
   DeletePostControllerProvider({
     required this.postId,
+    required this.reasonId,
   }) : super.internal(
-          () => DeletePostController()..postId = postId,
+          () => DeletePostController()
+            ..postId = postId
+            ..reasonId = reasonId,
           from: deletePostControllerProvider,
           name: r'deletePostControllerProvider',
           debugGetCreateSourceHash:
@@ -102,16 +110,20 @@ class DeletePostControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
         );
 
   final int postId;
+  final int reasonId;
 
   @override
   bool operator ==(Object other) {
-    return other is DeletePostControllerProvider && other.postId == postId;
+    return other is DeletePostControllerProvider &&
+        other.postId == postId &&
+        other.reasonId == reasonId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, postId.hashCode);
+    hash = _SystemHash.combine(hash, reasonId.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -122,6 +134,7 @@ class DeletePostControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   ) {
     return notifier.build(
       postId: postId,
+      reasonId: reasonId,
     );
   }
 }
