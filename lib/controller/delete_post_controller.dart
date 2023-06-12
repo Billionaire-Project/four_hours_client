@@ -1,28 +1,24 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/home_write_controller.dart';
-import 'package:four_hours_client/models/post_model.dart';
+import 'package:four_hours_client/models/delete_reason_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class DeletePostController extends StateNotifier<PostModel?> {
-  late final StateNotifierProviderRef _ref;
-  late final PostsRepository _postsRepository;
+part 'delete_post_controller.g.dart';
 
-  DeletePostController(
-    StateNotifierProviderRef ref, {
-    required int postId,
-  }) : super(null) {
-    _ref = ref;
-    _postId = postId;
-    _postsRepository = _ref.watch(postsRepositoryProvider);
+@riverpod
+class DeletePostController extends _$DeletePostController {
+  PostsRepository? postsRepository;
+  @override
+  Future<List<DeleteReasonModel>> build({required int postId}) {
+    _init();
+    return _getDeleteReason();
   }
-
-  int? _postId;
 
   void handlePressedDeleteButton(
     BuildContext context, {
@@ -34,7 +30,7 @@ class DeletePostController extends StateNotifier<PostModel?> {
 //* HomeWriteTab에서 왔는지 WritePostDetailPage에서 왔는지에 따라 context pop을 다르게 처리해야 하기 때문에
 //* 코드의 통일성을 위해 write list를 refresh하는 로직과 삭제되었다는 alert를 띄우는 로직을 여기서 처리하고 있음
 
-    await _ref.read(homeWriteControllerProvider.notifier).getMyPostsInitial();
+    await ref.read(homeWriteControllerProvider.notifier).getMyPostsInitial();
 
     if (isDeleted) {
       if (context.mounted) {
@@ -58,16 +54,20 @@ class DeletePostController extends StateNotifier<PostModel?> {
 
   Future<bool> _deletePost() async {
     try {
-      await _postsRepository.deletePost(postId: _postId!);
+      await postsRepository!.deletePost(postId: postId);
 
       return true;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }
   }
-}
 
-final deletePostControllerProvider = StateNotifierProvider.autoDispose
-    .family<DeletePostController, PostModel?, int>(
-  (ref, postId) => DeletePostController(ref, postId: postId),
-);
+  void _init() {
+    postsRepository = ref.read(postsRepositoryProvider);
+  }
+
+  Future<List<DeleteReasonModel>> _getDeleteReason() async {
+    state = await AsyncValue.guard(postsRepository!.getDeleteReason);
+    return state.value ?? [];
+  }
+}

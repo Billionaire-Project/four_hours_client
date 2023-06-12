@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:four_hours_client/models/delete_reason_model.dart';
 import 'package:four_hours_client/models/my_posts_pagination_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_obscured_pagination_model.dart';
@@ -88,6 +89,14 @@ class PostsRepository extends BaseRepository {
         await dioClient.get('/posts/obscured/?start=$start&offset=$offset');
 
     return PostsObscuredPaginationModel.fromJson(response.data);
+  }
+
+  Future<List<DeleteReasonModel>> getDeleteReason() async {
+    Response response = await dioClient.get('/posts/delete_reason/');
+
+    return (response.data as List<dynamic>)
+        .map((e) => DeleteReasonModel.fromJson(e))
+        .toList();
   }
 }
 

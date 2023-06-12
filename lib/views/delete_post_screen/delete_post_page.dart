@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/delete_post_controller.dart';
+import 'package:four_hours_client/models/delete_reason_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
@@ -22,6 +23,20 @@ class DeletePostPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
+
+    final deletePostController = ref.watch(deletePostControllerProvider(
+      postId: int.parse(
+        postId,
+      ),
+    ));
+
+    List<DeleteReasonModel> deleteReasons = [];
+
+    deletePostController.whenData((value) {
+      deleteReasons = value;
+    });
+
+    print('jay --- deleteReasons $deleteReasons');
 
     return MainWrapper(
       padding: const EdgeInsets.only(
@@ -83,8 +98,11 @@ class DeletePostPage extends ConsumerWidget {
                 text: '네, 삭제할래요',
                 onPressed: () {
                   ref
-                      .read(deletePostControllerProvider(int.parse(postId))
-                          .notifier)
+                      .read(deletePostControllerProvider(
+                        postId: int.parse(
+                          postId,
+                        ),
+                      ).notifier)
                       .handlePressedDeleteButton(
                         context,
                         isDetailPage: isDetailPage ?? false,
