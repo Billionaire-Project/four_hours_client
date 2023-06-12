@@ -16,7 +16,7 @@ part 'home_write_controller.g.dart';
 
 @Riverpod(keepAlive: true)
 class HomeWriteController extends _$HomeWriteController {
-  late final PostsRepository postsRepository;
+  PostsRepository? postsRepository;
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -172,7 +172,7 @@ class HomeWriteController extends _$HomeWriteController {
   Future<MyPostsPaginationModel?> _fetchWritePosts() async {
     if (_start != null) {
       final MyPostsPaginationModel myPostsPaginationModel =
-          await postsRepository.getMyPosts(
+          await postsRepository!.getMyPosts(
         start: _start!,
         offset: _offset,
       );
