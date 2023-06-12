@@ -106,13 +106,13 @@ GoRouter appRouter(AppRouterRef ref) {
               state.extra as PostDetailExtraModel;
 
           final PostModel post = extra.post;
-          final bool? isNeedBottom = extra.isNeedBottom;
+          final bool? isMyPost = extra.isMyPost;
 
           if (state.params['postId'] != null) {
             return PostDetailPage(
               postId: state.params['postId']!,
               post: post,
-              isNeedBottom: isNeedBottom ?? true,
+              isMyPost: isMyPost ?? false,
             );
           } else {
             //TODO: redirect or show error page

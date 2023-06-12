@@ -10,12 +10,12 @@ _$_PostDetailExtraModel _$$_PostDetailExtraModelFromJson(
         Map<String, dynamic> json) =>
     _$_PostDetailExtraModel(
       post: PostModel.fromJson(json['post'] as Map<String, dynamic>),
-      isNeedBottom: json['isNeedBottom'] as bool?,
+      isMyPost: json['isMyPost'] as bool?,
     );
 
 Map<String, dynamic> _$$_PostDetailExtraModelToJson(
         _$_PostDetailExtraModel instance) =>
     <String, dynamic>{
       'post': instance.post,
-      'isNeedBottom': instance.isNeedBottom,
+      'isMyPost': instance.isMyPost,
     };

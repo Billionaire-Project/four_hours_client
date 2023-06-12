@@ -17,13 +17,13 @@ import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 class PostDetailPage extends ConsumerStatefulWidget {
   final String postId;
   final PostModel post;
-  final bool isNeedBottom;
+  final bool isMyPost;
 
   const PostDetailPage({
     Key? key,
     required this.postId,
     required this.post,
-    required this.isNeedBottom,
+    required this.isMyPost,
   }) : super(key: key);
   static String path = '/post-detail/:postId';
   static String name = 'PostDetailPage';
@@ -46,7 +46,10 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
         actions: [
           CommonIconButton(
             onTap: () {
-              postDetailNotifier.handlePressedMoreButton(context);
+              postDetailNotifier.handlePressedMoreButton(
+                context,
+                isMyPost: widget.isMyPost,
+              );
             },
             icon: const Icon(
               CustomIcons.more_line,
@@ -109,9 +112,9 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
               ),
             );
           }),
-          widget.isNeedBottom
-              ? PostDetailBottom(post: widget.post)
-              : const SizedBox.shrink()
+          widget.isMyPost
+              ? const SizedBox.shrink()
+              : PostDetailBottom(post: widget.post)
         ],
       ),
     );
