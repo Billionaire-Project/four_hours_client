@@ -7,6 +7,7 @@ import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_obscured_bottom.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_obscured_post_card.dart';
+import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_post_card.dart';
 import 'package:four_hours_client/views/widgets/common_post_skeleton.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
@@ -45,7 +46,7 @@ class HomeSharedTab extends ConsumerWidget {
                     return Column(
                       children: [
                         if (index == 0) const Gap(16),
-                        HomeSharedObscuredPostCard(
+                        HomeSharedPostCard(
                           post: posts[index],
                           labelText: leftTime,
                         ),
