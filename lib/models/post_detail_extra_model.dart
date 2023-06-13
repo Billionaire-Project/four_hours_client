@@ -7,7 +7,7 @@ part 'post_detail_extra_model.g.dart';
 class PostDetailExtraModel with _$PostDetailExtraModel {
   factory PostDetailExtraModel({
     required PostModel post,
-    bool? isNeedBottom,
+    bool? isMyPost,
   }) = _PostDetailExtraModel;
 
   factory PostDetailExtraModel.fromJson(Map<String, dynamic> json) =>

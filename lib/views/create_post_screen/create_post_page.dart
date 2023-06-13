@@ -85,7 +85,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                         child: Column(
                           children: [
                             CommonRowWithDivider(
-                              header: CommonTitle(
+                              leading: CommonTitle(
                                   '${date.year}. ${date.month}. ${date.day}'),
                             ),
                             //* IntrinsicHeight를 사용하여 Gap이 실질적인 높이에 영향을 주지 않아 SizedBox사용

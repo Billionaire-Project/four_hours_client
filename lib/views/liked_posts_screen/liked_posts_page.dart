@@ -26,8 +26,14 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
     final likedPosts = ref.watch(likedPostsControllerProvider);
 
     return MainWrapper(
-      appBar: const CommonAppBar(
+      appBar: CommonAppBar(
         title: '내가 좋아한 글',
+        leadingOnTapHandler: likedPosts.hasValue
+            ? () {
+                closeRootNavigator();
+              }
+            : null,
+        leadingAutomaticallyPop: false,
       ),
       child: likedPosts.when(
         data: (posts) {

@@ -132,6 +132,17 @@ class HomeWriteController extends _$HomeWriteController {
   }
 
   void handlePressedWritePost(BuildContext context) async {
+    final asyncReceipt = ref.read(receiptControllerProvider);
+    final bool isPostable = asyncReceipt.value?.isPostable ?? false;
+
+    if (!isPostable) {
+      showCommonAlert(
+        iconData: CustomIcons.warning_line,
+        text: '지금은 포스팅할 수 없습니다!\n나중에 다시 시도해주세요.',
+      );
+      return;
+    }
+
     bool? isCreatedPost = await context
         .push<bool?>('${HomeWriteTab.path}/${CreatePostPage.path}');
 

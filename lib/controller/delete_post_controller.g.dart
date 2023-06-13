@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'post_card_controller.dart';
+part of 'delete_post_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$postCardControllerHash() =>
-    r'b53a548c808dbc411c56864357ffa027a5abcceb';
+String _$deletePostControllerHash() =>
+    r'63d5d11717546f418467864ba47dd41a981591ed';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,39 +30,45 @@ class _SystemHash {
   }
 }
 
-abstract class _$PostCardController
-    extends BuildlessAutoDisposeAsyncNotifier<dynamic> {
+abstract class _$DeletePostController
+    extends BuildlessAutoDisposeAsyncNotifier<List<DeleteReasonModel>> {
   late final int postId;
+  late final int reasonId;
 
-  FutureOr<dynamic> build({
+  Future<List<DeleteReasonModel>> build({
     required int postId,
+    required int reasonId,
   });
 }
 
-/// See also [PostCardController].
-@ProviderFor(PostCardController)
-const postCardControllerProvider = PostCardControllerFamily();
+/// See also [DeletePostController].
+@ProviderFor(DeletePostController)
+const deletePostControllerProvider = DeletePostControllerFamily();
 
-/// See also [PostCardController].
-class PostCardControllerFamily extends Family<AsyncValue<dynamic>> {
-  /// See also [PostCardController].
-  const PostCardControllerFamily();
+/// See also [DeletePostController].
+class DeletePostControllerFamily
+    extends Family<AsyncValue<List<DeleteReasonModel>>> {
+  /// See also [DeletePostController].
+  const DeletePostControllerFamily();
 
-  /// See also [PostCardController].
-  PostCardControllerProvider call({
+  /// See also [DeletePostController].
+  DeletePostControllerProvider call({
     required int postId,
+    required int reasonId,
   }) {
-    return PostCardControllerProvider(
+    return DeletePostControllerProvider(
       postId: postId,
+      reasonId: reasonId,
     );
   }
 
   @override
-  PostCardControllerProvider getProviderOverride(
-    covariant PostCardControllerProvider provider,
+  DeletePostControllerProvider getProviderOverride(
+    covariant DeletePostControllerProvider provider,
   ) {
     return call(
       postId: provider.postId,
+      reasonId: provider.reasonId,
     );
   }
 
@@ -78,49 +84,57 @@ class PostCardControllerFamily extends Family<AsyncValue<dynamic>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'postCardControllerProvider';
+  String? get name => r'deletePostControllerProvider';
 }
 
-/// See also [PostCardController].
-class PostCardControllerProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<PostCardController, dynamic> {
-  /// See also [PostCardController].
-  PostCardControllerProvider({
+/// See also [DeletePostController].
+class DeletePostControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    DeletePostController, List<DeleteReasonModel>> {
+  /// See also [DeletePostController].
+  DeletePostControllerProvider({
     required this.postId,
+    required this.reasonId,
   }) : super.internal(
-          () => PostCardController()..postId = postId,
-          from: postCardControllerProvider,
-          name: r'postCardControllerProvider',
+          () => DeletePostController()
+            ..postId = postId
+            ..reasonId = reasonId,
+          from: deletePostControllerProvider,
+          name: r'deletePostControllerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$postCardControllerHash,
-          dependencies: PostCardControllerFamily._dependencies,
+                  : _$deletePostControllerHash,
+          dependencies: DeletePostControllerFamily._dependencies,
           allTransitiveDependencies:
-              PostCardControllerFamily._allTransitiveDependencies,
+              DeletePostControllerFamily._allTransitiveDependencies,
         );
 
   final int postId;
+  final int reasonId;
 
   @override
   bool operator ==(Object other) {
-    return other is PostCardControllerProvider && other.postId == postId;
+    return other is DeletePostControllerProvider &&
+        other.postId == postId &&
+        other.reasonId == reasonId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, postId.hashCode);
+    hash = _SystemHash.combine(hash, reasonId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 
   @override
-  FutureOr<dynamic> runNotifierBuild(
-    covariant PostCardController notifier,
+  Future<List<DeleteReasonModel>> runNotifierBuild(
+    covariant DeletePostController notifier,
   ) {
     return notifier.build(
       postId: postId,
+      reasonId: reasonId,
     );
   }
 }

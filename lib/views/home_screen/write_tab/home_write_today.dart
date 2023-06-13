@@ -81,7 +81,7 @@ class _TodaysTopic extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CommonRowWithDivider(
-            header: Center(
+            leading: Center(
               child: Text(
                 '오늘의 주제: 변화',
                 style: customTextStyle.titleSmall,

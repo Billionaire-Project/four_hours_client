@@ -7,8 +7,6 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/common_like_button.dart';
@@ -90,7 +88,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CommonRowWithDivider(
-                    header: Container(
+                    leading: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8.0,
                         vertical: 2.0,
@@ -105,30 +103,14 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                       ),
                     ),
                     rightGap: 8,
-                    tail: CommonIconButton(
+                    trailing: CommonIconButton(
                       icon: const Icon(
                         CustomIcons.more_line,
                       ),
                       onTap: () {
                         postNotifier.handlePressedMoreButton(
-                          actions: [
-                            CommonActionSheetAction(
-                              isDestructiveAction: true,
-                              onPressed: () {
-                                closeRootNavigator();
-                                showCommonDialogWithTwoButtons(
-                                  iconData: CustomIcons.report_fill,
-                                  title: '해당 게시글을 신고하시겠어요?',
-                                  subtitle: '신고가 접수되면 즉시 사라집니다',
-                                  onPressedRightButton:
-                                      postNotifier.handlePressedReportButton,
-                                  rightButtonText: '신고',
-                                );
-                              },
-                              iconData: CustomIcons.report_line,
-                              text: '게시글 신고',
-                            )
-                          ],
+                          context,
+                          post: widget.post,
                         );
                       },
                     ),
@@ -153,7 +135,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                   const Gap(8),
                   CommonRowWithDivider(
                     rightGap: 8,
-                    tail: CommonLikeButton(
+                    trailing: CommonLikeButton(
                       isLiked: widget.post.isLiked!,
                       postId: widget.post.id,
                     ),

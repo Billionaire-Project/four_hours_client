@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'write_timer_controller.g.dart';
+part 'home_write_timer_controller.g.dart';
 
 @riverpod
-class WriteTimerController extends _$WriteTimerController {
+class HomeWriteTimerController extends _$HomeWriteTimerController {
   @override
   double build() {
     state = 0;
@@ -48,9 +48,14 @@ class WriteTimerController extends _$WriteTimerController {
     state = state + 1;
     _duration = _duration - const Duration(seconds: 1);
 
-//TODO: 시간이 다 되었을 때 어떻게 동작하는지 확인 필요
-    if (duration == Duration.zero) {
-      await ref.read(receiptControllerProvider.notifier).getReceipt();
+    if (duration <= Duration.zero) {
+      state = writeTimerTotalSeconds - 1;
+      _duration = Duration.zero;
+      _timer?.cancel();
+      timer.cancel();
+      Future.delayed(const Duration(seconds: 1), () async {
+        await ref.read(receiptControllerProvider.notifier).getReceipt();
+      });
     }
   }
 }

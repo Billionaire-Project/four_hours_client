@@ -3,6 +3,8 @@ import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
+import 'package:four_hours_client/utils/custom_icons_icons.dart';
+import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
 import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,7 +26,7 @@ class PostCardController extends _$PostCardController {
   void handlePressedCard(
     BuildContext context, {
     required PostModel post,
-    bool isNeedBottom = false,
+    bool isMyPost = false,
   }) {
     context.pushNamed(
       PostDetailPage.name,
@@ -33,17 +35,74 @@ class PostCardController extends _$PostCardController {
       },
       extra: PostDetailExtraModel(
         post: post,
-        isNeedBottom: isNeedBottom,
+        isMyPost: isMyPost,
       ),
     );
   }
 
-  void handlePressedMoreButton({
-    required List<CommonActionSheetAction> actions,
+  void handlePressedMoreButton(
+    BuildContext context, {
+    required PostModel post,
+    bool isMyPost = false,
   }) {
-    showCommonActionSheet(
-      actions: actions,
-    );
+    if (isMyPost) {
+      showCommonActionSheet(
+        actions: [
+          CommonActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () async {
+              closeRootNavigator();
+
+              await context.pushNamed(
+                DeletePostPage.name,
+                params: {
+                  'postId': post.id.toString(),
+                },
+              );
+            },
+            iconData: CustomIcons.delete_bin_line,
+            text: '게시글 삭제',
+          ),
+          CommonActionSheetAction(
+            onPressed: () async {
+              await saveToClipboard(post.content);
+              if (context.mounted) {
+                closeRootNavigator();
+
+                showCommonToast(
+                  context,
+                  iconData: CustomIcons.check_line,
+                  text: '클립보드에 복사되었어요!',
+                  bottom: 40,
+                );
+              }
+            },
+            iconData: CustomIcons.copy_line,
+            text: '글 내용 복사',
+          ),
+        ],
+      );
+    } else {
+      showCommonActionSheet(
+        actions: [
+          CommonActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              closeRootNavigator();
+              showCommonDialogWithTwoButtons(
+                iconData: CustomIcons.report_fill,
+                title: '해당 게시글을 신고하시겠어요?',
+                subtitle: '신고가 접수되면 즉시 사라집니다',
+                onPressedRightButton: handlePressedReportButton,
+                rightButtonText: '신고',
+              );
+            },
+            iconData: CustomIcons.report_line,
+            text: '게시글 신고',
+          )
+        ],
+      );
+    }
   }
 
   Future<void> handlePressedReportButton() async {
@@ -67,13 +126,5 @@ class PostCardController extends _$PostCardController {
         await postsRepository!.getPostById(postId: postId);
 
     return postModel;
-  }
-
-  Future<void> _replacePost() async {
-    try {
-      state = await AsyncValue.guard(_fetchPost);
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
   }
 }
