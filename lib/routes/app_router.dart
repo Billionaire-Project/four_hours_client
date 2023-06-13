@@ -3,6 +3,7 @@ import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
+import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
 import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
@@ -151,6 +152,15 @@ GoRouter appRouter(AppRouterRef ref) {
         },
         parentNavigatorKey: navigatorKey,
       ),
+      GoRoute(
+          path: ErrorPage.path,
+          parentNavigatorKey: navigatorKey,
+          builder: (BuildContext context, GoRouterState state) {
+            final extra = state.extra as Map<String, String?>;
+            final error = extra['error'];
+
+            return ErrorPage(error: error);
+          }),
       GoRoute(
         path: CommonWidgetsPage.path,
         parentNavigatorKey: navigatorKey,
