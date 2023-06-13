@@ -7,7 +7,7 @@ part of 'home_shared_controller.dart';
 // **************************************************************************
 
 String _$homeSharedControllerHash() =>
-    r'c04245263c30c4197c728d3019fc36e4398f9eac';
+    r'a0cc1b7d6b5399ef3d7788315c151c4c31cc2346';
 
 /// See also [HomeSharedController].
 @ProviderFor(HomeSharedController)

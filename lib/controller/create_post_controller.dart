@@ -209,12 +209,12 @@ class SavePostController extends _$SavePostController {
   }
 
   Future<void> requestToSave(String text) async {
-    state = const AsyncValue.loading();
+    state = const AsyncLoading();
 
     Timer(const Duration(seconds: 1), () async {
       bool result = await savePost(text);
       if (result) {
-        state = const AsyncValue.data(true);
+        state = const AsyncData(true);
       } else {
         state = AsyncValue.error('Error while saving post', StackTrace.current);
         printDebug('CreatePostController', 'Error while saving post');
@@ -223,6 +223,6 @@ class SavePostController extends _$SavePostController {
   }
 
   Future<void> cancelRequestToSave() async {
-    state = const AsyncValue.data(false);
+    state = const AsyncData(false);
   }
 }

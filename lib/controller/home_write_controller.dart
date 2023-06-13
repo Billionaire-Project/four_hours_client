@@ -46,7 +46,7 @@ class HomeWriteController extends _$HomeWriteController {
   bool _isLoadingMore = false;
 
   Future<Map<String, List<PostModel>>> getMyPostsInitial() async {
-    state = const AsyncValue.loading();
+    state = const AsyncLoading();
 
     _start = '0';
 
@@ -142,7 +142,7 @@ class HomeWriteController extends _$HomeWriteController {
   }
 
   void handlePressedWritePost(BuildContext context) async {
-    final asyncReceipt = ref.read(receiptControllerProvider);
+    final asyncReceipt = ref.watch(receiptControllerProvider);
     final bool isPostable = asyncReceipt.value?.isPostable ?? false;
 
     if (!isPostable) {

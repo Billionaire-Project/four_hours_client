@@ -37,7 +37,7 @@ class HomeSharedObscuredController extends _$HomeSharedObscuredController {
   bool _isLoadingMore = false;
 
   Future<List<PostModel>> getObscuredPostsInitial() async {
-    state = const AsyncValue.loading();
+    state = const AsyncLoading();
 
     _start = '0';
 

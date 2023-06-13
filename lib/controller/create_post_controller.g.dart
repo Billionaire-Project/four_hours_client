@@ -24,7 +24,7 @@ final createPostControllerProvider =
 
 typedef _$CreatePostController = AutoDisposeNotifier<String>;
 String _$savePostControllerHash() =>
-    r'b275cdebf364f36d7f00fbdc95f8ba6fab586741';
+    r'48da4c75f2e108ca722d896cc02d6145b11b6d49';
 
 /// See also [SavePostController].
 @ProviderFor(SavePostController)

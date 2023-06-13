@@ -37,7 +37,7 @@ class HomeSharedController extends _$HomeSharedController {
   bool _isLoadingMore = false;
 
   Future<List<PostModel>> getPostsInitial() async {
-    state = const AsyncValue.loading();
+    state = const AsyncLoading();
 
     _start = '0';
 

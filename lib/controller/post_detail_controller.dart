@@ -95,7 +95,7 @@ class PostDetailController extends _$PostDetailController {
   }
 
   Future<PostModel?> _getPostByIdInitial() async {
-    state = const AsyncValue.loading();
+    state = const AsyncLoading();
     try {
       state = await AsyncValue.guard(_fetchPostDetail);
 

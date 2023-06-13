@@ -32,7 +32,7 @@ class LikedPostsController extends _$LikedPostsController {
   PostsPaginationModel? get posts => _likedPosts;
 
   Future<List<PostModel>> getLikedPostsInitial() async {
-    state = const AsyncValue.loading();
+    state = const AsyncLoading();
 
     _start = '0';
 
