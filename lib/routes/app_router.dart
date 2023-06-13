@@ -134,12 +134,14 @@ GoRouter appRouter(AppRouterRef ref) {
         path: DeletePostPage.path,
         name: DeletePostPage.name,
         builder: (BuildContext context, GoRouterState state) {
-          final extra = state.extra as Map<String, bool?>?;
+          final extra = state.extra as Map<String, dynamic>?;
+          final int deleteStack = extra?['deleteStack'] as int;
           final bool? isDetailPage = extra?['isDetailPage'];
 
           if (state.params['postId'] != null) {
             return DeletePostPage(
               postId: int.parse(state.params['postId']!),
+              deleteStack: deleteStack,
               isDetailPage: isDetailPage,
             );
           } else {
