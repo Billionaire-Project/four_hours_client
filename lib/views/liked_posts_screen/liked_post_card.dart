@@ -63,7 +63,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
             mainAxisSize: MainAxisSize.min,
             children: [
               CommonRowWithDivider(
-                header: Container(
+                leading: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8.0,
                     vertical: 2.0,
@@ -78,7 +78,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                   ),
                 ),
                 rightGap: 8,
-                tail: const SizedBox(width: 8),
+                trailing: const SizedBox(width: 8),
               ),
               const Gap(8),
               Flexible(
@@ -101,7 +101,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
               const Gap(8),
               CommonRowWithDivider(
                 rightGap: 8,
-                tail: CommonLikeButton(
+                trailing: CommonLikeButton(
                   isLiked: widget.post.isLiked!,
                   postId: widget.post.id,
                 ),

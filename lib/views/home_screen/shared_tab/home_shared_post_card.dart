@@ -88,7 +88,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CommonRowWithDivider(
-                    header: Container(
+                    leading: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8.0,
                         vertical: 2.0,
@@ -103,7 +103,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                       ),
                     ),
                     rightGap: 8,
-                    tail: CommonIconButton(
+                    trailing: CommonIconButton(
                       icon: const Icon(
                         CustomIcons.more_line,
                       ),
@@ -135,7 +135,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                   const Gap(8),
                   CommonRowWithDivider(
                     rightGap: 8,
-                    tail: CommonLikeButton(
+                    trailing: CommonLikeButton(
                       isLiked: widget.post.isLiked!,
                       postId: widget.post.id,
                     ),

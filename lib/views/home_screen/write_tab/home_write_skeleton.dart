@@ -71,7 +71,7 @@ class SkeletonCard extends ConsumerWidget {
                 baseColor: customThemeColors.backgroundLabel,
                 highlightColor: customThemeColors.backgroundElevated,
                 child: CommonRowWithDivider(
-                  header: Container(
+                  leading: Container(
                     width: 80,
                     height: 24,
                     decoration: BoxDecoration(
