@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_obscured_pagination_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -83,6 +84,8 @@ class HomeSharedObscuredController extends _$HomeSharedObscuredController {
     _start = _obscuredPosts!.next;
 
     state = AsyncData(_obscuredPosts!.posts);
+
+    await ref.read(receiptControllerProvider.notifier).getReceipt();
 
     _refreshController.refreshCompleted();
   }
