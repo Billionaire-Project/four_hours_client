@@ -6,6 +6,7 @@ import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
+import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
 import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -27,8 +28,9 @@ class PostCardController extends _$PostCardController {
   void handlePressedCard(
     BuildContext context, {
     required PostModel post,
-    bool isMyPost = false,
   }) {
+    bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
+
     context.pushNamed(
       PostDetailPage.name,
       params: {
@@ -36,7 +38,7 @@ class PostCardController extends _$PostCardController {
       },
       extra: PostDetailExtraModel(
         post: post,
-        isMyPost: isMyPost,
+        isFromMyPost: isFromMyPost,
       ),
     );
   }
@@ -44,9 +46,10 @@ class PostCardController extends _$PostCardController {
   void handlePressedMoreButton(
     BuildContext context, {
     required PostModel post,
-    bool isMyPost = false,
   }) {
-    if (isMyPost) {
+    bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
+
+    if (isFromMyPost) {
       final deleteStack =
           ref.watch(receiptControllerProvider).value?.postDeleteStack ?? 0;
 
@@ -96,25 +99,51 @@ class PostCardController extends _$PostCardController {
         ],
       );
     } else {
-      showCommonActionSheet(
-        actions: [
-          CommonActionSheetAction(
-            isDestructiveAction: true,
-            onPressed: () {
-              closeRootNavigator();
-              showCommonDialogWithTwoButtons(
-                iconData: CustomIcons.report_fill,
-                title: '해당 게시글을 신고하시겠어요?',
-                subtitle: '신고가 접수되면 즉시 사라집니다',
-                onPressedRightButton: handlePressedReportButton,
-                rightButtonText: '신고',
-              );
-            },
-            iconData: CustomIcons.report_line,
-            text: '게시글 신고',
-          )
-        ],
-      );
+      bool isMyPost = post.isOwner ?? true;
+
+      if (isMyPost) {
+        showCommonActionSheet(
+          actions: [
+            CommonActionSheetAction(
+              onPressed: () async {
+                await saveToClipboard(post.content);
+                if (context.mounted) {
+                  closeRootNavigator();
+
+                  showCommonToast(
+                    context,
+                    iconData: CustomIcons.check_line,
+                    text: '클립보드에 복사되었어요!',
+                    bottom: 40,
+                  );
+                }
+              },
+              iconData: CustomIcons.copy_line,
+              text: '글 내용 복사',
+            ),
+          ],
+        );
+      } else {
+        showCommonActionSheet(
+          actions: [
+            CommonActionSheetAction(
+              isDestructiveAction: true,
+              onPressed: () {
+                closeRootNavigator();
+                showCommonDialogWithTwoButtons(
+                  iconData: CustomIcons.report_fill,
+                  title: '해당 게시글을 신고하시겠어요?',
+                  subtitle: '신고가 접수되면 즉시 사라집니다',
+                  onPressedRightButton: handlePressedReportButton,
+                  rightButtonText: '신고',
+                );
+              },
+              iconData: CustomIcons.report_line,
+              text: '게시글 신고',
+            )
+          ],
+        );
+      }
     }
   }
 

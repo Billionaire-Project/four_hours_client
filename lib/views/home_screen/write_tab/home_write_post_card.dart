@@ -42,7 +42,6 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
           postNotifier.handlePressedCard(
             context,
             post: widget.post,
-            isMyPost: true,
           );
         },
         child: Container(
@@ -89,7 +88,6 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
                     postNotifier.handlePressedMoreButton(
                       context,
                       post: widget.post,
-                      isMyPost: true,
                     );
                   },
                 ),

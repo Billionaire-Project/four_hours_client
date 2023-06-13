@@ -21,7 +21,7 @@ PostDetailExtraModel _$PostDetailExtraModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PostDetailExtraModel {
   PostModel get post => throw _privateConstructorUsedError;
-  bool? get isMyPost => throw _privateConstructorUsedError;
+  bool get isFromMyPost => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $PostDetailExtraModelCopyWith<$Res> {
           $Res Function(PostDetailExtraModel) then) =
       _$PostDetailExtraModelCopyWithImpl<$Res, PostDetailExtraModel>;
   @useResult
-  $Res call({PostModel post, bool? isMyPost});
+  $Res call({PostModel post, bool isFromMyPost});
 
   $PostModelCopyWith<$Res> get post;
 }
@@ -55,17 +55,17 @@ class _$PostDetailExtraModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? post = null,
-    Object? isMyPost = freezed,
+    Object? isFromMyPost = null,
   }) {
     return _then(_value.copyWith(
       post: null == post
           ? _value.post
           : post // ignore: cast_nullable_to_non_nullable
               as PostModel,
-      isMyPost: freezed == isMyPost
-          ? _value.isMyPost
-          : isMyPost // ignore: cast_nullable_to_non_nullable
-              as bool?,
+      isFromMyPost: null == isFromMyPost
+          ? _value.isFromMyPost
+          : isFromMyPost // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -86,7 +86,7 @@ abstract class _$$_PostDetailExtraModelCopyWith<$Res>
       __$$_PostDetailExtraModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({PostModel post, bool? isMyPost});
+  $Res call({PostModel post, bool isFromMyPost});
 
   @override
   $PostModelCopyWith<$Res> get post;
@@ -104,17 +104,17 @@ class __$$_PostDetailExtraModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? post = null,
-    Object? isMyPost = freezed,
+    Object? isFromMyPost = null,
   }) {
     return _then(_$_PostDetailExtraModel(
       post: null == post
           ? _value.post
           : post // ignore: cast_nullable_to_non_nullable
               as PostModel,
-      isMyPost: freezed == isMyPost
-          ? _value.isMyPost
-          : isMyPost // ignore: cast_nullable_to_non_nullable
-              as bool?,
+      isFromMyPost: null == isFromMyPost
+          ? _value.isFromMyPost
+          : isFromMyPost // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -122,7 +122,7 @@ class __$$_PostDetailExtraModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_PostDetailExtraModel implements _PostDetailExtraModel {
-  _$_PostDetailExtraModel({required this.post, this.isMyPost});
+  _$_PostDetailExtraModel({required this.post, required this.isFromMyPost});
 
   factory _$_PostDetailExtraModel.fromJson(Map<String, dynamic> json) =>
       _$$_PostDetailExtraModelFromJson(json);
@@ -130,11 +130,11 @@ class _$_PostDetailExtraModel implements _PostDetailExtraModel {
   @override
   final PostModel post;
   @override
-  final bool? isMyPost;
+  final bool isFromMyPost;
 
   @override
   String toString() {
-    return 'PostDetailExtraModel(post: $post, isMyPost: $isMyPost)';
+    return 'PostDetailExtraModel(post: $post, isFromMyPost: $isFromMyPost)';
   }
 
   @override
@@ -143,13 +143,13 @@ class _$_PostDetailExtraModel implements _PostDetailExtraModel {
         (other.runtimeType == runtimeType &&
             other is _$_PostDetailExtraModel &&
             (identical(other.post, post) || other.post == post) &&
-            (identical(other.isMyPost, isMyPost) ||
-                other.isMyPost == isMyPost));
+            (identical(other.isFromMyPost, isFromMyPost) ||
+                other.isFromMyPost == isFromMyPost));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, post, isMyPost);
+  int get hashCode => Object.hash(runtimeType, post, isFromMyPost);
 
   @JsonKey(ignore: true)
   @override
@@ -169,7 +169,7 @@ class _$_PostDetailExtraModel implements _PostDetailExtraModel {
 abstract class _PostDetailExtraModel implements PostDetailExtraModel {
   factory _PostDetailExtraModel(
       {required final PostModel post,
-      final bool? isMyPost}) = _$_PostDetailExtraModel;
+      required final bool isFromMyPost}) = _$_PostDetailExtraModel;
 
   factory _PostDetailExtraModel.fromJson(Map<String, dynamic> json) =
       _$_PostDetailExtraModel.fromJson;
@@ -177,7 +177,7 @@ abstract class _PostDetailExtraModel implements PostDetailExtraModel {
   @override
   PostModel get post;
   @override
-  bool? get isMyPost;
+  bool get isFromMyPost;
   @override
   @JsonKey(ignore: true)
   _$$_PostDetailExtraModelCopyWith<_$_PostDetailExtraModel> get copyWith =>
