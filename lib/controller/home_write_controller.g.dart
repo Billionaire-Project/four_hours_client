@@ -7,7 +7,7 @@ part of 'home_write_controller.dart';
 // **************************************************************************
 
 String _$homeWriteControllerHash() =>
-    r'4f07b991404b4768b8b6f1ddfa15012fcd449de0';
+    r'865b0f234bad5b615ce3adbb0bccfaa5a45af10d';
 
 /// See also [HomeWriteController].
 @ProviderFor(HomeWriteController)

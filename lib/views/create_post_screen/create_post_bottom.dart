@@ -60,9 +60,10 @@ class CreatePostBottom extends ConsumerWidget {
             ),
             const Gap(4),
             Text(
-              '{error.toString()}',
-              style: customTextStyle.montLabelSmall
-                  .copyWith(color: customThemeColors.blue),
+              '{$error.toString()}',
+              style: customTextStyle.montLabelSmall.copyWith(
+                color: customThemeColors.red,
+              ),
             ),
           ],
         );

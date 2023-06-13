@@ -15,7 +15,7 @@ part 'post_detail_controller.g.dart';
 @riverpod
 class PostDetailController extends _$PostDetailController {
   @override
-  Future<PostModel> build({
+  Future<PostModel?> build({
     required PostModel post,
   }) {
     return _getPostByIdInitial();
@@ -94,16 +94,27 @@ class PostDetailController extends _$PostDetailController {
     }
   }
 
-  Future<PostModel> _getPostByIdInitial() async {
+  Future<PostModel?> _getPostByIdInitial() async {
     state = const AsyncValue.loading();
     try {
       state = await AsyncValue.guard(_fetchPostDetail);
 
-      if (!state.hasValue) {
-        state = const AsyncValue.loading();
+      if (state.hasError) {
+        state = AsyncValue.error(
+          '${state.error}',
+          StackTrace.current,
+        );
+        printDebug(
+          'PostDetailController',
+          'State has an error ${state.error}',
+        );
       }
 
-      return state.value!;
+      if (!state.hasValue) {
+        printDebug('PostDetailController', 'State has no value');
+      }
+
+      return state.value;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }

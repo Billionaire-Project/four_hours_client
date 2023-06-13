@@ -5,6 +5,7 @@ import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/home_shared_obscured_controller.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_obscured_bottom.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_obscured_post_card.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_post_card.dart';
@@ -61,7 +62,7 @@ class HomeSharedTab extends ConsumerWidget {
                 ),
               );
             },
-            error: (error, __) => throw ('error: $error'),
+            error: (error, __) => ErrorPage(error: error),
             loading: () => const CommonPostSkeleton(),
           );
         },
@@ -113,7 +114,7 @@ class HomeSharedTab extends ConsumerWidget {
                 ),
               );
             },
-            error: (error, __) => throw ('error: $error'),
+            error: (error, __) => ErrorPage(error: error),
             loading: () => const CommonPostSkeleton(),
           );
         },

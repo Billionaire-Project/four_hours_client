@@ -72,11 +72,21 @@ class HomeWriteController extends _$HomeWriteController {
 
       state = AsyncData(_myPosts!.posts);
 
-      if (!state.hasValue) {
-        return {};
+      if (state.hasError) {
+        state = AsyncValue.error(
+          '${state.error}',
+          StackTrace.current,
+        );
+        printDebug(
+          'HomeWriteController',
+          'State has an error ${state.error}',
+        );
       }
 
-      _refreshController.refreshCompleted();
+      if (!state.hasValue) {
+        printDebug('HomeWriteController', 'State has no value');
+        return {};
+      }
 
       return _myPosts!.posts;
     } on DioError catch (e) {

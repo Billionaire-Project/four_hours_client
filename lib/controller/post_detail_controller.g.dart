@@ -7,7 +7,7 @@ part of 'post_detail_controller.dart';
 // **************************************************************************
 
 String _$postDetailControllerHash() =>
-    r'9daadc749215cb9d828b537750a18d837d40f718';
+    r'2e6c96f07cfdd67e71276581701df61df1d22601';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,10 @@ class _SystemHash {
 }
 
 abstract class _$PostDetailController
-    extends BuildlessAutoDisposeAsyncNotifier<PostModel> {
+    extends BuildlessAutoDisposeAsyncNotifier<PostModel?> {
   late final PostModel post;
 
-  Future<PostModel> build({
+  Future<PostModel?> build({
     required PostModel post,
   });
 }
@@ -44,7 +44,7 @@ abstract class _$PostDetailController
 const postDetailControllerProvider = PostDetailControllerFamily();
 
 /// See also [PostDetailController].
-class PostDetailControllerFamily extends Family<AsyncValue<PostModel>> {
+class PostDetailControllerFamily extends Family<AsyncValue<PostModel?>> {
   /// See also [PostDetailController].
   const PostDetailControllerFamily();
 
@@ -83,7 +83,7 @@ class PostDetailControllerFamily extends Family<AsyncValue<PostModel>> {
 
 /// See also [PostDetailController].
 class PostDetailControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    PostDetailController, PostModel> {
+    PostDetailController, PostModel?> {
   /// See also [PostDetailController].
   PostDetailControllerProvider({
     required this.post,
@@ -116,7 +116,7 @@ class PostDetailControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  Future<PostModel> runNotifierBuild(
+  Future<PostModel?> runNotifierBuild(
     covariant PostDetailController notifier,
   ) {
     return notifier.build(

@@ -8,21 +8,32 @@ part 'receipt_controller.g.dart';
 @Riverpod(keepAlive: true)
 class ReceiptController extends _$ReceiptController {
   @override
-  Future<ReceiptModel> build() {
+  Future<ReceiptModel?> build() {
     return getReceipt();
   }
 
-  Future<ReceiptModel> getReceipt() async {
+  Future<ReceiptModel?> getReceipt() async {
     try {
       final postsRepository = ref.read(postsRepositoryProvider);
 
       state = await AsyncValue.guard(postsRepository.getReceipt);
 
-      if (!state.hasValue) {
-        throw ('There is no receipt');
+      if (state.hasError) {
+        state = AsyncValue.error(
+          '${state.error}',
+          StackTrace.current,
+        );
+        printDebug(
+          'ReceiptController',
+          'State has an error ${state.error}',
+        );
       }
 
-      return state.value!;
+      if (!state.hasValue) {
+        printDebug('ReceiptController', 'State has no value');
+      }
+
+      return state.value;
     } on DioError catch (e) {
       throw throwExceptions(e);
     }

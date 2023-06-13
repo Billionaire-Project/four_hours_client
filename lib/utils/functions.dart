@@ -153,3 +153,9 @@ String throwExceptions(DioError e) {
 Future<void> saveToClipboard(String text) async {
   await Clipboard.setData(ClipboardData(text: text));
 }
+
+void printDebug(String currentLocation, String text) {
+  debugPrint(
+    'Location: $currentLocation --- $text',
+  );
+}

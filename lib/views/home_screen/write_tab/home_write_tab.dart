@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/home_write_controller.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
+import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_my_posts.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_skeleton.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_today.dart';
@@ -45,7 +46,7 @@ class HomeWriteTab extends ConsumerWidget {
         );
       },
       loading: () => const HomeWriteSkeleton(),
-      error: (error, __) => Center(child: Text('error: $error')),
+      error: (error, _) => ErrorPage(error: error),
     );
   }
 }

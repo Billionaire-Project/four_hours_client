@@ -50,8 +50,19 @@ class HomeSharedObscuredController extends _$HomeSharedObscuredController {
         state = AsyncData(_obscuredPosts!.posts);
       });
 
+      if (state.hasError) {
+        state = AsyncValue.error(
+          '${state.error}',
+          StackTrace.current,
+        );
+        printDebug(
+          'HomeShardController',
+          'State has an error ${state.error}',
+        );
+      }
+
       if (!state.hasValue) {
-        debugPrint('List of Post is null');
+        printDebug('HomeSharedController', 'State has no value');
         return [];
       }
 

@@ -12,6 +12,7 @@ import 'package:four_hours_client/repositories/auth_repository.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/login_screen/login_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,8 +66,8 @@ class CreatePostController extends _$CreatePostController {
             _focusNode.requestFocus();
           },
           rightButtonText: '네, 이어서 작성할게요',
-          onPressedLeftButton: () async {
-            await _removeTemporaryText();
+          onPressedLeftButton: () {
+            _removeTemporaryText();
             _focusNode.requestFocus();
           },
           leftButtonText: '아니요',
@@ -84,9 +85,9 @@ class CreatePostController extends _$CreatePostController {
         title: '작성한 글을 게시하시겠어요?',
         subtitle: '게시된 글은 편집할 수 없어요',
         onPressedRightButton: () async {
-          await _removeTemporaryText();
+          _removeTemporaryText();
 
-          bool result = await _submitPost(content: state);
+          bool result = await _submitPost(context, content: state);
 
           if (result) {
             await ref
@@ -103,7 +104,11 @@ class CreatePostController extends _$CreatePostController {
               context.pop(true);
             }
           } else {
-            //TODO: 게시가 제대로 되지 않았을 경우 처리 필요
+            showCommonAlert(
+              iconData: CustomIcons.warning_line,
+              text: '게시가 제대로 이루어지지 않았습니다.\n나중에 다시 시도해주세요',
+            );
+            printDebug('CreatePostController', '게시가 이루어지지 않음');
           }
         },
         rightButtonText: '네, 게시할게요',
@@ -157,11 +162,14 @@ class CreatePostController extends _$CreatePostController {
     _temporaryText = sharedPreferences!.getString('temporaryText') ?? '';
   }
 
-  Future<void> _removeTemporaryText() async {
+  void _removeTemporaryText() {
     sharedPreferences!.remove(SharedPreferenceKey.temporaryText);
   }
 
-  Future<bool> _submitPost({required String content}) async {
+  Future<bool> _submitPost(
+    BuildContext context, {
+    required String content,
+  }) async {
     if (_user != null) {
       try {
         await postsRepository!.submitPosts(userId: _user!.id, content: content);
@@ -171,8 +179,10 @@ class CreatePostController extends _$CreatePostController {
         throw throwExceptions(e);
       }
     } else {
-      //TODO: 유저가 null일 경우 처리 필요
-      throw ('User is null');
+      context.replace(LoginPage.path);
+      showCommonAlert(iconData: CustomIcons.warning_line, text: '다시 로그인 해주세요');
+      printDebug('CreatePostController', 'User is null');
+      return false;
     }
   }
 
@@ -206,7 +216,8 @@ class SavePostController extends _$SavePostController {
       if (result) {
         state = const AsyncValue.data(true);
       } else {
-        state = AsyncValue.error('Error', StackTrace.current);
+        state = AsyncValue.error('Error while saving post', StackTrace.current);
+        printDebug('CreatePostController', 'Error while saving post');
       }
     });
   }

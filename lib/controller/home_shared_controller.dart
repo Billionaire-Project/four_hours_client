@@ -49,16 +49,30 @@ class HomeSharedController extends _$HomeSharedController {
       });
 
       if (_posts == null) {
-        //TODO: handle posts null value
-        return [];
+        state = AsyncValue.error(
+          'The value of the post is null',
+          StackTrace.current,
+        );
+        printDebug('HomeShardController', 'The value of the post is null');
       }
 
       _start = _posts!.next;
 
       state = AsyncData(_posts!.posts);
 
+      if (state.hasError) {
+        state = AsyncValue.error(
+          '${state.error}',
+          StackTrace.current,
+        );
+        printDebug(
+          'HomeShardController',
+          'State has an error ${state.error}',
+        );
+      }
+
       if (!state.hasValue) {
-        debugPrint('List of Post is null');
+        printDebug('LikedPostsController', 'State has no value');
         return [];
       }
 

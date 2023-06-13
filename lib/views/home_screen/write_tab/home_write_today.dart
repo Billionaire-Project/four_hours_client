@@ -7,6 +7,7 @@ import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_post_card.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_timer.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
@@ -15,7 +16,7 @@ import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
 class Today extends ConsumerWidget {
-  final AsyncValue<ReceiptModel> asyncReceipt;
+  final AsyncValue<ReceiptModel?> asyncReceipt;
   const Today({
     Key? key,
     required this.asyncReceipt,
@@ -29,7 +30,7 @@ class Today extends ConsumerWidget {
 
     return asyncReceipt.when(
       data: (receipt) {
-        bool isPostable = receipt.isPostable;
+        bool isPostable = receipt!.isPostable && receipt.postableAt == null;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +58,7 @@ class Today extends ConsumerWidget {
         );
       },
       loading: () => const SizedBox.shrink(),
-      error: (error, __) => Center(child: Text('error: $error')),
+      error: (error, __) => ErrorPage(error: error),
     );
   }
 }
