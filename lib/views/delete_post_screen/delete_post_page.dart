@@ -31,6 +31,16 @@ class DeletePostPage extends ConsumerStatefulWidget {
 class _DeletePostPageState extends ConsumerState<DeletePostPage> {
   int selectedId = 1;
   List<DeleteReasonModel> deleteReasons = [];
+  late final bool isFirstTime;
+
+  @override
+  void initState() {
+    super.initState();
+    final asyncReceipt = ref.read(receiptControllerProvider);
+    asyncReceipt.whenData((receipt) {
+      isFirstTime = receipt?.postDeleteStack == 0;
+    });
+  }
 
   void handlePressedReason(int reasonIndex) {
     setState(() {
@@ -116,29 +126,21 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
             ),
           ),
           const Spacer(),
-          Consumer(
-            builder: (context, ref, child) {
-              final asyncReceipt = ref.watch(receiptControllerProvider);
-
-              final int postDeleteStack = asyncReceipt.value!.postDeleteStack;
-
-              if (postDeleteStack == 1) {
-                return Column(
-                  children: [
-                    Text(
-                      '이미 한 번 삭제한 적이 있어요.\n지금 다시 삭제하면, 4시간 뒤에 작성 가능해요',
-                      style: customTextStyle.titleMedium
-                          .copyWith(color: customThemeColors.red),
-                      textAlign: TextAlign.center,
-                    ),
-                    const Gap(16),
-                  ],
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          ),
+          if (!isFirstTime) ...[
+            Column(
+              children: [
+                Text(
+                  '이미 한 번 삭제한 적이 있어요.\n지금 다시 삭제하면, 4시간 뒤에 작성 가능해요',
+                  style: customTextStyle.titleMedium
+                      .copyWith(color: customThemeColors.red),
+                  textAlign: TextAlign.center,
+                ),
+                const Gap(16),
+              ],
+            ),
+          ] else ...[
+            const SizedBox.shrink()
+          ],
           Column(
             children: [
               CommonFullWidthTextButton(
