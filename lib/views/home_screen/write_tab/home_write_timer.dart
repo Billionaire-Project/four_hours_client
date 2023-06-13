@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/controller/write_timer_controller.dart';
+import 'package:four_hours_client/controller/home_write_timer_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
@@ -79,9 +79,9 @@ class _TimerState extends ConsumerState<_Timer> {
     final double timerDiameter = getTimerSize(context).diameter;
     final double timerRadius = getTimerSize(context).radius;
 
-    final elapsedTime = ref.watch(writeTimerControllerProvider);
+    final elapsedTime = ref.watch(homeWriteTimerControllerProvider);
 
-    final notifier = ref.watch(writeTimerControllerProvider.notifier);
+    final notifier = ref.watch(homeWriteTimerControllerProvider.notifier);
 
     Duration duration = notifier.duration;
 
@@ -90,6 +90,24 @@ class _TimerState extends ConsumerState<_Timer> {
     String seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
 
     return SleekCircularSlider(
+      min: 0,
+      max: totalSeconds,
+      initialValue: elapsedTime,
+      appearance: CircularSliderAppearance(
+        startAngle: 180,
+        angleRange: 180,
+        size: timerDiameter,
+        customWidths: CustomSliderWidths(
+          handlerSize: 0,
+          trackWidth: 12,
+          progressBarWidth: 12,
+        ),
+        customColors: CustomSliderColors(
+          progressBarColor: customThemeColors.orange,
+          trackColor: customThemeColors.backgroundPath,
+          hideShadow: true,
+        ),
+      ),
       innerWidget: (double value) {
         return Stack(
           children: [
@@ -151,24 +169,6 @@ class _TimerState extends ConsumerState<_Timer> {
           ],
         );
       },
-      appearance: CircularSliderAppearance(
-        startAngle: 180,
-        angleRange: 180,
-        size: timerDiameter,
-        customWidths: CustomSliderWidths(
-          handlerSize: 0,
-          trackWidth: 12,
-          progressBarWidth: 12,
-        ),
-        customColors: CustomSliderColors(
-          progressBarColor: customThemeColors.orange,
-          trackColor: customThemeColors.backgroundPath,
-          hideShadow: true,
-        ),
-      ),
-      min: 0,
-      max: totalSeconds,
-      initialValue: elapsedTime,
     );
   }
 }
