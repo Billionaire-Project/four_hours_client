@@ -81,17 +81,18 @@ class HomeSharedTab extends ConsumerWidget {
 //TODO: obscured에서 리프레쉬 기능이나 다른 인터렉티브한 기능이 필요한가?
           return obscuredPosts.when(
             data: (posts) {
-              return SmartRefresher(
-                enablePullDown: true,
-                enablePullUp: true,
-                controller: sharedObscuredNotifier.refreshController,
-                scrollController: sharedObscuredNotifier.scrollController,
-                onRefresh: sharedObscuredNotifier.refreshTab,
-                footer: const CustomRefresherFooter(),
-                child: Column(
-                  children: [
-                    Expanded(
+              return Column(
+                children: [
+                  Expanded(
+                    child: SmartRefresher(
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      controller: sharedObscuredNotifier.refreshController,
+                      scrollController: sharedObscuredNotifier.scrollController,
+                      onRefresh: sharedObscuredNotifier.refreshTab,
+                      footer: const CustomRefresherFooter(),
                       child: ListView.separated(
+                        shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final String leftTime =
                               getPostElapsedTime(date: posts[index].createdAt);
@@ -113,9 +114,9 @@ class HomeSharedTab extends ConsumerWidget {
                         itemCount: posts.length,
                       ),
                     ),
-                    const HomeSharedObscuredBottom()
-                  ],
-                ),
+                  ),
+                  const HomeSharedObscuredBottom()
+                ],
               );
             },
             error: (error, __) => ErrorPage(error: error),
