@@ -21,7 +21,6 @@ class DeletePostController extends _$DeletePostController {
     required int reasonId,
   }) {
     _init();
-    _getDeleteReason();
     return _getDeleteReason();
   }
 
