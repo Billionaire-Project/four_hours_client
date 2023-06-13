@@ -28,7 +28,7 @@ class ErrorPage extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
-                  CustomIcons.warning_line,
+                  CustomIcons.ghost_line,
                   size: 48,
                 ),
                 const Gap(8),
@@ -38,7 +38,7 @@ class ErrorPage extends ConsumerWidget {
                 ),
                 const Gap(4),
                 Text(
-                  'Error: ${error ?? 'Unknown'}}',
+                  'Error: ${error ?? 'Unknown Error'}',
                   style: customTextStyle.bodyMedium,
                 ),
               ],
