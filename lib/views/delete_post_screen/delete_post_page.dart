@@ -31,7 +31,7 @@ class DeletePostPage extends ConsumerStatefulWidget {
 class _DeletePostPageState extends ConsumerState<DeletePostPage> {
   int selectedId = 1;
   List<DeleteReasonModel> deleteReasons = [];
-  late final bool isFirstTime;
+  bool isFirstTime = false;
 
   @override
   void initState() {

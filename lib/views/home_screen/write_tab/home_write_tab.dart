@@ -18,6 +18,7 @@ class HomeWriteTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final myPosts = ref.watch(homeWriteControllerProvider);
     final myPostsNotifier = ref.read(homeWriteControllerProvider.notifier);
+    final asyncReceipt = ref.watch(receiptControllerProvider);
 
     return myPosts.when(
       data: (posts) {
@@ -32,13 +33,7 @@ class HomeWriteTab extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Consumer(
-                builder: (context, ref, child) {
-                  final asyncReceipt = ref.watch(receiptControllerProvider);
-
-                  return Today(asyncReceipt: asyncReceipt);
-                },
-              ),
+              Today(asyncReceipt: asyncReceipt),
               const Gap(16),
               const MyPosts(),
             ],

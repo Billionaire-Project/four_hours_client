@@ -21,9 +21,13 @@ class HomeSharedTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncReceipt = ref.watch(receiptControllerProvider);
+    bool isReadable = false;
 
-//? isReadable이 null이면 어떻게 해야하지?
-    if (asyncReceipt.value?.isReadable ?? false) {
+    asyncReceipt.whenData((receipt) {
+      isReadable = receipt?.isReadable ?? false;
+    });
+
+    if (isReadable) {
       return Consumer(
         builder: (context, ref, child) {
           final posts = ref.watch(homeSharedControllerProvider);

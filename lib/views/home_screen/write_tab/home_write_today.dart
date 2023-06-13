@@ -17,6 +17,7 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 
 class Today extends ConsumerWidget {
   final AsyncValue<ReceiptModel?> asyncReceipt;
+
   const Today({
     Key? key,
     required this.asyncReceipt,
@@ -30,7 +31,11 @@ class Today extends ConsumerWidget {
 
     return asyncReceipt.when(
       data: (receipt) {
-        bool isPostable = receipt!.isPostable && receipt.postableAt == null;
+        bool isPostable = false;
+
+        if (receipt != null) {
+          isPostable = receipt.isPostable && receipt.postableAt == null;
+        }
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,17 +46,10 @@ class Today extends ConsumerWidget {
               child: CommonTitle('Today'),
             ),
             const Gap(8),
-            if (isPostable) ...[
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: _TodaysTopic(),
-              ),
-            ] else ...[
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: HomeWriteTimer(),
-              ),
-            ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: isPostable ? const _TodaysTopic() : const HomeWriteTimer(),
+            ),
             const Gap(8),
             _TodayList(todayPosts: todayPosts),
           ],
