@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_pagination_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -42,8 +43,15 @@ class HomeSharedController extends _$HomeSharedController {
 
     try {
       await Future.delayed(skeletonDelay, () async {
+        _start = '0';
+
         _posts = await _fetchSharedPosts();
       });
+
+      if (_posts == null) {
+        //TODO: handle posts null value
+        return [];
+      }
 
       _start = _posts!.next;
 
@@ -83,6 +91,8 @@ class HomeSharedController extends _$HomeSharedController {
     _start = _posts!.next;
 
     state = AsyncData(_posts!.posts);
+
+    await ref.read(receiptControllerProvider.notifier).getReceipt();
 
     _refreshController.refreshCompleted();
   }
