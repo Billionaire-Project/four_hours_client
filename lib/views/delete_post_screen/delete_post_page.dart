@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/delete_post_controller.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/delete_reason_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
+import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_tile_with_radio.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
@@ -39,6 +41,7 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
+    final customThemeColors = ref.watch(customThemeColorsProvider);
 
     return MainWrapper(
       padding: const EdgeInsets.only(
@@ -113,6 +116,29 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
             ),
           ),
           const Spacer(),
+          Consumer(
+            builder: (context, ref, child) {
+              final asyncReceipt = ref.watch(receiptControllerProvider);
+
+              final int postDeleteStack = asyncReceipt.value!.postDeleteStack;
+
+              if (postDeleteStack == 1) {
+                return Column(
+                  children: [
+                    Text(
+                      '이미 한 번 삭제한 적이 있어요.\n지금 다시 삭제하면, 4시간 뒤에 작성 가능해요',
+                      style: customTextStyle.titleMedium
+                          .copyWith(color: customThemeColors.red),
+                      textAlign: TextAlign.center,
+                    ),
+                    const Gap(16),
+                  ],
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
           Column(
             children: [
               CommonFullWidthTextButton(
