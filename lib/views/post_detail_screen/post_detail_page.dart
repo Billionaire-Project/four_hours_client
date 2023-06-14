@@ -96,7 +96,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CommonRowWithDivider(
-                          trailing: CommonTitle(
+                          leading: CommonTitle(
                             getPostElapsedTime(
                               date: widget.post.updatedAt,
                             ),
