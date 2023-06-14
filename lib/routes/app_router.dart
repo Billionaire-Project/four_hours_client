@@ -156,8 +156,8 @@ GoRouter appRouter(AppRouterRef ref) {
           path: ErrorPage.path,
           parentNavigatorKey: navigatorKey,
           builder: (BuildContext context, GoRouterState state) {
-            final extra = state.extra as Map<String, String?>;
-            final error = extra['error'];
+            final extra = state.extra as Map<String, String?>?;
+            final error = extra?['error'];
 
             return ErrorPage(error: error);
           }),
