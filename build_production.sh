@@ -12,3 +12,7 @@ echo '==============='
 echo 'archive android'
 echo '==============='
 flutter build appbundle --flavor production -t lib/main_production.dart
+
+echo '===================='
+echo 'build apk debug'
+flutter build apk --debug --target-platform=android-arm64
