@@ -43,12 +43,14 @@ class HomeSharedObscuredController extends _$HomeSharedObscuredController {
 
     try {
       await Future.delayed(skeletonDelay, () async {
+        _start = '0';
+
         _obscuredPosts = await _fetchObscuredPosts();
-
-        _start = _obscuredPosts!.next;
-
-        state = AsyncData(_obscuredPosts!.posts);
       });
+
+      _start = _obscuredPosts!.next;
+
+      state = AsyncData(_obscuredPosts!.posts);
 
       if (state.hasError) {
         state = AsyncValue.error(
