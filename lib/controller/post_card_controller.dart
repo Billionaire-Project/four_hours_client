@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
+import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
 import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -26,8 +28,9 @@ class PostCardController extends _$PostCardController {
   void handlePressedCard(
     BuildContext context, {
     required PostModel post,
-    bool isMyPost = false,
   }) {
+    bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
+
     context.pushNamed(
       PostDetailPage.name,
       params: {
@@ -35,7 +38,7 @@ class PostCardController extends _$PostCardController {
       },
       extra: PostDetailExtraModel(
         post: post,
-        isMyPost: isMyPost,
+        isFromMyPost: isFromMyPost,
       ),
     );
   }
@@ -43,9 +46,13 @@ class PostCardController extends _$PostCardController {
   void handlePressedMoreButton(
     BuildContext context, {
     required PostModel post,
-    bool isMyPost = false,
   }) {
-    if (isMyPost) {
+    bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
+
+    if (isFromMyPost) {
+      final deleteStack =
+          ref.watch(receiptControllerProvider).value?.postDeleteStack ?? 0;
+
       showCommonActionSheet(
         actions: [
           CommonActionSheetAction(
@@ -53,12 +60,21 @@ class PostCardController extends _$PostCardController {
             onPressed: () async {
               closeRootNavigator();
 
-              await context.pushNamed(
-                DeletePostPage.name,
-                params: {
-                  'postId': post.id.toString(),
-                },
-              );
+              if (deleteStack >= 2) {
+                showCommonToast(
+                  context,
+                  iconData: CustomIcons.warning_line,
+                  text: '더 이상 글을 삭제할 수 없어요. 나중에 다시 시도해주세요.',
+                  bottom: 40,
+                );
+                return;
+              }
+
+              await context.pushNamed(DeletePostPage.name, params: {
+                'postId': post.id.toString(),
+              }, extra: {
+                'deleteStack': deleteStack,
+              });
             },
             iconData: CustomIcons.delete_bin_line,
             text: '게시글 삭제',
@@ -83,25 +99,51 @@ class PostCardController extends _$PostCardController {
         ],
       );
     } else {
-      showCommonActionSheet(
-        actions: [
-          CommonActionSheetAction(
-            isDestructiveAction: true,
-            onPressed: () {
-              closeRootNavigator();
-              showCommonDialogWithTwoButtons(
-                iconData: CustomIcons.report_fill,
-                title: '해당 게시글을 신고하시겠어요?',
-                subtitle: '신고가 접수되면 즉시 사라집니다',
-                onPressedRightButton: handlePressedReportButton,
-                rightButtonText: '신고',
-              );
-            },
-            iconData: CustomIcons.report_line,
-            text: '게시글 신고',
-          )
-        ],
-      );
+      bool isMyPost = post.isOwner ?? true;
+
+      if (isMyPost) {
+        showCommonActionSheet(
+          actions: [
+            CommonActionSheetAction(
+              onPressed: () async {
+                await saveToClipboard(post.content);
+                if (context.mounted) {
+                  closeRootNavigator();
+
+                  showCommonToast(
+                    context,
+                    iconData: CustomIcons.check_line,
+                    text: '클립보드에 복사되었어요!',
+                    bottom: 40,
+                  );
+                }
+              },
+              iconData: CustomIcons.copy_line,
+              text: '글 내용 복사',
+            ),
+          ],
+        );
+      } else {
+        showCommonActionSheet(
+          actions: [
+            CommonActionSheetAction(
+              isDestructiveAction: true,
+              onPressed: () {
+                closeRootNavigator();
+                showCommonDialogWithTwoButtons(
+                  iconData: CustomIcons.report_fill,
+                  title: '해당 게시글을 신고하시겠어요?',
+                  subtitle: '신고가 접수되면 즉시 사라집니다',
+                  onPressedRightButton: handlePressedReportButton,
+                  rightButtonText: '신고',
+                );
+              },
+              iconData: CustomIcons.report_line,
+              text: '게시글 신고',
+            )
+          ],
+        );
+      }
     }
   }
 

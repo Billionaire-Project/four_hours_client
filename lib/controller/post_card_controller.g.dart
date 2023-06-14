@@ -7,7 +7,7 @@ part of 'post_card_controller.dart';
 // **************************************************************************
 
 String _$postCardControllerHash() =>
-    r'b53a548c808dbc411c56864357ffa027a5abcceb';
+    r'496e555630ede9ea08a0f0308086a9ff38878b71';
 
 /// Copied from Dart SDK
 class _SystemHash {

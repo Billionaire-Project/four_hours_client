@@ -3,6 +3,7 @@ import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
+import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
 import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
@@ -106,13 +107,13 @@ GoRouter appRouter(AppRouterRef ref) {
               state.extra as PostDetailExtraModel;
 
           final PostModel post = extra.post;
-          final bool? isMyPost = extra.isMyPost;
+          final bool isFromMyPost = extra.isFromMyPost;
 
           if (state.params['postId'] != null) {
             return PostDetailPage(
               postId: state.params['postId']!,
               post: post,
-              isMyPost: isMyPost ?? false,
+              isFromMyPost: isFromMyPost,
             );
           } else {
             //TODO: redirect or show error page
@@ -134,12 +135,14 @@ GoRouter appRouter(AppRouterRef ref) {
         path: DeletePostPage.path,
         name: DeletePostPage.name,
         builder: (BuildContext context, GoRouterState state) {
-          final extra = state.extra as Map<String, bool?>?;
+          final extra = state.extra as Map<String, dynamic>?;
+          final int deleteStack = extra?['deleteStack'] as int;
           final bool? isDetailPage = extra?['isDetailPage'];
 
           if (state.params['postId'] != null) {
             return DeletePostPage(
               postId: int.parse(state.params['postId']!),
+              deleteStack: deleteStack,
               isDetailPage: isDetailPage,
             );
           } else {
@@ -149,6 +152,15 @@ GoRouter appRouter(AppRouterRef ref) {
         },
         parentNavigatorKey: navigatorKey,
       ),
+      GoRoute(
+          path: ErrorPage.path,
+          parentNavigatorKey: navigatorKey,
+          builder: (BuildContext context, GoRouterState state) {
+            final extra = state.extra as Map<String, String?>?;
+            final error = extra?['error'];
+
+            return ErrorPage(error: error);
+          }),
       GoRoute(
         path: CommonWidgetsPage.path,
         parentNavigatorKey: navigatorKey,

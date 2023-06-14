@@ -5,6 +5,7 @@ import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/home_shared_obscured_controller.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_obscured_bottom.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_obscured_post_card.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_post_card.dart';
@@ -20,9 +21,13 @@ class HomeSharedTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncReceipt = ref.watch(receiptControllerProvider);
+    bool isReadable = false;
 
-//? isReadable이 null이면 어떻게 해야하지?
-    if (asyncReceipt.value?.isReadable ?? false) {
+    asyncReceipt.whenData((receipt) {
+      isReadable = receipt?.isReadable ?? false;
+    });
+
+    if (isReadable) {
       return Consumer(
         builder: (context, ref, child) {
           final posts = ref.watch(homeSharedControllerProvider);
@@ -61,7 +66,7 @@ class HomeSharedTab extends ConsumerWidget {
                 ),
               );
             },
-            error: (error, __) => throw ('error: $error'),
+            error: (error, __) => ErrorPage(error: error),
             loading: () => const CommonPostSkeleton(),
           );
         },
@@ -76,17 +81,18 @@ class HomeSharedTab extends ConsumerWidget {
 //TODO: obscured에서 리프레쉬 기능이나 다른 인터렉티브한 기능이 필요한가?
           return obscuredPosts.when(
             data: (posts) {
-              return SmartRefresher(
-                enablePullDown: true,
-                enablePullUp: true,
-                controller: sharedObscuredNotifier.refreshController,
-                scrollController: sharedObscuredNotifier.scrollController,
-                onRefresh: sharedObscuredNotifier.refreshTab,
-                footer: const CustomRefresherFooter(),
-                child: Column(
-                  children: [
-                    Expanded(
+              return Column(
+                children: [
+                  Expanded(
+                    child: SmartRefresher(
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      controller: sharedObscuredNotifier.refreshController,
+                      scrollController: sharedObscuredNotifier.scrollController,
+                      onRefresh: sharedObscuredNotifier.refreshTab,
+                      footer: const CustomRefresherFooter(),
                       child: ListView.separated(
+                        shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final String leftTime =
                               getPostElapsedTime(date: posts[index].createdAt);
@@ -108,12 +114,12 @@ class HomeSharedTab extends ConsumerWidget {
                         itemCount: posts.length,
                       ),
                     ),
-                    const HomeSharedObscuredBottom()
-                  ],
-                ),
+                  ),
+                  const HomeSharedObscuredBottom()
+                ],
               );
             },
-            error: (error, __) => throw ('error: $error'),
+            error: (error, __) => ErrorPage(error: error),
             loading: () => const CommonPostSkeleton(),
           );
         },

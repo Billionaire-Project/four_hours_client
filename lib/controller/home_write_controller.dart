@@ -46,7 +46,7 @@ class HomeWriteController extends _$HomeWriteController {
   bool _isLoadingMore = false;
 
   Future<Map<String, List<PostModel>>> getMyPostsInitial() async {
-    state = const AsyncValue.loading();
+    state = const AsyncLoading();
 
     _start = '0';
 
@@ -72,11 +72,21 @@ class HomeWriteController extends _$HomeWriteController {
 
       state = AsyncData(_myPosts!.posts);
 
-      if (!state.hasValue) {
-        return {};
+      if (state.hasError) {
+        state = AsyncValue.error(
+          '${state.error}',
+          StackTrace.current,
+        );
+        printDebug(
+          'HomeWriteController',
+          'State has an error ${state.error}',
+        );
       }
 
-      _refreshController.refreshCompleted();
+      if (!state.hasValue) {
+        printDebug('HomeWriteController', 'State has no value');
+        return {};
+      }
 
       return _myPosts!.posts;
     } on DioError catch (e) {
@@ -132,7 +142,7 @@ class HomeWriteController extends _$HomeWriteController {
   }
 
   void handlePressedWritePost(BuildContext context) async {
-    final asyncReceipt = ref.read(receiptControllerProvider);
+    final asyncReceipt = ref.watch(receiptControllerProvider);
     final bool isPostable = asyncReceipt.value?.isPostable ?? false;
 
     if (!isPostable) {

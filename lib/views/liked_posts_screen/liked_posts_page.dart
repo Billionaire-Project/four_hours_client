@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/liked_posts_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_post_card.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
@@ -83,7 +84,7 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                   ),
                 );
         },
-        error: (error, __) => throw ('error: $error'),
+        error: (error, __) => ErrorPage(error: error),
         loading: () => const CommonPostSkeleton(),
       ),
     );

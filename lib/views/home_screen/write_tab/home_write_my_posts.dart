@@ -4,6 +4,7 @@ import 'package:four_hours_client/controller/home_write_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_post_card.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
@@ -80,7 +81,7 @@ class MyPosts extends ConsumerWidget {
         );
       },
       loading: () => const SizedBox.shrink(),
-      error: (error, __) => Center(child: Text('error: $error')),
+      error: (error, __) => ErrorPage(error: error),
     );
   }
 }

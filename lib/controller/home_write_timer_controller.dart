@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
+import 'package:four_hours_client/utils/functions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'home_write_timer_controller.g.dart';
 
@@ -26,13 +27,20 @@ class HomeWriteTimerController extends _$HomeWriteTimerController {
     final asyncReceipt = ref.read(receiptControllerProvider);
 
     asyncReceipt.whenData((receipt) {
-      DateTime postableAt = DateTime.parse(receipt.postableAt!);
+      if (receipt == null) {
+        printDebug('HomeWriteTimerController', 'Receipt is null');
+        state = 0;
+        _duration = const Duration(hours: 4);
+      } else {
+        DateTime postableAt = DateTime.parse(receipt.postableAt!);
 
-      double diff = postableAt.difference(DateTime.now()).inSeconds.toDouble();
+        double diff =
+            postableAt.difference(DateTime.now()).inSeconds.toDouble();
 
-      state = _totalSeconds - diff;
+        state = _totalSeconds - diff;
 
-      _duration = Duration(seconds: (_totalSeconds - state).toInt());
+        _duration = Duration(seconds: (_totalSeconds - state).toInt());
+      }
     });
   }
 

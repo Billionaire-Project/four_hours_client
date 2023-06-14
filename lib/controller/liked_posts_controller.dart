@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_pagination_model.dart';
@@ -32,11 +31,8 @@ class LikedPostsController extends _$LikedPostsController {
   PostsPaginationModel? _likedPosts;
   PostsPaginationModel? get posts => _likedPosts;
 
-  final bool _isLoading = true;
-  bool get isLoading => _isLoading;
-
   Future<List<PostModel>> getLikedPostsInitial() async {
-    state = const AsyncValue.loading();
+    state = const AsyncLoading();
 
     _start = '0';
 
@@ -49,8 +45,19 @@ class LikedPostsController extends _$LikedPostsController {
 
       state = AsyncData(_likedPosts!.posts);
 
+      if (state.hasError) {
+        state = AsyncValue.error(
+          '${state.error}',
+          StackTrace.current,
+        );
+        printDebug(
+          'HomeShardController',
+          'State has an error ${state.error}',
+        );
+      }
+
       if (!state.hasValue) {
-        debugPrint('List of Post is null');
+        printDebug('LikedPostsController', 'State has no value');
         return [];
       }
 
@@ -81,11 +88,11 @@ class LikedPostsController extends _$LikedPostsController {
 
     _likedPosts = await _fetchLikedPosts();
 
-    _refreshController.refreshCompleted();
-
     _start = _likedPosts!.next;
 
     state = AsyncData(_likedPosts!.posts);
+
+    _refreshController.refreshCompleted();
   }
 
   Future<PostsPaginationModel?> _fetchLikedPosts() async {
