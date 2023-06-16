@@ -14,6 +14,7 @@ import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
+import 'package:go_router/go_router.dart';
 
 class PostDetailPage extends ConsumerStatefulWidget {
   final String postId;
@@ -38,9 +39,26 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final postDetail =
-        ref.watch(postDetailControllerProvider(post: widget.post));
-    final postDetailNotifier =
-        ref.read(postDetailControllerProvider(post: widget.post).notifier);
+        ref.watch(postDetailControllerProvider(context, post: widget.post));
+    final postDetailNotifier = ref.read(
+        postDetailControllerProvider(context, post: widget.post).notifier);
+
+    if (!postDetail.hasValue) {
+      print('jay --- post detail has no value');
+    }
+
+    if (postDetail.hasError) {
+      //TODO: post 요청을 보내서 error가 떨어지면 이쪽으로 보내서 예외처리 해야함
+      print('jay --- post detail has error');
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   context.pop();
+      //   showCommonDialog(
+      //     iconData: CustomIcons.time_line,
+      //     title: '유효하지 않은 게시글입니다',
+      //     subtitle: '다른 글을 탐색하여 읽어보세요',
+      //   );
+      // });
+    }
 
     return MainWrapper(
       appBar: CommonAppBar(
@@ -60,59 +78,65 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
       ),
       child: Column(
         children: [
-          postDetail.when(
-              data: (postModel) {
-                if (postModel == null) {
-                  return const ErrorPage(error: '해당 게시글을 찾을 수 없습니다');
-                }
-                return Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CommonRowWithDivider(
-                          leading: CommonTitle(
-                            getPostElapsedTime(
-                              date: postModel.updatedAt,
-                            ),
+          postDetail.when(data: (postModel) {
+            if (postModel == null) {
+              //TODO: post 요청을 보내서 error가 떨어지면 이쪽으로 보내서 예외처리 해야함
+              print('jay --- postModel is null');
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.replace(ErrorPage.path);
+              });
+              return const SizedBox.shrink();
+            } else {
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CommonRowWithDivider(
+                        leading: CommonTitle(
+                          getPostElapsedTime(
+                            date: postModel.updatedAt,
                           ),
                         ),
-                        const Gap(8),
-                        Text(
-                          postModel.content,
-                          style: customTextStyle.bodySmall,
-                        ),
-                      ],
-                    ),
+                      ),
+                      const Gap(8),
+                      Text(
+                        postModel.content,
+                        style: customTextStyle.bodySmall,
+                      ),
+                    ],
                   ),
-                );
-              },
-              loading: () {
-                return Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CommonRowWithDivider(
-                          leading: CommonTitle(
-                            getPostElapsedTime(
-                              date: widget.post.updatedAt,
-                            ),
-                          ),
+                ),
+              );
+            }
+          }, loading: () {
+            return Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CommonRowWithDivider(
+                      leading: CommonTitle(
+                        getPostElapsedTime(
+                          date: widget.post.updatedAt,
                         ),
-                        const Gap(8),
-                        Text(
-                          widget.post.content,
-                          style: customTextStyle.bodySmall,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                );
-              },
-              error: (error, _) => ErrorPage(error: error)),
+                    const Gap(8),
+                    Text(
+                      widget.post.content,
+                      style: customTextStyle.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }, error: (error, _) {
+            print('jay --- error $error');
+            return ErrorPage(error: error);
+          }),
           widget.isFromMyPost
               ? const SizedBox.shrink()
               : PostDetailBottom(post: widget.post)

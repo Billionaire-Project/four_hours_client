@@ -7,7 +7,7 @@ part of 'post_detail_controller.dart';
 // **************************************************************************
 
 String _$postDetailControllerHash() =>
-    r'b43ca460865c900bbeda87f37f92bfaf526ed3e9';
+    r'74881d944f43b64d253ca4515c0414f6bbec3afc';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -32,9 +32,11 @@ class _SystemHash {
 
 abstract class _$PostDetailController
     extends BuildlessAutoDisposeAsyncNotifier<PostModel?> {
+  late final BuildContext context;
   late final PostModel post;
 
-  Future<PostModel?> build({
+  Future<PostModel?> build(
+    BuildContext context, {
     required PostModel post,
   });
 }
@@ -49,10 +51,12 @@ class PostDetailControllerFamily extends Family<AsyncValue<PostModel?>> {
   const PostDetailControllerFamily();
 
   /// See also [PostDetailController].
-  PostDetailControllerProvider call({
+  PostDetailControllerProvider call(
+    BuildContext context, {
     required PostModel post,
   }) {
     return PostDetailControllerProvider(
+      context,
       post: post,
     );
   }
@@ -62,6 +66,7 @@ class PostDetailControllerFamily extends Family<AsyncValue<PostModel?>> {
     covariant PostDetailControllerProvider provider,
   ) {
     return call(
+      provider.context,
       post: provider.post,
     );
   }
@@ -85,10 +90,13 @@ class PostDetailControllerFamily extends Family<AsyncValue<PostModel?>> {
 class PostDetailControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     PostDetailController, PostModel?> {
   /// See also [PostDetailController].
-  PostDetailControllerProvider({
+  PostDetailControllerProvider(
+    this.context, {
     required this.post,
   }) : super.internal(
-          () => PostDetailController()..post = post,
+          () => PostDetailController()
+            ..context = context
+            ..post = post,
           from: postDetailControllerProvider,
           name: r'postDetailControllerProvider',
           debugGetCreateSourceHash:
@@ -100,16 +108,20 @@ class PostDetailControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
               PostDetailControllerFamily._allTransitiveDependencies,
         );
 
+  final BuildContext context;
   final PostModel post;
 
   @override
   bool operator ==(Object other) {
-    return other is PostDetailControllerProvider && other.post == post;
+    return other is PostDetailControllerProvider &&
+        other.context == context &&
+        other.post == post;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, context.hashCode);
     hash = _SystemHash.combine(hash, post.hashCode);
 
     return _SystemHash.finish(hash);
@@ -120,6 +132,7 @@ class PostDetailControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     covariant PostDetailController notifier,
   ) {
     return notifier.build(
+      context,
       post: post,
     );
   }

@@ -15,7 +15,8 @@ part 'post_detail_controller.g.dart';
 @riverpod
 class PostDetailController extends _$PostDetailController {
   @override
-  Future<PostModel?> build({
+  Future<PostModel?> build(
+    BuildContext context, {
     required PostModel post,
   }) {
     return _getPostByIdInitial();
@@ -134,10 +135,12 @@ class PostDetailController extends _$PostDetailController {
           'PostDetailController',
           'State has an error ${state.error}',
         );
+        return null;
       }
 
       if (!state.hasValue) {
         printDebug('PostDetailController', 'State has no value');
+        return null;
       }
 
       return state.value;
