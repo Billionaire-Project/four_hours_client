@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/controller/post_card_controller.dart';
-import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -27,25 +26,12 @@ class PostDetailController extends _$PostDetailController {
     required bool isFromMyPost,
   }) {
     if (isFromMyPost) {
-      final deleteStack =
-          ref.watch(receiptControllerProvider).value?.postDeleteStack ?? 0;
-
       showCommonActionSheet(
         actions: [
           CommonActionSheetAction(
             isDestructiveAction: true,
             onPressed: () async {
               closeRootNavigator();
-
-              if (deleteStack >= 2) {
-                showCommonToast(
-                  context,
-                  iconData: CustomIcons.warning_line,
-                  text: '더 이상 글을 삭제할 수 없어요. 나중에 다시 시도해주세요.',
-                  bottom: 40,
-                );
-                return;
-              }
 
               await context.pushNamed(
                 DeletePostPage.name,
@@ -54,7 +40,6 @@ class PostDetailController extends _$PostDetailController {
                 },
                 extra: {
                   'isDetailPage': true,
-                  'deleteStack': deleteStack,
                 },
               );
             },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/delete_post_controller.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/delete_reason_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
@@ -13,13 +14,11 @@ import 'package:go_router/go_router.dart';
 
 class DeletePostPage extends ConsumerStatefulWidget {
   final int postId;
-  final int deleteStack;
   final bool? isDetailPage;
 
   const DeletePostPage({
     Key? key,
     required this.postId,
-    required this.deleteStack,
     required this.isDetailPage,
   }) : super(key: key);
   static String path = '/delete-post/:postId';
@@ -37,7 +36,10 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
   @override
   void initState() {
     super.initState();
-    isFirstTime = widget.deleteStack == 0;
+    final asyncReceipt = ref.read(receiptControllerProvider);
+    asyncReceipt.whenData((receipt) {
+      isFirstTime = receipt?.postDeleteStack == 0;
+    });
   }
 
   void handlePressedReason(int reasonIndex) {

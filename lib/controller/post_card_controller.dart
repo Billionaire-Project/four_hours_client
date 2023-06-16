@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
-import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -50,9 +49,6 @@ class PostCardController extends _$PostCardController {
     bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
 
     if (isFromMyPost) {
-      final deleteStack =
-          ref.watch(receiptControllerProvider).value?.postDeleteStack ?? 0;
-
       showCommonActionSheet(
         actions: [
           CommonActionSheetAction(
@@ -60,21 +56,12 @@ class PostCardController extends _$PostCardController {
             onPressed: () async {
               closeRootNavigator();
 
-              if (deleteStack >= 2) {
-                showCommonToast(
-                  context,
-                  iconData: CustomIcons.warning_line,
-                  text: '더 이상 글을 삭제할 수 없어요. 나중에 다시 시도해주세요.',
-                  bottom: 40,
-                );
-                return;
-              }
-
-              await context.pushNamed(DeletePostPage.name, params: {
-                'postId': post.id.toString(),
-              }, extra: {
-                'deleteStack': deleteStack,
-              });
+              await context.pushNamed(
+                DeletePostPage.name,
+                params: {
+                  'postId': post.id.toString(),
+                },
+              );
             },
             iconData: CustomIcons.delete_bin_line,
             text: '게시글 삭제',
