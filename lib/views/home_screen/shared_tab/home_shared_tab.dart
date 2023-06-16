@@ -78,7 +78,6 @@ class HomeSharedTab extends ConsumerWidget {
           final sharedObscuredNotifier =
               ref.read(homeSharedObscuredControllerProvider.notifier);
 
-//TODO: obscured에서 리프레쉬 기능이나 다른 인터렉티브한 기능이 필요한가?
           return obscuredPosts.when(
             data: (posts) {
               return Column(
