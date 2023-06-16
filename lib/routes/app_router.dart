@@ -33,8 +33,7 @@ GoRouter appRouter(AppRouterRef ref) {
     refreshListenable: appState,
     redirect: (BuildContext context, GoRouterState state) {
       if (state.error != null) {
-        //TODO: redirect to error page
-        return null;
+        return ErrorPage.path;
       }
       const String splashLocation = SplashPage.path;
       const String logInLocation = LoginPage.path;
@@ -116,8 +115,7 @@ GoRouter appRouter(AppRouterRef ref) {
               isFromMyPost: isFromMyPost,
             );
           } else {
-            //TODO: redirect or show error page
-            return const SizedBox.shrink();
+            return const ErrorPage(error: 'The post ID cannot be found,');
           }
         },
         parentNavigatorKey: navigatorKey,
@@ -144,8 +142,7 @@ GoRouter appRouter(AppRouterRef ref) {
               isDetailPage: isDetailPage,
             );
           } else {
-            //TODO: redirect or show error page
-            return const SizedBox.shrink();
+            return const ErrorPage(error: 'The post ID cannot be found,');
           }
         },
         parentNavigatorKey: navigatorKey,
