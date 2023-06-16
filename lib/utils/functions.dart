@@ -11,6 +11,7 @@ import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_alert.dart';
+import 'package:four_hours_client/views/widgets/common_dialog.dart';
 import 'package:four_hours_client/views/widgets/common_dialog_with_two_buttons.dart';
 import 'package:four_hours_client/views/widgets/common_loader.dart';
 import 'package:four_hours_client/views/widgets/common_toast.dart';
@@ -109,6 +110,28 @@ void showCommonDialogWithTwoButtons({
       onPressedLeftButton: onPressedLeftButton,
       leftButtonText: leftButtonText,
       isDestructiveAction: isDestructiveAction,
+    ),
+  );
+}
+
+Future<void> showCommonDialog({
+  required IconData iconData,
+  required String title,
+  VoidCallback? onPressedButton,
+  String? buttonText,
+  String? subtitle,
+  bool barrierDismissible = true,
+}) async {
+  showDialog(
+    barrierDismissible: barrierDismissible,
+    barrierColor: CustomColors.black.withOpacity(0.8),
+    context: navigatorKey.currentContext!,
+    builder: (context) => CommonDialog(
+      iconData: iconData,
+      title: title,
+      subtitle: subtitle,
+      onPressedButton: onPressedButton,
+      buttonText: buttonText,
     ),
   );
 }

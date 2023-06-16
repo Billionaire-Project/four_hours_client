@@ -72,6 +72,16 @@ class CommonWidgetsPage extends ConsumerWidget {
                   rightButtonText: '신고',
                 );
               },
+              child: const Text('Dialog with Two Buttons'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showCommonDialog(
+                  iconData: CustomIcons.time_line,
+                  title: '해당 게시글을 신고하시겠어요?',
+                  subtitle: '신고가 접수되면 즉시 사라집니다',
+                );
+              },
               child: const Text('Dialog'),
             ),
             ElevatedButton(
