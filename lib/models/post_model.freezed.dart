@@ -28,7 +28,7 @@ mixin _$PostModel {
   @JsonKey(name: 'updated_at')
   String get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_owner')
-  bool? get isOwner => throw _privateConstructorUsedError;
+  bool get isOwner => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_liked')
   bool? get isLiked => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_reported')
@@ -51,7 +51,7 @@ abstract class $PostModelCopyWith<$Res> {
       String content,
       @JsonKey(name: 'created_at') String createdAt,
       @JsonKey(name: 'updated_at') String updatedAt,
-      @JsonKey(name: 'is_owner') bool? isOwner,
+      @JsonKey(name: 'is_owner') bool isOwner,
       @JsonKey(name: 'is_liked') bool? isLiked,
       @JsonKey(name: 'is_reported') bool? isReported});
 }
@@ -74,7 +74,7 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
     Object? content = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? isOwner = freezed,
+    Object? isOwner = null,
     Object? isLiked = freezed,
     Object? isReported = freezed,
   }) {
@@ -99,10 +99,10 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
-      isOwner: freezed == isOwner
+      isOwner: null == isOwner
           ? _value.isOwner
           : isOwner // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       isLiked: freezed == isLiked
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
@@ -128,7 +128,7 @@ abstract class _$$_PostModelCopyWith<$Res> implements $PostModelCopyWith<$Res> {
       String content,
       @JsonKey(name: 'created_at') String createdAt,
       @JsonKey(name: 'updated_at') String updatedAt,
-      @JsonKey(name: 'is_owner') bool? isOwner,
+      @JsonKey(name: 'is_owner') bool isOwner,
       @JsonKey(name: 'is_liked') bool? isLiked,
       @JsonKey(name: 'is_reported') bool? isReported});
 }
@@ -149,7 +149,7 @@ class __$$_PostModelCopyWithImpl<$Res>
     Object? content = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? isOwner = freezed,
+    Object? isOwner = null,
     Object? isLiked = freezed,
     Object? isReported = freezed,
   }) {
@@ -174,10 +174,10 @@ class __$$_PostModelCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
-      isOwner: freezed == isOwner
+      isOwner: null == isOwner
           ? _value.isOwner
           : isOwner // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       isLiked: freezed == isLiked
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
@@ -199,7 +199,7 @@ class _$_PostModel implements _PostModel {
       required this.content,
       @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'updated_at') required this.updatedAt,
-      @JsonKey(name: 'is_owner') this.isOwner,
+      @JsonKey(name: 'is_owner') required this.isOwner,
       @JsonKey(name: 'is_liked') this.isLiked,
       @JsonKey(name: 'is_reported') this.isReported});
 
@@ -220,7 +220,7 @@ class _$_PostModel implements _PostModel {
   final String updatedAt;
   @override
   @JsonKey(name: 'is_owner')
-  final bool? isOwner;
+  final bool isOwner;
   @override
   @JsonKey(name: 'is_liked')
   final bool? isLiked;
@@ -277,7 +277,7 @@ abstract class _PostModel implements PostModel {
       required final String content,
       @JsonKey(name: 'created_at') required final String createdAt,
       @JsonKey(name: 'updated_at') required final String updatedAt,
-      @JsonKey(name: 'is_owner') final bool? isOwner,
+      @JsonKey(name: 'is_owner') required final bool isOwner,
       @JsonKey(name: 'is_liked') final bool? isLiked,
       @JsonKey(name: 'is_reported') final bool? isReported}) = _$_PostModel;
 
@@ -298,7 +298,7 @@ abstract class _PostModel implements PostModel {
   String get updatedAt;
   @override
   @JsonKey(name: 'is_owner')
-  bool? get isOwner;
+  bool get isOwner;
   @override
   @JsonKey(name: 'is_liked')
   bool? get isLiked;

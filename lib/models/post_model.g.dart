@@ -12,7 +12,7 @@ _$_PostModel _$$_PostModelFromJson(Map<String, dynamic> json) => _$_PostModel(
       content: json['content'] as String,
       createdAt: json['created_at'] as String,
       updatedAt: json['updated_at'] as String,
-      isOwner: json['is_owner'] as bool?,
+      isOwner: json['is_owner'] as bool,
       isLiked: json['is_liked'] as bool?,
       isReported: json['is_reported'] as bool?,
     );
