@@ -33,15 +33,10 @@ class LoginPage extends ConsumerWidget {
                 semanticsLabel: 'Logo',
               ),
             ),
-            if (Platform.isAndroid) ...[
-              const LoginWithGoogleButton(),
-              const Gap(16),
-            ] else ...[
-              const LoginWithGoogleButton(),
-              const Gap(16),
-              const LoginWithAppleButton(),
-              const Gap(32),
-            ],
+            const LoginWithGoogleButton(),
+            const Gap(16),
+            if (!Platform.isAndroid) const LoginWithAppleButton(),
+            const Gap(32),
             Text(
               '위의 “Apple/Google로 계속하기”를 클릭하면\n4hours의 이용약관 및 개인정보 보호정책을 읽고 이해했으며\n그에 동의하는 것으로 간주됩니다.',
               style: customTextStyle.caption
