@@ -28,6 +28,7 @@ class MainWrapper extends ConsumerWidget {
         ),
       ),
       endDrawer: const SettingDrawer(),
+      endDrawerEnableOpenDragGesture: false,
     );
   }
 }
