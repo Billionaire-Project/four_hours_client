@@ -88,7 +88,7 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
                   '왜 해당 게시글을 삭제하시나요?',
                   style: customTextStyle.titleMedium,
                 ),
-                const Gap(16),
+                const Gap(12),
                 Consumer(
                   builder: (context, ref, child) {
                     final deletePostController = ref.watch(
@@ -102,22 +102,23 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
                       deleteReasons = deletePostController.value ?? [];
                     }
 
-                    return ListView.separated(
+                    return ListView.builder(
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return InkWell(
-                          splashFactory: NoSplash.splashFactory,
+                        return GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             handlePressedReason(index);
                           },
-                          child: CommonTileWithRadio(
-                            title: deleteReasons[index].reason,
-                            isSelected: selectedId == index + 1,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: CommonTileWithRadio(
+                              title: deleteReasons[index].reason,
+                              isSelected: selectedId == index + 1,
+                            ),
                           ),
                         );
                       },
-                      separatorBuilder: (context, index) =>
-                          SizedBox.fromSize(size: const Size(0, 8)),
                       itemCount: deleteReasons.length,
                     );
                   },
@@ -125,7 +126,6 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
               ],
             ),
           ),
-          const Spacer(),
           if (!isFirstTime) ...[
             Column(
               children: [

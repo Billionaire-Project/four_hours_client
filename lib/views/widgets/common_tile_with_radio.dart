@@ -22,18 +22,15 @@ class _CommonTileWithRadioState extends ConsumerState<CommonTileWithRadio> {
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            widget.title,
-            style: customTextStyle.labelMedium,
-          ),
-          CommonRadioButton(isSelected: widget.isSelected),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          widget.title,
+          style: customTextStyle.labelMedium,
+        ),
+        CommonRadioButton(isSelected: widget.isSelected),
+      ],
     );
   }
 }
