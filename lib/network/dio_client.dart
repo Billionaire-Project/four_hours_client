@@ -124,6 +124,8 @@ class _AuthInterceptor extends Interceptor {
   Future<String> refreshToken() async {
     final user = auth.currentUser;
     if (user != null) {
+      //TODO: FirebaseAuthException ([firebase_auth/user-token-expired] The user's credential is no longer valid. The user must sign in again.)
+// credential이 더 이상 유효하지 않을 때 처리 필요
       final token = await user.getIdToken();
       await storage.write(key: LocalStorageKey.token, value: token);
       await storage.write(
