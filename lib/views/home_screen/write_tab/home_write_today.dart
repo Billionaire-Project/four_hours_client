@@ -89,7 +89,7 @@ class _TodaysTopic extends ConsumerWidget {
           ),
           const Gap(10),
           Text(
-            '날씨가 점점 봄으로 바뀌고 있다.\n 그 변화를 느끼며, 기분도 따뜻해지고 있다.',
+            '날씨가 점점 봄으로 바뀌고 있다.\n그 변화를 느끼며, 기분도 따뜻해지고 있다.',
             style: customTextStyle.bodySmall
                 .copyWith(color: CustomColors.light.gray400),
           ),
