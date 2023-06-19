@@ -11,7 +11,7 @@ class CustomColors extends AppLightColors implements AppDarkColors {
 class AppLightColors {
   Color get red => const Color(0xFFE00E02);
   Color get blue => const Color(0xFF1977E6);
-  Color get orange => const Color(0xFFFF7C32);
+  Color get orange => const Color(0xFFF85226);
 
   Color get gray50 => const Color(0xFFF5F5F5);
   Color get gray100 => const Color(0xFFEFEFEF);
@@ -28,7 +28,7 @@ class AppLightColors {
 class AppDarkColors {
   Color get red => const Color(0xFFEB3B3B);
   Color get blue => const Color(0xFF1977E6);
-  Color get orange => const Color(0xFFF87831);
+  Color get orange => const Color(0xFFF97931);
 
   Color get gray50 => const Color(0xFF121314);
   Color get gray100 => const Color(0xFF2B2C2C);
