@@ -49,17 +49,8 @@ class PostDetailController extends _$PostDetailController {
           ),
           CommonActionSheetAction(
             onPressed: () async {
-              await saveToClipboard(post.content);
-              if (context.mounted) {
-                closeRootNavigator();
-
-                showCommonToast(
-                  context,
-                  iconData: CustomIcons.check_line,
-                  text: '클립보드에 복사되었어요!',
-                  bottom: 40,
-                );
-              }
+              closeRootNavigator();
+              await saveTextToClipboard(context, text: post.content);
             },
             iconData: CustomIcons.copy_line,
             text: '글 내용 복사',
@@ -67,24 +58,15 @@ class PostDetailController extends _$PostDetailController {
         ],
       );
     } else {
-      bool isMyPost = post.isOwner ?? true;
+      bool isMyPost = post.isOwner;
 
       if (isMyPost) {
         showCommonActionSheet(
           actions: [
             CommonActionSheetAction(
               onPressed: () async {
-                await saveToClipboard(post.content);
-                if (context.mounted) {
-                  closeRootNavigator();
-
-                  showCommonToast(
-                    context,
-                    iconData: CustomIcons.check_line,
-                    text: '클립보드에 복사되었어요!',
-                    bottom: 40,
-                  );
-                }
+                closeRootNavigator();
+                await saveTextToClipboard(context, text: post.content);
               },
               iconData: CustomIcons.copy_line,
               text: '글 내용 복사',

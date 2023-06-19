@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:four_hours_client/network/dio_exceptions.dart';
 import 'package:four_hours_client/routes/app_router.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
+import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_alert.dart';
@@ -173,8 +175,22 @@ String throwExceptions(DioError e) {
   return errorMessage;
 }
 
-Future<void> saveToClipboard(String text) async {
+Future<void> saveTextToClipboard(
+  BuildContext context, {
+  required String text,
+}) async {
   await Clipboard.setData(ClipboardData(text: text));
+
+  if (context.mounted) {
+    if (!Platform.isAndroid) {
+      showCommonToast(
+        context,
+        iconData: CustomIcons.check_line,
+        text: '클립보드에 복사되었어요!',
+        bottom: 40,
+      );
+    }
+  }
 }
 
 void printDebug(String currentLocation, String text) {
