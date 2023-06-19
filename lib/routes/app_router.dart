@@ -123,9 +123,19 @@ GoRouter appRouter(AppRouterRef ref) {
       GoRoute(
         path: LikedPostsPage.path,
         pageBuilder: (BuildContext context, GoRouterState state) =>
-            NoTransitionPage(
+            CustomTransitionPage(
           key: state.pageKey,
           child: const LikedPostsPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              SlideTransition(
+            position: animation.drive(
+              Tween<Offset>(
+                begin: const Offset(-1, 0),
+                end: Offset.zero,
+              ),
+            ),
+            child: child,
+          ),
         ),
         parentNavigatorKey: navigatorKey,
       ),
@@ -163,5 +173,10 @@ GoRouter appRouter(AppRouterRef ref) {
             const CommonWidgetsPage(),
       ),
     ],
+    errorPageBuilder: (context, state) => const NoTransitionPage(
+      child: ErrorPage(
+        error: '해당 페이지는 존재하지 않습니다',
+      ),
+    ),
   );
 }
