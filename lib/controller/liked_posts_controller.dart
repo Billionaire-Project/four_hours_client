@@ -38,6 +38,8 @@ class LikedPostsController extends _$LikedPostsController {
 
     try {
       await Future.delayed(skeletonDelay, () async {
+        _start = '0';
+
         _likedPosts = await _fetchLikedPosts();
       });
 
