@@ -124,6 +124,7 @@ GoRouter appRouter(AppRouterRef ref) {
         path: LikedPostsPage.path,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             CustomTransitionPage(
+          transitionDuration: const Duration(milliseconds: 100),
           key: state.pageKey,
           child: const LikedPostsPage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) =>
