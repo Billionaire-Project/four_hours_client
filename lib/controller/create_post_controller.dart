@@ -65,7 +65,7 @@ class CreatePostController extends _$CreatePostController {
             state = textEditingController.text;
             _focusNode.requestFocus();
           },
-          rightButtonText: '네, 이어서 작성할게요',
+          rightButtonText: '이어 쓰기',
           onPressedLeftButton: () {
             _removeTemporaryText();
             _focusNode.requestFocus();

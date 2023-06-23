@@ -17,11 +17,7 @@ class HomeSharedObscuredBottom extends ConsumerWidget {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
     return Container(
-      padding: const EdgeInsets.only(
-        left: 16,
-        right: 16,
-        top: 16,
-      ),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: customThemeColors.backgroundElevated,
         boxShadow: const [

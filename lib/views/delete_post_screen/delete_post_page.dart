@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/delete_post_controller.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/delete_reason_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
@@ -13,13 +14,11 @@ import 'package:go_router/go_router.dart';
 
 class DeletePostPage extends ConsumerStatefulWidget {
   final int postId;
-  final int deleteStack;
   final bool? isDetailPage;
 
   const DeletePostPage({
     Key? key,
     required this.postId,
-    required this.deleteStack,
     required this.isDetailPage,
   }) : super(key: key);
   static String path = '/delete-post/:postId';
@@ -37,7 +36,10 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
   @override
   void initState() {
     super.initState();
-    isFirstTime = widget.deleteStack == 0;
+    final asyncReceipt = ref.read(receiptControllerProvider);
+    asyncReceipt.whenData((receipt) {
+      isFirstTime = receipt?.postDeleteStack == 0;
+    });
   }
 
   void handlePressedReason(int reasonIndex) {
@@ -86,7 +88,7 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
                   '왜 해당 게시글을 삭제하시나요?',
                   style: customTextStyle.titleMedium,
                 ),
-                const Gap(16),
+                const Gap(12),
                 Consumer(
                   builder: (context, ref, child) {
                     final deletePostController = ref.watch(
@@ -100,22 +102,23 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
                       deleteReasons = deletePostController.value ?? [];
                     }
 
-                    return ListView.separated(
+                    return ListView.builder(
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return InkWell(
-                          splashFactory: NoSplash.splashFactory,
+                        return GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: () {
                             handlePressedReason(index);
                           },
-                          child: CommonTileWithRadio(
-                            title: deleteReasons[index].reason,
-                            isSelected: selectedId == index + 1,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: CommonTileWithRadio(
+                              title: deleteReasons[index].reason,
+                              isSelected: selectedId == index + 1,
+                            ),
                           ),
                         );
                       },
-                      separatorBuilder: (context, index) =>
-                          SizedBox.fromSize(size: const Size(0, 8)),
                       itemCount: deleteReasons.length,
                     );
                   },
@@ -123,7 +126,6 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
               ],
             ),
           ),
-          const Spacer(),
           if (!isFirstTime) ...[
             Column(
               children: [

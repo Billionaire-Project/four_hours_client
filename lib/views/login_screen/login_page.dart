@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,7 +35,7 @@ class LoginPage extends ConsumerWidget {
             ),
             const LoginWithGoogleButton(),
             const Gap(16),
-            const LoginWithAppleButton(),
+            if (!Platform.isAndroid) const LoginWithAppleButton(),
             const Gap(32),
             Text(
               '위의 “Apple/Google로 계속하기”를 클릭하면\n4hours의 이용약관 및 개인정보 보호정책을 읽고 이해했으며\n그에 동의하는 것으로 간주됩니다.',

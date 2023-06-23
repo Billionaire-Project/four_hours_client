@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/controller/post_card_controller.dart';
-import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -16,7 +15,8 @@ part 'post_detail_controller.g.dart';
 @riverpod
 class PostDetailController extends _$PostDetailController {
   @override
-  Future<PostModel?> build({
+  Future<PostModel?> build(
+    BuildContext context, {
     required PostModel post,
   }) {
     return _getPostByIdInitial();
@@ -27,25 +27,12 @@ class PostDetailController extends _$PostDetailController {
     required bool isFromMyPost,
   }) {
     if (isFromMyPost) {
-      final deleteStack =
-          ref.watch(receiptControllerProvider).value?.postDeleteStack ?? 0;
-
       showCommonActionSheet(
         actions: [
           CommonActionSheetAction(
             isDestructiveAction: true,
             onPressed: () async {
               closeRootNavigator();
-
-              if (deleteStack >= 2) {
-                showCommonToast(
-                  context,
-                  iconData: CustomIcons.warning_line,
-                  text: '더 이상 글을 삭제할 수 없어요. 나중에 다시 시도해주세요.',
-                  bottom: 40,
-                );
-                return;
-              }
 
               await context.pushNamed(
                 DeletePostPage.name,
@@ -54,7 +41,6 @@ class PostDetailController extends _$PostDetailController {
                 },
                 extra: {
                   'isDetailPage': true,
-                  'deleteStack': deleteStack,
                 },
               );
             },
@@ -63,17 +49,8 @@ class PostDetailController extends _$PostDetailController {
           ),
           CommonActionSheetAction(
             onPressed: () async {
-              await saveToClipboard(post.content);
-              if (context.mounted) {
-                closeRootNavigator();
-
-                showCommonToast(
-                  context,
-                  iconData: CustomIcons.check_line,
-                  text: '클립보드에 복사되었어요!',
-                  bottom: 40,
-                );
-              }
+              closeRootNavigator();
+              await saveTextToClipboard(context, text: post.content);
             },
             iconData: CustomIcons.copy_line,
             text: '글 내용 복사',
@@ -81,24 +58,15 @@ class PostDetailController extends _$PostDetailController {
         ],
       );
     } else {
-      bool isMyPost = post.isOwner ?? true;
+      bool isMyPost = post.isOwner;
 
       if (isMyPost) {
         showCommonActionSheet(
           actions: [
             CommonActionSheetAction(
               onPressed: () async {
-                await saveToClipboard(post.content);
-                if (context.mounted) {
-                  closeRootNavigator();
-
-                  showCommonToast(
-                    context,
-                    iconData: CustomIcons.check_line,
-                    text: '클립보드에 복사되었어요!',
-                    bottom: 40,
-                  );
-                }
+                closeRootNavigator();
+                await saveTextToClipboard(context, text: post.content);
               },
               iconData: CustomIcons.copy_line,
               text: '글 내용 복사',
@@ -149,10 +117,12 @@ class PostDetailController extends _$PostDetailController {
           'PostDetailController',
           'State has an error ${state.error}',
         );
+        return null;
       }
 
       if (!state.hasValue) {
         printDebug('PostDetailController', 'State has no value');
+        return null;
       }
 
       return state.value;

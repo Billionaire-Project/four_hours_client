@@ -28,19 +28,51 @@ class PostCardController extends _$PostCardController {
   void handlePressedCard(
     BuildContext context, {
     required PostModel post,
-  }) {
-    bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
+  }) async {
+    //TODO: getPostById에서 post가 null일 경우 처리
+    // final PostModel? post =
+    //     await ref.read(postsRepositoryProvider).getPostById(postId: postId);
 
-    context.pushNamed(
-      PostDetailPage.name,
-      params: {
-        'postId': post.id.toString(),
-      },
-      extra: PostDetailExtraModel(
-        post: post,
-        isFromMyPost: isFromMyPost,
-      ),
-    );
+    // if (post == null) {
+    //   showCommonDialog(
+    //     iconData: CustomIcons.time_line,
+    //     title: '유효하지 않은 게시글입니다',
+    //     subtitle: '다른 글을 탐색하여 읽어보세요',
+    //   );
+    //   return;
+    // }
+
+    bool isReadable = true;
+    await ref.read(receiptControllerProvider.notifier).getReceipt();
+
+    final asyncReceipt = ref.read(receiptControllerProvider);
+    asyncReceipt.whenData((receipt) {
+      isReadable = receipt!.isReadable;
+    });
+
+    if (!isReadable) {
+      showCommonDialog(
+        iconData: CustomIcons.time_line,
+        title: '더이상 SHARED를 확인할 수 없어요',
+        subtitle: '새로운 글을 쓰고 권한을 갱신해보세요!',
+      );
+      return;
+    } else {
+      if (context.mounted) {
+        bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
+
+        context.pushNamed(
+          PostDetailPage.name,
+          params: {
+            'postId': post.id.toString(),
+          },
+          extra: PostDetailExtraModel(
+            post: post,
+            isFromMyPost: isFromMyPost,
+          ),
+        );
+      }
+    }
   }
 
   void handlePressedMoreButton(
@@ -50,9 +82,6 @@ class PostCardController extends _$PostCardController {
     bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
 
     if (isFromMyPost) {
-      final deleteStack =
-          ref.watch(receiptControllerProvider).value?.postDeleteStack ?? 0;
-
       showCommonActionSheet(
         actions: [
           CommonActionSheetAction(
@@ -60,38 +89,20 @@ class PostCardController extends _$PostCardController {
             onPressed: () async {
               closeRootNavigator();
 
-              if (deleteStack >= 2) {
-                showCommonToast(
-                  context,
-                  iconData: CustomIcons.warning_line,
-                  text: '더 이상 글을 삭제할 수 없어요. 나중에 다시 시도해주세요.',
-                  bottom: 40,
-                );
-                return;
-              }
-
-              await context.pushNamed(DeletePostPage.name, params: {
-                'postId': post.id.toString(),
-              }, extra: {
-                'deleteStack': deleteStack,
-              });
+              await context.pushNamed(
+                DeletePostPage.name,
+                params: {
+                  'postId': post.id.toString(),
+                },
+              );
             },
             iconData: CustomIcons.delete_bin_line,
             text: '게시글 삭제',
           ),
           CommonActionSheetAction(
             onPressed: () async {
-              await saveToClipboard(post.content);
-              if (context.mounted) {
-                closeRootNavigator();
-
-                showCommonToast(
-                  context,
-                  iconData: CustomIcons.check_line,
-                  text: '클립보드에 복사되었어요!',
-                  bottom: 40,
-                );
-              }
+              closeRootNavigator();
+              await saveTextToClipboard(context, text: post.content);
             },
             iconData: CustomIcons.copy_line,
             text: '글 내용 복사',
@@ -99,24 +110,15 @@ class PostCardController extends _$PostCardController {
         ],
       );
     } else {
-      bool isMyPost = post.isOwner ?? true;
+      bool isMyPost = post.isOwner;
 
       if (isMyPost) {
         showCommonActionSheet(
           actions: [
             CommonActionSheetAction(
               onPressed: () async {
-                await saveToClipboard(post.content);
-                if (context.mounted) {
-                  closeRootNavigator();
-
-                  showCommonToast(
-                    context,
-                    iconData: CustomIcons.check_line,
-                    text: '클립보드에 복사되었어요!',
-                    bottom: 40,
-                  );
-                }
+                closeRootNavigator();
+                await saveTextToClipboard(context, text: post.content);
               },
               iconData: CustomIcons.copy_line,
               text: '글 내용 복사',

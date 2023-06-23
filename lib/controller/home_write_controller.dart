@@ -146,9 +146,10 @@ class HomeWriteController extends _$HomeWriteController {
     final bool isPostable = asyncReceipt.value?.isPostable ?? false;
 
     if (!isPostable) {
-      showCommonAlert(
+      showCommonToast(
+        context,
         iconData: CustomIcons.warning_line,
-        text: '지금은 포스팅할 수 없습니다!\n나중에 다시 시도해주세요.',
+        text: '지금은 포스팅할 수 없습니다! 나중에 다시 시도해주세요.',
       );
       return;
     }

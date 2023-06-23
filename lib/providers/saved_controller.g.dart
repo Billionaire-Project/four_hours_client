@@ -1,26 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_shared_obscured_controller.dart';
+part of 'saved_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeSharedObscuredControllerHash() =>
-    r'a7ac7a1360ef84bc46bd398ae0dd116879c61d35';
+String _$savedControllerHash() => r'855eae9b6a6eb72711616e5a590b11854a95a28e';
 
-/// See also [HomeSharedObscuredController].
-@ProviderFor(HomeSharedObscuredController)
-final homeSharedObscuredControllerProvider = AsyncNotifierProvider<
-    HomeSharedObscuredController, List<PostModel>>.internal(
-  HomeSharedObscuredController.new,
-  name: r'homeSharedObscuredControllerProvider',
+/// See also [SavedController].
+@ProviderFor(SavedController)
+final savedControllerProvider =
+    AutoDisposeNotifierProvider<SavedController, bool>.internal(
+  SavedController.new,
+  name: r'savedControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$homeSharedObscuredControllerHash,
+      : _$savedControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$HomeSharedObscuredController = AsyncNotifier<List<PostModel>>;
+typedef _$SavedController = AutoDisposeNotifier<bool>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

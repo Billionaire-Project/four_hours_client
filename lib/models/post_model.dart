@@ -11,7 +11,7 @@ class PostModel with _$PostModel {
     required String content,
     @JsonKey(name: 'created_at') required String createdAt,
     @JsonKey(name: 'updated_at') required String updatedAt,
-    @JsonKey(name: 'is_owner') bool? isOwner,
+    @JsonKey(name: 'is_owner') required bool isOwner,
     @JsonKey(name: 'is_liked') bool? isLiked,
     @JsonKey(name: 'is_reported') bool? isReported,
   }) = _PostModel;

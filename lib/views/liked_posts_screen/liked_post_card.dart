@@ -91,7 +91,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                       children: [
                         TextSpan(
                           text: widget.post.content,
-                          style: customTextStyle.bodySmall,
+                          style: customTextStyle.bodyMedium,
                         ),
                       ],
                     ),
@@ -104,6 +104,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                 trailing: CommonLikeButton(
                   isLiked: widget.post.isLiked!,
                   postId: widget.post.id,
+                  isFromLikedPost: true,
                 ),
               )
             ],

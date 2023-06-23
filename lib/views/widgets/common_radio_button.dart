@@ -52,9 +52,7 @@ class _CommonRadioButtonState extends ConsumerState<CommonRadioButton> {
           ),
           splashFactory: NoSplash.splashFactory,
         ),
-        onPressed: () {
-          setState(() {});
-        },
+        onPressed: null,
         child: const SizedBox.shrink(),
       ),
     );

@@ -98,7 +98,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 keyboardType: TextInputType.multiline,
                                 expands: true,
                                 controller: textEditingController,
-                                style: customTextStyle.bodySmall,
+                                style: customTextStyle.bodyMedium,
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   hintText: '오늘 느꼈던 것들을 자유롭게 적어주세요!',

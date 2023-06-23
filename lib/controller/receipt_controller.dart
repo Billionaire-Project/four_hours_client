@@ -27,10 +27,12 @@ class ReceiptController extends _$ReceiptController {
           'ReceiptController',
           'State has an error ${state.error}',
         );
+        return null;
       }
 
       if (!state.hasValue) {
         printDebug('ReceiptController', 'State has no value');
+        return null;
       }
 
       return state.value;

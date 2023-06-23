@@ -33,8 +33,7 @@ GoRouter appRouter(AppRouterRef ref) {
     refreshListenable: appState,
     redirect: (BuildContext context, GoRouterState state) {
       if (state.error != null) {
-        //TODO: redirect to error page
-        return null;
+        return ErrorPage.path;
       }
       const String splashLocation = SplashPage.path;
       const String logInLocation = LoginPage.path;
@@ -116,8 +115,7 @@ GoRouter appRouter(AppRouterRef ref) {
               isFromMyPost: isFromMyPost,
             );
           } else {
-            //TODO: redirect or show error page
-            return const SizedBox.shrink();
+            return const ErrorPage(error: 'The post ID cannot be found,');
           }
         },
         parentNavigatorKey: navigatorKey,
@@ -125,9 +123,19 @@ GoRouter appRouter(AppRouterRef ref) {
       GoRoute(
         path: LikedPostsPage.path,
         pageBuilder: (BuildContext context, GoRouterState state) =>
-            NoTransitionPage(
+            CustomTransitionPage(
           key: state.pageKey,
           child: const LikedPostsPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              SlideTransition(
+            position: animation.drive(
+              Tween<Offset>(
+                begin: const Offset(-1, 0),
+                end: Offset.zero,
+              ),
+            ),
+            child: child,
+          ),
         ),
         parentNavigatorKey: navigatorKey,
       ),
@@ -136,18 +144,15 @@ GoRouter appRouter(AppRouterRef ref) {
         name: DeletePostPage.name,
         builder: (BuildContext context, GoRouterState state) {
           final extra = state.extra as Map<String, dynamic>?;
-          final int deleteStack = extra?['deleteStack'] as int;
           final bool? isDetailPage = extra?['isDetailPage'];
 
           if (state.params['postId'] != null) {
             return DeletePostPage(
               postId: int.parse(state.params['postId']!),
-              deleteStack: deleteStack,
               isDetailPage: isDetailPage,
             );
           } else {
-            //TODO: redirect or show error page
-            return const SizedBox.shrink();
+            return const ErrorPage(error: 'The post ID cannot be found,');
           }
         },
         parentNavigatorKey: navigatorKey,
@@ -168,5 +173,10 @@ GoRouter appRouter(AppRouterRef ref) {
             const CommonWidgetsPage(),
       ),
     ],
+    errorPageBuilder: (context, state) => const NoTransitionPage(
+      child: ErrorPage(
+        error: '해당 페이지는 존재하지 않습니다',
+      ),
+    ),
   );
 }

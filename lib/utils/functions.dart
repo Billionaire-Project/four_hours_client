@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,12 +9,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:four_hours_client/network/dio_exceptions.dart';
 import 'package:four_hours_client/routes/app_router.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
+import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
 import 'package:four_hours_client/views/widgets/common_alert.dart';
+import 'package:four_hours_client/views/widgets/common_dialog.dart';
 import 'package:four_hours_client/views/widgets/common_dialog_with_two_buttons.dart';
 import 'package:four_hours_client/views/widgets/common_loader.dart';
 import 'package:four_hours_client/views/widgets/common_toast.dart';
+import 'package:four_hours_client/views/widgets/common_toast_with_action.dart';
 import 'package:intl/intl.dart';
 
 void showCommonAlert({
@@ -63,6 +67,7 @@ void showCommonToast(
   required IconData iconData,
   required String text,
   double? bottom,
+  int? duration,
 }) {
   final fToast = FToast();
   fToast.removeCustomToast();
@@ -70,7 +75,40 @@ void showCommonToast(
   fToast.init(context);
   fToast.showToast(
     child: CommonToast(iconData: iconData, text: text),
-    toastDuration: const Duration(seconds: 1),
+    toastDuration: Duration(seconds: duration ?? 1),
+    positionedToastBuilder: (context, child) {
+      return Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Positioned(
+            bottom: bottom ?? 0,
+            child: child,
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showCommonToastWithAction(
+  BuildContext context, {
+  required IconData iconData,
+  required String text,
+  required Widget action,
+  double? bottom,
+  int? duration,
+}) {
+  final fToast = FToast();
+  fToast.removeCustomToast();
+
+  fToast.init(context);
+  fToast.showToast(
+    child: CommonToastWithAction(
+      iconData: iconData,
+      text: text,
+      action: action,
+    ),
+    toastDuration: Duration(seconds: duration ?? 3),
     positionedToastBuilder: (context, child) {
       return Stack(
         alignment: Alignment.bottomCenter,
@@ -113,6 +151,28 @@ void showCommonDialogWithTwoButtons({
   );
 }
 
+Future<void> showCommonDialog({
+  required IconData iconData,
+  required String title,
+  VoidCallback? onPressedButton,
+  String? buttonText,
+  String? subtitle,
+  bool barrierDismissible = true,
+}) async {
+  showDialog(
+    barrierDismissible: barrierDismissible,
+    barrierColor: CustomColors.black.withOpacity(0.8),
+    context: navigatorKey.currentContext!,
+    builder: (context) => CommonDialog(
+      iconData: iconData,
+      title: title,
+      subtitle: subtitle,
+      onPressedButton: onPressedButton,
+      buttonText: buttonText,
+    ),
+  );
+}
+
 bool checkHasOnlyWhiteSpace(String text) {
   return text.trim().isEmpty;
 }
@@ -140,6 +200,10 @@ String getCreatePostTime({required String date}) {
 
   if (difference.inMinutes <= 0) {
     return 'Just now';
+  } else if (difference.inHours <= 0) {
+    return '${difference.inMinutes}mins';
+  } else if (difference.inHours <= 24) {
+    return '${difference.inHours}hours';
   } else {
     return hoursWithMins;
   }
@@ -150,8 +214,22 @@ String throwExceptions(DioError e) {
   return errorMessage;
 }
 
-Future<void> saveToClipboard(String text) async {
+Future<void> saveTextToClipboard(
+  BuildContext context, {
+  required String text,
+}) async {
   await Clipboard.setData(ClipboardData(text: text));
+
+  if (context.mounted) {
+    if (!Platform.isAndroid) {
+      showCommonToast(
+        context,
+        iconData: CustomIcons.check_line,
+        text: '클립보드에 복사되었어요!',
+        bottom: 40,
+      );
+    }
+  }
 }
 
 void printDebug(String currentLocation, String text) {

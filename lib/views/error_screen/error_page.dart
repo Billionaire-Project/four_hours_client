@@ -18,43 +18,43 @@ class ErrorPage extends ConsumerWidget {
     final customTextStyle = ref.watch(customTextStyleProvider);
 
     return MainWrapper(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(
-                  CustomIcons.ghost_line,
-                  size: 48,
-                ),
-                const Gap(8),
-                Text(
-                  '알 수 없는 오류가 발생했어요',
-                  style: customTextStyle.headlineSmall,
-                ),
-                const Gap(4),
-                Text(
-                  'Error: ${error ?? 'Unknown Error'}',
-                  style: customTextStyle.bodyMedium,
-                ),
-              ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(
+                    CustomIcons.ghost_line,
+                    size: 48,
+                  ),
+                  const Gap(8),
+                  Text(
+                    '알 수 없는 오류가 발생했어요',
+                    style: customTextStyle.headlineSmall,
+                  ),
+                  const Gap(4),
+                  Text(
+                    'Error: ${error ?? 'Unknown Error'}',
+                    style: customTextStyle.bodyMedium,
+                  ),
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: CommonFullWidthTextButton(
+            CommonFullWidthTextButton(
               text: '홈으로 돌아가기',
               onPressed: () {
                 context.go(HomeWriteTab.path);
               },
             ),
-          ),
-          const Gap(40),
-        ],
+            const Gap(40),
+          ],
+        ),
       ),
     );
   }
