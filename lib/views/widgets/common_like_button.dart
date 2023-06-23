@@ -29,46 +29,67 @@ class CommonLikeButton extends ConsumerStatefulWidget {
 
 class _CommonLikeButtonState extends ConsumerState<CommonLikeButton>
     with TickerProviderStateMixin {
-  Timer? _timer;
-  bool shouldShowLikedAndSaved = false;
-  double scale = 0;
+  Timer? _rightBoxHideTimer;
+  bool isAnimating = false;
+  bool isVeryFirstTime = true;
 
-  @override
-  void initState() {
-    super.initState();
-    if (widget.isFromLikedPost) {
-      _upScale();
-    }
+  late final AnimationController _likeAnimationController = AnimationController(
+    duration: Duration.zero,
+    vsync: this,
+  );
+  late final Animation<double> _likeAnimation = CurvedAnimation(
+    parent: _likeAnimationController,
+    curve: Curves.easeOutBack,
+  );
+
+  late final AnimationController _rightBoxAnimationController =
+      AnimationController(
+    duration: likeAnimationDuration,
+    vsync: this,
+  );
+
+  late final Animation<double> _rightBoxAnimation = CurvedAnimation(
+    parent: _rightBoxAnimationController,
+    curve: Curves.easeOutBack,
+  )..addStatusListener((status) {
+      if (status == AnimationStatus.forward) {
+        _rightBoxHideTimer?.cancel();
+
+        setState(() {
+          isAnimating = true;
+        });
+      } else if (status == AnimationStatus.completed) {
+        _rightBoxHideTimer = Timer(likeAndSavedHideDuration, () {
+          _reverseRightBoxAnimation();
+        });
+      } else if (status == AnimationStatus.dismissed) {
+        setState(() {
+          isAnimating = false;
+        });
+      }
+    });
+
+  void _forwardLikeAnimation() {
+    _likeAnimationController.forward();
   }
 
-  void _showLikedAndSaved() {
-    setState(() {
-      shouldShowLikedAndSaved = true;
-    });
-    ref.read(savedControllerProvider.notifier).showSaved();
+  void _reverseLikeAnimation() {
+    _likeAnimationController.reverse();
   }
 
-  void _hideLikedAndSaved() {
-    setState(() {
-      shouldShowLikedAndSaved = false;
-    });
+  void _forwardRightBoxAnimation() {
+    _rightBoxAnimationController.forward();
   }
 
-  void _upScale() {
-    setState(() {
-      scale = 1;
-    });
-  }
-
-  void _downScale() {
-    setState(() {
-      scale = 0;
-    });
+  void _reverseRightBoxAnimation() {
+    _rightBoxAnimationController.reverse();
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _rightBoxHideTimer?.cancel();
+    _likeAnimationController.dispose();
+    _rightBoxAnimationController.dispose();
     super.dispose();
   }
 
@@ -85,32 +106,34 @@ class _CommonLikeButtonState extends ConsumerState<CommonLikeButton>
     );
 
     if (isLikedByController) {
-      _upScale();
+      _forwardLikeAnimation();
+    } else {
+      _reverseLikeAnimation();
     }
 
     return Row(
       children: [
-        if (isLikedByController && shouldShowLikedAndSaved)
-          AnimatedOpacity(
-            duration: likeAnimationDuration,
-            opacity: scale,
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
-                vertical: 2.0,
-              ),
-              decoration: BoxDecoration(
-                color: customThemeColors.orange,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Text(
-                'Liked & Saved',
-                style: customTextStyle.montLabelSmall.copyWith(
-                  color: customThemeColors.backgroundToggle,
-                ),
-              ),
-            ),
-          ),
+        ScaleTransition(
+          scale: _rightBoxAnimation,
+          child: isAnimating
+              ? Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 2.0,
+                  ),
+                  decoration: BoxDecoration(
+                    color: customThemeColors.orange,
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Text(
+                    'Liked & Saved',
+                    style: customTextStyle.montLabelSmall.copyWith(
+                      color: customThemeColors.backgroundToggle,
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
         Material(
           color: Colors.transparent,
           shape: const CircleBorder(),
@@ -119,6 +142,10 @@ class _CommonLikeButtonState extends ConsumerState<CommonLikeButton>
             splashColor: Colors.white.withOpacity(0.15),
             customBorder: const CircleBorder(),
             onTap: () {
+              if (_likeAnimationController.duration == Duration.zero) {
+                _likeAnimationController.duration = likeAnimationDuration;
+              }
+
               ref
                   .read(
                     likeControllerProvider(
@@ -127,9 +154,11 @@ class _CommonLikeButtonState extends ConsumerState<CommonLikeButton>
                     ).notifier,
                   )
                   .handlePressedLikeButton();
+
               if (isLikedByController) {
-                _downScale();
-                _hideLikedAndSaved();
+                if (isAnimating) {
+                  _reverseRightBoxAnimation();
+                }
                 showCommonToastWithAction(
                   context,
                   iconData: CustomIcons.heart_line,
@@ -151,18 +180,14 @@ class _CommonLikeButtonState extends ConsumerState<CommonLikeButton>
                             ).notifier,
                           )
                           .handlePressedLikeButton();
-                      _hideLikedAndSaved();
                     },
                   ),
                 );
               } else {
-                _upScale();
                 if (!widget.isFromLikedPost) {
-                  _timer?.cancel();
-                  _showLikedAndSaved();
-                  _timer = Timer(const Duration(seconds: 3), () {
-                    _hideLikedAndSaved();
-                  });
+                  _forwardRightBoxAnimation();
+
+                  ref.read(savedControllerProvider.notifier).showSaved();
                 }
               }
             },
@@ -173,10 +198,8 @@ class _CommonLikeButtonState extends ConsumerState<CommonLikeButton>
                   const Icon(
                     CustomIcons.heart_line,
                   ),
-                  AnimatedScale(
-                    scale: scale,
-                    curve: Curves.easeOutBack,
-                    duration: likeAnimationDuration,
+                  ScaleTransition(
+                    scale: _likeAnimation,
                     child: Icon(
                       CustomIcons.heart_fill,
                       color: customThemeColors.orange,

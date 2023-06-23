@@ -31,7 +31,6 @@ class MainAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
 
 class _MainAppBarState extends ConsumerState<MainAppBar>
     with TickerProviderStateMixin {
-  double scale = 0;
   bool isFirst = true;
 
   late final AnimationController _controller = AnimationController(
@@ -44,16 +43,10 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
   );
 
   void _upScale() {
-    setState(() {
-      scale = 1;
-    });
     _controller.forward();
   }
 
   void _downScale() {
-    setState(() {
-      scale = 0;
-    });
     _controller.reverse();
   }
 

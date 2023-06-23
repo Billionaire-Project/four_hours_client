@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:four_hours_client/constants/constants.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'saved_controller.g.dart';
 
@@ -19,7 +20,7 @@ class SavedController extends _$SavedController {
 
     state = true;
     _timer?.cancel();
-    _timer = Timer(const Duration(seconds: 3), () {
+    _timer = Timer(likeAndSavedHideDuration, () {
       hideSaved();
     });
   }

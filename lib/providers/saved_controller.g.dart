@@ -6,7 +6,7 @@ part of 'saved_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$savedControllerHash() => r'855eae9b6a6eb72711616e5a590b11854a95a28e';
+String _$savedControllerHash() => r'3ee8241a660b97bf2cad41d41af607a94b7ee833';
 
 /// See also [SavedController].
 @ProviderFor(SavedController)
