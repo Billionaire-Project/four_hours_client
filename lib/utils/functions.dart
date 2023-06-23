@@ -17,6 +17,7 @@ import 'package:four_hours_client/views/widgets/common_dialog.dart';
 import 'package:four_hours_client/views/widgets/common_dialog_with_two_buttons.dart';
 import 'package:four_hours_client/views/widgets/common_loader.dart';
 import 'package:four_hours_client/views/widgets/common_toast.dart';
+import 'package:four_hours_client/views/widgets/common_toast_with_action.dart';
 import 'package:intl/intl.dart';
 
 void showCommonAlert({
@@ -66,6 +67,7 @@ void showCommonToast(
   required IconData iconData,
   required String text,
   double? bottom,
+  int? duration,
 }) {
   final fToast = FToast();
   fToast.removeCustomToast();
@@ -73,7 +75,40 @@ void showCommonToast(
   fToast.init(context);
   fToast.showToast(
     child: CommonToast(iconData: iconData, text: text),
-    toastDuration: const Duration(seconds: 1),
+    toastDuration: Duration(seconds: duration ?? 1),
+    positionedToastBuilder: (context, child) {
+      return Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Positioned(
+            bottom: bottom ?? 0,
+            child: child,
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showCommonToastWithAction(
+  BuildContext context, {
+  required IconData iconData,
+  required String text,
+  required Widget action,
+  double? bottom,
+  int? duration,
+}) {
+  final fToast = FToast();
+  fToast.removeCustomToast();
+
+  fToast.init(context);
+  fToast.showToast(
+    child: CommonToastWithAction(
+      iconData: iconData,
+      text: text,
+      action: action,
+    ),
+    toastDuration: Duration(seconds: duration ?? 3),
     positionedToastBuilder: (context, child) {
       return Stack(
         alignment: Alignment.bottomCenter,
