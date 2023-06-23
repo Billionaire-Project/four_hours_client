@@ -7,7 +7,7 @@ import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/home_write_controller.dart';
 import 'package:four_hours_client/controller/liked_posts_controller.dart';
-import 'package:four_hours_client/providers/saved_controller.dart';
+import 'package:four_hours_client/controller/saved_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
