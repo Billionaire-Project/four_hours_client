@@ -125,7 +125,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                           children: [
                             TextSpan(
                               text: widget.post.content,
-                              style: customTextStyle.bodySmall,
+                              style: customTextStyle.bodyMedium,
                             ),
                           ],
                         ),

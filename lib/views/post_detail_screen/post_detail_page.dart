@@ -103,7 +103,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                       const Gap(8),
                       Text(
                         postModel.content,
-                        style: customTextStyle.bodySmall,
+                        style: customTextStyle.bodyMedium,
                       ),
                     ],
                   ),
@@ -127,14 +127,13 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                     const Gap(8),
                     Text(
                       widget.post.content,
-                      style: customTextStyle.bodySmall,
+                      style: customTextStyle.bodyMedium,
                     ),
                   ],
                 ),
               ),
             );
           }, error: (error, _) {
-            print('jay --- error $error');
             return ErrorPage(error: error);
           }),
           widget.isFromMyPost

@@ -91,7 +91,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                       children: [
                         TextSpan(
                           text: widget.post.content,
-                          style: customTextStyle.bodySmall,
+                          style: customTextStyle.bodyMedium,
                         ),
                       ],
                     ),

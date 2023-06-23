@@ -53,7 +53,7 @@ class CommonCardCover extends ConsumerWidget {
             const Gap(4),
             Text(
               subtitle,
-              style: customTextStyle.bodySmall.copyWith(
+              style: customTextStyle.bodyMedium.copyWith(
                 color: customThemeColors.textSecondary,
               ),
               textAlign: TextAlign.center,

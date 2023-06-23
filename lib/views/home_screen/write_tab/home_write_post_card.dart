@@ -102,7 +102,7 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
                       children: [
                         TextSpan(
                           text: widget.post.content,
-                          style: customTextStyle.bodySmall,
+                          style: customTextStyle.bodyMedium,
                         ),
                       ],
                     ),

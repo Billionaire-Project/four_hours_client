@@ -83,14 +83,14 @@ class _TodaysTopic extends ConsumerWidget {
             leading: Center(
               child: Text(
                 '오늘의 주제: 변화',
-                style: customTextStyle.titleSmall,
+                style: customTextStyle.titleMedium,
               ),
             ),
           ),
           const Gap(10),
           Text(
             '날씨가 점점 봄으로 바뀌고 있다.\n그 변화를 느끼며, 기분도 따뜻해지고 있다.',
-            style: customTextStyle.bodySmall
+            style: customTextStyle.bodyMedium
                 .copyWith(color: CustomColors.light.gray400),
           ),
           const Gap(16),
