@@ -9,7 +9,7 @@ import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
-import 'package:four_hours_client/views/widgets/common_like_button.dart';
+import 'package:four_hours_client/views/widgets/like_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/measure_size.dart';
@@ -135,7 +135,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                   const Gap(8),
                   CommonRowWithDivider(
                     rightGap: 8,
-                    trailing: CommonLikeButton(
+                    trailing: LikeButton(
                       isLiked: widget.post.isLiked!,
                       postId: widget.post.id,
                       isNeedLikedAndSaved: true,

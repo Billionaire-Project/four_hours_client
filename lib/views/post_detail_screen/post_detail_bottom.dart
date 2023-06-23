@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/widgets/common_like_button.dart';
+import 'package:four_hours_client/views/widgets/like_button.dart';
 
 class PostDetailBottom extends ConsumerWidget {
   final PostModel post;
@@ -37,7 +37,7 @@ class PostDetailBottom extends ConsumerWidget {
               color: customThemeColors.backgroundLabel,
               shape: BoxShape.circle,
             ),
-            child: CommonLikeButton(
+            child: LikeButton(
               isLiked: post.isLiked!,
               postId: post.id,
             ),

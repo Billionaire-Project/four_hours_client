@@ -12,11 +12,11 @@ import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/widgets/common_text_button.dart';
 
-class CommonLikeButton extends ConsumerStatefulWidget {
+class LikeButton extends ConsumerStatefulWidget {
   final bool isLiked;
   final int postId;
   final bool isNeedLikedAndSaved;
-  const CommonLikeButton({
+  const LikeButton({
     Key? key,
     required this.isLiked,
     required this.postId,
@@ -24,10 +24,10 @@ class CommonLikeButton extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  ConsumerState<CommonLikeButton> createState() => _CommonLikeButtonState();
+  ConsumerState<LikeButton> createState() => _LikeButtonState();
 }
 
-class _CommonLikeButtonState extends ConsumerState<CommonLikeButton>
+class _LikeButtonState extends ConsumerState<LikeButton>
     with TickerProviderStateMixin {
   Timer? _rightBoxHideTimer;
   bool isAnimating = false;
@@ -52,7 +52,6 @@ class _CommonLikeButtonState extends ConsumerState<CommonLikeButton>
     parent: _rightBoxAnimationController,
     curve: Curves.easeOutBack,
   )..addStatusListener((status) {
-      print('jay --- status $status');
       if (status == AnimationStatus.forward) {
         _rightBoxHideTimer?.cancel();
 

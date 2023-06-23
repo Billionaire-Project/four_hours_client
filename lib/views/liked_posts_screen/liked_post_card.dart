@@ -6,7 +6,7 @@ import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/widgets/common_like_button.dart';
+import 'package:four_hours_client/views/widgets/like_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
@@ -101,7 +101,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
               const Gap(8),
               CommonRowWithDivider(
                 rightGap: 8,
-                trailing: CommonLikeButton(
+                trailing: LikeButton(
                   isLiked: widget.post.isLiked!,
                   postId: widget.post.id,
                 ),
