@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:four_hours_client/constants/app_sizes.dart';
+import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/home_write_controller.dart';
 import 'package:four_hours_client/controller/liked_posts_controller.dart';
@@ -15,21 +16,73 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/saved_custom_painter.dart';
 import 'package:go_router/go_router.dart';
 
-class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
+class MainAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
   const MainAppBar({
     Key? key,
     this.bottom,
   }) : super(key: key);
+  @override
+  ConsumerState<MainAppBar> createState() => _MainAppBarState();
 
   @override
   Size get preferredSize => const Size.fromHeight(appBarHeight);
+}
+
+class _MainAppBarState extends ConsumerState<MainAppBar>
+    with TickerProviderStateMixin {
+  double scale = 0;
+  bool isFirst = true;
+
+  late final AnimationController _controller = AnimationController(
+    duration: likeAnimationDuration,
+    vsync: this,
+  );
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.elasticInOut,
+  );
+
+  void _upScale() {
+    setState(() {
+      scale = 1;
+    });
+    _controller.forward();
+  }
+
+  void _downScale() {
+    setState(() {
+      scale = 0;
+    });
+    _controller.reverse();
+  }
+
+  void _resetScale() {
+    _controller.reset();
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    bool isShown = ref.watch(savedControllerProvider);
+    bool shouldShowSaved = ref.watch(savedControllerProvider);
+
+    if (shouldShowSaved && isFirst) {
+      _upScale();
+      isFirst = false;
+    } else if (shouldShowSaved && !isFirst) {
+      _resetScale();
+      _upScale();
+    } else if (!shouldShowSaved) {
+      _downScale();
+      isFirst = true;
+    }
 
     return AppBar(
       leadingWidth: 120,
@@ -68,11 +121,13 @@ class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
               size: 24,
             ),
           ),
-          if (isShown)
-            CustomPaint(
+          ScaleTransition(
+            scale: _animation,
+            child: CustomPaint(
               size: const Size(60, 24),
               painter: SavedCustomPainter(),
             ),
+          ),
         ],
       ),
       actions: [
@@ -85,7 +140,7 @@ class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ),
         const Gap(8),
       ],
-      bottom: bottom,
+      bottom: widget.bottom,
     );
   }
 }

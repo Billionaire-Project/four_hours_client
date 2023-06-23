@@ -13,15 +13,18 @@ class SavedController extends _$SavedController {
 
   Timer? _timer;
 
-  void appearSaved() {
+  void showSaved() {
+    //애니메이션 효과를 위해 사라지게 했다가 다시 나타나도록
+    hideSaved();
+
     state = true;
     _timer?.cancel();
     _timer = Timer(const Duration(seconds: 3), () {
-      disappearSaved();
+      hideSaved();
     });
   }
 
-  void disappearSaved() {
+  void hideSaved() {
     state = false;
   }
 }
