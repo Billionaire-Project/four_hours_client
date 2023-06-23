@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/post_detail_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -43,23 +44,6 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
     final postDetailNotifier = ref.read(
         postDetailControllerProvider(context, post: widget.post).notifier);
 
-    if (!postDetail.hasValue) {
-      print('jay --- post detail has no value');
-    }
-
-    if (postDetail.hasError) {
-      //TODO: post 요청을 보내서 error가 떨어지면 이쪽으로 보내서 예외처리 해야함
-      print('jay --- post detail has error');
-      // WidgetsBinding.instance.addPostFrameCallback((_) {
-      //   context.pop();
-      //   showCommonDialog(
-      //     iconData: CustomIcons.time_line,
-      //     title: '유효하지 않은 게시글입니다',
-      //     subtitle: '다른 글을 탐색하여 읽어보세요',
-      //   );
-      // });
-    }
-
     return MainWrapper(
       appBar: CommonAppBar(
         actions: [
@@ -80,10 +64,16 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
         children: [
           postDetail.when(data: (postModel) {
             if (postModel == null) {
-              //TODO: post 요청을 보내서 error가 떨어지면 이쪽으로 보내서 예외처리 해야함
-              print('jay --- postModel is null');
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                context.replace(ErrorPage.path);
+                context.replace(
+                  ErrorPage.path,
+                  extra: {
+                    'error': '유효하지 않은 게시글입니다',
+                  },
+                );
+                ref
+                    .read(homeSharedControllerProvider.notifier)
+                    .getPostsInitial();
               });
               return const SizedBox.shrink();
             } else {

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
+import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -27,19 +28,51 @@ class PostCardController extends _$PostCardController {
   void handlePressedCard(
     BuildContext context, {
     required PostModel post,
-  }) {
-    bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
+  }) async {
+    //TODO: getPostById에서 post가 null일 경우 처리
+    // final PostModel? post =
+    //     await ref.read(postsRepositoryProvider).getPostById(postId: postId);
 
-    context.pushNamed(
-      PostDetailPage.name,
-      params: {
-        'postId': post.id.toString(),
-      },
-      extra: PostDetailExtraModel(
-        post: post,
-        isFromMyPost: isFromMyPost,
-      ),
-    );
+    // if (post == null) {
+    //   showCommonDialog(
+    //     iconData: CustomIcons.time_line,
+    //     title: '유효하지 않은 게시글입니다',
+    //     subtitle: '다른 글을 탐색하여 읽어보세요',
+    //   );
+    //   return;
+    // }
+
+    bool isReadable = true;
+    await ref.read(receiptControllerProvider.notifier).getReceipt();
+
+    final asyncReceipt = ref.read(receiptControllerProvider);
+    asyncReceipt.whenData((receipt) {
+      isReadable = receipt!.isReadable;
+    });
+
+    if (!isReadable) {
+      showCommonDialog(
+        iconData: CustomIcons.time_line,
+        title: '더이상 SHARED를 확인할 수 없어요',
+        subtitle: '새로운 글을 쓰고 권한을 갱신해보세요!',
+      );
+      return;
+    } else {
+      if (context.mounted) {
+        bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
+
+        context.pushNamed(
+          PostDetailPage.name,
+          params: {
+            'postId': post.id.toString(),
+          },
+          extra: PostDetailExtraModel(
+            post: post,
+            isFromMyPost: isFromMyPost,
+          ),
+        );
+      }
+    }
   }
 
   void handlePressedMoreButton(
