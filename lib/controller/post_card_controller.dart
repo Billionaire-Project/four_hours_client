@@ -42,35 +42,48 @@ class PostCardController extends _$PostCardController {
     //   return;
     // }
 
-    bool isReadable = true;
-    await ref.read(receiptControllerProvider.notifier).getReceipt();
+    bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
 
-    final asyncReceipt = ref.read(receiptControllerProvider);
-    asyncReceipt.whenData((receipt) {
-      isReadable = receipt!.isReadable;
-    });
-
-    if (!isReadable) {
-      showCommonDialog(
-        iconData: CustomIcons.time_line,
-        title: '더이상 SHARED를 확인할 수 없어요',
-        subtitle: '새로운 글을 쓰고 권한을 갱신해보세요!',
+    if (isFromMyPost) {
+      context.pushNamed(
+        PostDetailPage.name,
+        params: {
+          'postId': post.id.toString(),
+        },
+        extra: PostDetailExtraModel(
+          post: post,
+          isFromMyPost: isFromMyPost,
+        ),
       );
-      return;
     } else {
-      if (context.mounted) {
-        bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
+      bool isReadable = true;
+      await ref.read(receiptControllerProvider.notifier).getReceipt();
 
-        context.pushNamed(
-          PostDetailPage.name,
-          params: {
-            'postId': post.id.toString(),
-          },
-          extra: PostDetailExtraModel(
-            post: post,
-            isFromMyPost: isFromMyPost,
-          ),
+      final asyncReceipt = ref.read(receiptControllerProvider);
+      asyncReceipt.whenData((receipt) {
+        isReadable = receipt!.isReadable;
+      });
+
+      if (!isReadable) {
+        showCommonDialog(
+          iconData: CustomIcons.time_line,
+          title: '더이상 SHARED를 확인할 수 없어요',
+          subtitle: '새로운 글을 쓰고 권한을 갱신해보세요!',
         );
+        return;
+      } else {
+        if (context.mounted) {
+          context.pushNamed(
+            PostDetailPage.name,
+            params: {
+              'postId': post.id.toString(),
+            },
+            extra: PostDetailExtraModel(
+              post: post,
+              isFromMyPost: isFromMyPost,
+            ),
+          );
+        }
       }
     }
   }
