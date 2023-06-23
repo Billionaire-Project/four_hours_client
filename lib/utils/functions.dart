@@ -200,6 +200,10 @@ String getCreatePostTime({required String date}) {
 
   if (difference.inMinutes <= 0) {
     return 'Just now';
+  } else if (difference.inHours <= 0) {
+    return '${difference.inMinutes}mins';
+  } else if (difference.inHours <= 24) {
+    return '${difference.inHours}hours';
   } else {
     return hoursWithMins;
   }
