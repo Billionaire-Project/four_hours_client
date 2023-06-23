@@ -10,8 +10,8 @@ import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dar
 import 'package:go_router/go_router.dart';
 
 class HomeTabBar extends ConsumerWidget implements PreferredSizeWidget {
-  final TabController? tabController;
-  const HomeTabBar({Key? key, this.tabController}) : super(key: key);
+  final TabController tabController;
+  const HomeTabBar({Key? key, required this.tabController}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(appBarBottomHeight);
@@ -22,9 +22,9 @@ class HomeTabBar extends ConsumerWidget implements PreferredSizeWidget {
     final currentLocation = GoRouter.of(context).location;
 
     if (currentLocation == HomeWriteTab.path) {
-      tabController?.animateTo(0);
+      tabController.animateTo(0);
     } else if (currentLocation == HomeSharedTab.path) {
-      tabController?.animateTo(1);
+      tabController.animateTo(1);
     }
 
     return PreferredSize(
