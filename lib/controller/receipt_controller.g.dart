@@ -6,7 +6,7 @@ part of 'receipt_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$receiptControllerHash() => r'f70607560a52229bbce9208cb614a7fc459f8c19';
+String _$receiptControllerHash() => r'0b674d6b540d6f1fcad6c59316390e16dafef5d1';
 
 /// See also [ReceiptController].
 @ProviderFor(ReceiptController)
