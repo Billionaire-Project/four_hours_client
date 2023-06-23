@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/network/dio_exceptions.dart';
 import 'package:four_hours_client/network/endpoints.dart';
+import 'package:four_hours_client/utils/functions.dart';
 
 class DioClient {
   final Dio _dio = Dio();
@@ -126,13 +127,18 @@ class _AuthInterceptor extends Interceptor {
     if (user != null) {
       //TODO: FirebaseAuthException ([firebase_auth/user-token-expired] The user's credential is no longer valid. The user must sign in again.)
 // credential이 더 이상 유효하지 않을 때 처리 필요
-      final token = await user.getIdToken();
-      await storage.write(key: LocalStorageKey.token, value: token);
-      await storage.write(
-        key: LocalStorageKey.tokenTimeout,
-        value: DateTime.now().add(const Duration(hours: 1)).toString(),
-      );
-      return token;
+      try {
+        final token = await user.getIdToken();
+        await storage.write(key: LocalStorageKey.token, value: token);
+        await storage.write(
+          key: LocalStorageKey.tokenTimeout,
+          value: DateTime.now().add(const Duration(hours: 1)).toString(),
+        );
+        return token;
+      } catch (e) {
+        printDebug('Dio Client', 'refreshToken error: $e');
+        rethrow;
+      }
     } else {
       throw ('User is null');
     }
