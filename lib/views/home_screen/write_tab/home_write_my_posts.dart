@@ -28,10 +28,13 @@ class MyPosts extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Gap(8),
-                CommonCardCover(
-                  iconData: CustomIcons.pencil_fill,
-                  title: '첫 게시글을 작성해보세요!',
-                  subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: CommonCardCover(
+                    iconData: CustomIcons.pencil_fill,
+                    title: '첫 게시글을 작성해보세요!',
+                    subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
+                  ),
                 ),
               ],
             ),
