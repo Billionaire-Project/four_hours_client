@@ -132,7 +132,6 @@ class _CommonLikeButtonState extends ConsumerState<CommonLikeButton>
                 _hideLikedAndSaved();
                 showCommonToastWithAction(
                   context,
-                  bottom: widget.isFromLikedPost ? 40 : 0,
                   iconData: CustomIcons.heart_line,
                   text: '해당 글이 좋아요 해제되었어요',
                   action: CommonTextButton(

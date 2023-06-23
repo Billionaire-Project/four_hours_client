@@ -226,7 +226,6 @@ Future<void> saveTextToClipboard(
         context,
         iconData: CustomIcons.check_line,
         text: '클립보드에 복사되었어요!',
-        bottom: 40,
       );
     }
   }
