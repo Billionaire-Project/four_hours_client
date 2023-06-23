@@ -6,11 +6,13 @@ import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/home_write_controller.dart';
 import 'package:four_hours_client/controller/liked_posts_controller.dart';
+import 'package:four_hours_client/providers/saved_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
+import 'package:four_hours_client/views/widgets/saved_custom_painter.dart';
 import 'package:go_router/go_router.dart';
 
 class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
@@ -27,8 +29,16 @@ class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
+    bool isShown = ref.watch(savedControllerProvider);
+
     return AppBar(
+      leadingWidth: 120,
       automaticallyImplyLeading: false,
+      backgroundColor: customThemeColors.background,
+      foregroundColor: customThemeColors.onBackground,
+      centerTitle: true,
+      shadowColor: null,
+      elevation: 0,
       title: SvgPicture.asset(
         'assets/images/logo.svg',
         semanticsLabel: 'Logo',
@@ -58,6 +68,11 @@ class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
               size: 24,
             ),
           ),
+          if (isShown)
+            CustomPaint(
+              size: const Size(60, 24),
+              painter: SavedCustomPainter(),
+            ),
         ],
       ),
       actions: [
@@ -71,11 +86,6 @@ class MainAppBar extends ConsumerWidget implements PreferredSizeWidget {
         const Gap(8),
       ],
       bottom: bottom,
-      backgroundColor: customThemeColors.background,
-      foregroundColor: customThemeColors.onBackground,
-      centerTitle: true,
-      shadowColor: null,
-      elevation: 0,
     );
   }
 }

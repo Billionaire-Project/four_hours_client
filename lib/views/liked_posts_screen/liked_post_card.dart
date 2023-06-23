@@ -104,6 +104,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                 trailing: CommonLikeButton(
                   isLiked: widget.post.isLiked!,
                   postId: widget.post.id,
+                  isFromLikedPost: true,
                 ),
               )
             ],
