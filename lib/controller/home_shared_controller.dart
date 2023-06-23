@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
+import 'package:four_hours_client/controller/saved_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_pagination_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -39,6 +40,7 @@ class HomeSharedController extends _$HomeSharedController {
 
   Future<List<PostModel>> getPostsInitial() async {
     FToast().removeCustomToast();
+    ref.read(savedControllerProvider.notifier).resetSavedAnimation();
 
     state = const AsyncLoading();
 

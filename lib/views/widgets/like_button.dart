@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/like_controller.dart';
-import 'package:four_hours_client/controller/hide_liked_and_saved_controller.dart';
+import 'package:four_hours_client/controller/liked_and_saved_controller.dart';
 import 'package:four_hours_client/controller/saved_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
@@ -86,6 +86,10 @@ class _LikeButtonState extends ConsumerState<LikeButton>
     _rightBoxAnimationController.reverse();
   }
 
+  void _resetRightBoxAnimation() {
+    _rightBoxAnimationController.reset();
+  }
+
   @override
   void dispose() {
     _rightBoxHideTimer?.cancel();
@@ -112,11 +116,11 @@ class _LikeButtonState extends ConsumerState<LikeButton>
       _reverseLikeAnimation();
     }
 
-    bool shouldHideLikedAndSaved =
-        ref.watch(hideLikedAndSavedControllerProvider);
+    bool shouldResetLikedAndSaved =
+        ref.watch(likedAndSavedControllerProvider.notifier).shouldReset;
 
-    if (shouldHideLikedAndSaved) {
-      _reverseRightBoxAnimation();
+    if (shouldResetLikedAndSaved) {
+      _resetRightBoxAnimation();
     }
 
     return Row(
@@ -155,6 +159,10 @@ class _LikeButtonState extends ConsumerState<LikeButton>
               }
 
               ref
+                  .read(likedAndSavedControllerProvider.notifier)
+                  .forwardLikedAndSavedAnimation();
+
+              ref
                   .read(
                     likeControllerProvider(
                       isLiked: widget.isLiked,
@@ -167,30 +175,32 @@ class _LikeButtonState extends ConsumerState<LikeButton>
                 if (isAnimating) {
                   _reverseRightBoxAnimation();
                 }
-                showCommonToastWithAction(
-                  context,
-                  iconData: CustomIcons.heart_line,
-                  text: '해당 글이 좋아요 해제되었어요',
-                  action: CommonTextButton(
-                    child: Text(
-                      '실행 취소',
-                      style: customTextStyle.titleMedium.copyWith(
-                        color: customThemeColors.orange,
+                if (widget.isNeedLikedAndSaved) {
+                  showCommonToastWithAction(
+                    context,
+                    iconData: CustomIcons.heart_line,
+                    text: '해당 글이 좋아요 해제되었어요',
+                    action: CommonTextButton(
+                      child: Text(
+                        '실행 취소',
+                        style: customTextStyle.titleMedium.copyWith(
+                          color: customThemeColors.orange,
+                        ),
                       ),
+                      onPressed: () {
+                        FToast().removeCustomToast();
+                        ref
+                            .read(
+                              likeControllerProvider(
+                                isLiked: widget.isLiked,
+                                postId: widget.postId,
+                              ).notifier,
+                            )
+                            .handlePressedLikeButton();
+                      },
                     ),
-                    onPressed: () {
-                      FToast().removeCustomToast();
-                      ref
-                          .read(
-                            likeControllerProvider(
-                              isLiked: widget.isLiked,
-                              postId: widget.postId,
-                            ).notifier,
-                          )
-                          .handlePressedLikeButton();
-                    },
-                  ),
-                );
+                  );
+                }
               } else {
                 if (widget.isNeedLikedAndSaved) {
                   _forwardRightBoxAnimation();

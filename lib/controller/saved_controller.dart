@@ -14,7 +14,12 @@ class SavedController extends _$SavedController {
 
   Timer? _timer;
 
+  bool _shouldReset = false;
+  bool get shouldReset => _shouldReset;
+
   void showSaved() {
+    _shouldReset = false;
+
     //애니메이션 효과를 위해 사라지게 했다가 다시 나타나도록
     hideSaved();
 
@@ -27,5 +32,9 @@ class SavedController extends _$SavedController {
 
   void hideSaved() {
     state = false;
+  }
+
+  void resetSavedAnimation() {
+    _shouldReset = true;
   }
 }

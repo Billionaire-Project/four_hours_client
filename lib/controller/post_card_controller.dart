@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
-import 'package:four_hours_client/controller/hide_liked_and_saved_controller.dart';
+import 'package:four_hours_client/controller/liked_and_saved_controller.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/controller/saved_controller.dart';
 import 'package:four_hours_client/models/post_detail_extra_model.dart';
@@ -74,10 +74,10 @@ class PostCardController extends _$PostCardController {
         );
         return;
       } else {
-        ref.read(savedControllerProvider.notifier).hideSaved();
+        ref.read(savedControllerProvider.notifier).resetSavedAnimation();
         ref
-            .read(hideLikedAndSavedControllerProvider.notifier)
-            .hideLikedAndSavedIfPageChanged();
+            .read(likedAndSavedControllerProvider.notifier)
+            .resetLikedAndSavedAnimation();
         if (context.mounted) {
           context.pushNamed(
             PostDetailPage.name,
