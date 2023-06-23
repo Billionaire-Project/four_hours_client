@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'like_controller.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class LikeController extends _$LikeController {
   @override
   bool build({
