@@ -138,6 +138,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                     trailing: CommonLikeButton(
                       isLiked: widget.post.isLiked!,
                       postId: widget.post.id,
+                      isNeedLikedAndSaved: true,
                     ),
                   ),
                 ],

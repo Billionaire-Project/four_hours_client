@@ -15,12 +15,12 @@ import 'package:four_hours_client/views/widgets/common_text_button.dart';
 class CommonLikeButton extends ConsumerStatefulWidget {
   final bool isLiked;
   final int postId;
-  final bool isFromLikedPost;
+  final bool isNeedLikedAndSaved;
   const CommonLikeButton({
     Key? key,
     required this.isLiked,
     required this.postId,
-    this.isFromLikedPost = false,
+    this.isNeedLikedAndSaved = false,
   }) : super(key: key);
 
   @override
@@ -52,6 +52,7 @@ class _CommonLikeButtonState extends ConsumerState<CommonLikeButton>
     parent: _rightBoxAnimationController,
     curve: Curves.easeOutBack,
   )..addStatusListener((status) {
+      print('jay --- status $status');
       if (status == AnimationStatus.forward) {
         _rightBoxHideTimer?.cancel();
 
@@ -184,7 +185,7 @@ class _CommonLikeButtonState extends ConsumerState<CommonLikeButton>
                   ),
                 );
               } else {
-                if (!widget.isFromLikedPost) {
+                if (widget.isNeedLikedAndSaved) {
                   _forwardRightBoxAnimation();
 
                   ref.read(savedControllerProvider.notifier).showSaved();
