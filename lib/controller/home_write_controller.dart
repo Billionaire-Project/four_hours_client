@@ -52,6 +52,8 @@ class HomeWriteController extends _$HomeWriteController {
 
     try {
       await Future.delayed(skeletonDelay, () async {
+        _start = '0';
+
         _myPosts = await _fetchWritePosts();
       });
 
