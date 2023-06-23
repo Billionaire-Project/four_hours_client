@@ -56,9 +56,11 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
         padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
         child: MeasureSize(
           onChange: (size) {
-            setState(() {
-              childSize = size;
-            });
+            if (context.mounted) {
+              setState(() {
+                childSize = size;
+              });
+            }
           },
           child: InkWell(
             onTap: () {

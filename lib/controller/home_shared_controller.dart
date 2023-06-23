@@ -31,7 +31,7 @@ class HomeSharedController extends _$HomeSharedController {
   }
 
   String? _start = '0';
-  final String _offset = '10';
+  String _offset = '10';
 
   PostsPaginationModel? _posts;
   PostsPaginationModel? get posts => _posts;
@@ -45,6 +45,7 @@ class HomeSharedController extends _$HomeSharedController {
     state = const AsyncLoading();
 
     _start = '0';
+    _offset = '10';
 
     try {
       await Future.delayed(skeletonDelay, () async {
@@ -102,7 +103,14 @@ class HomeSharedController extends _$HomeSharedController {
     }
   }
 
-  void refreshTab() async {
+  Future<void> refreshTab() async {
+    final int lengthOfPosts = state.value!.length;
+    if (lengthOfPosts > int.parse(_offset)) {
+      _offset = lengthOfPosts.toString();
+    } else if (lengthOfPosts > 100) {
+      //TODO: 한 번에 가져오는 post의 양이 아주 많을 때 스트레스 테스트 해봐야함
+      _offset = '10';
+    }
     _start = '0';
 
     _posts = await _fetchSharedPosts();
