@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/controller/hide_liked_and_saved_controller.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/home_write_controller.dart';
 import 'package:four_hours_client/controller/liked_posts_controller.dart';
@@ -95,6 +96,10 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
           CommonIconButton(
             onTap: () async {
               context.push(LikedPostsPage.path);
+              ref.read(savedControllerProvider.notifier).hideSaved();
+              ref
+                  .read(hideLikedAndSavedControllerProvider.notifier)
+                  .hideLikedAndSavedIfPageChanged();
 
 //? 좋아요 목록에 들어가는 순간 write, shared, liked 리스트를 모두 다시 불러온다.
 //? 이렇게 해서 liked에서 좋아요를 누르면 shared에서도 좋아요가 반영되도록 한다.
