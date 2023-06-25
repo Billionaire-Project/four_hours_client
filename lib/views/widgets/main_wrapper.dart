@@ -22,6 +22,7 @@ class MainWrapper extends ConsumerWidget {
       appBar: appBar,
       backgroundColor: customThemeColors.background,
       body: SafeArea(
+        bottom: false,
         child: Padding(
           padding: padding,
           child: child,
