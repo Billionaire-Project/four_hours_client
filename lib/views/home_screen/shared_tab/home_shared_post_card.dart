@@ -46,7 +46,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
           height: childSize.height,
           iconData: CustomIcons.report_fill,
           title: '신고가 정상적으로 접수되었어요',
-          subtitle: '해당 글은 숨긴처리 됐습니다',
+          subtitle: '해당 글은 숨김처리 됐습니다',
         ),
       );
     }
@@ -62,7 +62,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
               });
             }
           },
-          child: InkWell(
+          child: GestureDetector(
             onTap: () {
               postNotifier.handlePressedCard(
                 context,
