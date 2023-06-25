@@ -10,6 +10,7 @@ import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_obscu
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_obscured_post_card.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_post_card.dart';
 import 'package:four_hours_client/views/widgets/common_post_skeleton.dart';
+import 'package:four_hours_client/views/widgets/custom_refresh_header.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -42,6 +43,7 @@ class HomeSharedTab extends ConsumerWidget {
                 controller: sharedNotifier.refreshController,
                 scrollController: sharedNotifier.scrollController,
                 onRefresh: sharedNotifier.refreshTab,
+                header: const CustomRefresherHeader(),
                 footer: const CustomRefresherFooter(),
                 child: ListView.separated(
                   itemBuilder: (context, index) {
