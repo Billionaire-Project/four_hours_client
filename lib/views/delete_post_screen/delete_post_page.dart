@@ -8,8 +8,8 @@ import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_tile_with_radio.dart';
+import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
-import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
 
 class DeletePostPage extends ConsumerStatefulWidget {
@@ -53,7 +53,7 @@ class _DeletePostPageState extends ConsumerState<DeletePostPage> {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    return MainWrapper(
+    return CommonWrapper(
       padding: const EdgeInsets.only(
         left: 16,
         right: 16,

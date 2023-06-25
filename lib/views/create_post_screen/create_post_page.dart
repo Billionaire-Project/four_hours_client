@@ -8,7 +8,7 @@ import 'package:four_hours_client/views/create_post_screen/create_post_bottom.da
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
-import 'package:four_hours_client/views/widgets/main_wrapper.dart';
+import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 import 'package:go_router/go_router.dart';
 
 class CreatePostPage extends ConsumerStatefulWidget {
@@ -54,7 +54,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final controllerNotifier = ref.watch(createPostControllerProvider.notifier);
 
-    return MainWrapper(
+    return CommonWrapper(
       appBar: CommonAppBar(
         title: '새 게시글',
         leadingAutomaticallyPop: false,
@@ -65,7 +65,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
           }
         },
       ),
-      padding: EdgeInsets.zero,
       child: Column(
         children: [
           Expanded(

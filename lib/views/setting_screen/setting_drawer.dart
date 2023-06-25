@@ -13,8 +13,8 @@ import 'package:four_hours_client/views/setting_screen/setting_tile_with_switch.
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_widgets_page.dart';
+import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
-import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
 
 class SettingDrawer extends ConsumerWidget {
@@ -27,7 +27,7 @@ class SettingDrawer extends ConsumerWidget {
     final customThemeColors = ref.watch(customThemeColorsProvider);
     final customTextStyle = ref.watch(customTextStyleProvider);
 
-    return MainWrapper(
+    return CommonWrapper(
       padding: const EdgeInsets.all(16),
       appBar: const CommonAppBar(
         title: '설정',

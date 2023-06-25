@@ -12,8 +12,8 @@ import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
+import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
-import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
 
 class PostDetailPage extends ConsumerStatefulWidget {
@@ -47,7 +47,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
     final postDetailNotifier = ref.read(
         postDetailControllerProvider(context, post: widget.post).notifier);
 
-    return MainWrapper(
+    return CommonWrapper(
       appBar: CommonAppBar(
         title: widget.postingDate,
         actions: [

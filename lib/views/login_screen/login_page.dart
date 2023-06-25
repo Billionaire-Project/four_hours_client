@@ -7,8 +7,8 @@ import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/login_screen/login_with_apple_button.dart';
 import 'package:four_hours_client/views/login_screen/login_with_google_button.dart';
+import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
-import 'package:four_hours_client/views/widgets/main_wrapper.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class LoginPage extends ConsumerWidget {
     final customThemeColors = ref.watch(customThemeColorsProvider);
     final customTextStyle = ref.watch(customTextStyleProvider);
 
-    return MainWrapper(
+    return CommonWrapper(
       padding: const EdgeInsets.all(16),
       child: Center(
         child: Column(

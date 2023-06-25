@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
-import 'package:four_hours_client/views/widgets/main_wrapper.dart';
+import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
@@ -17,7 +17,7 @@ class CommonWidgetsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    return MainWrapper(
+    return CommonWrapper(
       appBar: const CommonAppBar(title: 'Common Widgets'),
       child: Center(
         child: Column(
