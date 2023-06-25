@@ -8,6 +8,7 @@ import 'package:four_hours_client/views/liked_posts_screen/liked_post_card.dart'
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_post_skeleton.dart';
+import 'package:four_hours_client/views/widgets/custom_refresh_header.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
@@ -53,11 +54,13 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                         ref.read(likedPostsControllerProvider.notifier);
 
                     return SmartRefresher(
+                      physics: const BouncingScrollPhysics(),
                       enablePullDown: true,
                       enablePullUp: true,
                       controller: likedPostsNotifier.refreshController,
                       onRefresh: likedPostsNotifier.refreshLiked,
                       onLoading: likedPostsNotifier.getMoreLikedPosts,
+                      header: const CustomRefresherHeader(),
                       footer: const CustomRefresherFooter(),
                       child: child,
                     );
