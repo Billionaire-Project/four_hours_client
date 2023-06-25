@@ -11,6 +11,7 @@ const int _itemCount = 6;
 
 class CommonPostSkeleton extends ConsumerWidget {
   const CommonPostSkeleton({Key? key}) : super(key: key);
+  static const String path = '/common-post-skeleton';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

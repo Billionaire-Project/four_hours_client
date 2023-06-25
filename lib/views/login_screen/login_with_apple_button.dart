@@ -35,7 +35,7 @@ class LoginWithAppleButton extends ConsumerWidget {
           color: customThemeColors.buttonPrimary,
           border: Border.all(
             width: 1,
-            color: customThemeColors.buttonSecondary,
+            color: customThemeColors.buttonPrimary,
           ),
           borderRadius: BorderRadius.circular(4),
         ),

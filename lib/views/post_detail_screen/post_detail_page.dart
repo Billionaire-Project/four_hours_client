@@ -5,6 +5,7 @@ import 'package:four_hours_client/controller/post_detail_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
+import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/post_detail_screen/post_detail_bottom.dart';
 
@@ -42,14 +43,18 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
     final postDetail =
         ref.watch(postDetailControllerProvider(context, post: widget.post));
     final postDetailNotifier = ref.read(
         postDetailControllerProvider(context, post: widget.post).notifier);
 
     return CommonWrapper(
+      backgroundColor: customThemeColors.backgroundElevated,
       appBar: CommonAppBar(
         title: widget.postingDate,
+        backgroundColor: customThemeColors.backgroundElevated,
         actions: [
           CommonIconButton(
             onTap: () {

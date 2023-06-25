@@ -23,12 +23,12 @@ class CommonActionSheetAction extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final customThemeColors = ref.watch(customThemeColorsProvider);
     final customTextStyle = ref.watch(customTextStyleProvider);
+    final customThemeColors = ref.watch(customThemeColorsProvider);
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: backgroundColor ?? customThemeColors.background,
+        color: backgroundColor ?? customThemeColors.backgroundElevated,
       ),
       child: CupertinoActionSheetAction(
         onPressed: onPressed,

@@ -19,8 +19,8 @@ class CommonCircularProgressIndicator extends ConsumerWidget {
       dimension: size,
       child: CircularProgressIndicator(
         strokeWidth: strokeWidth,
-        valueColor: AlwaysStoppedAnimation<Color>(customThemeColors.onPrimary),
-        backgroundColor: customThemeColors.onBackground.withOpacity(0.8),
+        valueColor: AlwaysStoppedAnimation<Color>(customThemeColors.textInvert),
+        backgroundColor: customThemeColors.textSecondary.withOpacity(0.8),
       ),
     );
   }

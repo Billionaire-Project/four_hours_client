@@ -181,6 +181,9 @@ class _LikeButtonState extends ConsumerState<LikeButton>
                     iconData: CustomIcons.heart_line,
                     text: '해당 글이 좋아요 해제되었어요',
                     action: CommonTextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                      ),
                       child: Text(
                         '실행 취소',
                         style: customTextStyle.titleMedium.copyWith(

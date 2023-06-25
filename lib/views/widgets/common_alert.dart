@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
@@ -16,8 +15,8 @@ class CommonAlert extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final customThemeColors = ref.watch(customThemeColorsProvider);
     final customTextStyle = ref.watch(customTextStyleProvider);
+    final customThemeColors = ref.watch(customThemeColorsProvider);
 
     return Dialog(
       elevation: 0,
@@ -27,7 +26,7 @@ class CommonAlert extends ConsumerWidget {
           width: 144,
           height: 144,
           decoration: BoxDecoration(
-            color: CustomColors.black.withOpacity(0.8),
+            color: customThemeColors.buttonPrimary.withOpacity(0.8),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
@@ -36,13 +35,13 @@ class CommonAlert extends ConsumerWidget {
               Icon(
                 iconData,
                 size: 48,
-                color: customThemeColors.onPrimary,
+                color: customThemeColors.textInvert,
               ),
               const Gap(8),
               Text(
                 text,
                 style: customTextStyle.labelMedium.copyWith(
-                  color: customThemeColors.onPrimary,
+                  color: customThemeColors.textInvert,
                 ),
                 textAlign: TextAlign.center,
               )

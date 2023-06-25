@@ -6,6 +6,7 @@ import 'package:four_hours_client/models/receipt_model.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
+import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_post_card.dart';
@@ -77,6 +78,7 @@ class _TodaysTopicState extends ConsumerState<_TodaysTopic> {
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
+    final customThemeColors = ref.watch(customThemeColorsProvider);
     final myPostsNotifier = ref.read(homeWriteControllerProvider.notifier);
 
     final topicModel = myPostsNotifier.topicModel;
@@ -86,7 +88,7 @@ class _TodaysTopicState extends ConsumerState<_TodaysTopic> {
     return Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: CustomColors.white,
+          color: customThemeColors.backgroundElevated,
           borderRadius: BorderRadius.circular(12.0),
           boxShadow: CustomShadowColors.shadow1,
         ),

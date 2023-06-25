@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SavedCustomPainter extends CustomPainter {
+  final Color color;
+  SavedCustomPainter({required this.color});
+
   @override
   void paint(Canvas canvas, Size size) {
     Path path_0 = Path();
@@ -11,11 +14,11 @@ class SavedCustomPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = const Color(0xffF85226).withOpacity(1.0);
+    paint0Fill.color = color;
     canvas.drawPath(path_0, paint0Fill);
 
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = const Color(0xffF85226).withOpacity(1.0);
+    paint1Fill.color = color;
     canvas.drawRRect(
         RRect.fromRectAndCorners(
             Rect.fromLTWH(

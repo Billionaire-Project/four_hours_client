@@ -35,7 +35,7 @@ class CommonFullWidthTextButton extends ConsumerWidget {
         color: customThemeColors.red,
         borderRadius: BorderRadius.circular(4),
       );
-      textColor = customThemeColors.textInvert;
+      textColor = customThemeColors.backgroundToggle;
     } else if (isCancelingAction) {
       boxDecoration = BoxDecoration(
         color: customThemeColors.buttonDisabled,

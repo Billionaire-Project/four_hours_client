@@ -125,7 +125,7 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
             scale: _animation,
             child: CustomPaint(
               size: const Size(60, 24),
-              painter: SavedCustomPainter(),
+              painter: SavedCustomPainter(color: customThemeColors.orange),
             ),
           ),
         ],
