@@ -104,6 +104,7 @@ class HomeSharedController extends _$HomeSharedController {
   }
 
   Future<void> refreshTab() async {
+    if (state.value == null) return;
     final int lengthOfPosts = state.value!.length;
     if (lengthOfPosts > int.parse(_offset)) {
       _offset = lengthOfPosts.toString();
