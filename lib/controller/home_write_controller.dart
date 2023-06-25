@@ -4,7 +4,9 @@ import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/my_posts_pagination_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
+import 'package:four_hours_client/models/topic_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
+import 'package:four_hours_client/repositories/resources_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
@@ -172,6 +174,15 @@ class HomeWriteController extends _$HomeWriteController {
         );
       }
     }
+  }
+
+  String _topic = '';
+  String get topic => _topic;
+
+  Future<void> getTopic() async {
+    final TopicModel topicModel =
+        await ref.read(resourcesRepositoryProvider).getTopic();
+    _topic = topicModel.topic;
   }
 
   void _init() async {
