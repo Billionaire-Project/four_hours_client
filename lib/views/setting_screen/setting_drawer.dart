@@ -56,11 +56,7 @@ class SettingDrawer extends ConsumerWidget {
               SettingTileWithChevron(
                 iconData: CustomIcons.star_fill,
                 text: '4hours 평가하기',
-                onTap: () {
-                  print('jay --- vudrkgkrl');
-                  showCommonToast(context,
-                      iconData: CustomIcons.arrow_left_line, text: 'dawd');
-                },
+                onTap: () {},
               ),
               const Gap(32),
 
