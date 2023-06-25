@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
+import 'package:four_hours_client/controller/home_write_controller.dart';
 import 'package:four_hours_client/controller/liked_and_saved_controller.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/controller/saved_controller.dart';
@@ -62,6 +63,14 @@ class PostCardController extends _$PostCardController {
           iconData: CustomIcons.time_line,
           title: '더이상 SHARED를 확인할 수 없어요',
           subtitle: '새로운 글을 쓰고 권한을 갱신해보세요!',
+          onPressedButton: () async {
+            await ref
+                .read(homeSharedControllerProvider.notifier)
+                .getPostsInitial();
+            await ref
+                .read(homeWriteControllerProvider.notifier)
+                .getMyPostsInitial();
+          },
         );
         return;
       } else {
@@ -92,6 +101,9 @@ class PostCardController extends _$PostCardController {
                     await ref
                         .read(homeSharedControllerProvider.notifier)
                         .getPostsInitial();
+                    await ref
+                        .read(homeWriteControllerProvider.notifier)
+                        .getMyPostsInitial();
                   });
             });
           }
