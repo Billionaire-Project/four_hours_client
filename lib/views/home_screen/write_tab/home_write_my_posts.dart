@@ -18,7 +18,8 @@ class MyPosts extends ConsumerWidget {
     final myPosts = ref.watch(homeWriteControllerProvider);
     final myPostsNotifier = ref.read(homeWriteControllerProvider.notifier);
 
-    final List<String> postingDates = myPostsNotifier.postingDates;
+    final List<String> postingDates =
+        myPostsNotifier.postingDates.where((date) => date != 'Today').toList();
 
     return myPosts.when(
       data: (posts) {
@@ -40,12 +41,16 @@ class MyPosts extends ConsumerWidget {
             ),
           );
         }
+
         return Flexible(
           child: ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int dateIndex) {
               if (posts[postingDates[dateIndex]] == null) {
+                return const SizedBox.shrink();
+              }
+              if (postingDates[dateIndex] == 'Today') {
                 return const SizedBox.shrink();
               }
               return Column(

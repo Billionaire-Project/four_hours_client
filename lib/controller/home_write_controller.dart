@@ -71,10 +71,7 @@ class HomeWriteController extends _$HomeWriteController {
         _todayPosts = _myPosts!.posts['Today']!;
       }
 
-      _postingDates = _myPosts!.posts.keys
-          .map((key) => key)
-          .where((date) => date != 'Today')
-          .toList();
+      _postingDates = _myPosts!.posts.keys.map((key) => key).toList();
 
       _start = _myPosts!.next;
 
@@ -136,10 +133,7 @@ class HomeWriteController extends _$HomeWriteController {
       _todayPosts = _myPosts!.posts['Today']!;
     }
 
-    _postingDates = _myPosts!.posts.keys
-        .map((key) => key)
-        .where((date) => date != 'Today')
-        .toList();
+    _postingDates = _myPosts!.posts.keys.map((key) => key).toList();
 
     _start = _myPosts!.next;
 
