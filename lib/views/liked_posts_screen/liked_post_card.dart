@@ -34,7 +34,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
 
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-      child: InkWell(
+      child: GestureDetector(
         onTap: () {
           postNotifier.handlePressedCard(
             context,

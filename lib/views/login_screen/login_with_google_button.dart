@@ -27,7 +27,7 @@ class LoginWithGoogleButton extends ConsumerWidget {
       await ref.read(authControllerProvider.notifier).signInWithGoogle();
     }
 
-    return InkWell(
+    return GestureDetector(
       onTap: handlePressedSignWithGoogle,
       child: Container(
         height: 48,

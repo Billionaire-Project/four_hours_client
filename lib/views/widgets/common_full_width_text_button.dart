@@ -50,7 +50,7 @@ class CommonFullWidthTextButton extends ConsumerWidget {
       textColor = customThemeColors.textInvert;
     }
 
-    return InkWell(
+    return GestureDetector(
       onTap: onPressed,
       child: Container(
         height: height,

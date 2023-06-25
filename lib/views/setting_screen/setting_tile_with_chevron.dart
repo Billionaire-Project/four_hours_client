@@ -25,7 +25,7 @@ class SettingTileWithChevron extends ConsumerWidget {
     final customThemeColors = ref.watch(customThemeColorsProvider);
     final customTextStyle = ref.watch(customTextStyleProvider);
 
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Row(
         children: [

@@ -27,7 +27,7 @@ class LoginWithAppleButton extends ConsumerWidget {
       await ref.read(authControllerProvider.notifier).signInWithApple();
     }
 
-    return InkWell(
+    return GestureDetector(
       onTap: handlePressedSignWithApple,
       child: Container(
         height: 48,

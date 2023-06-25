@@ -37,7 +37,7 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
 
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-      child: InkWell(
+      child: GestureDetector(
         onTap: () {
           postNotifier.handlePressedCard(
             context,
