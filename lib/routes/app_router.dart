@@ -9,6 +9,7 @@ import 'package:four_hours_client/views/login_screen/login_page.dart';
 import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:four_hours_client/views/splash_screen/splash_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
+import 'package:four_hours_client/views/widgets/common_skeleton_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
@@ -176,6 +177,12 @@ GoRouter appRouter(AppRouterRef ref) {
         parentNavigatorKey: navigatorKey,
         builder: (BuildContext context, GoRouterState state) =>
             const CommonWidgetsPage(),
+      ),
+      GoRoute(
+        path: CommonSkeletonPage.path,
+        parentNavigatorKey: navigatorKey,
+        builder: (BuildContext context, GoRouterState state) =>
+            const CommonSkeletonPage(),
       ),
     ],
     errorPageBuilder: (context, state) => const NoTransitionPage(
