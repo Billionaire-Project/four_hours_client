@@ -60,7 +60,8 @@ class _LikeButtonState extends ConsumerState<LikeButton>
           isAnimating = true;
         });
       } else if (status == AnimationStatus.completed) {
-        _rightBoxHideTimer = Timer(likeAndSavedHideDuration, () {
+        _rightBoxHideTimer =
+            Timer(likeAndSavedHideDuration - likeAnimationDuration, () {
           _reverseRightBoxAnimation();
         });
       } else if (status == AnimationStatus.dismissed) {

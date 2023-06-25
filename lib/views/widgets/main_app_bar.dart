@@ -39,7 +39,7 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
   );
   late final Animation<double> _animation = CurvedAnimation(
     parent: _controller,
-    curve: Curves.elasticInOut,
+    curve: Curves.easeOutBack,
   );
 
   void _upScale() {
