@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/controller/saved_controller.dart';
@@ -39,7 +38,6 @@ class HomeSharedController extends _$HomeSharedController {
   bool _isLoadingMore = false;
 
   Future<List<PostModel>> getPostsInitial() async {
-    FToast().removeCustomToast();
     ref.read(savedControllerProvider.notifier).resetSavedAnimation();
 
     state = const AsyncLoading();

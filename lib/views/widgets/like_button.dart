@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/like_controller.dart';
 import 'package:four_hours_client/controller/liked_and_saved_controller.dart';
@@ -10,8 +9,6 @@ import 'package:four_hours_client/controller/saved_controller.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/utils/functions.dart';
-import 'package:four_hours_client/views/widgets/common_text_button.dart';
 
 class LikeButton extends ConsumerStatefulWidget {
   final bool isLiked;
@@ -170,40 +167,11 @@ class _LikeButtonState extends ConsumerState<LikeButton>
                       postId: widget.postId,
                     ).notifier,
                   )
-                  .handlePressedLikeButton();
+                  .handlePressedLikeButton(context);
 
               if (isLikedByController) {
                 if (isAnimating) {
                   _reverseRightBoxAnimation();
-                }
-                if (widget.isNeedLikedAndSaved) {
-                  showCommonToastWithAction(
-                    context,
-                    iconData: CustomIcons.heart_line,
-                    text: '해당 글이 좋아요 해제되었어요',
-                    action: CommonTextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                      ),
-                      child: Text(
-                        '실행 취소',
-                        style: customTextStyle.titleMedium.copyWith(
-                          color: customThemeColors.orange,
-                        ),
-                      ),
-                      onPressed: () {
-                        FToast().removeCustomToast();
-                        ref
-                            .read(
-                              likeControllerProvider(
-                                isLiked: widget.isLiked,
-                                postId: widget.postId,
-                              ).notifier,
-                            )
-                            .handlePressedLikeButton();
-                      },
-                    ),
-                  );
                 }
               } else {
                 if (widget.isNeedLikedAndSaved) {
