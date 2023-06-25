@@ -38,6 +38,7 @@ class HomeSharedTab extends ConsumerWidget {
           return posts.when(
             data: (posts) {
               return SmartRefresher(
+                physics: const BouncingScrollPhysics(),
                 enablePullDown: true,
                 enablePullUp: true,
                 controller: sharedNotifier.refreshController,
