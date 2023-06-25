@@ -33,19 +33,6 @@ class PostCardController extends _$PostCardController {
     required String time,
     String? postingDate,
   }) async {
-    //TODO: getPostById에서 post가 null일 경우 처리
-    // final PostModel? post =
-    //     await ref.read(postsRepositoryProvider).getPostById(postId: postId);
-
-    // if (post == null) {
-    //   showCommonDialog(
-    //     iconData: CustomIcons.time_line,
-    //     title: '유효하지 않은 게시글입니다',
-    //     subtitle: '다른 글을 탐색하여 읽어보세요',
-    //   );
-    //   return;
-    // }
-
     bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
 
     if (isFromMyPost) {
@@ -83,7 +70,7 @@ class PostCardController extends _$PostCardController {
             .read(likedAndSavedControllerProvider.notifier)
             .resetLikedAndSavedAnimation();
         if (context.mounted) {
-          context.pushNamed(
+          bool? shouldShowDialog = await context.pushNamed<bool>(
             PostDetailPage.name,
             params: {
               'postId': post.id.toString(),
@@ -94,6 +81,20 @@ class PostCardController extends _$PostCardController {
               time: time,
             ),
           );
+
+          if (shouldShowDialog ?? false) {
+            Future.delayed(const Duration(milliseconds: 300), () {
+              showCommonDialog(
+                  iconData: CustomIcons.time_line,
+                  title: '유효하지 않은 게시글입니다',
+                  subtitle: '다른 글을 탐색하여 읽어보세요',
+                  onPressedButton: () async {
+                    await ref
+                        .read(homeSharedControllerProvider.notifier)
+                        .getPostsInitial();
+                  });
+            });
+          }
         }
       }
     }

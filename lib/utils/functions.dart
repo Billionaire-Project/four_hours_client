@@ -51,7 +51,11 @@ void showCommonLoader() {
 }
 
 void closeRootNavigator() {
-  Navigator.of(navigatorKey.currentContext!, rootNavigator: true).pop();
+  bool canPop =
+      Navigator.of(navigatorKey.currentContext!, rootNavigator: true).canPop();
+  if (canPop) {
+    Navigator.of(navigatorKey.currentContext!, rootNavigator: true).pop();
+  }
 }
 
 void showCommonActionSheet({required List<CommonActionSheetAction> actions}) {
@@ -155,7 +159,7 @@ void showCommonDialogWithTwoButtons({
 Future<void> showCommonDialog({
   required IconData iconData,
   required String title,
-  VoidCallback? onPressedButton,
+  Future<void> Function()? onPressedButton,
   String? buttonText,
   String? subtitle,
   bool barrierDismissible = true,

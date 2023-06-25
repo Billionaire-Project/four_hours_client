@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/post_detail_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -74,15 +73,11 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
           postDetail.when(data: (postModel) {
             if (postModel == null) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                context.replace(
-                  ErrorPage.path,
-                  extra: {
-                    'error': '유효하지 않은 게시글입니다',
-                  },
-                );
-                ref
-                    .read(homeSharedControllerProvider.notifier)
-                    .getPostsInitial();
+                bool canPop = context.canPop();
+
+                if (canPop) {
+                  context.pop(true);
+                }
               });
               return const SizedBox.shrink();
             } else {
