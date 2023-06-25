@@ -8,10 +8,10 @@ import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:four_hours_client/views/setting_screen/setting_button.dart';
 import 'package:four_hours_client/views/setting_screen/setting_tile_with_chevron.dart';
 import 'package:four_hours_client/views/setting_screen/setting_tile_with_switch.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
-import 'package:four_hours_client/views/widgets/common_text_button.dart';
 import 'package:four_hours_client/views/widgets/common_widgets_page.dart';
 import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
@@ -71,7 +71,9 @@ class SettingDrawer extends ConsumerWidget {
           ),
           Column(
             children: [
-              CommonTextButton(
+              SettingButton(
+                text: '로그아웃',
+                iconData: CustomIcons.logout_line,
                 onPressed: () {
                   showCommonDialogWithTwoButtons(
                     isDestructiveAction: true,
@@ -82,33 +84,24 @@ class SettingDrawer extends ConsumerWidget {
                     rightButtonText: '로그아웃',
                   );
                 },
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 13,
-                  ),
-                  backgroundColor: customThemeColors.backgroundSurface,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      CustomIcons.logout_line,
-                      size: 20,
-                      color: customThemeColors.red,
-                    ),
-                    const Gap(6),
-                    Text(
-                      '로그아웃',
-                      style: customTextStyle.titleMedium.copyWith(
-                        color: customThemeColors.red,
-                      ),
-                    ),
-                  ],
-                ),
               ),
+              const Gap(16),
+              SettingButton(
+                  text: '계정 삭제',
+                  iconData: CustomIcons.delete_bin_line,
+                  onPressed: () {
+                    showCommonDialogWithTwoButtons(
+                      isDestructiveAction: true,
+                      iconData: CustomIcons.logout_line,
+                      title: '정말 계정을 삭제하시겠어요?',
+                      subtitle:
+                          '계정을 삭제하면 기존에 작성하신 글을 포함한\n모든 데이터가 제거되며 다시 복구될 수 없어요',
+                      onPressedRightButton: () {
+                        //TODO: 계정 탈퇴
+                      },
+                      rightButtonText: '계정 삭제',
+                    );
+                  }),
               const Gap(16),
               Text(
                 '앱 버전: ${version ?? 'Beta'}',
