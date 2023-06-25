@@ -114,7 +114,7 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
                   .getLikedPostsInitial();
               await ref
                   .read(homeSharedControllerProvider.notifier)
-                  .refreshTab();
+                  .refreshTab(isNeedMorePosts: true);
             },
             icon: const Icon(
               CustomIcons.heart_line,

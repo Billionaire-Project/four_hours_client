@@ -103,15 +103,18 @@ class HomeSharedController extends _$HomeSharedController {
     }
   }
 
-  Future<void> refreshTab() async {
+  Future<void> refreshTab({bool isNeedMorePosts = false}) async {
     if (state.value == null) return;
-    final int lengthOfPosts = state.value!.length;
-    if (lengthOfPosts > int.parse(_offset)) {
-      _offset = lengthOfPosts.toString();
-    } else if (lengthOfPosts > 100) {
-      //TODO: 한 번에 가져오는 post의 양이 아주 많을 때 스트레스 테스트 해봐야함
+
+    if (isNeedMorePosts) {
+      final int lengthOfPosts = state.value!.length;
+      if (lengthOfPosts > int.parse(_offset)) {
+        _offset = lengthOfPosts.toString();
+      }
+    } else {
       _offset = '10';
     }
+
     _start = '0';
 
     _posts = await _fetchSharedPosts();
