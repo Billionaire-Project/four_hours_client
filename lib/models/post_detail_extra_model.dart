@@ -8,6 +8,8 @@ class PostDetailExtraModel with _$PostDetailExtraModel {
   factory PostDetailExtraModel({
     required PostModel post,
     required bool isFromMyPost,
+    required String time,
+    String? postingDate,
   }) = _PostDetailExtraModel;
 
   factory PostDetailExtraModel.fromJson(Map<String, dynamic> json) =>

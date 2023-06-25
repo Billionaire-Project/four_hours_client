@@ -72,7 +72,7 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                           if (index == 0) const Gap(16),
                           LikedPostCard(
                             post: posts[index],
-                            labelText: leftTime,
+                            time: leftTime,
                           ),
                           if (index == posts.length - 1) const Gap(16)
                         ],

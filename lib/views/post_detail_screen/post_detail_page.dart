@@ -5,7 +5,6 @@ import 'package:four_hours_client/controller/post_detail_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
-import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/post_detail_screen/post_detail_bottom.dart';
 
@@ -21,12 +20,16 @@ class PostDetailPage extends ConsumerStatefulWidget {
   final String postId;
   final PostModel post;
   final bool isFromMyPost;
+  final String time;
+  final String? postingDate;
 
   const PostDetailPage({
     Key? key,
     required this.postId,
     required this.post,
     required this.isFromMyPost,
+    required this.time,
+    this.postingDate,
   }) : super(key: key);
   static String path = '/post-detail/:postId';
   static String name = 'PostDetailPage';
@@ -46,6 +49,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
 
     return MainWrapper(
       appBar: CommonAppBar(
+        title: widget.postingDate,
         actions: [
           CommonIconButton(
             onTap: () {
@@ -86,9 +90,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                       children: [
                         CommonRowWithDivider(
                           leading: CommonTitle(
-                            getPostElapsedTime(
-                              date: postModel.updatedAt,
-                            ),
+                            widget.time,
                           ),
                         ),
                         const Gap(8),
@@ -113,9 +115,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                     children: [
                       CommonRowWithDivider(
                         leading: CommonTitle(
-                          getPostElapsedTime(
-                            date: widget.post.updatedAt,
-                          ),
+                          widget.time,
                         ),
                       ),
                       const Gap(8),

@@ -30,6 +30,8 @@ class PostCardController extends _$PostCardController {
   void handlePressedCard(
     BuildContext context, {
     required PostModel post,
+    required String time,
+    String? postingDate,
   }) async {
     //TODO: getPostById에서 post가 null일 경우 처리
     // final PostModel? post =
@@ -55,6 +57,8 @@ class PostCardController extends _$PostCardController {
         extra: PostDetailExtraModel(
           post: post,
           isFromMyPost: isFromMyPost,
+          time: time,
+          postingDate: postingDate,
         ),
       );
     } else {
@@ -87,6 +91,7 @@ class PostCardController extends _$PostCardController {
             extra: PostDetailExtraModel(
               post: post,
               isFromMyPost: isFromMyPost,
+              time: time,
             ),
           );
         }

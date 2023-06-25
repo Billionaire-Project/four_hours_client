@@ -129,7 +129,8 @@ class _TodayList extends ConsumerWidget {
           final String createdTime = getCreatePostTime(date: post.updatedAt);
           return HomeWritePostCard(
             post: post,
-            labelText: createdTime,
+            time: createdTime,
+            postingDate: 'Today',
           );
         },
       ),

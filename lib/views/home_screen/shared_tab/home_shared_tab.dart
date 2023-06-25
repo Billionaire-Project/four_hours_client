@@ -53,7 +53,7 @@ class HomeSharedTab extends ConsumerWidget {
                         if (index == 0) const Gap(16),
                         HomeSharedPostCard(
                           post: posts[index],
-                          labelText: leftTime,
+                          time: leftTime,
                         ),
                         if (index == posts.length - 1) const Gap(16)
                       ],
@@ -101,7 +101,7 @@ class HomeSharedTab extends ConsumerWidget {
                               if (index == 0) const Gap(16),
                               HomeSharedObscuredPostCard(
                                 post: posts[index],
-                                labelText: leftTime,
+                                time: leftTime,
                               ),
                               if (index == posts.length - 1) const Gap(16)
                             ],

@@ -16,11 +16,11 @@ import 'package:four_hours_client/views/widgets/measure_size.dart';
 
 class HomeSharedPostCard extends ConsumerStatefulWidget {
   final PostModel post;
-  final String labelText;
+  final String time;
   const HomeSharedPostCard({
     Key? key,
     required this.post,
-    required this.labelText,
+    required this.time,
   }) : super(key: key);
 
   @override
@@ -67,6 +67,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
               postNotifier.handlePressedCard(
                 context,
                 post: widget.post,
+                time: widget.time,
               );
             },
             child: Container(
@@ -100,7 +101,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                         borderRadius: BorderRadius.circular(4.0),
                       ),
                       child: Text(
-                        widget.labelText,
+                        widget.time,
                         style: customTextStyle.montLabelSmall,
                       ),
                     ),

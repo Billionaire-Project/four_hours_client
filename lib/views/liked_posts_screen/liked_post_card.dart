@@ -12,11 +12,11 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 
 class LikedPostCard extends ConsumerStatefulWidget {
   final PostModel post;
-  final String labelText;
+  final String time;
   const LikedPostCard({
     Key? key,
     required this.post,
-    required this.labelText,
+    required this.time,
   }) : super(key: key);
 
   @override
@@ -39,6 +39,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
           postNotifier.handlePressedCard(
             context,
             post: widget.post,
+            time: widget.time,
           );
         },
         child: Container(
@@ -73,7 +74,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: Text(
-                    widget.labelText,
+                    widget.time,
                     style: customTextStyle.montLabelSmall,
                   ),
                 ),

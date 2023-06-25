@@ -107,12 +107,16 @@ GoRouter appRouter(AppRouterRef ref) {
 
           final PostModel post = extra.post;
           final bool isFromMyPost = extra.isFromMyPost;
+          final String time = extra.time;
+          final String? postingDate = extra.postingDate;
 
           if (state.params['postId'] != null) {
             return PostDetailPage(
               postId: state.params['postId']!,
               post: post,
               isFromMyPost: isFromMyPost,
+              time: time,
+              postingDate: postingDate,
             );
           } else {
             return const ErrorPage(error: 'The post ID cannot be found,');

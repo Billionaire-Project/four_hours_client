@@ -13,11 +13,14 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 
 class HomeWritePostCard extends ConsumerStatefulWidget {
   final PostModel post;
-  final String labelText;
+  final String time;
+  final String postingDate;
+
   const HomeWritePostCard({
     Key? key,
     required this.post,
-    required this.labelText,
+    required this.time,
+    required this.postingDate,
   }) : super(key: key);
 
   @override
@@ -42,6 +45,8 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
           postNotifier.handlePressedCard(
             context,
             post: widget.post,
+            time: widget.time,
+            postingDate: widget.postingDate,
           );
         },
         child: Container(
@@ -75,7 +80,7 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: Text(
-                    widget.labelText,
+                    widget.time,
                     style: customTextStyle.montLabelSmall,
                   ),
                 ),

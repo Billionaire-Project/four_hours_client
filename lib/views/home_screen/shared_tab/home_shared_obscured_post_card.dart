@@ -11,11 +11,11 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 
 class HomeSharedObscuredPostCard extends ConsumerStatefulWidget {
   final PostModel post;
-  final String labelText;
+  final String time;
   const HomeSharedObscuredPostCard({
     Key? key,
     required this.post,
-    required this.labelText,
+    required this.time,
   }) : super(key: key);
 
   @override
@@ -87,7 +87,7 @@ class _HomeSharedObscuredPostCardState
                   borderRadius: BorderRadius.circular(4.0),
                 ),
                 child: Text(
-                  widget.labelText,
+                  widget.time,
                   style: customTextStyle.montLabelSmall,
                 ),
               ),
