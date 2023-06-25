@@ -57,6 +57,7 @@ void closeRootNavigator() {
 void showCommonActionSheet({required List<CommonActionSheetAction> actions}) {
   showCupertinoModalPopup(
       context: navigatorKey.currentContext!,
+      barrierColor: CustomColors.black.withOpacity(0.8),
       builder: (context) {
         return CommonActionSheet(actions: actions);
       });
