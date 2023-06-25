@@ -61,48 +61,61 @@ class Today extends ConsumerWidget {
   }
 }
 
-class _TodaysTopic extends ConsumerWidget {
+class _TodaysTopic extends ConsumerStatefulWidget {
   const _TodaysTopic({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_TodaysTopic> createState() => _TodaysTopicState();
+}
+
+class _TodaysTopicState extends ConsumerState<_TodaysTopic> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final myPostsNotifier = ref.read(homeWriteControllerProvider.notifier);
 
+    final topicModel = myPostsNotifier.topicModel;
+
+    final String topic = topicModel?.topic ?? '';
+
     return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: CustomColors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: CustomShadowColors.shadow1,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CommonRowWithDivider(
-            leading: Center(
-              child: Text(
-                '오늘의 주제: 변화',
-                style: customTextStyle.titleMedium,
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: CustomColors.white,
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: CustomShadowColors.shadow1,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CommonRowWithDivider(
+              leading: Center(
+                child: Text(
+                  '오늘의 주제: $topic',
+                  style: customTextStyle.titleMedium,
+                ),
               ),
             ),
-          ),
-          const Gap(10),
-          Text(
-            '날씨가 점점 봄으로 바뀌고 있다.\n그 변화를 느끼며, 기분도 따뜻해지고 있다.',
-            style: customTextStyle.bodyMedium
-                .copyWith(color: CustomColors.light.gray400),
-          ),
-          const Gap(16),
-          CommonFullWidthTextButton(
-            onPressed: () {
-              myPostsNotifier.handlePressedWritePost(context);
-            },
-            text: '글 쓰기',
-          )
-        ],
-      ),
-    );
+            const Gap(10),
+            Text(
+              '날씨가 점점 봄으로 바뀌고 있다.\n그 변화를 느끼며, 기분도 따뜻해지고 있다.',
+              style: customTextStyle.bodyMedium
+                  .copyWith(color: CustomColors.light.gray400),
+            ),
+            const Gap(16),
+            CommonFullWidthTextButton(
+              onPressed: () {
+                myPostsNotifier.handlePressedWritePost(context);
+              },
+              text: '글 쓰기',
+            )
+          ],
+        ));
   }
 }
 

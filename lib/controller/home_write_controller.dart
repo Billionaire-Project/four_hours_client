@@ -45,6 +45,9 @@ class HomeWriteController extends _$HomeWriteController {
   List<PostModel> _todayPosts = [];
   List<PostModel> get todayPosts => _todayPosts;
 
+  TopicModel? _topicModel;
+  TopicModel? get topicModel => _topicModel;
+
   bool _isLoadingMore = false;
 
   Future<Map<String, List<PostModel>>> getMyPostsInitial() async {
@@ -57,6 +60,7 @@ class HomeWriteController extends _$HomeWriteController {
         _start = '0';
 
         _myPosts = await _fetchWritePosts();
+        _topicModel = await _getTopic();
       });
 
       final bool hasToday = _myPosts!.posts.containsKey('Today');
@@ -122,6 +126,7 @@ class HomeWriteController extends _$HomeWriteController {
     _start = '0';
 
     _myPosts = await _fetchWritePosts();
+    _topicModel = await _getTopic();
 
     final bool hasToday = _myPosts!.posts.containsKey('Today');
 
@@ -176,15 +181,6 @@ class HomeWriteController extends _$HomeWriteController {
     }
   }
 
-  String _topic = '';
-  String get topic => _topic;
-
-  Future<void> getTopic() async {
-    final TopicModel topicModel =
-        await ref.read(resourcesRepositoryProvider).getTopic();
-    _topic = topicModel.topic;
-  }
-
   void _init() async {
     postsRepository = ref.watch(postsRepositoryProvider);
     _scrollController.addListener(_handleScroll);
@@ -220,5 +216,12 @@ class HomeWriteController extends _$HomeWriteController {
     } else {
       return null;
     }
+  }
+
+  Future<TopicModel> _getTopic() async {
+    final TopicModel topicModel =
+        await ref.read(resourcesRepositoryProvider).getTopic();
+
+    return topicModel;
   }
 }
