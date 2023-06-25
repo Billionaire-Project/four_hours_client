@@ -33,85 +33,95 @@ class SettingDrawer extends ConsumerWidget {
         title: '설정',
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Gap(16),
-          const SettingTileWithSwitch(
-            iconData: CustomIcons.notif_fill,
-            text: '푸시 알림 ON',
-            value: false,
-          ),
-          const Gap(48),
-          SettingTileWithSwitch(
-            iconData: CustomIcons.moon_fill,
-            text: '다크 모드 ON',
-            value: ref.watch(themeNotifierProvider),
-            onChanged: (value) {
-              ref.read(themeNotifierProvider.notifier).changeTheme();
-            },
-          ),
-          const Gap(48),
-          SettingTileWithChevron(
-            iconData: CustomIcons.star_fill,
-            text: '4hours 평가하기',
-            onTap: () {},
-          ),
-          const Gap(48),
-
-          //TODO: if develop
-          SettingTileWithChevron(
-            iconData: CustomIcons.warning_line,
-            color: CustomColors.light.blue,
-            text: 'Widgets',
-            onTap: () => context.push(CommonWidgetsPage.path),
-          ),
-
-          const Spacer(),
-          CommonTextButton(
-            onPressed: () {
-              showCommonDialogWithTwoButtons(
-                isDestructiveAction: true,
-                iconData: CustomIcons.logout_line,
-                title: '로그아웃 하시겠어요?',
-                onPressedRightButton: () =>
-                    ref.read(authControllerProvider.notifier).signOut(),
-                rightButtonText: '로그아웃',
-              );
-            },
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                vertical: 13,
+          Column(
+            children: [
+              const Gap(16),
+              const SettingTileWithSwitch(
+                iconData: CustomIcons.notif_fill,
+                text: '푸시 알림 ON',
+                value: false,
               ),
-              backgroundColor: customThemeColors.backgroundSurface,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
+              const Gap(48),
+              SettingTileWithSwitch(
+                iconData: CustomIcons.moon_fill,
+                text: '다크 모드 ON',
+                value: ref.watch(themeNotifierProvider),
+                onChanged: (value) {
+                  ref.read(themeNotifierProvider.notifier).changeTheme();
+                },
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  CustomIcons.logout_line,
-                  size: 20,
-                  color: customThemeColors.red,
-                ),
-                const Gap(6),
-                Text(
-                  '로그아웃',
-                  style: customTextStyle.titleMedium.copyWith(
-                    color: customThemeColors.red,
+              const Gap(40),
+              SettingTileWithChevron(
+                iconData: CustomIcons.star_fill,
+                text: '4hours 평가하기',
+                onTap: () {
+                  print('jay --- vudrkgkrl');
+                  showCommonToast(context,
+                      iconData: CustomIcons.arrow_left_line, text: 'dawd');
+                },
+              ),
+              const Gap(32),
+
+              //TODO: if develop
+              SettingTileWithChevron(
+                iconData: CustomIcons.warning_line,
+                color: CustomColors.light.blue,
+                text: 'Widgets',
+                onTap: () => context.push(CommonWidgetsPage.path),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              CommonTextButton(
+                onPressed: () {
+                  showCommonDialogWithTwoButtons(
+                    isDestructiveAction: true,
+                    iconData: CustomIcons.logout_line,
+                    title: '로그아웃 하시겠어요?',
+                    onPressedRightButton: () =>
+                        ref.read(authControllerProvider.notifier).signOut(),
+                    rightButtonText: '로그아웃',
+                  );
+                },
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 13,
+                  ),
+                  backgroundColor: customThemeColors.backgroundSurface,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
                   ),
                 ),
-              ],
-            ),
-          ),
-
-          const Gap(16),
-          Text(
-            '앱 버젼: ${version ?? 'Beta'}',
-            style: customTextStyle.caption.copyWith(
-              color: customThemeColors.textDisabled,
-            ),
-          ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      CustomIcons.logout_line,
+                      size: 20,
+                      color: customThemeColors.red,
+                    ),
+                    const Gap(6),
+                    Text(
+                      '로그아웃',
+                      style: customTextStyle.titleMedium.copyWith(
+                        color: customThemeColors.red,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Gap(16),
+              Text(
+                '앱 버젼: ${version ?? 'Beta'}',
+                style: customTextStyle.caption.copyWith(
+                  color: customThemeColors.textDisabled,
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

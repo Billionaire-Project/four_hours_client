@@ -27,27 +27,31 @@ class SettingTileWithChevron extends ConsumerWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: Row(
-        children: [
-          Icon(
-            iconData,
-            size: 24,
-            color: color ?? customThemeColors.textPrimary,
-          ),
-          const Gap(8),
-          Text(
-            text,
-            style: customTextStyle.labelMedium.copyWith(
+      behavior: HitTestBehavior.translucent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: [
+            Icon(
+              iconData,
+              size: 24,
               color: color ?? customThemeColors.textPrimary,
             ),
-          ),
-          const Spacer(),
-          Icon(
-            CustomIcons.chevron_right,
-            size: 24,
-            color: CustomColors.light.gray300,
-          ),
-        ],
+            const Gap(8),
+            Text(
+              text,
+              style: customTextStyle.labelMedium.copyWith(
+                color: color ?? customThemeColors.textPrimary,
+              ),
+            ),
+            const Spacer(),
+            Icon(
+              CustomIcons.chevron_right,
+              size: 24,
+              color: CustomColors.light.gray300,
+            ),
+          ],
+        ),
       ),
     );
   }
