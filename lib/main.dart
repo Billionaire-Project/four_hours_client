@@ -7,19 +7,32 @@ import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
 import 'package:four_hours_client/routes/app_router.dart';
 import 'package:four_hours_client/utils/app_theme.dart';
+import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
   final sharedPreferences = await SharedPreferences.getInstance();
+
+  await SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ],
+  );
+
+//안드로이드 기종 상태바, 네비게이션바 투명화
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.black.withOpacity(0.002),
+    ),
+  );
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   runApp(
     ProviderScope(
@@ -39,6 +52,20 @@ class MyApp extends ConsumerWidget {
     final appRouter = ref.watch(appRouterProvider);
     final appTheme = ref.watch(appThemeProvider);
     final isDarkMode = ref.watch(themeNotifierProvider);
+    final customThemeColors = ref.watch(customThemeColorsProvider);
+
+//Setting SysemUIOverlay
+    // SystemChrome.setSystemUIOverlayStyle(
+    //   const SystemUiOverlayStyle(
+    //     systemStatusBarContrastEnforced: true,
+    //     systemNavigationBarColor: Colors.transparent,
+    //     systemNavigationBarDividerColor: Colors.transparent,
+    //   ),
+    // );
+
+//Setting SystmeUIMode
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
+    //     overlays: [SystemUiOverlay.top]);
 
     return MaterialApp.router(
       title: '4hours',
