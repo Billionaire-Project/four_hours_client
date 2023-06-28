@@ -15,7 +15,7 @@ class PostDetailBottom extends ConsumerWidget {
   const PostDetailBottom({
     Key? key,
     required this.post,
-    this.isNeedTimer = true,
+    required this.isNeedTimer,
   }) : super(key: key);
 
   @override

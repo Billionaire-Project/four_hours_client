@@ -4,6 +4,7 @@ import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
+import 'package:four_hours_client/views/home_screen/write_tab/home_write_post_detail_page.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_post_detail_page.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
@@ -83,6 +84,31 @@ GoRouter appRouter(AppRouterRef ref) {
                   ),
               routes: [
                 GoRoute(
+                  path: WritePostDetailPage.path,
+                  name: WritePostDetailPage.name,
+                  builder: (BuildContext context, GoRouterState state) {
+                    final PostDetailExtraModel extra =
+                        state.extra as PostDetailExtraModel;
+
+                    final PostModel post = extra.post;
+                    final String time = extra.time;
+                    final String postingDate = extra.postingDate;
+
+                    if (state.params['postId'] != null) {
+                      return WritePostDetailPage(
+                        postId: state.params['postId']!,
+                        post: post,
+                        time: time,
+                        postingDate: postingDate,
+                      );
+                    } else {
+                      return const ErrorPage(
+                          error: 'The post ID cannot be found,');
+                    }
+                  },
+                  parentNavigatorKey: navigatorKey,
+                ),
+                GoRoute(
                   path: CreatePostPage.path,
                   builder: (BuildContext context, GoRouterState state) =>
                       const CreatePostPage(),
@@ -154,7 +180,7 @@ GoRouter appRouter(AppRouterRef ref) {
 
               final PostModel post = extra.post;
               final String time = extra.time;
-              final String? postingDate = extra.postingDate;
+              final String postingDate = extra.postingDate;
 
               if (state.params['postId'] != null) {
                 return LikedPostDetailPage(

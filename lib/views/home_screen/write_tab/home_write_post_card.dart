@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/post_card_controller.dart';
+import 'package:four_hours_client/controller/home_write_post_card_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -35,14 +35,14 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    final postNotifier =
-        ref.read(postCardControllerProvider(postId: widget.post.id).notifier);
+    final writePostNotifier = ref
+        .read(writePostCardControllerProvider(postId: widget.post.id).notifier);
 
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
       child: GestureDetector(
         onTap: () {
-          postNotifier.handlePressedCard(
+          writePostNotifier.handlePressedCard(
             context,
             post: widget.post,
             time: widget.time,
@@ -89,7 +89,7 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
                     CustomIcons.more_line,
                   ),
                   onTap: () {
-                    postNotifier.handlePressedMoreButton(
+                    writePostNotifier.handlePressedMoreButton(
                       context,
                       post: widget.post,
                     );
