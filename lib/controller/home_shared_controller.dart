@@ -100,7 +100,7 @@ class HomeSharedController extends _$HomeSharedController {
     }
   }
 
-  Future<void> refreshTab({bool isNeedMorePosts = false}) async {
+  Future<void> refreshTab() async {
     if (state.value == null) return;
 
     _start = '0';
