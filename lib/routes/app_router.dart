@@ -4,9 +4,9 @@ import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
+import 'package:four_hours_client/views/liked_posts_screen/liked_post_detail_page.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
-import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:four_hours_client/views/splash_screen/splash_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
 import 'package:four_hours_client/views/widgets/common_skeleton_page.dart';
@@ -99,32 +99,32 @@ GoRouter appRouter(AppRouterRef ref) {
           ),
         ],
       ),
-      GoRoute(
-        path: PostDetailPage.path,
-        name: PostDetailPage.name,
-        builder: (BuildContext context, GoRouterState state) {
-          final PostDetailExtraModel extra =
-              state.extra as PostDetailExtraModel;
+      // GoRoute(
+      //   path: PostDetailPage.path,
+      //   name: PostDetailPage.name,
+      //   builder: (BuildContext context, GoRouterState state) {
+      //     final PostDetailExtraModel extra =
+      //         state.extra as PostDetailExtraModel;
 
-          final PostModel post = extra.post;
-          final bool isFromMyPost = extra.isFromMyPost;
-          final String time = extra.time;
-          final String? postingDate = extra.postingDate;
+      //     final PostModel post = extra.post;
+      //     final bool isFromMyPost = extra.isFromMyPost;
+      //     final String time = extra.time;
+      //     final String? postingDate = extra.postingDate;
 
-          if (state.params['postId'] != null) {
-            return PostDetailPage(
-              postId: state.params['postId']!,
-              post: post,
-              isFromMyPost: isFromMyPost,
-              time: time,
-              postingDate: postingDate,
-            );
-          } else {
-            return const ErrorPage(error: 'The post ID cannot be found,');
-          }
-        },
-        parentNavigatorKey: navigatorKey,
-      ),
+      //     if (state.params['postId'] != null) {
+      //       return PostDetailPage(
+      //         postId: state.params['postId']!,
+      //         post: post,
+      //         isFromMyPost: isFromMyPost,
+      //         time: time,
+      //         postingDate: postingDate,
+      //       );
+      //     } else {
+      //       return const ErrorPage(error: 'The post ID cannot be found,');
+      //     }
+      //   },
+      //   parentNavigatorKey: navigatorKey,
+      // ),
       GoRoute(
         path: LikedPostsPage.path,
         pageBuilder: (BuildContext context, GoRouterState state) =>
@@ -144,6 +144,32 @@ GoRouter appRouter(AppRouterRef ref) {
           ),
         ),
         parentNavigatorKey: navigatorKey,
+        routes: [
+          GoRoute(
+            path: LikedPostDetailPage.path,
+            name: LikedPostDetailPage.name,
+            builder: (BuildContext context, GoRouterState state) {
+              final PostDetailExtraModel extra =
+                  state.extra as PostDetailExtraModel;
+
+              final PostModel post = extra.post;
+              final String time = extra.time;
+              final String? postingDate = extra.postingDate;
+
+              if (state.params['postId'] != null) {
+                return LikedPostDetailPage(
+                  postId: state.params['postId']!,
+                  post: post,
+                  time: time,
+                  postingDate: postingDate,
+                );
+              } else {
+                return const ErrorPage(error: 'The post ID cannot be found,');
+              }
+            },
+            parentNavigatorKey: navigatorKey,
+          ),
+        ],
       ),
       GoRoute(
         path: DeletePostPage.path,

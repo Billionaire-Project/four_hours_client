@@ -10,7 +10,7 @@ import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
-import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
+import 'package:four_hours_client/views/widgets/post_detail_screen/post_detail_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +44,6 @@ class PostCardController extends _$PostCardController {
         },
         extra: PostDetailExtraModel(
           post: post,
-          isFromMyPost: isFromMyPost,
           time: time,
           postingDate: postingDate,
         ),
@@ -86,7 +85,6 @@ class PostCardController extends _$PostCardController {
             },
             extra: PostDetailExtraModel(
               post: post,
-              isFromMyPost: isFromMyPost,
               time: time,
             ),
           );

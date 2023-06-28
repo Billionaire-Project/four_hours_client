@@ -1,66 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/controller/post_detail_controller.dart';
+import 'package:four_hours_client/controller/liked_post_detail_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
-import 'package:four_hours_client/views/post_detail_screen/post_detail_bottom.dart';
-
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
+import 'package:four_hours_client/views/widgets/common_wrapper.dart';
+import 'package:four_hours_client/views/widgets/post_detail_screen/post_detail_bottom.dart';
+
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
-import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:go_router/go_router.dart';
 
-class PostDetailPage extends ConsumerStatefulWidget {
+class LikedPostDetailPage extends ConsumerWidget {
   final String postId;
   final PostModel post;
-  final bool isFromMyPost;
   final String time;
   final String? postingDate;
 
-  const PostDetailPage({
+  const LikedPostDetailPage({
     Key? key,
     required this.postId,
     required this.post,
-    required this.isFromMyPost,
     required this.time,
     this.postingDate,
   }) : super(key: key);
-  static String path = '/post-detail/:postId';
-  static String name = 'PostDetailPage';
+  static String path = 'liked-post-detail/:postId';
+  static String name = 'LikedPostDetailPage';
 
   @override
-  ConsumerState<PostDetailPage> createState() => _PostDetailPageState();
-}
-
-class _PostDetailPageState extends ConsumerState<PostDetailPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    final postDetail =
-        ref.watch(postDetailControllerProvider(context, post: widget.post));
-    final postDetailNotifier = ref.read(
-        postDetailControllerProvider(context, post: widget.post).notifier);
+    final likedPostDetail =
+        ref.watch(likedPostDetailControllerProvider(context, post: post));
 
     return CommonWrapper(
       backgroundColor: customThemeColors.backgroundElevated,
       appBar: CommonAppBar(
-        title: widget.postingDate,
+        title: postingDate,
         backgroundColor: customThemeColors.backgroundElevated,
         actions: [
           CommonIconButton(
             onTap: () {
-              postDetailNotifier.handlePressedMoreButton(
-                context,
-                isFromMyPost: widget.isFromMyPost,
-              );
+              ref
+                  .read(likedPostDetailControllerProvider(context, post: post)
+                      .notifier)
+                  .handlePressedMoreButton();
             },
             icon: const Icon(
               CustomIcons.more_line,
@@ -70,7 +61,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
       ),
       child: Column(
         children: [
-          postDetail.when(data: (postModel) {
+          likedPostDetail.when(data: (postModel) {
             if (postModel == null) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 bool canPop = context.canPop();
@@ -90,7 +81,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                       children: [
                         CommonRowWithDivider(
                           leading: CommonTitle(
-                            widget.time,
+                            time,
                           ),
                         ),
                         const Gap(8),
@@ -115,12 +106,12 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                     children: [
                       CommonRowWithDivider(
                         leading: CommonTitle(
-                          widget.time,
+                          time,
                         ),
                       ),
                       const Gap(8),
                       Text(
-                        widget.post.content,
+                        post.content,
                         style: customTextStyle.bodyMedium,
                       ),
                       const Gap(16),
@@ -132,9 +123,10 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
           }, error: (error, _) {
             return ErrorPage(error: error);
           }),
-          widget.isFromMyPost
-              ? const SizedBox.shrink()
-              : PostDetailBottom(post: widget.post)
+          PostDetailBottom(
+            post: post,
+            isNeedTimer: false,
+          )
         ],
       ),
     );

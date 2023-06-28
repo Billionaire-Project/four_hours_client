@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'post_card_controller.dart';
+part of 'liked_post_card_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$postCardControllerHash() =>
-    r'0cbbcf99ffb11ff1a6370492348491d1174e9e09';
+String _$likedPostCardControllerHash() =>
+    r'c0a6103283878ccfc592e07e71e0ef8b087345ac';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,7 +30,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$PostCardController
+abstract class _$LikedPostCardController
     extends BuildlessAutoDisposeAsyncNotifier<dynamic> {
   late final int postId;
 
@@ -39,27 +39,27 @@ abstract class _$PostCardController
   });
 }
 
-/// See also [PostCardController].
-@ProviderFor(PostCardController)
-const postCardControllerProvider = PostCardControllerFamily();
+/// See also [LikedPostCardController].
+@ProviderFor(LikedPostCardController)
+const likedPostCardControllerProvider = LikedPostCardControllerFamily();
 
-/// See also [PostCardController].
-class PostCardControllerFamily extends Family<AsyncValue<dynamic>> {
-  /// See also [PostCardController].
-  const PostCardControllerFamily();
+/// See also [LikedPostCardController].
+class LikedPostCardControllerFamily extends Family<AsyncValue<dynamic>> {
+  /// See also [LikedPostCardController].
+  const LikedPostCardControllerFamily();
 
-  /// See also [PostCardController].
-  PostCardControllerProvider call({
+  /// See also [LikedPostCardController].
+  LikedPostCardControllerProvider call({
     required int postId,
   }) {
-    return PostCardControllerProvider(
+    return LikedPostCardControllerProvider(
       postId: postId,
     );
   }
 
   @override
-  PostCardControllerProvider getProviderOverride(
-    covariant PostCardControllerProvider provider,
+  LikedPostCardControllerProvider getProviderOverride(
+    covariant LikedPostCardControllerProvider provider,
   ) {
     return call(
       postId: provider.postId,
@@ -78,33 +78,34 @@ class PostCardControllerFamily extends Family<AsyncValue<dynamic>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'postCardControllerProvider';
+  String? get name => r'likedPostCardControllerProvider';
 }
 
-/// See also [PostCardController].
-class PostCardControllerProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<PostCardController, dynamic> {
-  /// See also [PostCardController].
-  PostCardControllerProvider({
+/// See also [LikedPostCardController].
+class LikedPostCardControllerProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<LikedPostCardController,
+        dynamic> {
+  /// See also [LikedPostCardController].
+  LikedPostCardControllerProvider({
     required this.postId,
   }) : super.internal(
-          () => PostCardController()..postId = postId,
-          from: postCardControllerProvider,
-          name: r'postCardControllerProvider',
+          () => LikedPostCardController()..postId = postId,
+          from: likedPostCardControllerProvider,
+          name: r'likedPostCardControllerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$postCardControllerHash,
-          dependencies: PostCardControllerFamily._dependencies,
+                  : _$likedPostCardControllerHash,
+          dependencies: LikedPostCardControllerFamily._dependencies,
           allTransitiveDependencies:
-              PostCardControllerFamily._allTransitiveDependencies,
+              LikedPostCardControllerFamily._allTransitiveDependencies,
         );
 
   final int postId;
 
   @override
   bool operator ==(Object other) {
-    return other is PostCardControllerProvider && other.postId == postId;
+    return other is LikedPostCardControllerProvider && other.postId == postId;
   }
 
   @override
@@ -117,7 +118,7 @@ class PostCardControllerProvider
 
   @override
   FutureOr<dynamic> runNotifierBuild(
-    covariant PostCardController notifier,
+    covariant LikedPostCardController notifier,
   ) {
     return notifier.build(
       postId: postId,
