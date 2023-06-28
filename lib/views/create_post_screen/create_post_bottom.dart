@@ -102,9 +102,10 @@ class CreatePostBottom extends ConsumerWidget {
             Text(
               '$textLength',
               style: customTextStyle.montLabelSmall.copyWith(
-                  color: isOverLimit
-                      ? customThemeColors.red
-                      : customThemeColors.textDisabled),
+                color: isOverLimit
+                    ? customThemeColors.red
+                    : customThemeColors.textDisabled,
+              ),
             ),
             const Gap(16),
             CommonTextButton(

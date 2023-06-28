@@ -51,12 +51,17 @@ void showCommonLoader() {
 }
 
 void closeRootNavigator() {
-  Navigator.of(navigatorKey.currentContext!, rootNavigator: true).pop();
+  bool canPop =
+      Navigator.of(navigatorKey.currentContext!, rootNavigator: true).canPop();
+  if (canPop) {
+    Navigator.of(navigatorKey.currentContext!, rootNavigator: true).pop();
+  }
 }
 
 void showCommonActionSheet({required List<CommonActionSheetAction> actions}) {
   showCupertinoModalPopup(
       context: navigatorKey.currentContext!,
+      barrierColor: CustomColors.black.withOpacity(0.8),
       builder: (context) {
         return CommonActionSheet(actions: actions);
       });
@@ -154,7 +159,7 @@ void showCommonDialogWithTwoButtons({
 Future<void> showCommonDialog({
   required IconData iconData,
   required String title,
-  VoidCallback? onPressedButton,
+  Future<void> Function()? onPressedButton,
   String? buttonText,
   String? subtitle,
   bool barrierDismissible = true,
@@ -226,7 +231,6 @@ Future<void> saveTextToClipboard(
         context,
         iconData: CustomIcons.check_line,
         text: '클립보드에 복사되었어요!',
-        bottom: 40,
       );
     }
   }

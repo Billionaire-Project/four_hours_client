@@ -27,14 +27,13 @@ class LoginWithGoogleButton extends ConsumerWidget {
       await ref.read(authControllerProvider.notifier).signInWithGoogle();
     }
 
-    return InkWell(
+    return GestureDetector(
       onTap: handlePressedSignWithGoogle,
       child: Container(
         height: 48,
         decoration: BoxDecoration(
           color: Colors.transparent,
-          border:
-              Border.all(width: 1, color: customThemeColors.buttonSecondary),
+          border: Border.all(width: 1, color: customThemeColors.buttonPrimary),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Row(

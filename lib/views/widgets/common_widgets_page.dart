@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
-import 'package:four_hours_client/views/widgets/main_wrapper.dart';
+import 'package:four_hours_client/views/widgets/common_skeleton_page.dart';
+import 'package:four_hours_client/views/widgets/common_text_button.dart';
+import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/widgets/common_action_sheet_action.dart';
@@ -15,9 +19,10 @@ class CommonWidgetsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    return MainWrapper(
+    return CommonWrapper(
       appBar: const CommonAppBar(title: 'Common Widgets'),
       child: Center(
         child: Column(
@@ -33,10 +38,9 @@ class CommonWidgetsPage extends ConsumerWidget {
                       text: '게시글 삭제',
                     ),
                     CommonActionSheetAction(
-                      backgroundColor: customThemeColors.background,
                       onPressed: () {},
                       iconData: CustomIcons.copy_line,
-                      text: '게시글 삭제',
+                      text: '게시글 복사',
                     ),
                   ],
                 );
@@ -54,6 +58,15 @@ class CommonWidgetsPage extends ConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
+                showCommonLoader();
+                Future.delayed(const Duration(seconds: 2), () {
+                  closeRootNavigator();
+                });
+              },
+              child: const Text('Loader'),
+            ),
+            ElevatedButton(
+              onPressed: () {
                 showCommonToast(
                   context,
                   iconData: CustomIcons.copy_line,
@@ -61,6 +74,30 @@ class CommonWidgetsPage extends ConsumerWidget {
                 );
               },
               child: const Text('Toast'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showCommonToastWithAction(
+                  context,
+                  iconData: CustomIcons.heart_line,
+                  text: '해당 글이 좋아요 해제되었어요',
+                  action: CommonTextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                    ),
+                    child: Text(
+                      '실행 취소',
+                      style: customTextStyle.titleMedium.copyWith(
+                        color: customThemeColors.orange,
+                      ),
+                    ),
+                    onPressed: () {
+                      FToast().removeCustomToast();
+                    },
+                  ),
+                );
+              },
+              child: const Text('Toast with Action'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -86,7 +123,13 @@ class CommonWidgetsPage extends ConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                context.go(ErrorPage.path);
+                context.push(CommonSkeletonPage.path);
+              },
+              child: const Text('Skeleton Page'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.push(ErrorPage.path);
               },
               child: const Text('Error Page'),
             ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_circular_progress_indicator.dart';
@@ -22,7 +21,7 @@ class CommonLoader extends ConsumerWidget {
           width: 144,
           height: 144,
           decoration: BoxDecoration(
-              color: CustomColors.black.withOpacity(0.8),
+              color: customThemeColors.buttonPrimary.withOpacity(0.8),
               borderRadius: BorderRadius.circular(8)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -32,7 +31,7 @@ class CommonLoader extends ConsumerWidget {
               Text(
                 'Loading..',
                 style: customTextStyle.labelMedium.copyWith(
-                  color: customThemeColors.onPrimary,
+                  color: customThemeColors.textInvert,
                 ),
                 textAlign: TextAlign.center,
               )

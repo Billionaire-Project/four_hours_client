@@ -39,8 +39,7 @@ class _CommonRadioButtonState extends ConsumerState<CommonRadioButton> {
       dimension: widget.size,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          backgroundColor:
-              widget.unSelectedColor ?? customThemeColors.backgroundToggle,
+          backgroundColor: widget.unSelectedColor ?? Colors.transparent,
           shape: const CircleBorder(),
           side: BorderSide(
             width:

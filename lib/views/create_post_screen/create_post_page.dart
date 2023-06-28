@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/create_post_controller.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
+import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_bottom.dart';
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
-import 'package:four_hours_client/views/widgets/main_wrapper.dart';
+import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 import 'package:go_router/go_router.dart';
 
 class CreatePostPage extends ConsumerStatefulWidget {
@@ -52,10 +53,13 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   @override
   Widget build(BuildContext context) {
     final customTextStyle = ref.watch(customTextStyleProvider);
+    final customThemeColors = ref.watch(customThemeColorsProvider);
     final controllerNotifier = ref.watch(createPostControllerProvider.notifier);
 
-    return MainWrapper(
+    return CommonWrapper(
+      backgroundColor: customThemeColors.backgroundElevated,
       appBar: CommonAppBar(
+        backgroundColor: customThemeColors.backgroundElevated,
         title: '새 게시글',
         leadingAutomaticallyPop: false,
         leadingOnTapHandler: () async {
@@ -65,7 +69,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
           }
         },
       ),
-      padding: EdgeInsets.zero,
       child: Column(
         children: [
           Expanded(

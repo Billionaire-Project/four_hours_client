@@ -16,30 +16,32 @@ class CommonToast extends ConsumerWidget {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    return Container(
-      width: MediaQuery.of(context).size.width - pagePadding * 2,
-      height: 48,
-      decoration: BoxDecoration(
-        color: customThemeColors.buttonPrimary.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              iconData,
-              color: customThemeColors.textInvert,
-              size: 16,
-            ),
-            const Gap(8),
-            Text(
-              text,
-              style: customTextStyle.labelSmall.copyWith(
+    return SafeArea(
+      child: Container(
+        width: MediaQuery.of(context).size.width - pagePadding * 2,
+        height: 48,
+        decoration: BoxDecoration(
+          color: customThemeColors.buttonPrimary.withOpacity(0.8),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                iconData,
                 color: customThemeColors.textInvert,
+                size: 16,
               ),
-            ),
-          ],
+              const Gap(8),
+              Text(
+                text,
+                style: customTextStyle.labelSmall.copyWith(
+                  color: customThemeColors.textInvert,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

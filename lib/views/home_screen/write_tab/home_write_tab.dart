@@ -6,6 +6,7 @@ import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_my_posts.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_skeleton.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_today.dart';
+import 'package:four_hours_client/views/widgets/custom_refresh_header.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -23,11 +24,13 @@ class HomeWriteTab extends ConsumerWidget {
     return myPosts.when(
       data: (posts) {
         return SmartRefresher(
+          physics: const BouncingScrollPhysics(),
           enablePullDown: true,
           enablePullUp: true,
           controller: myPostsNotifier.refreshController,
           scrollController: myPostsNotifier.scrollController,
           onRefresh: myPostsNotifier.refreshTab,
+          header: const CustomRefresherHeader(),
           footer: const CustomRefresherFooter(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

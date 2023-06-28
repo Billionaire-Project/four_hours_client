@@ -19,3 +19,5 @@ const Duration skeletonDelay = Duration(milliseconds: 300);
 const double writeTimerTotalSeconds = 4 * 60 * 60;
 
 const Duration likeAnimationDuration = Duration(milliseconds: 500);
+
+const Duration likeAndSavedHideDuration = Duration(seconds: 3);

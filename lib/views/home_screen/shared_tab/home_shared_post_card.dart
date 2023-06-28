@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/post_card_controller.dart';
+import 'package:four_hours_client/controller/home_shared_post_card_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -9,18 +9,18 @@ import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_icon_button.dart';
-import 'package:four_hours_client/views/widgets/common_like_button.dart';
+import 'package:four_hours_client/views/widgets/like_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/measure_size.dart';
 
 class HomeSharedPostCard extends ConsumerStatefulWidget {
   final PostModel post;
-  final String labelText;
+  final String time;
   const HomeSharedPostCard({
     Key? key,
     required this.post,
-    required this.labelText,
+    required this.time,
   }) : super(key: key);
 
   @override
@@ -35,8 +35,8 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    final postNotifier =
-        ref.read(postCardControllerProvider(postId: widget.post.id).notifier);
+    final sharedPostNotifier = ref.read(
+        sharedPostCardControllerProvider(postId: widget.post.id).notifier);
 
     bool isReported = widget.post.isReported!;
     if (isReported) {
@@ -46,7 +46,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
           height: childSize.height,
           iconData: CustomIcons.report_fill,
           title: '신고가 정상적으로 접수되었어요',
-          subtitle: '해당 글은 숨긴처리 됐습니다',
+          subtitle: '해당 글은 숨김처리 됐습니다',
         ),
       );
     }
@@ -56,15 +56,19 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
         padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
         child: MeasureSize(
           onChange: (size) {
-            setState(() {
-              childSize = size;
-            });
+            if (context.mounted) {
+              setState(() {
+                childSize = size;
+              });
+            }
           },
-          child: InkWell(
+          child: GestureDetector(
             onTap: () {
-              postNotifier.handlePressedCard(
+              sharedPostNotifier.handlePressedCard(
                 context,
                 post: widget.post,
+                time: widget.time,
+                postingDate: '',
               );
             },
             child: Container(
@@ -76,10 +80,9 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
               ),
               constraints: const BoxConstraints(
                 maxHeight: cardWithTwoDividersMaxHeight,
-                minHeight: cardWithTwoDividersMinHeight,
               ),
               decoration: BoxDecoration(
-                color: customThemeColors.background,
+                color: customThemeColors.backgroundElevated,
                 borderRadius: BorderRadius.circular(12.0),
                 boxShadow: CustomShadowColors.shadow3,
               ),
@@ -98,7 +101,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                         borderRadius: BorderRadius.circular(4.0),
                       ),
                       child: Text(
-                        widget.labelText,
+                        widget.time,
                         style: customTextStyle.montLabelSmall,
                       ),
                     ),
@@ -108,7 +111,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                         CustomIcons.more_line,
                       ),
                       onTap: () {
-                        postNotifier.handlePressedMoreButton(
+                        sharedPostNotifier.handlePressedMoreButton(
                           context,
                           post: widget.post,
                         );
@@ -135,9 +138,10 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                   const Gap(8),
                   CommonRowWithDivider(
                     rightGap: 8,
-                    trailing: CommonLikeButton(
+                    trailing: LikeButton(
                       isLiked: widget.post.isLiked!,
                       postId: widget.post.id,
+                      isNeedLikedAndSaved: true,
                     ),
                   ),
                 ],

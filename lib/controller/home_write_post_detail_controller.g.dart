@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'post_detail_controller.dart';
+part of 'home_write_post_detail_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$postDetailControllerHash() =>
-    r'9021af8e620be930a964c25e6a54e1f74c604fa9';
+String _$writePostDetailControllerHash() =>
+    r'eae5325a5a4e807c5d5c2aef5d2e69a569865784';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,7 +30,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$PostDetailController
+abstract class _$WritePostDetailController
     extends BuildlessAutoDisposeAsyncNotifier<PostModel?> {
   late final BuildContext context;
   late final PostModel post;
@@ -41,29 +41,29 @@ abstract class _$PostDetailController
   });
 }
 
-/// See also [PostDetailController].
-@ProviderFor(PostDetailController)
-const postDetailControllerProvider = PostDetailControllerFamily();
+/// See also [WritePostDetailController].
+@ProviderFor(WritePostDetailController)
+const writePostDetailControllerProvider = WritePostDetailControllerFamily();
 
-/// See also [PostDetailController].
-class PostDetailControllerFamily extends Family<AsyncValue<PostModel?>> {
-  /// See also [PostDetailController].
-  const PostDetailControllerFamily();
+/// See also [WritePostDetailController].
+class WritePostDetailControllerFamily extends Family<AsyncValue<PostModel?>> {
+  /// See also [WritePostDetailController].
+  const WritePostDetailControllerFamily();
 
-  /// See also [PostDetailController].
-  PostDetailControllerProvider call(
+  /// See also [WritePostDetailController].
+  WritePostDetailControllerProvider call(
     BuildContext context, {
     required PostModel post,
   }) {
-    return PostDetailControllerProvider(
+    return WritePostDetailControllerProvider(
       context,
       post: post,
     );
   }
 
   @override
-  PostDetailControllerProvider getProviderOverride(
-    covariant PostDetailControllerProvider provider,
+  WritePostDetailControllerProvider getProviderOverride(
+    covariant WritePostDetailControllerProvider provider,
   ) {
     return call(
       provider.context,
@@ -83,29 +83,30 @@ class PostDetailControllerFamily extends Family<AsyncValue<PostModel?>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'postDetailControllerProvider';
+  String? get name => r'writePostDetailControllerProvider';
 }
 
-/// See also [PostDetailController].
-class PostDetailControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    PostDetailController, PostModel?> {
-  /// See also [PostDetailController].
-  PostDetailControllerProvider(
+/// See also [WritePostDetailController].
+class WritePostDetailControllerProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<WritePostDetailController,
+        PostModel?> {
+  /// See also [WritePostDetailController].
+  WritePostDetailControllerProvider(
     this.context, {
     required this.post,
   }) : super.internal(
-          () => PostDetailController()
+          () => WritePostDetailController()
             ..context = context
             ..post = post,
-          from: postDetailControllerProvider,
-          name: r'postDetailControllerProvider',
+          from: writePostDetailControllerProvider,
+          name: r'writePostDetailControllerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$postDetailControllerHash,
-          dependencies: PostDetailControllerFamily._dependencies,
+                  : _$writePostDetailControllerHash,
+          dependencies: WritePostDetailControllerFamily._dependencies,
           allTransitiveDependencies:
-              PostDetailControllerFamily._allTransitiveDependencies,
+              WritePostDetailControllerFamily._allTransitiveDependencies,
         );
 
   final BuildContext context;
@@ -113,7 +114,7 @@ class PostDetailControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
   @override
   bool operator ==(Object other) {
-    return other is PostDetailControllerProvider &&
+    return other is WritePostDetailControllerProvider &&
         other.context == context &&
         other.post == post;
   }
@@ -129,7 +130,7 @@ class PostDetailControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
   @override
   Future<PostModel?> runNotifierBuild(
-    covariant PostDetailController notifier,
+    covariant WritePostDetailController notifier,
   ) {
     return notifier.build(
       context,

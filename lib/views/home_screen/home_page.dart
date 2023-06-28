@@ -35,7 +35,7 @@ class _HomePageState extends ConsumerState<HomePage>
     return MainWrapper(
       appBar: MainAppBar(
         bottom: HomeTabBar(
-          tabController: _tabController,
+          tabController: _tabController!,
         ),
       ),
       child: widget.child,

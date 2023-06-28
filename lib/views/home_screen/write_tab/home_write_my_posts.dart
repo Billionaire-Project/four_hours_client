@@ -18,7 +18,8 @@ class MyPosts extends ConsumerWidget {
     final myPosts = ref.watch(homeWriteControllerProvider);
     final myPostsNotifier = ref.read(homeWriteControllerProvider.notifier);
 
-    final List<String> postingDates = myPostsNotifier.postingDates;
+    final List<String> postingDates =
+        myPostsNotifier.postingDates.where((date) => date != 'Today').toList();
 
     return myPosts.when(
       data: (posts) {
@@ -28,21 +29,28 @@ class MyPosts extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Gap(8),
-                CommonCardCover(
-                  iconData: CustomIcons.pencil_fill,
-                  title: '첫 게시글을 작성해보세요!',
-                  subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: CommonCardCover(
+                    iconData: CustomIcons.pencil_fill,
+                    title: '첫 게시글을 작성해보세요!',
+                    subtitle: '순간의 일과 감정들을 글로 적어보면,\n그것들을 더 잘 이해하고 조절할 수 있어요.',
+                  ),
                 ),
               ],
             ),
           );
         }
+
         return Flexible(
           child: ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int dateIndex) {
               if (posts[postingDates[dateIndex]] == null) {
+                return const SizedBox.shrink();
+              }
+              if (postingDates[dateIndex] == 'Today') {
                 return const SizedBox.shrink();
               }
               return Column(
@@ -65,7 +73,8 @@ class MyPosts extends ConsumerWidget {
                             getCreatePostTime(date: post.updatedAt);
                         return HomeWritePostCard(
                           post: post,
-                          labelText: createdTime,
+                          time: createdTime,
+                          postingDate: postingDates[dateIndex],
                         );
                       },
                     ),

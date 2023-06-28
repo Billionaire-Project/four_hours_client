@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/firebase_options.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
@@ -16,6 +17,21 @@ void main() async {
   );
 
   final sharedPreferences = await SharedPreferences.getInstance();
+
+  await SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ],
+  );
+
+//안드로이드 기종 상태바, 네비게이션바 투명화
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.black.withOpacity(0.002),
+    ),
+  );
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   runApp(
     ProviderScope(

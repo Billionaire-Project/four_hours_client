@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/post_card_controller.dart';
+import 'package:four_hours_client/controller/home_shared_post_card_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
@@ -11,11 +11,11 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 
 class HomeSharedObscuredPostCard extends ConsumerStatefulWidget {
   final PostModel post;
-  final String labelText;
+  final String time;
   const HomeSharedObscuredPostCard({
     Key? key,
     required this.post,
-    required this.labelText,
+    required this.time,
   }) : super(key: key);
 
   @override
@@ -32,8 +32,8 @@ class _HomeSharedObscuredPostCardState
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    final postNotifier = ref.read(
-      postCardControllerProvider(postId: widget.post.id).notifier,
+    final sharedPostNotifier = ref.read(
+      sharedPostCardControllerProvider(postId: widget.post.id).notifier,
     );
 
     return Padding(
@@ -47,7 +47,6 @@ class _HomeSharedObscuredPostCardState
         ),
         constraints: const BoxConstraints(
           maxHeight: cardWithTwoDividersMaxHeight,
-          minHeight: cardWithTwoDividersMinHeight,
         ),
         foregroundDecoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
@@ -55,13 +54,13 @@ class _HomeSharedObscuredPostCardState
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Colors.white,
-              Colors.white,
-              Colors.white.withOpacity(0.8),
-              Colors.white.withOpacity(0.6),
-              Colors.white.withOpacity(0.4),
-              Colors.white.withOpacity(0.2),
-              Colors.white.withOpacity(0.0),
+              customThemeColors.backgroundElevated,
+              customThemeColors.backgroundElevated,
+              customThemeColors.backgroundElevated.withOpacity(0.8),
+              customThemeColors.backgroundElevated.withOpacity(0.6),
+              customThemeColors.backgroundElevated.withOpacity(0.4),
+              customThemeColors.backgroundElevated.withOpacity(0.2),
+              customThemeColors.backgroundElevated.withOpacity(0.0),
               Colors.transparent,
               Colors.transparent,
             ],
@@ -87,7 +86,7 @@ class _HomeSharedObscuredPostCardState
                   borderRadius: BorderRadius.circular(4.0),
                 ),
                 child: Text(
-                  widget.labelText,
+                  widget.time,
                   style: customTextStyle.montLabelSmall,
                 ),
               ),

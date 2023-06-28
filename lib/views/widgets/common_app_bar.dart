@@ -13,12 +13,14 @@ class CommonAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final List<CommonIconButton>? actions;
   final VoidCallback? leadingOnTapHandler;
   final bool leadingAutomaticallyPop;
+  final Color? backgroundColor;
   const CommonAppBar({
     Key? key,
     this.title,
     this.actions,
     this.leadingOnTapHandler,
     this.leadingAutomaticallyPop = true,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -31,7 +33,11 @@ class CommonAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
     return AppBar(
       automaticallyImplyLeading: false,
-
+      backgroundColor: backgroundColor ?? customThemeColors.background,
+      foregroundColor: customThemeColors.onBackground,
+      centerTitle: true,
+      shadowColor: null,
+      elevation: 0,
       title: title != null
           ? Text(
               title!,
@@ -55,11 +61,6 @@ class CommonAppBar extends ConsumerWidget implements PreferredSizeWidget {
       actions: actions != null
           ? [...actions!, const Gap(8)]
           : [const SizedBox.shrink()],
-      backgroundColor: customThemeColors.background,
-      foregroundColor: customThemeColors.onBackground,
-      centerTitle: true,
-      shadowColor: null,
-      elevation: 0,
     );
   }
 }

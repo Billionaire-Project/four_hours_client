@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'post_card_controller.dart';
+part of 'home_write_post_card_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$postCardControllerHash() =>
-    r'cb207547e63655550692fdf0180112e59bdb39ed';
+String _$writePostCardControllerHash() =>
+    r'67093802beaeb199ecc77efa7bf4400f57f5ea8c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,7 +30,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$PostCardController
+abstract class _$WritePostCardController
     extends BuildlessAutoDisposeAsyncNotifier<dynamic> {
   late final int postId;
 
@@ -39,27 +39,27 @@ abstract class _$PostCardController
   });
 }
 
-/// See also [PostCardController].
-@ProviderFor(PostCardController)
-const postCardControllerProvider = PostCardControllerFamily();
+/// See also [WritePostCardController].
+@ProviderFor(WritePostCardController)
+const writePostCardControllerProvider = WritePostCardControllerFamily();
 
-/// See also [PostCardController].
-class PostCardControllerFamily extends Family<AsyncValue<dynamic>> {
-  /// See also [PostCardController].
-  const PostCardControllerFamily();
+/// See also [WritePostCardController].
+class WritePostCardControllerFamily extends Family<AsyncValue<dynamic>> {
+  /// See also [WritePostCardController].
+  const WritePostCardControllerFamily();
 
-  /// See also [PostCardController].
-  PostCardControllerProvider call({
+  /// See also [WritePostCardController].
+  WritePostCardControllerProvider call({
     required int postId,
   }) {
-    return PostCardControllerProvider(
+    return WritePostCardControllerProvider(
       postId: postId,
     );
   }
 
   @override
-  PostCardControllerProvider getProviderOverride(
-    covariant PostCardControllerProvider provider,
+  WritePostCardControllerProvider getProviderOverride(
+    covariant WritePostCardControllerProvider provider,
   ) {
     return call(
       postId: provider.postId,
@@ -78,33 +78,34 @@ class PostCardControllerFamily extends Family<AsyncValue<dynamic>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'postCardControllerProvider';
+  String? get name => r'writePostCardControllerProvider';
 }
 
-/// See also [PostCardController].
-class PostCardControllerProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<PostCardController, dynamic> {
-  /// See also [PostCardController].
-  PostCardControllerProvider({
+/// See also [WritePostCardController].
+class WritePostCardControllerProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<WritePostCardController,
+        dynamic> {
+  /// See also [WritePostCardController].
+  WritePostCardControllerProvider({
     required this.postId,
   }) : super.internal(
-          () => PostCardController()..postId = postId,
-          from: postCardControllerProvider,
-          name: r'postCardControllerProvider',
+          () => WritePostCardController()..postId = postId,
+          from: writePostCardControllerProvider,
+          name: r'writePostCardControllerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$postCardControllerHash,
-          dependencies: PostCardControllerFamily._dependencies,
+                  : _$writePostCardControllerHash,
+          dependencies: WritePostCardControllerFamily._dependencies,
           allTransitiveDependencies:
-              PostCardControllerFamily._allTransitiveDependencies,
+              WritePostCardControllerFamily._allTransitiveDependencies,
         );
 
   final int postId;
 
   @override
   bool operator ==(Object other) {
-    return other is PostCardControllerProvider && other.postId == postId;
+    return other is WritePostCardControllerProvider && other.postId == postId;
   }
 
   @override
@@ -117,7 +118,7 @@ class PostCardControllerProvider
 
   @override
   FutureOr<dynamic> runNotifierBuild(
-    covariant PostCardController notifier,
+    covariant WritePostCardController notifier,
   ) {
     return notifier.build(
       postId: postId,

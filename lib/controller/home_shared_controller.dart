@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
+import 'package:four_hours_client/controller/saved_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_pagination_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -37,6 +38,8 @@ class HomeSharedController extends _$HomeSharedController {
   bool _isLoadingMore = false;
 
   Future<List<PostModel>> getPostsInitial() async {
+    ref.read(savedControllerProvider.notifier).resetSavedAnimation();
+
     state = const AsyncLoading();
 
     _start = '0';
@@ -97,7 +100,9 @@ class HomeSharedController extends _$HomeSharedController {
     }
   }
 
-  void refreshTab() async {
+  Future<void> refreshTab({bool isNeedMorePosts = false}) async {
+    if (state.value == null) return;
+
     _start = '0';
 
     _posts = await _fetchSharedPosts();

@@ -5,9 +5,7 @@ const double appBarBottomHeight = 40;
 const double commonAppBarHeight = 40;
 const double pagePadding = 16;
 const double cardWithTwoDividersMaxHeight = 248;
-const double cardWithTwoDividersMinHeight = 117;
 const double cardWithOneDividerMaxHeight = 240;
-const double cardWithOneDividerMinHeight = 106;
 
 //dart 3.0에 추가된 record 써보고 싶었음
 ({double diameter, double radius}) getTimerSize(BuildContext context) {

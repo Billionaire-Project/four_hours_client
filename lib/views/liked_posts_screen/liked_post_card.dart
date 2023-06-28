@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/post_card_controller.dart';
+import 'package:four_hours_client/controller/liked_post_card_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/widgets/common_like_button.dart';
+import 'package:four_hours_client/views/widgets/like_button.dart';
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 
 class LikedPostCard extends ConsumerStatefulWidget {
   final PostModel post;
-  final String labelText;
+  final String time;
+  final String postingDate;
+
   const LikedPostCard({
     Key? key,
     required this.post,
-    required this.labelText,
+    required this.time,
+    required this.postingDate,
   }) : super(key: key);
 
   @override
@@ -29,16 +32,18 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    final postNotifier =
-        ref.read(postCardControllerProvider(postId: widget.post.id).notifier);
+    final likedPostNotifier = ref
+        .read(likedPostCardControllerProvider(postId: widget.post.id).notifier);
 
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-      child: InkWell(
+      child: GestureDetector(
         onTap: () {
-          postNotifier.handlePressedCard(
+          likedPostNotifier.handlePressedCard(
             context,
             post: widget.post,
+            time: widget.time,
+            postingDate: widget.postingDate,
           );
         },
         child: Container(
@@ -51,10 +56,9 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
           ),
           constraints: const BoxConstraints(
             maxHeight: cardWithTwoDividersMaxHeight,
-            minHeight: cardWithTwoDividersMinHeight,
           ),
           decoration: BoxDecoration(
-            color: customThemeColors.background,
+            color: customThemeColors.backgroundElevated,
             borderRadius: BorderRadius.circular(12.0),
             boxShadow: CustomShadowColors.shadow3,
           ),
@@ -62,25 +66,6 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              CommonRowWithDivider(
-                leading: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                    vertical: 2.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: customThemeColors.backgroundLabel,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  child: Text(
-                    widget.labelText,
-                    style: customTextStyle.montLabelSmall,
-                  ),
-                ),
-                rightGap: 8,
-                trailing: const SizedBox(width: 8),
-              ),
-              const Gap(8),
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
@@ -101,10 +86,9 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
               const Gap(8),
               CommonRowWithDivider(
                 rightGap: 8,
-                trailing: CommonLikeButton(
+                trailing: LikeButton(
                   isLiked: widget.post.isLiked!,
                   postId: widget.post.id,
-                  isFromLikedPost: true,
                 ),
               )
             ],

@@ -2,10 +2,13 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/controller/liked_and_saved_controller.dart';
+import 'package:four_hours_client/controller/saved_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_pagination_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -31,6 +34,9 @@ class LikedPostsController extends _$LikedPostsController {
   PostsPaginationModel? _likedPosts;
   PostsPaginationModel? get posts => _likedPosts;
 
+  List<String> _postingDates = [];
+  List<String> get postingDates => _postingDates;
+
   Future<List<PostModel>> getLikedPostsInitial() async {
     state = const AsyncLoading();
 
@@ -46,6 +52,12 @@ class LikedPostsController extends _$LikedPostsController {
       _start = _likedPosts!.next;
 
       state = AsyncData(_likedPosts!.posts);
+
+      _postingDates = _likedPosts!.posts.map((post) {
+        final String postingDate = getPostingDate(post.createdAt);
+
+        return postingDate;
+      }).toList();
 
       if (state.hasError) {
         state = AsyncValue.error(
@@ -74,6 +86,14 @@ class LikedPostsController extends _$LikedPostsController {
       _likedPosts = await _fetchLikedPosts();
 
       if (_likedPosts != null) {
+        _postingDates = [
+          ..._postingDates,
+          ..._likedPosts!.posts.map((post) {
+            final String postingDate = getPostingDate(post.createdAt);
+
+            return postingDate;
+          }).toList()
+        ];
         _start = _likedPosts!.next;
 
         state = AsyncData([...state.value!.toList(), ..._likedPosts!.posts]);
@@ -89,6 +109,12 @@ class LikedPostsController extends _$LikedPostsController {
     _start = '0';
 
     _likedPosts = await _fetchLikedPosts();
+
+    _postingDates = _likedPosts!.posts.map((post) {
+      final String postingDate = getPostingDate(post.createdAt);
+
+      return postingDate;
+    }).toList();
 
     _start = _likedPosts!.next;
 
@@ -115,7 +141,21 @@ class LikedPostsController extends _$LikedPostsController {
     }
   }
 
+  String getPostingDate(String postingDate) {
+    final createdAt = DateTime.parse(postingDate).toLocal();
+    final year = DateFormat.y().format(createdAt);
+    final month = DateFormat.M().format(createdAt).padLeft(2, '0');
+    final day = DateFormat.d().format(createdAt);
+
+    return '$year.$month.$day';
+  }
+
   void _init() {
+    ref.read(savedControllerProvider.notifier).resetSavedAnimation();
+    ref
+        .read(likedAndSavedControllerProvider.notifier)
+        .resetLikedAndSavedAnimation();
+
     postsRepository ??= ref.watch(postsRepositoryProvider);
   }
 }

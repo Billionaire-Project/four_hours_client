@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/post_card_controller.dart';
+import 'package:four_hours_client/controller/home_write_post_card_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -13,11 +13,14 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 
 class HomeWritePostCard extends ConsumerStatefulWidget {
   final PostModel post;
-  final String labelText;
+  final String time;
+  final String postingDate;
+
   const HomeWritePostCard({
     Key? key,
     required this.post,
-    required this.labelText,
+    required this.time,
+    required this.postingDate,
   }) : super(key: key);
 
   @override
@@ -32,16 +35,18 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    final postNotifier =
-        ref.read(postCardControllerProvider(postId: widget.post.id).notifier);
+    final writePostNotifier = ref
+        .read(writePostCardControllerProvider(postId: widget.post.id).notifier);
 
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-      child: InkWell(
+      child: GestureDetector(
         onTap: () {
-          postNotifier.handlePressedCard(
+          writePostNotifier.handlePressedCard(
             context,
             post: widget.post,
+            time: widget.time,
+            postingDate: widget.postingDate,
           );
         },
         child: Container(
@@ -49,14 +54,13 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
             left: 16.0,
             top: 8.0,
             right: 8.0,
-            bottom: 8.0,
+            bottom: 16.0,
           ),
           constraints: const BoxConstraints(
             maxHeight: cardWithOneDividerMaxHeight,
-            minHeight: cardWithOneDividerMinHeight,
           ),
           decoration: BoxDecoration(
-            color: customThemeColors.background,
+            color: customThemeColors.backgroundElevated,
             borderRadius: BorderRadius.circular(12.0),
             boxShadow: CustomShadowColors.shadow3,
           ),
@@ -75,7 +79,7 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: Text(
-                    widget.labelText,
+                    widget.time,
                     style: customTextStyle.montLabelSmall,
                   ),
                 ),
@@ -85,7 +89,7 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
                     CustomIcons.more_line,
                   ),
                   onTap: () {
-                    postNotifier.handlePressedMoreButton(
+                    writePostNotifier.handlePressedMoreButton(
                       context,
                       post: widget.post,
                     );

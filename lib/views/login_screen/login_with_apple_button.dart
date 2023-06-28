@@ -27,7 +27,7 @@ class LoginWithAppleButton extends ConsumerWidget {
       await ref.read(authControllerProvider.notifier).signInWithApple();
     }
 
-    return InkWell(
+    return GestureDetector(
       onTap: handlePressedSignWithApple,
       child: Container(
         height: 48,
@@ -35,7 +35,7 @@ class LoginWithAppleButton extends ConsumerWidget {
           color: customThemeColors.buttonPrimary,
           border: Border.all(
             width: 1,
-            color: customThemeColors.buttonSecondary,
+            color: customThemeColors.buttonPrimary,
           ),
           borderRadius: BorderRadius.circular(4),
         ),

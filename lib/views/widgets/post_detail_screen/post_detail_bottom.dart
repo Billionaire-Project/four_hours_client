@@ -6,12 +6,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/widgets/common_like_button.dart';
+import 'package:four_hours_client/views/widgets/like_button.dart';
 
 class PostDetailBottom extends ConsumerWidget {
   final PostModel post;
+  final bool isNeedTimer;
 
-  const PostDetailBottom({Key? key, required this.post}) : super(key: key);
+  const PostDetailBottom({
+    Key? key,
+    required this.post,
+    required this.isNeedTimer,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,15 +34,17 @@ class PostDetailBottom extends ConsumerWidget {
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: isNeedTimer
+            ? MainAxisAlignment.spaceBetween
+            : MainAxisAlignment.end,
         children: [
-          _Timer(post: post),
+          if (isNeedTimer) _Timer(post: post),
           DecoratedBox(
             decoration: BoxDecoration(
               color: customThemeColors.backgroundLabel,
               shape: BoxShape.circle,
             ),
-            child: CommonLikeButton(
+            child: LikeButton(
               isLiked: post.isLiked!,
               postId: post.id,
             ),

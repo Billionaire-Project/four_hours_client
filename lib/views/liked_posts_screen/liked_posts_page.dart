@@ -8,6 +8,7 @@ import 'package:four_hours_client/views/liked_posts_screen/liked_post_card.dart'
 import 'package:four_hours_client/views/widgets/common_app_bar.dart';
 import 'package:four_hours_client/views/widgets/common_card_cover.dart';
 import 'package:four_hours_client/views/widgets/common_post_skeleton.dart';
+import 'package:four_hours_client/views/widgets/custom_refresh_header.dart';
 import 'package:four_hours_client/views/widgets/custom_refresher_footer.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
 import 'package:four_hours_client/views/widgets/main_wrapper.dart';
@@ -25,6 +26,8 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
   @override
   Widget build(BuildContext context) {
     final likedPosts = ref.watch(likedPostsControllerProvider);
+    final List<String> postingDates =
+        ref.watch(likedPostsControllerProvider.notifier).postingDates;
 
     return MainWrapper(
       appBar: CommonAppBar(
@@ -53,27 +56,28 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                         ref.read(likedPostsControllerProvider.notifier);
 
                     return SmartRefresher(
+                      physics: const BouncingScrollPhysics(),
                       enablePullDown: true,
                       enablePullUp: true,
                       controller: likedPostsNotifier.refreshController,
                       onRefresh: likedPostsNotifier.refreshLiked,
                       onLoading: likedPostsNotifier.getMoreLikedPosts,
+                      header: const CustomRefresherHeader(),
                       footer: const CustomRefresherFooter(),
                       child: child,
                     );
                   },
                   child: ListView.separated(
                     itemBuilder: (context, index) {
-                      final String leftTime =
-                          getPostElapsedTime(date: posts[index].createdAt);
-
+                      final String createdTime =
+                          getCreatePostTime(date: posts[index].createdAt);
                       return Column(
                         children: [
                           if (index == 0) const Gap(16),
                           LikedPostCard(
-                            post: posts[index],
-                            labelText: leftTime,
-                          ),
+                              post: posts[index],
+                              time: createdTime,
+                              postingDate: postingDates[index]),
                           if (index == posts.length - 1) const Gap(16)
                         ],
                       );

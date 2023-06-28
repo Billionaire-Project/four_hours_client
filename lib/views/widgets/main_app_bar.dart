@@ -4,10 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/controller/home_shared_controller.dart';
-import 'package:four_hours_client/controller/home_write_controller.dart';
 import 'package:four_hours_client/controller/liked_posts_controller.dart';
-import 'package:four_hours_client/providers/saved_controller.dart';
+import 'package:four_hours_client/controller/saved_controller.dart';
+import 'package:four_hours_client/providers/theme_provider.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
@@ -31,7 +30,6 @@ class MainAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
 
 class _MainAppBarState extends ConsumerState<MainAppBar>
     with TickerProviderStateMixin {
-  double scale = 0;
   bool isFirst = true;
 
   late final AnimationController _controller = AnimationController(
@@ -40,20 +38,14 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
   );
   late final Animation<double> _animation = CurvedAnimation(
     parent: _controller,
-    curve: Curves.elasticInOut,
+    curve: Curves.easeOutBack,
   );
 
   void _upScale() {
-    setState(() {
-      scale = 1;
-    });
     _controller.forward();
   }
 
   void _downScale() {
-    setState(() {
-      scale = 0;
-    });
     _controller.reverse();
   }
 
@@ -70,8 +62,11 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
   @override
   Widget build(BuildContext context) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final isDarkMode = ref.watch(themeNotifierProvider);
 
     bool shouldShowSaved = ref.watch(savedControllerProvider);
+    bool shouldResetSaved =
+        ref.watch(savedControllerProvider.notifier).shouldReset;
 
     if (shouldShowSaved && isFirst) {
       _upScale();
@@ -84,6 +79,10 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
       isFirst = true;
     }
 
+    if (shouldResetSaved) {
+      _resetScale();
+    }
+
     return AppBar(
       leadingWidth: 120,
       automaticallyImplyLeading: false,
@@ -93,7 +92,7 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
       shadowColor: null,
       elevation: 0,
       title: SvgPicture.asset(
-        'assets/images/logo.svg',
+        'assets/images/logo_${isDarkMode ? 'dark' : 'light'}.svg',
         semanticsLabel: 'Logo',
       ),
       leading: Row(
@@ -103,18 +102,9 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
             onTap: () async {
               context.push(LikedPostsPage.path);
 
-//? 좋아요 목록에 들어가는 순간 write, shared, liked 리스트를 모두 다시 불러온다.
-//? 이렇게 해서 liked에서 좋아요를 누르면 shared에서도 좋아요가 반영되도록 한다.
-//? 근데 왜 이게 되는지 모르겠다.
               await ref
                   .read(likedPostsControllerProvider.notifier)
                   .getLikedPostsInitial();
-              await ref
-                  .read(homeSharedControllerProvider.notifier)
-                  .getPostsInitial();
-              await ref
-                  .read(homeWriteControllerProvider.notifier)
-                  .getMyPostsInitial();
             },
             icon: const Icon(
               CustomIcons.heart_line,
@@ -125,7 +115,7 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
             scale: _animation,
             child: CustomPaint(
               size: const Size(60, 24),
-              painter: SavedCustomPainter(),
+              painter: SavedCustomPainter(color: customThemeColors.orange),
             ),
           ),
         ],

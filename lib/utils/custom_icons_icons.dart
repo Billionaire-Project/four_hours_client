@@ -39,6 +39,7 @@ class CustomIcons {
   static const IconData moon_fill = IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData more_line = IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData notif_fill = IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData arrow_down_line = IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData pencil_fill = IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData question_line = IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData report_fill = IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -52,4 +53,7 @@ class CustomIcons {
   static const IconData timer_fill = IconData(0xe81d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData view_false_fill = IconData(0xe81e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData warning_line = IconData(0xe81f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData logo_4hours_fill = IconData(0xe820, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData arrow_up_line = IconData(0xe821, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData logo_title = IconData(0xe823, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

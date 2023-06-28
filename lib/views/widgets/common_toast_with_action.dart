@@ -21,35 +21,37 @@ class CommonToastWithAction extends ConsumerWidget {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      width: MediaQuery.of(context).size.width - pagePadding * 2,
-      decoration: BoxDecoration(
-        color: customThemeColors.strokeBorder,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(
-                iconData,
-                color: customThemeColors.backgroundToggle,
-                size: 20,
-              ),
-              const Gap(8),
-              Text(
-                text,
-                style: customTextStyle.labelSmall.copyWith(
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        width: MediaQuery.of(context).size.width - pagePadding * 2,
+        decoration: BoxDecoration(
+          color: customThemeColors.strokeBorder,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  iconData,
                   color: customThemeColors.backgroundToggle,
+                  size: 20,
                 ),
-              ),
-            ],
-          ),
-          action
-        ],
+                const Gap(8),
+                Text(
+                  text,
+                  style: customTextStyle.labelSmall.copyWith(
+                    color: customThemeColors.backgroundToggle,
+                  ),
+                ),
+              ],
+            ),
+            action
+          ],
+        ),
       ),
     );
   }

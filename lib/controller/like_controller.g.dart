@@ -6,7 +6,7 @@ part of 'like_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$likeControllerHash() => r'93d08088eb1a7cd02e88c22b07455f023a907847';
+String _$likeControllerHash() => r'fd172834d219c433812cbc0922498d8ac58d6f56';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$LikeController extends BuildlessNotifier<bool> {
+abstract class _$LikeController extends BuildlessAutoDisposeNotifier<bool> {
   late final bool isLiked;
   late final int postId;
 
@@ -86,7 +86,7 @@ class LikeControllerFamily extends Family<bool> {
 
 /// See also [LikeController].
 class LikeControllerProvider
-    extends NotifierProviderImpl<LikeController, bool> {
+    extends AutoDisposeNotifierProviderImpl<LikeController, bool> {
   /// See also [LikeController].
   LikeControllerProvider({
     required this.isLiked,

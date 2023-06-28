@@ -89,6 +89,8 @@ class _TimerState extends ConsumerState<_Timer> {
     String minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
     String seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
 
+    //TODO: initialValue가 min보다 작으면 안되고 max보다 크면 안되는데 계속 관련 오류가 발생
+
     return SleekCircularSlider(
       min: 0,
       max: totalSeconds,

@@ -4,11 +4,14 @@ import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
+import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_post_detail_page.dart';
+import 'package:four_hours_client/views/home_screen/write_tab/home_write_post_detail_page.dart';
+import 'package:four_hours_client/views/liked_posts_screen/liked_post_detail_page.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
-import 'package:four_hours_client/views/post_detail_screen/post_detail_page.dart';
 import 'package:four_hours_client/views/splash_screen/splash_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
+import 'package:four_hours_client/views/widgets/common_skeleton_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
@@ -82,6 +85,31 @@ GoRouter appRouter(AppRouterRef ref) {
                   ),
               routes: [
                 GoRoute(
+                  path: WritePostDetailPage.path,
+                  name: WritePostDetailPage.name,
+                  builder: (BuildContext context, GoRouterState state) {
+                    final PostDetailExtraModel extra =
+                        state.extra as PostDetailExtraModel;
+
+                    final PostModel post = extra.post;
+                    final String time = extra.time;
+                    final String postingDate = extra.postingDate;
+
+                    if (state.params['postId'] != null) {
+                      return WritePostDetailPage(
+                        postId: state.params['postId']!,
+                        post: post,
+                        time: time,
+                        postingDate: postingDate,
+                      );
+                    } else {
+                      return const ErrorPage(
+                          error: 'The post ID cannot be found,');
+                    }
+                  },
+                  parentNavigatorKey: navigatorKey,
+                ),
+                GoRoute(
                   path: CreatePostPage.path,
                   builder: (BuildContext context, GoRouterState state) =>
                       const CreatePostPage(),
@@ -89,41 +117,44 @@ GoRouter appRouter(AppRouterRef ref) {
                 ),
               ]),
           GoRoute(
-            path: HomeSharedTab.path,
-            pageBuilder: (BuildContext context, GoRouterState state) =>
-                NoTransitionPage(
-              key: state.pageKey,
-              child: const HomeSharedTab(),
-            ),
-          ),
+              path: HomeSharedTab.path,
+              pageBuilder: (BuildContext context, GoRouterState state) =>
+                  NoTransitionPage(
+                    key: state.pageKey,
+                    child: const HomeSharedTab(),
+                  ),
+              routes: [
+                GoRoute(
+                  path: SharedPostDetailPage.path,
+                  name: SharedPostDetailPage.name,
+                  builder: (BuildContext context, GoRouterState state) {
+                    final PostDetailExtraModel extra =
+                        state.extra as PostDetailExtraModel;
+
+                    final PostModel post = extra.post;
+                    final String time = extra.time;
+
+                    if (state.params['postId'] != null) {
+                      return SharedPostDetailPage(
+                        postId: state.params['postId']!,
+                        post: post,
+                        time: time,
+                      );
+                    } else {
+                      return const ErrorPage(
+                          error: 'The post ID cannot be found,');
+                    }
+                  },
+                  parentNavigatorKey: navigatorKey,
+                ),
+              ]),
         ],
-      ),
-      GoRoute(
-        path: PostDetailPage.path,
-        name: PostDetailPage.name,
-        builder: (BuildContext context, GoRouterState state) {
-          final PostDetailExtraModel extra =
-              state.extra as PostDetailExtraModel;
-
-          final PostModel post = extra.post;
-          final bool isFromMyPost = extra.isFromMyPost;
-
-          if (state.params['postId'] != null) {
-            return PostDetailPage(
-              postId: state.params['postId']!,
-              post: post,
-              isFromMyPost: isFromMyPost,
-            );
-          } else {
-            return const ErrorPage(error: 'The post ID cannot be found,');
-          }
-        },
-        parentNavigatorKey: navigatorKey,
       ),
       GoRoute(
         path: LikedPostsPage.path,
         pageBuilder: (BuildContext context, GoRouterState state) =>
             CustomTransitionPage(
+          transitionDuration: const Duration(milliseconds: 100),
           key: state.pageKey,
           child: const LikedPostsPage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) =>
@@ -138,6 +169,32 @@ GoRouter appRouter(AppRouterRef ref) {
           ),
         ),
         parentNavigatorKey: navigatorKey,
+        routes: [
+          GoRoute(
+            path: LikedPostDetailPage.path,
+            name: LikedPostDetailPage.name,
+            builder: (BuildContext context, GoRouterState state) {
+              final PostDetailExtraModel extra =
+                  state.extra as PostDetailExtraModel;
+
+              final PostModel post = extra.post;
+              final String time = extra.time;
+              final String postingDate = extra.postingDate;
+
+              if (state.params['postId'] != null) {
+                return LikedPostDetailPage(
+                  postId: state.params['postId']!,
+                  post: post,
+                  time: time,
+                  postingDate: postingDate,
+                );
+              } else {
+                return const ErrorPage(error: 'The post ID cannot be found,');
+              }
+            },
+            parentNavigatorKey: navigatorKey,
+          ),
+        ],
       ),
       GoRoute(
         path: DeletePostPage.path,
@@ -171,6 +228,12 @@ GoRouter appRouter(AppRouterRef ref) {
         parentNavigatorKey: navigatorKey,
         builder: (BuildContext context, GoRouterState state) =>
             const CommonWidgetsPage(),
+      ),
+      GoRoute(
+        path: CommonSkeletonPage.path,
+        parentNavigatorKey: navigatorKey,
+        builder: (BuildContext context, GoRouterState state) =>
+            const CommonSkeletonPage(),
       ),
     ],
     errorPageBuilder: (context, state) => const NoTransitionPage(
