@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/post_card_controller.dart';
+import 'package:four_hours_client/controller/home_shared_post_card_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
@@ -35,8 +35,8 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    final postNotifier =
-        ref.read(postCardControllerProvider(postId: widget.post.id).notifier);
+    final sharedPostNotifier = ref.read(
+        sharedPostCardControllerProvider(postId: widget.post.id).notifier);
 
     bool isReported = widget.post.isReported!;
     if (isReported) {
@@ -64,7 +64,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
           },
           child: GestureDetector(
             onTap: () {
-              postNotifier.handlePressedCard(
+              sharedPostNotifier.handlePressedCard(
                 context,
                 post: widget.post,
                 time: widget.time,
@@ -111,7 +111,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                         CustomIcons.more_line,
                       ),
                       onTap: () {
-                        postNotifier.handlePressedMoreButton(
+                        sharedPostNotifier.handlePressedMoreButton(
                           context,
                           post: widget.post,
                         );

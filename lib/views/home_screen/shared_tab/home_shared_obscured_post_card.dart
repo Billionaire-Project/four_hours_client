@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/app_sizes.dart';
-import 'package:four_hours_client/controller/post_card_controller.dart';
+import 'package:four_hours_client/controller/home_shared_post_card_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/custom_shadow_colors.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
@@ -32,8 +32,8 @@ class _HomeSharedObscuredPostCardState
     final customTextStyle = ref.watch(customTextStyleProvider);
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
-    final postNotifier = ref.read(
-      postCardControllerProvider(postId: widget.post.id).notifier,
+    final sharedPostNotifier = ref.read(
+      sharedPostCardControllerProvider(postId: widget.post.id).notifier,
     );
 
     return Padding(
