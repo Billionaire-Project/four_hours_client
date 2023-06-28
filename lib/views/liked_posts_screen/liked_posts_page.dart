@@ -67,15 +67,14 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                   },
                   child: ListView.separated(
                     itemBuilder: (context, index) {
-                      final String leftTime =
-                          getPostElapsedTime(date: posts[index].createdAt);
-
+                      final String createdTime =
+                          getCreatePostTime(date: posts[index].createdAt);
                       return Column(
                         children: [
                           if (index == 0) const Gap(16),
                           LikedPostCard(
                             post: posts[index],
-                            time: leftTime,
+                            time: createdTime,
                           ),
                           if (index == posts.length - 1) const Gap(16)
                         ],
