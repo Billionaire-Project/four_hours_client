@@ -52,12 +52,9 @@ class LikedPostsController extends _$LikedPostsController {
       state = AsyncData(_likedPosts!.posts);
 
       _postingDates = _likedPosts!.posts.map((post) {
-        final createdAt = DateTime.parse(post.createdAt).toLocal();
-        final year = DateFormat.y().format(createdAt);
-        final month = DateFormat.M().format(createdAt).padLeft(2, '0');
-        final day = DateFormat.d().format(createdAt);
+        final String postingDate = getPostingDate(post.createdAt);
 
-        return '$year.$month.$day';
+        return postingDate;
       }).toList();
 
       if (state.hasError) {
@@ -87,6 +84,14 @@ class LikedPostsController extends _$LikedPostsController {
       _likedPosts = await _fetchLikedPosts();
 
       if (_likedPosts != null) {
+        _postingDates = [
+          ..._postingDates,
+          ..._likedPosts!.posts.map((post) {
+            final String postingDate = getPostingDate(post.createdAt);
+
+            return postingDate;
+          }).toList()
+        ];
         _start = _likedPosts!.next;
 
         state = AsyncData([...state.value!.toList(), ..._likedPosts!.posts]);
@@ -102,6 +107,12 @@ class LikedPostsController extends _$LikedPostsController {
     _start = '0';
 
     _likedPosts = await _fetchLikedPosts();
+
+    _postingDates = _likedPosts!.posts.map((post) {
+      final String postingDate = getPostingDate(post.createdAt);
+
+      return postingDate;
+    }).toList();
 
     _start = _likedPosts!.next;
 
@@ -126,6 +137,15 @@ class LikedPostsController extends _$LikedPostsController {
     } else {
       return null;
     }
+  }
+
+  String getPostingDate(String postingDate) {
+    final createdAt = DateTime.parse(postingDate).toLocal();
+    final year = DateFormat.y().format(createdAt);
+    final month = DateFormat.M().format(createdAt).padLeft(2, '0');
+    final day = DateFormat.d().format(createdAt);
+
+    return '$year.$month.$day';
   }
 
   void _init() {
