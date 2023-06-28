@@ -79,7 +79,6 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
               ),
               constraints: const BoxConstraints(
                 maxHeight: cardWithTwoDividersMaxHeight,
-                minHeight: cardWithTwoDividersMinHeight,
               ),
               decoration: BoxDecoration(
                 color: customThemeColors.backgroundElevated,

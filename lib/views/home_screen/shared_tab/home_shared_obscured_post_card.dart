@@ -47,7 +47,6 @@ class _HomeSharedObscuredPostCardState
         ),
         constraints: const BoxConstraints(
           maxHeight: cardWithTwoDividersMaxHeight,
-          minHeight: cardWithTwoDividersMinHeight,
         ),
         foregroundDecoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),

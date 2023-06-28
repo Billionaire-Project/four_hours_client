@@ -54,11 +54,10 @@ class _HomeWritePostCardState extends ConsumerState<HomeWritePostCard> {
             left: 16.0,
             top: 8.0,
             right: 8.0,
-            bottom: 8.0,
+            bottom: 16.0,
           ),
           constraints: const BoxConstraints(
             maxHeight: cardWithOneDividerMaxHeight,
-            minHeight: cardWithOneDividerMinHeight,
           ),
           decoration: BoxDecoration(
             color: customThemeColors.backgroundElevated,
