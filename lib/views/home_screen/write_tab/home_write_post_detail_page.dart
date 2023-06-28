@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/home_write_post_detail_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
-import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
-import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
-import 'package:four_hours_client/views/widgets/common_app_bar.dart';
-import 'package:four_hours_client/views/widgets/common_icon_button.dart';
-import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
+import 'package:four_hours_client/views/widgets/post_detail_screen/post_detail_page.dart';
 import 'package:go_router/go_router.dart';
 
 class WritePostDetailPage extends ConsumerWidget {
@@ -34,30 +30,21 @@ class WritePostDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
-    final customThemeColors = ref.watch(customThemeColorsProvider);
 
     final writePostDetail =
         ref.watch(writePostDetailControllerProvider(context, post: post));
 
-    return CommonWrapper(
-      backgroundColor: customThemeColors.backgroundElevated,
-      appBar: CommonAppBar(
-        title: postingDate.replaceAll('-', '.'),
-        backgroundColor: customThemeColors.backgroundElevated,
-        actions: [
-          CommonIconButton(
-            onTap: () {
-              ref
-                  .read(writePostDetailControllerProvider(context, post: post)
-                      .notifier)
-                  .handlePressedMoreButton();
-            },
-            icon: const Icon(
-              CustomIcons.more_line,
-            ),
-          )
-        ],
-      ),
+    return PostDetailPage(
+      postId: postId,
+      post: post,
+      postingDate: postingDate.replaceAll('-', '.'),
+      time: time,
+      onTap: () {
+        ref
+            .read(
+                writePostDetailControllerProvider(context, post: post).notifier)
+            .handlePressedMoreButton();
+      },
       child: Column(
         children: [
           writePostDetail.when(data: (postModel) {

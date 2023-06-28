@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/liked_post_detail_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
-import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
-import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
-import 'package:four_hours_client/views/widgets/common_app_bar.dart';
-import 'package:four_hours_client/views/widgets/common_icon_button.dart';
-import 'package:four_hours_client/views/widgets/common_wrapper.dart';
 import 'package:four_hours_client/views/widgets/post_detail_screen/post_detail_bottom.dart';
 
 import 'package:four_hours_client/views/widgets/common_row_with_divider.dart';
 import 'package:four_hours_client/views/widgets/common_title.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
+import 'package:four_hours_client/views/widgets/post_detail_screen/post_detail_page.dart';
 import 'package:go_router/go_router.dart';
 
 class LikedPostDetailPage extends ConsumerWidget {
@@ -35,30 +31,21 @@ class LikedPostDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customTextStyle = ref.watch(customTextStyleProvider);
-    final customThemeColors = ref.watch(customThemeColorsProvider);
 
     final likedPostDetail =
         ref.watch(likedPostDetailControllerProvider(context, post: post));
 
-    return CommonWrapper(
-      backgroundColor: customThemeColors.backgroundElevated,
-      appBar: CommonAppBar(
-        title: postingDate,
-        backgroundColor: customThemeColors.backgroundElevated,
-        actions: [
-          CommonIconButton(
-            onTap: () {
-              ref
-                  .read(likedPostDetailControllerProvider(context, post: post)
-                      .notifier)
-                  .handlePressedMoreButton();
-            },
-            icon: const Icon(
-              CustomIcons.more_line,
-            ),
-          )
-        ],
-      ),
+    return PostDetailPage(
+      postId: postId,
+      post: post,
+      postingDate: postingDate,
+      time: time,
+      onTap: () {
+        ref
+            .read(
+                likedPostDetailControllerProvider(context, post: post).notifier)
+            .handlePressedMoreButton();
+      },
       child: Column(
         children: [
           likedPostDetail.when(data: (postModel) {
