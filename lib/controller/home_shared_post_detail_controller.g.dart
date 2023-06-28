@@ -7,7 +7,7 @@ part of 'home_shared_post_detail_controller.dart';
 // **************************************************************************
 
 String _$sharedPostDetailControllerHash() =>
-    r'7aa1528bbb87c81cf4542d2648f3652024a834de';
+    r'07ef34460a8b1688937622d67579d9adc06588af';
 
 /// Copied from Dart SDK
 class _SystemHash {

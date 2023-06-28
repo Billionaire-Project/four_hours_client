@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:four_hours_client/controller/home_shared_post_card_controller.dart';
+import 'package:four_hours_client/controller/liked_and_saved_controller.dart';
+import 'package:four_hours_client/controller/saved_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -67,6 +69,11 @@ class SharedPostDetailController extends _$SharedPostDetailController {
   }
 
   Future<PostModel?> _getPostByIdInitial() async {
+    ref.read(savedControllerProvider.notifier).resetSavedAnimation();
+    ref
+        .read(likedAndSavedControllerProvider.notifier)
+        .resetLikedAndSavedAnimation();
+
     state = const AsyncLoading();
     try {
       state = await AsyncValue.guard(_fetchPostDetail);

@@ -7,7 +7,7 @@ part of 'home_shared_post_card_controller.dart';
 // **************************************************************************
 
 String _$sharedPostCardControllerHash() =>
-    r'767f905d4db015d3858c1630de6941210b697389';
+    r'c63b1b0d88a51b6a72e2a322e103e84f7388b138';
 
 /// Copied from Dart SDK
 class _SystemHash {

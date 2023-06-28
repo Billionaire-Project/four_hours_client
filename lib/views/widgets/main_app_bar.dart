@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/controller/liked_and_saved_controller.dart';
 import 'package:four_hours_client/controller/liked_posts_controller.dart';
 import 'package:four_hours_client/controller/saved_controller.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
@@ -102,10 +101,6 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
           CommonIconButton(
             onTap: () async {
               context.push(LikedPostsPage.path);
-              ref.read(savedControllerProvider.notifier).resetSavedAnimation();
-              ref
-                  .read(likedAndSavedControllerProvider.notifier)
-                  .resetLikedAndSavedAnimation();
 
               await ref
                   .read(likedPostsControllerProvider.notifier)

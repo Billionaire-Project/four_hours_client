@@ -84,8 +84,8 @@ class _LikeButtonState extends ConsumerState<LikeButton>
     _leftBoxAnimationController.reverse();
   }
 
-  void _resetRightBoxAnimation() {
-    _leftBoxAnimationController.stop();
+  void _resetLeftBoxAnimation() {
+    _leftBoxAnimationController.reset();
   }
 
   @override
@@ -118,7 +118,7 @@ class _LikeButtonState extends ConsumerState<LikeButton>
         ref.watch(likedAndSavedControllerProvider.notifier).shouldReset;
 
     if (shouldResetLikedAndSaved) {
-      _resetRightBoxAnimation();
+      _resetLeftBoxAnimation();
     }
 
     return Row(

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/controller/liked_and_saved_controller.dart';
+import 'package:four_hours_client/controller/saved_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_pagination_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
@@ -149,6 +151,11 @@ class LikedPostsController extends _$LikedPostsController {
   }
 
   void _init() {
+    ref.read(savedControllerProvider.notifier).resetSavedAnimation();
+    ref
+        .read(likedAndSavedControllerProvider.notifier)
+        .resetLikedAndSavedAnimation();
+
     postsRepository ??= ref.watch(postsRepositoryProvider);
   }
 }
