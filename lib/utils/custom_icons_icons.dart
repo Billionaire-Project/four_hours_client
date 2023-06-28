@@ -55,6 +55,5 @@ class CustomIcons {
   static const IconData warning_line = IconData(0xe81f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData logo_4hours_fill = IconData(0xe820, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData arrow_up_line = IconData(0xe821, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData logo_light = IconData(0xe822, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData logo_4hours_fill_1 = IconData(0xe823, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData logo_title = IconData(0xe823, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
