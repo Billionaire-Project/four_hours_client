@@ -8,6 +8,7 @@ import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/liked_and_saved_controller.dart';
 import 'package:four_hours_client/controller/liked_posts_controller.dart';
 import 'package:four_hours_client/controller/saved_controller.dart';
+import 'package:four_hours_client/providers/theme_provider.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
@@ -63,6 +64,7 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
   @override
   Widget build(BuildContext context) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final isDarkMode = ref.watch(themeNotifierProvider);
 
     bool shouldShowSaved = ref.watch(savedControllerProvider);
     bool shouldResetSaved =
@@ -85,6 +87,7 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
 
     return AppBar(
       leadingWidth: 120,
+
       automaticallyImplyLeading: false,
       backgroundColor: customThemeColors.background,
       foregroundColor: customThemeColors.onBackground,
@@ -92,9 +95,33 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
       shadowColor: null,
       elevation: 0,
       title: SvgPicture.asset(
-        'assets/images/logo.svg',
+        'assets/images/logo_${isDarkMode ? 'dark' : 'light'}.svg',
         semanticsLabel: 'Logo',
       ),
+
+      // title: SizedBox(
+      //   width: 88,
+      //   // decoration:
+      //   //     BoxDecoration(border: Border.all(width: 1, color: Colors.red)),
+      //   child: Row(
+      //     mainAxisSize: MainAxisSize.min,
+      //     crossAxisAlignment: CrossAxisAlignment.center,
+      //     mainAxisAlignment: MainAxisAlignment.start,
+      //     children: [
+      //       Icon(
+      //         CustomIcons.logo_4hours_fill,
+      //         size: 16,
+      //         color: customThemeColors.orange,
+      //       ),
+      //       const Gap(2),
+      //       Icon(
+      //         CustomIcons.logo_title,
+      //         size: 16,
+      //         color: customThemeColors.buttonPrimary,
+      //       ),
+      //     ],
+      //   ),
+      // ),
       leading: Row(
         children: [
           const Gap(8),
