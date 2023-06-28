@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:four_hours_client/constants/app_sizes.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/liked_and_saved_controller.dart';
 import 'package:four_hours_client/controller/liked_posts_controller.dart';
 import 'package:four_hours_client/controller/saved_controller.dart';
@@ -87,7 +86,6 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
 
     return AppBar(
       leadingWidth: 120,
-
       automaticallyImplyLeading: false,
       backgroundColor: customThemeColors.background,
       foregroundColor: customThemeColors.onBackground,
@@ -98,30 +96,6 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
         'assets/images/logo_${isDarkMode ? 'dark' : 'light'}.svg',
         semanticsLabel: 'Logo',
       ),
-
-      // title: SizedBox(
-      //   width: 88,
-      //   // decoration:
-      //   //     BoxDecoration(border: Border.all(width: 1, color: Colors.red)),
-      //   child: Row(
-      //     mainAxisSize: MainAxisSize.min,
-      //     crossAxisAlignment: CrossAxisAlignment.center,
-      //     mainAxisAlignment: MainAxisAlignment.start,
-      //     children: [
-      //       Icon(
-      //         CustomIcons.logo_4hours_fill,
-      //         size: 16,
-      //         color: customThemeColors.orange,
-      //       ),
-      //       const Gap(2),
-      //       Icon(
-      //         CustomIcons.logo_title,
-      //         size: 16,
-      //         color: customThemeColors.buttonPrimary,
-      //       ),
-      //     ],
-      //   ),
-      // ),
       leading: Row(
         children: [
           const Gap(8),
@@ -133,15 +107,9 @@ class _MainAppBarState extends ConsumerState<MainAppBar>
                   .read(likedAndSavedControllerProvider.notifier)
                   .resetLikedAndSavedAnimation();
 
-//? 좋아요 목록에 들어가는 순간 write, shared, liked 리스트를 모두 다시 불러온다.
-//? 이렇게 해서 liked에서 좋아요를 누르면 shared에서도 좋아요가 반영되도록 한다.
-//? 근데 왜 이게 되는지 모르겠다.
               await ref
                   .read(likedPostsControllerProvider.notifier)
                   .getLikedPostsInitial();
-              await ref
-                  .read(homeSharedControllerProvider.notifier)
-                  .refreshTab(isNeedMorePosts: true);
             },
             icon: const Icon(
               CustomIcons.heart_line,

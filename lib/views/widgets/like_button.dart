@@ -40,14 +40,14 @@ class _LikeButtonState extends ConsumerState<LikeButton>
     curve: Curves.easeOutBack,
   );
 
-  late final AnimationController _rightBoxAnimationController =
+  late final AnimationController _leftBoxAnimationController =
       AnimationController(
     duration: likeAnimationDuration,
     vsync: this,
   );
 
-  late final Animation<double> _rightBoxAnimation = CurvedAnimation(
-    parent: _rightBoxAnimationController,
+  late final Animation<double> _leftBoxAnimation = CurvedAnimation(
+    parent: _leftBoxAnimationController,
     curve: Curves.easeOutBack,
   )..addStatusListener((status) {
       if (status == AnimationStatus.forward) {
@@ -77,22 +77,22 @@ class _LikeButtonState extends ConsumerState<LikeButton>
   }
 
   void _forwardRightBoxAnimation() {
-    _rightBoxAnimationController.forward();
+    _leftBoxAnimationController.forward();
   }
 
   void _reverseRightBoxAnimation() {
-    _rightBoxAnimationController.reverse();
+    _leftBoxAnimationController.reverse();
   }
 
   void _resetRightBoxAnimation() {
-    _rightBoxAnimationController.reset();
+    _leftBoxAnimationController.stop();
   }
 
   @override
   void dispose() {
     _rightBoxHideTimer?.cancel();
     _likeAnimationController.dispose();
-    _rightBoxAnimationController.dispose();
+    _leftBoxAnimationController.dispose();
     super.dispose();
   }
 
@@ -124,7 +124,7 @@ class _LikeButtonState extends ConsumerState<LikeButton>
     return Row(
       children: [
         ScaleTransition(
-          scale: _rightBoxAnimation,
+          scale: _leftBoxAnimation,
           child: isAnimating
               ? Container(
                   padding: const EdgeInsets.symmetric(

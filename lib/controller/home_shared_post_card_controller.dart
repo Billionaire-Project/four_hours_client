@@ -147,6 +147,18 @@ class SharedPostCardController extends _$SharedPostCardController {
     }
   }
 
+  Future<void> controlLike() async {
+    try {
+      await postsRepository!.likePost(postId: postId);
+
+      final PostModel newPost = await _fetchPost();
+
+      ref.read(homeSharedControllerProvider.notifier).replacePost(newPost);
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
+  }
+
   void _init() {
     postsRepository ??= ref.read(postsRepositoryProvider);
   }

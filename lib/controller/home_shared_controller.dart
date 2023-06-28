@@ -30,7 +30,7 @@ class HomeSharedController extends _$HomeSharedController {
   }
 
   String? _start = '0';
-  String _offset = '10';
+  final String _offset = '10';
 
   PostsPaginationModel? _posts;
   PostsPaginationModel? get posts => _posts;
@@ -43,7 +43,6 @@ class HomeSharedController extends _$HomeSharedController {
     state = const AsyncLoading();
 
     _start = '0';
-    _offset = '10';
 
     try {
       await Future.delayed(skeletonDelay, () async {
@@ -103,15 +102,6 @@ class HomeSharedController extends _$HomeSharedController {
 
   Future<void> refreshTab({bool isNeedMorePosts = false}) async {
     if (state.value == null) return;
-
-    if (isNeedMorePosts) {
-      final int lengthOfPosts = state.value!.length;
-      if (lengthOfPosts > int.parse(_offset)) {
-        _offset = lengthOfPosts.toString();
-      }
-    } else {
-      _offset = '10';
-    }
 
     _start = '0';
 

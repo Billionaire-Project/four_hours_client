@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
+import 'package:four_hours_client/controller/home_shared_post_card_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -26,7 +26,11 @@ class LikeController extends _$LikeController {
 
   void handlePressedLikeButton(BuildContext context) async {
     state = !state;
-    state = await _likePost();
+    ref
+        .read(sharedPostCardControllerProvider(
+          postId: postId,
+        ).notifier)
+        .controlLike();
 
     if (!state) {
       final customTextStyle = ref.watch(customTextStyleProvider);
@@ -54,24 +58,17 @@ class LikeController extends _$LikeController {
     }
   }
 
-  Future<bool> _likePost() async {
-    try {
-      bool isLiked =
-          await ref.read(postsRepositoryProvider).likePost(postId: postId);
-
-      return isLiked;
-    } on DioError catch (e) {
-      throw throwExceptions(e);
-    }
-  }
-
   void handlePressedCancel() async {
     FToast().removeCustomToast();
 
     if (state) return;
 
     state = true;
-    state = await _likePost();
+    ref
+        .read(sharedPostCardControllerProvider(
+          postId: postId,
+        ).notifier)
+        .controlLike();
 
     final PostModel postModel =
         await ref.read(postsRepositoryProvider).getPostById(postId: postId);
