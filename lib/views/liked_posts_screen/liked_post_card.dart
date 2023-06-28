@@ -52,7 +52,6 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
           ),
           constraints: const BoxConstraints(
             maxHeight: cardWithTwoDividersMaxHeight,
-            minHeight: cardWithTwoDividersMinHeight,
           ),
           decoration: BoxDecoration(
             color: customThemeColors.backgroundElevated,
@@ -63,25 +62,6 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              CommonRowWithDivider(
-                leading: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                    vertical: 2.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: customThemeColors.backgroundLabel,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  child: Text(
-                    widget.time,
-                    style: customTextStyle.montLabelSmall,
-                  ),
-                ),
-                rightGap: 8,
-                trailing: const SizedBox(width: 8),
-              ),
-              const Gap(8),
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
