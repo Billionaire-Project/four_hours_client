@@ -6,6 +6,7 @@ import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/posts_pagination_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
 import 'package:four_hours_client/utils/functions.dart';
+import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -31,6 +32,9 @@ class LikedPostsController extends _$LikedPostsController {
   PostsPaginationModel? _likedPosts;
   PostsPaginationModel? get posts => _likedPosts;
 
+  List<String> _postingDates = [];
+  List<String> get postingDates => _postingDates;
+
   Future<List<PostModel>> getLikedPostsInitial() async {
     state = const AsyncLoading();
 
@@ -46,6 +50,15 @@ class LikedPostsController extends _$LikedPostsController {
       _start = _likedPosts!.next;
 
       state = AsyncData(_likedPosts!.posts);
+
+      _postingDates = _likedPosts!.posts.map((post) {
+        final createdAt = DateTime.parse(post.createdAt).toLocal();
+        final year = DateFormat.y().format(createdAt);
+        final month = DateFormat.M().format(createdAt).padLeft(2, '0');
+        final day = DateFormat.d().format(createdAt);
+
+        return '$year.$month.$day';
+      }).toList();
 
       if (state.hasError) {
         state = AsyncValue.error(

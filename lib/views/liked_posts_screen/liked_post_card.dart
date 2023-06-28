@@ -13,10 +13,13 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 class LikedPostCard extends ConsumerStatefulWidget {
   final PostModel post;
   final String time;
+  final String postingDate;
+
   const LikedPostCard({
     Key? key,
     required this.post,
     required this.time,
+    required this.postingDate,
   }) : super(key: key);
 
   @override
@@ -40,6 +43,7 @@ class _LikedPostCardState extends ConsumerState<LikedPostCard> {
             context,
             post: widget.post,
             time: widget.time,
+            postingDate: widget.postingDate,
           );
         },
         child: Container(

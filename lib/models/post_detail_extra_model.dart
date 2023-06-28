@@ -8,7 +8,7 @@ class PostDetailExtraModel with _$PostDetailExtraModel {
   factory PostDetailExtraModel({
     required PostModel post,
     required String time,
-    String? postingDate,
+    required String postingDate,
   }) = _PostDetailExtraModel;
 
   factory PostDetailExtraModel.fromJson(Map<String, dynamic> json) =>

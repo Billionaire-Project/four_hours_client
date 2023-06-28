@@ -26,6 +26,8 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
   @override
   Widget build(BuildContext context) {
     final likedPosts = ref.watch(likedPostsControllerProvider);
+    final List<String> postingDates =
+        ref.watch(likedPostsControllerProvider.notifier).postingDates;
 
     return MainWrapper(
       appBar: CommonAppBar(
@@ -73,9 +75,9 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                         children: [
                           if (index == 0) const Gap(16),
                           LikedPostCard(
-                            post: posts[index],
-                            time: createdTime,
-                          ),
+                              post: posts[index],
+                              time: createdTime,
+                              postingDate: postingDates[index]),
                           if (index == posts.length - 1) const Gap(16)
                         ],
                       );

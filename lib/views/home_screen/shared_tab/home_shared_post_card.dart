@@ -68,6 +68,7 @@ class _HomeSharedPostCardState extends ConsumerState<HomeSharedPostCard> {
                 context,
                 post: widget.post,
                 time: widget.time,
+                postingDate: '',
               );
             },
             child: Container(

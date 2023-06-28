@@ -32,7 +32,7 @@ class PostCardController extends _$PostCardController {
     BuildContext context, {
     required PostModel post,
     required String time,
-    String? postingDate,
+    required String postingDate,
   }) async {
     bool isFromMyPost = GoRouter.of(context).location == HomeWriteTab.path;
 
@@ -86,6 +86,7 @@ class PostCardController extends _$PostCardController {
             extra: PostDetailExtraModel(
               post: post,
               time: time,
+              postingDate: postingDate,
             ),
           );
 

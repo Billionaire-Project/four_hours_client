@@ -21,7 +21,7 @@ class LikedPostCardController extends _$LikedPostCardController {
     BuildContext context, {
     required PostModel post,
     required String time,
-    String? postingDate,
+    required String postingDate,
   }) async {
     context.pushNamed(
       LikedPostDetailPage.name,

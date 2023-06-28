@@ -11,7 +11,7 @@ _$_PostDetailExtraModel _$$_PostDetailExtraModelFromJson(
     _$_PostDetailExtraModel(
       post: PostModel.fromJson(json['post'] as Map<String, dynamic>),
       time: json['time'] as String,
-      postingDate: json['postingDate'] as String?,
+      postingDate: json['postingDate'] as String,
     );
 
 Map<String, dynamic> _$$_PostDetailExtraModelToJson(
