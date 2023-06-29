@@ -152,7 +152,7 @@ class HomeWriteController extends _$HomeWriteController {
       showCommonToast(
         context,
         iconData: CustomIcons.warning_line,
-        text: '지금은 포스팅할 수 없습니다! 나중에 다시 시도해주세요.',
+        text: '지금은 포스팅할 수 없습니다!',
       );
       return;
     }
