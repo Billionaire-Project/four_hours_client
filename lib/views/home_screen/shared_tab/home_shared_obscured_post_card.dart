@@ -67,7 +67,7 @@ class _HomeSharedObscuredPostCardState
           ),
         ),
         decoration: BoxDecoration(
-          color: customThemeColors.background,
+          color: customThemeColors.backgroundElevated,
           borderRadius: BorderRadius.circular(12.0),
           boxShadow: CustomShadowColors.shadow3,
         ),
