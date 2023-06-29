@@ -87,11 +87,13 @@ class HomeSharedTab extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: SmartRefresher(
+                      physics: const BouncingScrollPhysics(),
                       enablePullDown: true,
                       enablePullUp: true,
                       controller: sharedObscuredNotifier.refreshController,
                       scrollController: sharedObscuredNotifier.scrollController,
                       onRefresh: sharedObscuredNotifier.refreshTab,
+                      header: const CustomRefresherHeader(),
                       footer: const CustomRefresherFooter(),
                       child: ListView.separated(
                         shrinkWrap: true,
