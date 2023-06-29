@@ -37,7 +37,7 @@ class WritePostDetailPage extends ConsumerWidget {
     return PostDetailPage(
       postId: postId,
       post: post,
-      postingDate: postingDate.replaceAll('-', '.'),
+      postingDate: postingDate,
       time: time,
       onTap: () {
         ref

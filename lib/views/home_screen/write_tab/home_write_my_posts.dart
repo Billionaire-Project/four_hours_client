@@ -47,34 +47,40 @@ class MyPosts extends ConsumerWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int dateIndex) {
-              if (posts[postingDates[dateIndex]] == null) {
+              final List<PostModel>? nowPosts = posts[postingDates[dateIndex]];
+              final String postingDate =
+                  postingDates[dateIndex].replaceAll('-', '.');
+
+              if (nowPosts == null) {
                 return const SizedBox.shrink();
               }
-              if (postingDates[dateIndex] == 'Today') {
+              if (postingDate == 'Today') {
                 return const SizedBox.shrink();
               }
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
-                    child: CommonTitle(postingDates[dateIndex]),
+                    child: CommonTitle(postingDate),
                   ),
                   Flexible(
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: posts[postingDates[dateIndex]]!.length,
+                      itemCount: nowPosts.length,
                       itemBuilder: (BuildContext context, int postIndex) {
-                        PostModel post =
-                            posts[postingDates[dateIndex]]![postIndex];
+                        PostModel post = nowPosts[postIndex];
+
                         final String createdTime =
                             getCreatePostTime(date: post.updatedAt);
+
                         return HomeWritePostCard(
                           post: post,
                           time: createdTime,
-                          postingDate: postingDates[dateIndex],
+                          postingDate: postingDate,
                         );
                       },
                     ),
