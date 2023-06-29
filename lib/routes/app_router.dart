@@ -9,7 +9,6 @@ import 'package:four_hours_client/views/home_screen/write_tab/home_write_post_de
 import 'package:four_hours_client/views/liked_posts_screen/liked_post_detail_page.dart';
 import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
-import 'package:four_hours_client/views/splash_screen/splash_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
 import 'package:four_hours_client/views/widgets/common_skeleton_page.dart';
 import 'package:go_router/go_router.dart';
@@ -32,22 +31,16 @@ GoRouter appRouter(AppRouterRef ref) {
   return GoRouter(
     debugLogDiagnostics: true,
     navigatorKey: navigatorKey,
-    initialLocation: SplashPage.path,
+    initialLocation: LoginPage.path,
     refreshListenable: appState,
     redirect: (BuildContext context, GoRouterState state) {
       if (state.error != null) {
         return ErrorPage.path;
       }
-      const String splashLocation = SplashPage.path;
       const String logInLocation = LoginPage.path;
       const String writeLocation = HomeWriteTab.path;
 
       final bool isAuth = appState.isLoggedIn;
-
-      final isSplashLocation = state.location == splashLocation;
-      if (isSplashLocation) {
-        return isAuth ? writeLocation : logInLocation;
-      }
 
       final bool isLogInLocation = state.location == logInLocation;
 
@@ -57,11 +50,6 @@ GoRouter appRouter(AppRouterRef ref) {
       return isAuth ? null : logInLocation;
     },
     routes: [
-      GoRoute(
-        path: SplashPage.path,
-        builder: (BuildContext context, GoRouterState state) =>
-            const SplashPage(),
-      ),
       GoRoute(
         path: LoginPage.path,
         pageBuilder: (BuildContext context, GoRouterState state) =>
