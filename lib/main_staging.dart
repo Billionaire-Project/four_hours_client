@@ -41,7 +41,7 @@ void main() async {
     child: MyApp(),
   );
 
-//splash화면을 일정시간 노출시키기 위해 추가
+  //splash화면을 일정시간 노출시키기 위해 추가
   await Future.delayed(splashScreenDuration);
 
   runApp(
