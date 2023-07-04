@@ -1,9 +1,18 @@
-class Endpoints {
-  Endpoints._();
+import 'package:flutter/material.dart';
 
-  static const String baseUrl = 'http://lukaid.iptime.org:8000/api/v1';
+class Endpoints extends InheritedWidget {
+  final String baseUrl;
 
-  static const Duration connectTimeout = Duration(milliseconds: 5000);
+  const Endpoints({
+    Key? key,
+    required this.baseUrl,
+    required Widget child,
+  }) : super(key: key, child: child);
 
-  static const Duration receiveTimeout = Duration(milliseconds: 3000);
+  static Endpoints of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Endpoints>() as Endpoints;
+  }
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) => false;
 }

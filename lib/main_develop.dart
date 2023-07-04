@@ -24,7 +24,7 @@ void main() async {
     ],
   );
 
-//안드로이드 기종 상태바, 네비게이션바 투명화
+  //안드로이드 기종 상태바, 네비게이션바 투명화
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -35,9 +35,8 @@ void main() async {
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-//TODO: need production port
   var child = const Endpoints(
-    baseUrl: 'lukaid.iptime.org:production_port/api/v1',
+    baseUrl: 'http://lukaid.iptime.org:8000/api/v1',
     child: MyApp(),
   );
 
@@ -46,7 +45,7 @@ void main() async {
       overrides: [
         sharedPreferencesProvider.overrideWithValue(sharedPreferences),
       ],
-      child: const MyApp(),
+      child: child,
     ),
   );
 }
