@@ -75,6 +75,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
             child: LayoutBuilder(
               builder: (context, constraint) {
                 return SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   child: ConstrainedBox(
                     constraints:
                         BoxConstraints(minHeight: constraint.maxHeight),

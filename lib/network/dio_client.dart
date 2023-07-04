@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/network/dio_exceptions.dart';
-import 'package:four_hours_client/network/endpoints.dart';
 import 'package:four_hours_client/utils/functions.dart';
 
 class DioClient {
@@ -16,10 +15,13 @@ class DioClient {
   final storage = const FlutterSecureStorage();
 
   DioClient._internal() {
-    _dio.options.baseUrl = Endpoints.baseUrl;
-    _dio.options.connectTimeout = Endpoints.connectTimeout;
-    _dio.options.receiveTimeout = Endpoints.receiveTimeout;
+    _dio.options.connectTimeout = const Duration(milliseconds: 5000);
+    _dio.options.receiveTimeout = const Duration(milliseconds: 3000);
     _dio.interceptors.add(_AuthInterceptor());
+  }
+
+  static void setBaseUrl(String baseUrl) {
+    _singleton._dio.options.baseUrl = 'http://$baseUrl';
   }
 
   String throwExceptions(DioError e) {

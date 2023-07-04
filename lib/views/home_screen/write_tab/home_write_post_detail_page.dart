@@ -37,7 +37,7 @@ class WritePostDetailPage extends ConsumerWidget {
     return PostDetailPage(
       postId: postId,
       post: post,
-      postingDate: postingDate.replaceAll('-', '.'),
+      postingDate: postingDate,
       time: time,
       onTap: () {
         ref
@@ -62,6 +62,7 @@ class WritePostDetailPage extends ConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
                   child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

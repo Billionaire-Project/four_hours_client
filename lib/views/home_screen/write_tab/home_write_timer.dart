@@ -79,7 +79,7 @@ class _TimerState extends ConsumerState<_Timer> {
     final double timerDiameter = getTimerSize(context).diameter;
     final double timerRadius = getTimerSize(context).radius;
 
-    final elapsedTime = ref.watch(homeWriteTimerControllerProvider);
+    double elapsedTime = ref.watch(homeWriteTimerControllerProvider);
 
     final notifier = ref.watch(homeWriteTimerControllerProvider.notifier);
 
@@ -90,7 +90,9 @@ class _TimerState extends ConsumerState<_Timer> {
     String seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
 
     //TODO: initialValue가 min보다 작으면 안되고 max보다 크면 안되는데 계속 관련 오류가 발생
-
+    if (elapsedTime >= totalSeconds) {
+      elapsedTime = totalSeconds - 1;
+    }
     return SleekCircularSlider(
       min: 0,
       max: totalSeconds,

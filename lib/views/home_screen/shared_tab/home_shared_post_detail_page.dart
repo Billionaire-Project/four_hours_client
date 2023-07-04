@@ -60,6 +60,7 @@ class SharedPostDetailPage extends ConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
                   child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

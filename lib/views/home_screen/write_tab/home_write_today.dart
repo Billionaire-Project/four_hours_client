@@ -90,7 +90,7 @@ class _TodaysTopicState extends ConsumerState<_TodaysTopic> {
         decoration: BoxDecoration(
           color: customThemeColors.backgroundElevated,
           borderRadius: BorderRadius.circular(12.0),
-          boxShadow: CustomShadowColors.shadow1,
+          boxShadow: CustomShadowColors.shadow3,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

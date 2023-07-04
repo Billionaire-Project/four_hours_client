@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
@@ -20,6 +21,8 @@ class LoginPage extends ConsumerWidget {
     final customThemeColors = ref.watch(customThemeColorsProvider);
     final customTextStyle = ref.watch(customTextStyleProvider);
     final isDarkMode = ref.watch(themeNotifierProvider);
+
+    FlutterNativeSplash.remove();
 
     return CommonWrapper(
       padding: const EdgeInsets.all(16),
