@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/firebase_options.dart';
 import 'package:four_hours_client/my_app.dart';
 import 'package:four_hours_client/network/endpoints.dart';
@@ -39,6 +40,9 @@ void main() async {
     baseUrl: 'lukaid.iptime.org:1337/api/v1',
     child: MyApp(),
   );
+
+//splash화면을 일정시간 노출시키기 위해 추가
+  await Future.delayed(splashScreenDuration);
 
   runApp(
     ProviderScope(
