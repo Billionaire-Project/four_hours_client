@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/firebase_options_staging.dart';
+import 'package:four_hours_client/firebase_options.dart';
 import 'package:four_hours_client/my_app.dart';
 import 'package:four_hours_client/network/endpoints.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
