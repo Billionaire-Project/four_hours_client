@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/constants.dart';
-import 'package:four_hours_client/firebase_options_staging.dart';
+import 'package:four_hours_client/firebase_options.dart';
 import 'package:four_hours_client/my_app.dart';
 import 'package:four_hours_client/network/endpoints.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
@@ -37,7 +37,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   var child = const Endpoints(
-    baseUrl: 'lukaid.iptime.org:1337/api/v1',
+    baseUrl: 'lukaid.iptime.org:4444/api/v1',
     child: MyApp(),
   );
 
