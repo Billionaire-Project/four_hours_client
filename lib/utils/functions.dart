@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:four_hours_client/network/dio_exceptions.dart';
+import 'package:four_hours_client/network/endpoints.dart';
 import 'package:four_hours_client/routes/app_router.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
@@ -159,7 +160,7 @@ void showCommonDialogWithTwoButtons({
 Future<void> showCommonDialog({
   required IconData iconData,
   required String title,
-  Future<void> Function()? onPressedButton,
+  VoidCallback? onPressedButton,
   String? buttonText,
   String? subtitle,
   bool barrierDismissible = true,
@@ -236,8 +237,17 @@ Future<void> saveTextToClipboard(
   }
 }
 
-void printDebug(String currentLocation, String text) {
+String printDebug(String currentLocation, String text) {
   debugPrint(
     'Location: $currentLocation --- $text',
   );
+
+  return text;
+}
+
+bool checkIsProductionServer(BuildContext context) {
+  final bool isProductionServer =
+      Endpoints.of(context).baseUrl.contains('4444');
+
+  return isProductionServer;
 }

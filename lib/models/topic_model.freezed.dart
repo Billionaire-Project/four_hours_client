@@ -21,6 +21,7 @@ TopicModel _$TopicModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TopicModel {
   String get topic => throw _privateConstructorUsedError;
+  String get content => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $TopicModelCopyWith<$Res> {
           TopicModel value, $Res Function(TopicModel) then) =
       _$TopicModelCopyWithImpl<$Res, TopicModel>;
   @useResult
-  $Res call({String topic});
+  $Res call({String topic, String content});
 }
 
 /// @nodoc
@@ -51,11 +52,16 @@ class _$TopicModelCopyWithImpl<$Res, $Val extends TopicModel>
   @override
   $Res call({
     Object? topic = null,
+    Object? content = null,
   }) {
     return _then(_value.copyWith(
       topic: null == topic
           ? _value.topic
           : topic // ignore: cast_nullable_to_non_nullable
+              as String,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -69,7 +75,7 @@ abstract class _$$_TopicModelCopyWith<$Res>
       __$$_TopicModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String topic});
+  $Res call({String topic, String content});
 }
 
 /// @nodoc
@@ -84,11 +90,16 @@ class __$$_TopicModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? topic = null,
+    Object? content = null,
   }) {
     return _then(_$_TopicModel(
       topic: null == topic
           ? _value.topic
           : topic // ignore: cast_nullable_to_non_nullable
+              as String,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -97,17 +108,19 @@ class __$$_TopicModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_TopicModel implements _TopicModel {
-  _$_TopicModel({required this.topic});
+  _$_TopicModel({required this.topic, required this.content});
 
   factory _$_TopicModel.fromJson(Map<String, dynamic> json) =>
       _$$_TopicModelFromJson(json);
 
   @override
   final String topic;
+  @override
+  final String content;
 
   @override
   String toString() {
-    return 'TopicModel(topic: $topic)';
+    return 'TopicModel(topic: $topic, content: $content)';
   }
 
   @override
@@ -115,12 +128,13 @@ class _$_TopicModel implements _TopicModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TopicModel &&
-            (identical(other.topic, topic) || other.topic == topic));
+            (identical(other.topic, topic) || other.topic == topic) &&
+            (identical(other.content, content) || other.content == content));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, topic);
+  int get hashCode => Object.hash(runtimeType, topic, content);
 
   @JsonKey(ignore: true)
   @override
@@ -137,13 +151,17 @@ class _$_TopicModel implements _TopicModel {
 }
 
 abstract class _TopicModel implements TopicModel {
-  factory _TopicModel({required final String topic}) = _$_TopicModel;
+  factory _TopicModel(
+      {required final String topic,
+      required final String content}) = _$_TopicModel;
 
   factory _TopicModel.fromJson(Map<String, dynamic> json) =
       _$_TopicModel.fromJson;
 
   @override
   String get topic;
+  @override
+  String get content;
   @override
   @JsonKey(ignore: true)
   _$$_TopicModelCopyWith<_$_TopicModel> get copyWith =>

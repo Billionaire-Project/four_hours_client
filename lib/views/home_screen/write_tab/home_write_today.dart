@@ -84,6 +84,7 @@ class _TodaysTopicState extends ConsumerState<_TodaysTopic> {
     final topicModel = myPostsNotifier.topicModel;
 
     final String topic = topicModel?.topic ?? '';
+    final String content = topicModel?.content ?? '';
 
     return Container(
         padding: const EdgeInsets.all(16.0),
@@ -105,7 +106,7 @@ class _TodaysTopicState extends ConsumerState<_TodaysTopic> {
             ),
             const Gap(10),
             Text(
-              '날씨가 점점 봄으로 바뀌고 있다.\n그 변화를 느끼며, 기분도 따뜻해지고 있다.',
+              content,
               style: customTextStyle.bodyMedium
                   .copyWith(color: CustomColors.light.gray400),
             ),

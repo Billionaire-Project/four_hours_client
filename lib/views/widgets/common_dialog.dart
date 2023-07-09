@@ -9,7 +9,7 @@ import 'package:four_hours_client/views/widgets/gap.dart';
 class CommonDialog extends ConsumerWidget {
   final IconData iconData;
   final String title;
-  final Future<void> Function()? onPressedButton;
+  final VoidCallback? onPressedButton;
   final String? buttonText;
   final String? subtitle;
 
@@ -58,8 +58,8 @@ class CommonDialog extends ConsumerWidget {
             const Gap(24),
             CommonFullWidthTextButton(
               text: buttonText ?? '확인',
-              onPressed: () async {
-                await onPressedButton?.call();
+              onPressed: () {
+                onPressedButton?.call();
                 closeRootNavigator();
               },
             )
