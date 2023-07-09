@@ -13,4 +13,5 @@ echo '==============='
 echo 'archive android'
 echo '==============='
 # flutter build appbundle --flavor staging -t lib/main_staging.dart
-flutter build appbundle -t lib/main_staging.dart
+flutter build appbundle --flavor staging -t lib/main_staging.dart
+
