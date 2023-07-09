@@ -37,7 +37,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   var child = const Endpoints(
-    baseUrl: 'lukaid.iptime.org:1337/api/v1',
+    baseUrl: 'lukaid.iptime.org:3333/api/v1',
     child: MyApp(),
   );
 
