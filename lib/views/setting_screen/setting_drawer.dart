@@ -1,10 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/auth_controller.dart';
-import 'package:four_hours_client/network/endpoints.dart';
 import 'package:four_hours_client/providers/package_info_provider.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
@@ -30,7 +26,6 @@ class SettingDrawer extends ConsumerWidget {
     String? version = ref.watch(packageInfoProvider).value?.version;
     final customThemeColors = ref.watch(customThemeColorsProvider);
     final customTextStyle = ref.watch(customTextStyleProvider);
-    print('jay --- baseurl ${Endpoints.of(context).baseUrl}}');
 
     return CommonWrapper(
       padding: const EdgeInsets.all(16),
@@ -106,18 +101,6 @@ class SettingDrawer extends ConsumerWidget {
                           await ref
                               .read(authControllerProvider.notifier)
                               .deleteAccount();
-
-                          showCommonDialog(
-                              iconData: CustomIcons.delete_bin_fill,
-                              title: '계정이 삭제되었습니다',
-                              buttonText: '앱 종료',
-                              onPressedButton: () {
-                                if (Platform.isIOS) {
-                                  exit(0);
-                                } else {
-                                  SystemNavigator.pop();
-                                }
-                              });
                         },
                         rightButtonText: '계정 삭제',
                       );

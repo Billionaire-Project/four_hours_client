@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:four_hours_client/models/user_model.dart';
 import 'package:four_hours_client/repositories/base_repository.dart';
+import 'package:four_hours_client/utils/functions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:four_hours_client/constants/constants.dart';
@@ -63,9 +64,11 @@ class AuthRepository extends BaseRepository {
   }
 
   Future<void> signOut() async {
-    await logoutUser();
+    await _logoutUser();
 
     await auth.signOut();
+
+    await storage.delete(key: LocalStorageKey.token);
   }
 
   Future<UserModel> getMyInformation() async {
@@ -76,22 +79,30 @@ class AuthRepository extends BaseRepository {
     return result;
   }
 
-  Future<Response> loginUser() async {
-    Response response = await dioClient.get('/auth/login/');
-
-    return response;
-  }
-
-  Future<Response> logoutUser() async {
-    Response response = await dioClient.put('/auth/logout/');
-
-    return response;
-  }
-
   Future<Response> deleteAccount() async {
     Response response = await dioClient.delete('/auth/delete/');
 
     return response;
+  }
+
+  Future<Response> _loginUser() async {
+    try {
+      Response response = await dioClient.get('/auth/login/');
+
+      return response;
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
+  }
+
+  Future<Response> _logoutUser() async {
+    try {
+      Response response = await dioClient.put('/auth/logout/');
+
+      return response;
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
   }
 
   void _getFirebaseAuth({required OAuthCredential credential}) async {
@@ -105,7 +116,7 @@ class AuthRepository extends BaseRepository {
     );
     await storage.write(key: LocalStorageKey.uid, value: uid);
 
-    await loginUser();
+    await _loginUser();
   }
 }
 

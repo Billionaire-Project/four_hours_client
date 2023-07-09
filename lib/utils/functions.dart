@@ -237,10 +237,12 @@ Future<void> saveTextToClipboard(
   }
 }
 
-void printDebug(String currentLocation, String text) {
+String printDebug(String currentLocation, String text) {
   debugPrint(
     'Location: $currentLocation --- $text',
   );
+
+  return text;
 }
 
 bool checkIsProductionServer(BuildContext context) {
