@@ -44,6 +44,14 @@ class AuthController extends _$AuthController {
     }
   }
 
+  Future<void> deleteAccount() async {
+    try {
+      state = await AsyncValue.guard(authRepository!.deleteAccount);
+    } on DioError catch (e) {
+      throw throwExceptions(e);
+    }
+  }
+
   void _init() {
     authRepository = ref.read(authRepositoryProvider);
   }

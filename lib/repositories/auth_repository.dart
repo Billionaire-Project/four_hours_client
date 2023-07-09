@@ -63,7 +63,7 @@ class AuthRepository extends BaseRepository {
   }
 
   Future<void> signOut() async {
-    await userLogout();
+    await logoutUser();
 
     await auth.signOut();
   }
@@ -76,14 +76,20 @@ class AuthRepository extends BaseRepository {
     return result;
   }
 
-  Future<Response> userLogin() async {
+  Future<Response> loginUser() async {
     Response response = await dioClient.get('/auth/login/');
 
     return response;
   }
 
-  Future<Response> userLogout() async {
+  Future<Response> logoutUser() async {
     Response response = await dioClient.put('/auth/logout/');
+
+    return response;
+  }
+
+  Future<Response> deleteAccount() async {
+    Response response = await dioClient.delete('/auth/delete/');
 
     return response;
   }
@@ -99,7 +105,7 @@ class AuthRepository extends BaseRepository {
     );
     await storage.write(key: LocalStorageKey.uid, value: uid);
 
-    await userLogin();
+    await loginUser();
   }
 }
 
