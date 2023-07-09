@@ -213,8 +213,12 @@ class HomeWriteController extends _$HomeWriteController {
   }
 
   Future<TopicModel> _getTopic() async {
+    state = const AsyncLoading();
+
     final TopicModel topicModel =
         await ref.read(resourcesRepositoryProvider).getTopic();
+
+    state = AsyncData(_myPosts!.posts);
 
     return topicModel;
   }

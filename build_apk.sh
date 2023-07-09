@@ -1,0 +1,1 @@
+flutter build apk --flavor staging --target-platform=android-arm64
