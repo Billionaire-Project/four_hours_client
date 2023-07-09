@@ -62,19 +62,17 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    flavorDimensions "build-type"
+    flavorDimensions "flavor-type"
 
     productFlavors {
         develop {
-            dimension "build-type"
-            applicationIdSuffix ".develop"
+            dimension "flavor-type"
         }
         staging {
-            dimension "build-type"
-            applicationIdSuffix ".staging"
+            dimension "flavor-type"
         }
         production {
-            dimension "build-type"
+            dimension "flavor-type"
         }
     }
 
