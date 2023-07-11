@@ -247,7 +247,7 @@ String printDebug(String currentLocation, String text) {
 
 bool checkIsProductionServer(BuildContext context) {
   final bool isProductionServer =
-      Endpoints.of(context).baseUrl.contains('4444');
+      Endpoints.of(context).baseUrl.contains('4040');
 
   return isProductionServer;
 }
