@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/auth_controller.dart';
 import 'package:four_hours_client/providers/package_info_provider.dart';
 import 'package:four_hours_client/providers/theme_provider.dart';
@@ -59,6 +60,22 @@ class SettingDrawer extends ConsumerWidget {
               //   text: '4hours 평가하기',
               //   onTap: () {},
               // ),
+              const Gap(40),
+              SettingTileWithChevron(
+                iconData: CustomIcons.save_fill,
+                text: '개인정보처리방침',
+                onTap: () {
+                  openUrl(privacyPolicyUrl);
+                },
+              ),
+              const Gap(40),
+              SettingTileWithChevron(
+                iconData: CustomIcons.save_fill,
+                text: '이용약관',
+                onTap: () {
+                  openUrl(termsOfUseUrl);
+                },
+              ),
               const Gap(40),
               if (!checkIsProductionServer(context))
                 SettingTileWithChevron(
