@@ -25,26 +25,44 @@ class AuthRepository extends BaseRepository {
   User? get currentUser => auth.currentUser;
 
   Future<void> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser!.authentication;
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
     try {
-      _getFirebaseAuth(credential: credential);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'account-exists-with-different-credential') {
-        throw const AuthException('different credential');
-      } else if (e.code == 'invalid-credential') {
-        throw const AuthException('invalid credential');
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      printDebug('AuthRepository', 'googleUser: $googleUser');
+
+      if (googleUser != null) {
+        // Obtain the auth details from the request
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+
+        printDebug('AuthRepository', 'googleAuth: $googleAuth');
+
+        // Create a new credential
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        printDebug('AuthRepository', 'credential: $credential');
+
+        try {
+          _getFirebaseAuth(credential: credential);
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'account-exists-with-different-credential') {
+            throw const AuthException('different credential');
+          } else if (e.code == 'invalid-credential') {
+            throw const AuthException('invalid credential');
+          } else {
+            throw const AuthException('Unknown error');
+          }
+        }
       } else {
-        throw const AuthException('Unknown error');
+        printDebug('AuthRepository', 'Google Sign-In canceled by user');
+        return;
       }
+    } catch (e) {
+      printDebug('AuthRepository', 'Google Sign-In Error: $e');
     }
   }
 
