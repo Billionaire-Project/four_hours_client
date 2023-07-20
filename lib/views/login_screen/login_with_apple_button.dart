@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:four_hours_client/controller/auth_controller.dart';
+import 'package:four_hours_client/providers/theme_provider.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
@@ -14,6 +15,8 @@ class LoginWithAppleButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
     final customTextStyle = ref.watch(customTextStyleProvider);
+
+    final isDarkMode = ref.watch(themeNotifierProvider);
 
     ref.listen(authControllerProvider, (previous, next) {
       if (next.isLoading) {
@@ -43,7 +46,7 @@ class LoginWithAppleButton extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              'assets/images/logo-apple-fill.svg',
+              'assets/images/logo-apple-fill${isDarkMode ? '-dark' : ''}.svg',
               width: 18,
               height: 18,
               semanticsLabel: 'Apple logo',
