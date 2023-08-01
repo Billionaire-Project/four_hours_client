@@ -24,7 +24,7 @@
    </queries>
 
    <application
-        android:label="4 Hours"
+        android:label="4 hours"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
