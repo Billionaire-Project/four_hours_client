@@ -58,7 +58,7 @@
               "client_id": "938925885472-4t56ceonlioiqq1f5js5c048sd3oo5tl.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.fourHoursClient"
+                "bundle_id": "com.bilp.fourHours"
               }
             }
           ]
