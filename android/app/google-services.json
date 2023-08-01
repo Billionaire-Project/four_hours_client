@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "938925885472-atf1tpmbgn01fkuiqt2h43n9lfj507o0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bilp.fourHours",
+            "certificate_hash": "f7581bbd58d8b75ccc5f71b268cc317825feac7c"
+          }
+        },
+        {
           "client_id": "938925885472-cndv3926n7inklju3ttp5sacd0d6rufi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
