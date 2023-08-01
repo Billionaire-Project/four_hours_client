@@ -34,7 +34,7 @@ class ErrorPage extends ConsumerWidget {
                 ),
                 const Gap(8),
                 Text(
-                  '알 수 없는 오류가 발생했어요',
+                  '오류가 발생했어요',
                   style: customTextStyle.headlineSmall,
                 ),
                 const Gap(4),
