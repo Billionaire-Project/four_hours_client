@@ -114,7 +114,7 @@ android {
 flutter {
     source '../..'
 }
-
+//TODO: delete annotation
 //plugins {
 //    id 'com.android.application'
 //
