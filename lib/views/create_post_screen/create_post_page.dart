@@ -106,6 +106,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   hintText: '오늘 느꼈던 것들을 자유롭게 적어주세요!',
+                                  hintMaxLines: 3,
                                 ),
                                 maxLines: null,
                                 focusNode: focusNode,
