@@ -26,6 +26,7 @@ class CommonCardCover extends ConsumerWidget {
     final customThemeColors = ref.watch(customThemeColorsProvider);
 
     return Container(
+      padding: const EdgeInsets.all(16.0),
       height: height,
       decoration: BoxDecoration(
         color: customThemeColors.backgroundSurface,
