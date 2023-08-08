@@ -7,26 +7,42 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:938925885472:android:0cb2e4b9e8fa5179b91445",
+        "mobilesdk_app_id": "1:938925885472:android:47991db51285c0d6b91445",
         "android_client_info": {
           "package_name": "com.bilp.fourHours"
         }
       },
       "oauth_client": [
         {
-          "client_id": "938925885472-9dhv6koln9hds36bqfhdh9drdm7rf9oc.apps.googleusercontent.com",
+          "client_id": "938925885472-atf1tpmbgn01fkuiqt2h43n9lfj507o0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.bilp.fourHours",
-            "certificate_hash": "bd84a4d26aeea28677e2a78f32215c3e2994cb1b"
+            "certificate_hash": "f7581bbd58d8b75ccc5f71b268cc317825feac7c"
           }
         },
         {
-          "client_id": "938925885472-hrog0qdhgo6kbja51kqudui3g732kgsl.apps.googleusercontent.com",
+          "client_id": "938925885472-cndv3926n7inklju3ttp5sacd0d6rufi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.bilp.fourHours",
             "certificate_hash": "f751d3ade123cd2b02691ac791f43b31a1e1c453"
+          }
+        },
+        {
+          "client_id": "938925885472-ke8rdgqq3pd7cdo5p7r90o36346ebmk3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bilp.fourHours",
+            "certificate_hash": "d417e450a93b9c3cdd269d52ea936b89f843ad37"
+          }
+        },
+        {
+          "client_id": "938925885472-ql3bggtkn1em6jr2pum3u3diiar0fpcs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bilp.fourHours",
+            "certificate_hash": "208cfa6af6496e4bbe218f2f328c8f7030f0fcbd"
           }
         },
         {

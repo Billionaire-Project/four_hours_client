@@ -23,3 +23,9 @@ const Duration likeAnimationDuration = Duration(milliseconds: 500);
 const Duration likeAndSavedHideDuration = Duration(seconds: 3);
 
 const Duration splashScreenDuration = Duration(seconds: 2);
+
+final Uri privacyPolicyUrl =
+    Uri.parse('https://sites.google.com/view/4hoursprivacy');
+
+final Uri termsOfUseUrl =
+    Uri.parse('https://sites.google.com/view/4hoursuseterm');

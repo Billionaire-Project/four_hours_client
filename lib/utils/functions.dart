@@ -20,6 +20,7 @@ import 'package:four_hours_client/views/widgets/common_loader.dart';
 import 'package:four_hours_client/views/widgets/common_toast.dart';
 import 'package:four_hours_client/views/widgets/common_toast_with_action.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void showCommonAlert({
   required IconData iconData,
@@ -247,7 +248,13 @@ String printDebug(String currentLocation, String text) {
 
 bool checkIsProductionServer(BuildContext context) {
   final bool isProductionServer =
-      Endpoints.of(context).baseUrl.contains('4444');
+      Endpoints.of(context).baseUrl.contains('4040');
 
   return isProductionServer;
+}
+
+Future<void> openUrl(Uri url) async {
+  if (!await launchUrl(url)) {
+    throw Exception('Could not launch $url');
+  }
 }
