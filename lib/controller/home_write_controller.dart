@@ -213,6 +213,9 @@ class HomeWriteController extends _$HomeWriteController {
   }
 
   Future<TopicModel> _getTopic() async {
+    //TODO: async loading으로 전환되었다가 다시 state에 값을 넣게 되면서 refresh가 다시 실행되는 것 같음
+    // 이 부분을 수정하기 위해선 글쓰기 타이머가 줄어야함
+
     state = const AsyncLoading();
 
     final TopicModel topicModel =
