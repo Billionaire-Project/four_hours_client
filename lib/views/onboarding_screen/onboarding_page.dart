@@ -63,7 +63,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             ),
           ),
           OnboardingBottom(
-            pageController: pageController,
+            nextPage: nextPage,
             currentPage: currentPage,
           )
         ],

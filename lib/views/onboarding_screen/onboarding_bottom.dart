@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/controller/onboarding_controller.dart';
+import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
+import 'package:four_hours_client/views/login_screen/login_page.dart';
 import 'package:four_hours_client/views/widgets/common_circle.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class OnboardingBottom extends ConsumerStatefulWidget {
-  final PageController pageController;
+  final VoidCallback nextPage;
   final int currentPage;
   const OnboardingBottom({
     Key? key,
-    required this.pageController,
+    required this.nextPage,
     required this.currentPage,
   }) : super(key: key);
 
@@ -23,6 +26,7 @@ class _OnboardingBottomState extends ConsumerState<OnboardingBottom> {
   @override
   Widget build(BuildContext context) {
     final customThemeColors = ref.watch(customThemeColorsProvider);
+    final sharedPreferences = ref.watch(sharedPreferencesProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -46,17 +50,19 @@ class _OnboardingBottomState extends ConsumerState<OnboardingBottom> {
               separatorBuilder: (context, index) {
                 return const CommonCircle(size: 8);
               },
-              itemCount: onboardingBottomTexts.length,
+              itemCount: onboardingPageCount,
             ),
           ),
           const Gap(16),
           CommonFullWidthTextButton(
-            text: '다음',
+            text: onboardingPageCount == widget.currentPage + 1 ? '시작하기' : '다음',
             onPressed: () {
-              widget.pageController.nextPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.ease,
-              );
+              if (onboardingPageCount == widget.currentPage + 1) {
+                sharedPreferences.setBool(SharedPreferenceKey.onboarding, true);
+                context.go(LoginPage.path);
+              } else {
+                widget.nextPage();
+              }
             },
           ),
         ],
