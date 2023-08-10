@@ -4,9 +4,7 @@ import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/models/my_posts_pagination_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
-import 'package:four_hours_client/models/topic_model.dart';
 import 'package:four_hours_client/repositories/posts_repository.dart';
-import 'package:four_hours_client/repositories/resources_repository.dart';
 import 'package:four_hours_client/utils/custom_icons_icons.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/create_post_screen/create_post_page.dart';
@@ -45,9 +43,6 @@ class HomeWriteController extends _$HomeWriteController {
   List<PostModel> _todayPosts = [];
   List<PostModel> get todayPosts => _todayPosts;
 
-  TopicModel? _topicModel;
-  TopicModel? get topicModel => _topicModel;
-
   bool _isLoadingMore = false;
 
   Future<Map<String, List<PostModel>>> getMyPostsInitial() async {
@@ -60,7 +55,6 @@ class HomeWriteController extends _$HomeWriteController {
         _start = '0';
 
         _myPosts = await _fetchWritePosts();
-        _topicModel = await _getTopic();
       });
 
       final bool hasToday = _myPosts!.posts.containsKey('Today');
@@ -123,7 +117,6 @@ class HomeWriteController extends _$HomeWriteController {
     _start = '0';
 
     _myPosts = await _fetchWritePosts();
-    _topicModel = await _getTopic();
 
     final bool hasToday = _myPosts!.posts.containsKey('Today');
 
@@ -210,16 +203,5 @@ class HomeWriteController extends _$HomeWriteController {
     } else {
       return null;
     }
-  }
-
-  Future<TopicModel> _getTopic() async {
-    state = const AsyncLoading();
-
-    final TopicModel topicModel =
-        await ref.read(resourcesRepositoryProvider).getTopic();
-
-    state = AsyncData(_myPosts!.posts);
-
-    return topicModel;
   }
 }

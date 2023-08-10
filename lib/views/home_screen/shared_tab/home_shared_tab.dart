@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/home_shared_controller.dart';
 import 'package:four_hours_client/controller/home_shared_obscured_controller.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
+import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/utils/functions.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/home_screen/shared_tab/home_shared_obscured_bottom.dart';
@@ -34,9 +35,11 @@ class HomeSharedTab extends ConsumerWidget {
           final posts = ref.watch(homeSharedControllerProvider);
           final sharedNotifier =
               ref.read(homeSharedControllerProvider.notifier);
-
           return posts.when(
             data: (posts) {
+              //! controller에서 postModel 리스트가 중복되지 않는데 UI단에서 중복되는 현상 발생
+              final List<PostModel> setPosts = posts.toSet().toList();
+
               return SmartRefresher(
                 physics: const BouncingScrollPhysics(),
                 enablePullDown: true,
@@ -49,23 +52,23 @@ class HomeSharedTab extends ConsumerWidget {
                 child: ListView.separated(
                   itemBuilder: (context, index) {
                     final String leftTime =
-                        getPostElapsedTime(date: posts[index].createdAt);
+                        getPostElapsedTime(date: setPosts[index].createdAt);
 
                     return Column(
                       children: [
                         if (index == 0) const Gap(16),
                         HomeSharedPostCard(
-                          post: posts[index],
+                          post: setPosts[index],
                           time: leftTime,
                         ),
-                        if (index == posts.length - 1) const Gap(16)
+                        if (index == setPosts.length - 1) const Gap(16)
                       ],
                     );
                   },
                   separatorBuilder: (context, index) => SizedBox.fromSize(
                     size: const Size(0, 0),
                   ),
-                  itemCount: posts.length,
+                  itemCount: setPosts.length,
                 ),
               );
             },
@@ -83,6 +86,9 @@ class HomeSharedTab extends ConsumerWidget {
 
           return obscuredPosts.when(
             data: (posts) {
+              //! controller에서 postModel 리스트가 중복되지 않는데 UI단에서 중복되는 현상 발생
+              final List<PostModel> setPosts = posts.toSet().toList();
+
               return Column(
                 children: [
                   Expanded(
@@ -98,24 +104,24 @@ class HomeSharedTab extends ConsumerWidget {
                       child: ListView.separated(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          final String leftTime =
-                              getPostElapsedTime(date: posts[index].createdAt);
+                          final String leftTime = getPostElapsedTime(
+                              date: setPosts[index].createdAt);
 
                           return Column(
                             children: [
                               if (index == 0) const Gap(16),
                               HomeSharedObscuredPostCard(
-                                post: posts[index],
+                                post: setPosts[index],
                                 time: leftTime,
                               ),
-                              if (index == posts.length - 1) const Gap(16)
+                              if (index == setPosts.length - 1) const Gap(16)
                             ],
                           );
                         },
                         separatorBuilder: (context, index) => SizedBox.fromSize(
                           size: const Size(0, 0),
                         ),
-                        itemCount: posts.length,
+                        itemCount: setPosts.length,
                       ),
                     ),
                   ),
