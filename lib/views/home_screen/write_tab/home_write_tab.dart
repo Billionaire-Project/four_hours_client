@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/controller/home_write_controller.dart';
 import 'package:four_hours_client/controller/receipt_controller.dart';
 import 'package:four_hours_client/controller/topic_controller.dart';
-import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_my_posts.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_skeleton.dart';
@@ -23,7 +21,6 @@ class HomeWriteTab extends ConsumerWidget {
     final myPosts = ref.watch(homeWriteControllerProvider);
     final myPostsNotifier = ref.read(homeWriteControllerProvider.notifier);
     final asyncReceipt = ref.watch(receiptControllerProvider);
-    final sharedPreferences = ref.watch(sharedPreferencesProvider);
 
     return myPosts.when(
       data: (posts) {
@@ -44,14 +41,6 @@ class HomeWriteTab extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ElevatedButton(
-                      onPressed: () async {
-                        await sharedPreferences.setBool(
-                          SharedPreferenceKey.onboarding,
-                          false,
-                        );
-                      },
-                      child: const Text('is shown onboarding false')),
                   Today(asyncReceipt: asyncReceipt),
                   const Gap(16),
                   const MyPosts(),

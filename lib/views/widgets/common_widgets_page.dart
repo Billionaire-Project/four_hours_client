@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:four_hours_client/constants/constants.dart';
+import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/utils/custom_text_style.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
@@ -132,6 +134,17 @@ class CommonWidgetsPage extends ConsumerWidget {
                 context.push(ErrorPage.path);
               },
               child: const Text('Error Page'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final sharedPreferences = ref.watch(sharedPreferencesProvider);
+
+                await sharedPreferences.setBool(
+                  SharedPreferenceKey.onboarding,
+                  false,
+                );
+              },
+              child: const Text('Onboarding false'),
             ),
           ],
         ),
