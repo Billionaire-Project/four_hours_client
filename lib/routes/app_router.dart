@@ -37,8 +37,6 @@ GoRouter appRouter(AppRouterRef ref) {
     initialLocation: LoginPage.path,
     refreshListenable: appState,
     redirect: (BuildContext context, GoRouterState state) {
-      final sharedPreferences = ref.watch(sharedPreferencesProvider);
-
       if (state.error != null) {
         return ErrorPage.path;
       }
@@ -46,20 +44,26 @@ GoRouter appRouter(AppRouterRef ref) {
       const String logInLocation = LoginPage.path;
       const String writeLocation = HomeWriteTab.path;
 
-      bool? isShownOnboardingScreen = sharedPreferences.getBool(
-        SharedPreferenceKey.onboarding,
-      );
-
       final bool isAuth = appState.isLoggedIn;
+      final bool isLogInLocation = state.location == logInLocation;
 
-      if (isAuth) {
-        if (isShownOnboardingScreen == null || !isShownOnboardingScreen) {
-          return onboardingLocation;
-        } else {
-          return writeLocation;
+      if (isLogInLocation) {
+        if (isAuth) {
+          final sharedPreferences = ref.watch(sharedPreferencesProvider);
+
+          bool? isShownOnboardingScreen = sharedPreferences.getBool(
+            SharedPreferenceKey.onboarding,
+          );
+
+          if (isShownOnboardingScreen == null || !isShownOnboardingScreen) {
+            return onboardingLocation;
+          } else {
+            return writeLocation;
+          }
         }
       }
-      return logInLocation;
+
+      return isAuth ? null : logInLocation;
     },
     routes: [
       GoRoute(
