@@ -6,6 +6,7 @@ class LocalStorageKey {
 
 class SharedPreferenceKey {
   static const temporaryText = 'temporaryText';
+  static const onboarding = 'onboarding';
 }
 
 const int postTextLimit = 9999;
@@ -29,3 +30,5 @@ final Uri privacyPolicyUrl =
 
 final Uri termsOfUseUrl =
     Uri.parse('https://sites.google.com/view/4hoursuseterm');
+
+const int onboardingPageCount = 5;
