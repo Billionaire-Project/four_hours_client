@@ -1,26 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_write_controller.dart';
+part of 'topic_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeWriteControllerHash() =>
-    r'90304b6b2fefb4b60c17a1f04f9814aad12ac14e';
+String _$topicControllerHash() => r'14ef464928a60b032c89894fc4fe066ea78abc6d';
 
-/// See also [HomeWriteController].
-@ProviderFor(HomeWriteController)
-final homeWriteControllerProvider = AsyncNotifierProvider<HomeWriteController,
-    Map<String, List<PostModel>>>.internal(
-  HomeWriteController.new,
-  name: r'homeWriteControllerProvider',
+/// See also [TopicController].
+@ProviderFor(TopicController)
+final topicControllerProvider =
+    AutoDisposeAsyncNotifierProvider<TopicController, TopicModel>.internal(
+  TopicController.new,
+  name: r'topicControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$homeWriteControllerHash,
+      : _$topicControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$HomeWriteController = AsyncNotifier<Map<String, List<PostModel>>>;
+typedef _$TopicController = AutoDisposeAsyncNotifier<TopicModel>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

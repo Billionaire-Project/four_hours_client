@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/controller/home_write_controller.dart';
+import 'package:four_hours_client/controller/topic_controller.dart';
 import 'package:four_hours_client/models/post_model.dart';
 import 'package:four_hours_client/models/receipt_model.dart';
 import 'package:four_hours_client/utils/custom_colors.dart';
@@ -81,7 +82,7 @@ class _TodaysTopicState extends ConsumerState<_TodaysTopic> {
     final customThemeColors = ref.watch(customThemeColorsProvider);
     final myPostsNotifier = ref.read(homeWriteControllerProvider.notifier);
 
-    final topicModel = myPostsNotifier.topicModel;
+    final topicModel = ref.watch(topicControllerProvider).value;
 
     final String topic = topicModel?.topic ?? '';
     final String content = topicModel?.content ?? '';
