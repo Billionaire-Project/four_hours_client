@@ -53,6 +53,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
           Expanded(
             child: PageView(
               controller: pageController,
+              physics: const BouncingScrollPhysics(),
               children: const [
                 FirstPage(),
                 SecondPage(),
