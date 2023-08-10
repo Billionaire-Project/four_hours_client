@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/utils/custom_theme_colors.dart';
-import 'package:four_hours_client/views/login_screen/login_page.dart';
+import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
 import 'package:four_hours_client/views/widgets/common_circle.dart';
 import 'package:four_hours_client/views/widgets/common_full_width_text_button.dart';
 import 'package:four_hours_client/views/widgets/gap.dart';
@@ -56,10 +56,16 @@ class _OnboardingBottomState extends ConsumerState<OnboardingBottom> {
           const Gap(16),
           CommonFullWidthTextButton(
             text: onboardingPageCount == widget.currentPage + 1 ? '시작하기' : '다음',
-            onPressed: () {
+            onPressed: () async {
               if (onboardingPageCount == widget.currentPage + 1) {
-                sharedPreferences.setBool(SharedPreferenceKey.onboarding, true);
-                context.go(LoginPage.path);
+                await sharedPreferences.setBool(
+                  SharedPreferenceKey.onboarding,
+                  true,
+                );
+
+                if (context.mounted) {
+                  context.go(HomeWriteTab.path);
+                }
               } else {
                 widget.nextPage();
               }

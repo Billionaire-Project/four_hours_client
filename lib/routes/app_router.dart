@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:four_hours_client/constants/constants.dart';
 import 'package:four_hours_client/models/post_detail_extra_model.dart';
 import 'package:four_hours_client/models/post_model.dart';
+import 'package:four_hours_client/providers/shared_preference_provider.dart';
 import 'package:four_hours_client/routes/app_state.dart';
 import 'package:four_hours_client/views/delete_post_screen/delete_post_page.dart';
 import 'package:four_hours_client/views/error_screen/error_page.dart';
@@ -10,6 +12,7 @@ import 'package:four_hours_client/views/liked_posts_screen/liked_post_detail_pag
 import 'package:four_hours_client/views/liked_posts_screen/liked_posts_page.dart';
 import 'package:four_hours_client/views/login_screen/login_page.dart';
 import 'package:four_hours_client/views/home_screen/write_tab/home_write_tab.dart';
+import 'package:four_hours_client/views/onboarding_screen/onboarding_page.dart';
 import 'package:four_hours_client/views/widgets/common_skeleton_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -34,22 +37,39 @@ GoRouter appRouter(AppRouterRef ref) {
     initialLocation: LoginPage.path,
     refreshListenable: appState,
     redirect: (BuildContext context, GoRouterState state) {
+      final sharedPreferences = ref.watch(sharedPreferencesProvider);
+
       if (state.error != null) {
         return ErrorPage.path;
       }
+      const String onboardingLocation = OnboardingPage.path;
       const String logInLocation = LoginPage.path;
       const String writeLocation = HomeWriteTab.path;
 
+      bool? isShownOnboardingScreen = sharedPreferences.getBool(
+        SharedPreferenceKey.onboarding,
+      );
+
       final bool isAuth = appState.isLoggedIn;
 
-      final bool isLogInLocation = state.location == logInLocation;
-
-      if (isLogInLocation) {
-        return isAuth ? writeLocation : null;
+      if (isAuth) {
+        if (isShownOnboardingScreen == null || !isShownOnboardingScreen) {
+          return onboardingLocation;
+        } else {
+          return writeLocation;
+        }
       }
-      return isAuth ? null : logInLocation;
+      return logInLocation;
     },
     routes: [
+      GoRoute(
+        path: OnboardingPage.path,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            NoTransitionPage(
+          key: state.pageKey,
+          child: const OnboardingPage(),
+        ),
+      ),
       GoRoute(
         path: LoginPage.path,
         pageBuilder: (BuildContext context, GoRouterState state) =>
